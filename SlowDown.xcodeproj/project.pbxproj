@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 63;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -66,7 +66,7 @@
 		35564FDF49B022DA80FD2145 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapperTests.swift; sourceTree = "<group>"; };
 		465020CB5CE13FF1A322FCA0 /* SpeedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedResultView.swift; sourceTree = "<group>"; };
-		4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SlowDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlowDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		543449116E7DD19A7B307DE9 /* VideoFrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameExtractor.swift; sourceTree = "<group>"; };
 		555DD363FBA01F336472572A /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		558724531F5755C19F43490A /* ImageMarkerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMarkerOverlay.swift; sourceTree = "<group>"; };
@@ -298,9 +298,6 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					06EC93AD269E9AE36A5AC746 = {
-						DevelopmentTeam = "";
-					};
 					8510B79B6373AAF2006E8AE0 = {
 						DevelopmentTeam = "";
 					};
@@ -316,7 +313,6 @@
 			);
 			mainGroup = 72E8893325DF86EFD871E51A;
 			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -403,6 +399,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = USDFZ2X72H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "SlowDown needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowDown uses your location to tag speed measurements with street addresses.";
@@ -425,6 +422,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = USDFZ2X72H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "SlowDown needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowDown uses your location to tag speed measurements with street addresses.";
