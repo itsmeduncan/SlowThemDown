@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -35,24 +35,38 @@
 		DB52857F20445E4FBBD6953A /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBD36C9E4C3AAF9870F8508 /* LogViewModel.swift */; };
 		E890140F3AD6484B2E338961 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101CEBA16551766D05EFEE08 /* SeedData.swift */; };
 		E9BF2C29F282081DE76D76B0 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E76BA9D626B95E3572050D /* CaptureViewModel.swift */; };
+		EB55E4C8D38D18A024E57937 /* SpeedCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B26A23E2FE3FE44EBCE208 /* SpeedCalculatorTests.swift */; };
 		F2494DD15E99DA31EBC6C853 /* CalibrateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF5799785F562F3FE9AEC51 /* CalibrateView.swift */; };
 		F3E2A2A34D91CDB86D4F6312 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1440A1489C41CBEC96B974E6 /* ReportView.swift */; };
+		FA02A8015FC3CF96B9C0D74A /* CoordinateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */; };
 		FA9380EAFAF43A59CD314EFC /* RoadStandards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA63C07BC38358E8F356FFA /* RoadStandards.swift */; };
 		FBFFDF5152E61D853A7BADE6 /* FrameSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E250D85F6478DFC488334 /* FrameSelectorView.swift */; };
 		FC8D0CD509CA5B797D652D66 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B832AE7C1966CA021EEE7 /* HapticManager.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		B55FDCAED47494EBD7BA09E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 0A844DFCC7D90E81C054A51F /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 06EC93AD269E9AE36A5AC746;
+			remoteInfo = SlowDown;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		0EF2816028D94D4DF9AEDAC1 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		101CEBA16551766D05EFEE08 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
 		1307E18899C867D49AB017C1 /* CalibrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationViewModel.swift; sourceTree = "<group>"; };
 		1440A1489C41CBEC96B974E6 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		1676CA770ED3A6EE7554B8A7 /* SlowDownTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SlowDownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		18AA53E19B27FD9299F10326 /* CoordinateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapper.swift; sourceTree = "<group>"; };
 		1BA63C07BC38358E8F356FFA /* RoadStandards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadStandards.swift; sourceTree = "<group>"; };
 		295FD72372C0730C3365B61D /* VehicleReferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleReferences.swift; sourceTree = "<group>"; };
 		35564FDF49B022DA80FD2145 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapperTests.swift; sourceTree = "<group>"; };
 		465020CB5CE13FF1A322FCA0 /* SpeedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedResultView.swift; sourceTree = "<group>"; };
-		4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlowDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SlowDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		543449116E7DD19A7B307DE9 /* VideoFrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameExtractor.swift; sourceTree = "<group>"; };
 		555DD363FBA01F336472572A /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		558724531F5755C19F43490A /* ImageMarkerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMarkerOverlay.swift; sourceTree = "<group>"; };
@@ -62,6 +76,7 @@
 		6CBACAE8A6D7A4CE54F0F96E /* DirectionPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionPicker.swift; sourceTree = "<group>"; };
 		7C5F74F34D11147441E73AC8 /* VehicleRefPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleRefPicker.swift; sourceTree = "<group>"; };
 		7C66A4EBC6C28B417C80AB14 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		84B26A23E2FE3FE44EBCE208 /* SpeedCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculatorTests.swift; sourceTree = "<group>"; };
 		8601AEE9D430BF8E2973D8F0 /* FrameMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameMarkerView.swift; sourceTree = "<group>"; };
 		86127FCE395659EF73844322 /* SlowDownApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowDownApp.swift; sourceTree = "<group>"; };
 		9218B34EEBE8B003B3A36A68 /* VideoRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderView.swift; sourceTree = "<group>"; };
@@ -153,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				6CA3935CB6F43AE5CF2CAA1C /* SlowDown */,
+				89BF29360D651E24450EA653 /* SlowDownTests */,
 				F2A4A3B1E25003C98A16884E /* Products */,
 			);
 			sourceTree = "<group>";
@@ -163,6 +179,15 @@
 				101CEBA16551766D05EFEE08 /* SeedData.swift */,
 			);
 			path = Debug;
+			sourceTree = "<group>";
+		};
+		89BF29360D651E24450EA653 /* SlowDownTests */ = {
+			isa = PBXGroup;
+			children = (
+				364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */,
+				84B26A23E2FE3FE44EBCE208 /* SpeedCalculatorTests.swift */,
+			);
+			path = SlowDownTests;
 			sourceTree = "<group>";
 		};
 		9EE38DA1B8C2F671002C4D52 /* Shared */ = {
@@ -220,6 +245,7 @@
 			isa = PBXGroup;
 			children = (
 				4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */,
+				1676CA770ED3A6EE7554B8A7 /* SlowDownTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -245,6 +271,24 @@
 			productReference = 4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8510B79B6373AAF2006E8AE0 /* SlowDownTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41EB1B15DFCD408287F04E7F /* Build configuration list for PBXNativeTarget "SlowDownTests" */;
+			buildPhases = (
+				930038B2081FB6A5F25E85B2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				84CB3EC7C836D4C19F57B80D /* PBXTargetDependency */,
+			);
+			name = SlowDownTests;
+			packageProductDependencies = (
+			);
+			productName = SlowDownTests;
+			productReference = 1676CA770ED3A6EE7554B8A7 /* SlowDownTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -252,7 +296,15 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
-				LastUpgradeCheck = 2630;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					06EC93AD269E9AE36A5AC746 = {
+						DevelopmentTeam = "";
+					};
+					8510B79B6373AAF2006E8AE0 = {
+						DevelopmentTeam = "";
+					};
+				};
 			};
 			buildConfigurationList = D805152267FDECE4DCFEE38C /* Build configuration list for PBXProject "SlowDown" */;
 			compatibilityVersion = "Xcode 14.0";
@@ -264,10 +316,12 @@
 			);
 			mainGroup = 72E8893325DF86EFD871E51A;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				06EC93AD269E9AE36A5AC746 /* SlowDown */,
+				8510B79B6373AAF2006E8AE0 /* SlowDownTests */,
 			);
 		};
 /* End PBXProject section */
@@ -323,7 +377,24 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		930038B2081FB6A5F25E85B2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FA02A8015FC3CF96B9C0D74A /* CoordinateMapperTests.swift in Sources */,
+				EB55E4C8D38D18A024E57937 /* SpeedCalculatorTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		84CB3EC7C836D4C19F57B80D /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 06EC93AD269E9AE36A5AC746 /* SlowDown */;
+			targetProxy = B55FDCAED47494EBD7BA09E2 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		21B5819A290FC65B2B134C02 /* Release */ = {
@@ -332,10 +403,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = USDFZ2X72H;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = SlowDown;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "SlowDown needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowDown uses your location to tag speed measurements with street addresses.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SlowDown needs photo library access to import video clips.";
@@ -347,11 +415,7 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.slowdown.app;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
@@ -361,10 +425,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = USDFZ2X72H;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = SlowDown;
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSCameraUsageDescription = "SlowDown needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowDown uses your location to tag speed measurements with street addresses.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SlowDown needs photo library access to import video clips.";
@@ -376,19 +437,31 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.slowdown.app;
 				SDKROOT = iphoneos;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
+		};
+		3197EB2A4749C94C9E1B6E5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.slowdown.SlowDownTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SlowDown.app/SlowDown";
+			};
+			name = Release;
 		};
 		415080842CF5F3A051C92144 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -423,7 +496,6 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -444,10 +516,26 @@
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		8B5771D48F9BA68C16D5153A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.slowdown.SlowDownTests;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SlowDown.app/SlowDown";
 			};
 			name = Debug;
 		};
@@ -455,7 +543,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -490,7 +577,6 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -504,7 +590,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.9;
@@ -514,6 +599,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		41EB1B15DFCD408287F04E7F /* Build configuration list for PBXNativeTarget "SlowDownTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8B5771D48F9BA68C16D5153A /* Debug */,
+				3197EB2A4749C94C9E1B6E5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
 		A867473AEA3C4140E8C6D60D /* Build configuration list for PBXNativeTarget "SlowDown" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -1,0 +1,41 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+jobs:
+  archive-and-release:
+    runs-on: macos-15
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install XcodeGen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Archive
+        run: |
+          xcodebuild archive \
+            -project SlowDown.xcodeproj \
+            -scheme SlowDown \
+            -destination 'generic/platform=iOS' \
+            -archivePath build/SlowDown.xcarchive \
+            -skipPackagePluginValidation \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGN_IDENTITY="" | xcpretty
+
+      - name: Zip archive
+        run: |
+          cd build
+          zip -r SlowDown.xcarchive.zip SlowDown.xcarchive
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: build/SlowDown.xcarchive.zip
+          generate_release_notes: true
