@@ -25,3 +25,13 @@ targets:
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "SlowDown uses your location to tag speed measurements with street addresses."
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
+  SlowDownTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - SlowDownTests
+    dependencies:
+      - target: SlowDown
+    settings:
+      base:
+        GENERATE_INFOPLIST_FILE: YES
