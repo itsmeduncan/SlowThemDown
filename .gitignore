@@ -1,0 +1,31 @@
+# Xcode
+build/
+DerivedData/
+*.xcuserdata
+*.xcworkspace/xcuserdata/
+xcuserdata/
+
+# XcodeGen generates these — optionally track or regenerate
+# SlowDown.xcodeproj/
+
+# Swift Package Manager
+.build/
+Packages/
+Package.resolved
+
+# CocoaPods (not used, but just in case)
+Pods/
+
+# macOS
+.DS_Store
+*.swp
+*~
+
+# IDE
+.idea/
+*.code-workspace
+.vscode/
+
+# Temporary files
+*.tmp
+*.temp
