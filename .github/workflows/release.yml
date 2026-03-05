@@ -5,7 +5,7 @@ on:
     tags: ["v*"]
 
 jobs:
-  archive-and-release:
+  ios-archive:
     runs-on: macos-15
     permissions:
       contents: write
@@ -16,12 +16,12 @@ jobs:
         run: brew install xcodegen
 
       - name: Generate Xcode project
-        run: xcodegen generate
+        run: cd ios && xcodegen generate
 
       - name: Archive
         run: |
           xcodebuild archive \
-            -project SlowDown.xcodeproj \
+            -project ios/SlowDown.xcodeproj \
             -scheme SlowDown \
             -destination 'generic/platform=iOS' \
             -archivePath build/SlowDown.xcarchive \
@@ -34,8 +34,76 @@ jobs:
           cd build
           zip -r SlowDown.xcarchive.zip SlowDown.xcarchive
 
+      - name: Upload iOS artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-archive
+          path: build/SlowDown.xcarchive.zip
+
+  android-build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name: Run shared module tests
+        run: ./gradlew :shared:allTests
+
+      - name: Run Android unit tests
+        run: ./gradlew :android:app:testDebugUnitTest
+
+      - name: Run Android lint
+        run: ./gradlew :android:app:lintRelease
+
+      - name: Build release APK
+        run: ./gradlew :android:app:assembleRelease
+
+      - name: Build release AAB
+        run: ./gradlew :android:app:bundleRelease
+
+      - name: Upload Android artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-release
+          path: |
+            android/app/build/outputs/apk/release/*.apk
+            android/app/build/outputs/bundle/release/*.aab
+
+  create-release:
+    needs: [ios-archive, android-build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download iOS artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: ios-archive
+          path: release-assets
+
+      - name: Download Android artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: android-release
+          path: release-assets/android
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: build/SlowDown.xcarchive.zip
+          files: |
+            release-assets/SlowDown.xcarchive.zip
+            release-assets/android/**/*.apk
+            release-assets/android/**/*.aab
           generate_release_notes: true

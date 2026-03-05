@@ -29,3 +29,15 @@ Pods/
 # Temporary files
 *.tmp
 *.temp
+
+# Android / Gradle
+.gradle/
+android/app/build/
+android/build/
+shared/build/
+local.properties
+*.apk
+*.aab
+
+# Kotlin
+*.kotlin_module
