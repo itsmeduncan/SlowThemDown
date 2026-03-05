@@ -41,3 +41,4 @@ local.properties
 
 # Kotlin
 *.kotlin_module
+.kotlin/
