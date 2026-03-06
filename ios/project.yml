@@ -5,6 +5,10 @@ options:
     iOS: "17.0"
   xcodeVersion: "15.0"
   generateEmptyDirectories: true
+packages:
+  FirebaseCrashlytics:
+    url: https://github.com/firebase/firebase-ios-sdk
+    version: "11.7.0"
 settings:
   base:
     SWIFT_VERSION: "5.9"
@@ -15,9 +19,13 @@ targets:
     platform: iOS
     sources:
       - SlowThemDown
+    dependencies:
+      - package: FirebaseCrashlytics
+        product: FirebaseCrashlytics
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.slowthemdown.app
+        DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
         INFOPLIST_KEY_CFBundleDisplayName: "Slow Them Down"

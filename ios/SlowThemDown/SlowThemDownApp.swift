@@ -1,8 +1,13 @@
+import FirebaseCore
 import SwiftData
 import SwiftUI
 
 @main
 struct SlowThemDownApp: App {
+    init() {
+        FirebaseApp.configure()
+    }
+
     var body: some Scene {
         WindowGroup {
             ContentView()
