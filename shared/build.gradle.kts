@@ -28,7 +28,7 @@ kotlin {
 }
 
 android {
-    namespace = "com.slowdown.shared"
+    namespace = "com.slowthemdown.shared"
     compileSdk = 35
     defaultConfig {
         minSdk = 26

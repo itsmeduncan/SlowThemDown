@@ -12,7 +12,7 @@
 	<true/>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>com.slowdown.app</key>
+		<key>com.slowthemdown.app</key>
 		<string>$(IOS_PROVISIONING_PROFILE_NAME)</string>
 	</dict>
 </dict>

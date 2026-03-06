@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Guidelines for AI agents working on SlowDown.
+Guidelines for AI agents working on SlowThemDown.
 
 ## Role
 
@@ -44,16 +44,16 @@ shared/        # KMP shared module — pure Kotlin, no platform deps
 
 1. Read CLAUDE.md for build instructions and architecture overview
 2. **iOS**: Run `cd ios && xcodegen generate` after adding or removing files
-3. **iOS**: Verify builds pass: `xcodebuild build -project ios/SlowDown.xcodeproj -scheme SlowDown -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -quiet`
+3. **iOS**: Verify builds pass: `xcodebuild build -project ios/SlowThemDown.xcodeproj -scheme SlowThemDown -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -quiet`
 4. **Android**: Verify builds pass: `./gradlew :android:app:assembleDebug`
 5. **Shared**: Run `./gradlew :shared:allTests` after modifying shared logic
 
 ## Cross-Platform Changes
 
 When modifying shared business logic:
-- Update `shared/src/commonMain/.../SpeedCalculator.kt` AND `ios/SlowDown/Models/SpeedCalculator.swift`
-- Update `shared/src/commonMain/.../CoordinateMapper.kt` AND `ios/SlowDown/Services/CoordinateMapper.swift`
-- Update `shared/src/commonMain/.../model/Enums.kt` AND `ios/SlowDown/Models/Calibration.swift`
+- Update `shared/src/commonMain/.../SpeedCalculator.kt` AND `ios/SlowThemDown/Models/SpeedCalculator.swift`
+- Update `shared/src/commonMain/.../CoordinateMapper.kt` AND `ios/SlowThemDown/Services/CoordinateMapper.swift`
+- Update `shared/src/commonMain/.../model/Enums.kt` AND `ios/SlowThemDown/Models/Calibration.swift`
 - Run both test suites to verify parity
 
 ## iOS Guidelines
@@ -94,5 +94,5 @@ When modifying shared business logic:
 
 - `SpeedCalculator` functions are pure — always verify formula changes with known inputs
 - `CoordinateMapper` is pure — test with known image/view size ratios
-- KMP shared tests in `shared/src/commonTest/` must produce identical results to Swift tests in `ios/SlowDownTests/`
+- KMP shared tests in `shared/src/commonTest/` must produce identical results to Swift tests in `ios/SlowThemDownTests/`
 - ViewModel state transitions should be predictable and testable

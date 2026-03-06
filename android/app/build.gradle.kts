@@ -13,11 +13,11 @@ kotlin {
 }
 
 android {
-    namespace = "com.slowdown.android"
+    namespace = "com.slowthemdown.android"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.slowdown.android"
+        applicationId = "com.slowthemdown.android"
         minSdk = 26
         targetSdk = 35
         versionCode = (findProperty("versionCode") as? String)?.toInt() ?: 1

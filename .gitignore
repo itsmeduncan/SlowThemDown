@@ -6,7 +6,7 @@ DerivedData/
 xcuserdata/
 
 # XcodeGen generates these — optionally track or regenerate
-# SlowDown.xcodeproj/
+# SlowThemDown.xcodeproj/
 
 # Swift Package Manager
 .build/

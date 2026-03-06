@@ -1,2 +1,2 @@
 # Keep shared KMP classes
--keep class com.slowdown.shared.** { *; }
+-keep class com.slowthemdown.shared.** { *; }
