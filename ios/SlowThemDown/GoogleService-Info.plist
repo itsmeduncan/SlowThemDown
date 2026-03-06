@@ -9,7 +9,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.slowthemdown.app</string>
+	<string>com.slowdown.app</string>
 	<key>PROJECT_ID</key>
 	<string>slowthemdown-40590</string>
 	<key>STORAGE_BUCKET</key>
@@ -25,6 +25,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:242062206958:ios:52a339e251d1a73c13d0ff</string>
+	<string>1:242062206958:ios:048eca052dcd890513d0ff</string>
 </dict>
 </plist>

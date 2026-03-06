@@ -19,7 +19,7 @@ android {
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.slowthemdown.android"
+        applicationId = "com.slowdown.android"
         minSdk = 26
         targetSdk = 35
         versionCode = (findProperty("versionCode") as? String)?.toInt() ?: 1

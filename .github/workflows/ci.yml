@@ -28,6 +28,7 @@ jobs:
 
       - name: Build
         run: |
+          set -o pipefail
           xcodebuild build \
             -project ios/SlowThemDown.xcodeproj \
             -scheme SlowThemDown \
@@ -37,6 +38,7 @@ jobs:
 
       - name: Test
         run: |
+          set -o pipefail
           xcodebuild test \
             -project ios/SlowThemDown.xcodeproj \
             -scheme SlowThemDownTests \

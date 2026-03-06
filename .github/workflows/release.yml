@@ -20,6 +20,7 @@ jobs:
 
       - name: Archive
         run: |
+          set -o pipefail
           xcodebuild archive \
             -project ios/SlowThemDown.xcodeproj \
             -scheme SlowThemDown \

@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:242062206958:android:812057e6784d130e13d0ff",
+        "mobilesdk_app_id": "1:242062206958:android:66c86a19b8436de613d0ff",
         "android_client_info": {
-          "package_name": "com.slowthemdown.android"
+          "package_name": "com.slowdown.android"
         }
       },
       "oauth_client": [],
