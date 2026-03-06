@@ -187,11 +187,22 @@ jobs:
           mkdir -p ~/private_keys
           echo -n "$API_KEY_BASE64" | base64 --decode -o ~/private_keys/AuthKey_${API_KEY_ID}.p8
 
+      - name: Find IPA
+        id: find-ipa
+        run: |
+          IPA_PATH=$(find $RUNNER_TEMP/export -name '*.ipa' -print -quit)
+          if [ -z "$IPA_PATH" ]; then
+            echo "No IPA found in $RUNNER_TEMP/export"
+            ls -la $RUNNER_TEMP/export/
+            exit 1
+          fi
+          echo "ipa_path=$IPA_PATH" >> "$GITHUB_OUTPUT"
+
       - name: Upload to TestFlight
         run: |
           xcrun altool --upload-app \
             --type ios \
-            --file $RUNNER_TEMP/export/SlowThemDown.ipa \
+            --file "${{ steps.find-ipa.outputs.ipa_path }}" \
             --apiKey ${{ secrets.APP_STORE_CONNECT_KEY_ID }} \
             --apiIssuer ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
 
@@ -199,7 +210,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: ios-beta-ipa
-          path: ${{ runner.temp }}/export/SlowThemDown.ipa
+          path: ${{ steps.find-ipa.outputs.ipa_path }}
 
       - name: Clean up keychain
         if: always()
