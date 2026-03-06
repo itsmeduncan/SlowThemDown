@@ -1,27 +1,35 @@
 import SwiftUI
 
 struct ContentView: View {
+    @AppStorage("onboarding_completed") private var onboardingCompleted = false
+
     var body: some View {
-        TabView {
-            CaptureView()
-                .tabItem {
-                    Label("Capture", systemImage: "video.fill")
-                }
+        if onboardingCompleted {
+            TabView {
+                CaptureView()
+                    .tabItem {
+                        Label("Capture", systemImage: "video.fill")
+                    }
 
-            CalibrateView()
-                .tabItem {
-                    Label("Calibrate", systemImage: "ruler")
-                }
+                CalibrateView()
+                    .tabItem {
+                        Label("Calibrate", systemImage: "ruler")
+                    }
 
-            LogView()
-                .tabItem {
-                    Label("Log", systemImage: "list.bullet")
-                }
+                LogView()
+                    .tabItem {
+                        Label("Log", systemImage: "list.bullet")
+                    }
 
-            ReportView()
-                .tabItem {
-                    Label("Reports", systemImage: "chart.bar.fill")
-                }
+                ReportView()
+                    .tabItem {
+                        Label("Reports", systemImage: "chart.bar.fill")
+                    }
+            }
+        } else {
+            OnboardingView {
+                onboardingCompleted = true
+            }
         }
     }
 }

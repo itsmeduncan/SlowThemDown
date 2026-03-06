@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -29,6 +29,7 @@
 		A42509DAED6C9A9778F83B8F /* VideoRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9218B34EEBE8B003B3A36A68 /* VideoRecorderView.swift */; };
 		AEE5E9F1014FB5DF86235F65 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD521EEE6C98F22AEC3B9D1 /* Calibration.swift */; };
 		B3F40B691A4965F2819B1608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF2816028D94D4DF9AEDAC1 /* LocationManager.swift */; };
+		BD88C0CFB61717FF56DA45A0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81B0BB50ACDBD63F69C8B13 /* OnboardingView.swift */; };
 		C01229A4FE6B452AA7CEB6CF /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924E91C80A2A174E5A4B39AB /* ReportViewModel.swift */; };
 		C37F26DB693FF94A56BD05DE /* SpeedResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465020CB5CE13FF1A322FCA0 /* SpeedResultView.swift */; };
 		D263CF5BEF68F353E468EE4F /* ReportExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87315B81FF5A926BCB49D4D /* ReportExporter.swift */; };
@@ -66,7 +67,7 @@
 		35564FDF49B022DA80FD2145 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapperTests.swift; sourceTree = "<group>"; };
 		465020CB5CE13FF1A322FCA0 /* SpeedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedResultView.swift; sourceTree = "<group>"; };
-		4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlowDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4D3F960D1F9CD7B79DF4B5D0 /* SlowDown.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SlowDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		543449116E7DD19A7B307DE9 /* VideoFrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameExtractor.swift; sourceTree = "<group>"; };
 		555DD363FBA01F336472572A /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		558724531F5755C19F43490A /* ImageMarkerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMarkerOverlay.swift; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 		E87315B81FF5A926BCB49D4D /* ReportExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportExporter.swift; sourceTree = "<group>"; };
 		EAF4F1B6168079EC2D4BB3F5 /* SpeedBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedBadge.swift; sourceTree = "<group>"; };
 		ECBCA986661B529E10232565 /* V85CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V85CardView.swift; sourceTree = "<group>"; };
+		F81B0BB50ACDBD63F69C8B13 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -104,6 +106,14 @@
 				924E91C80A2A174E5A4B39AB /* ReportViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		116B9B09D3D653C09D885B75 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				F81B0BB50ACDBD63F69C8B13 /* OnboardingView.swift */,
+			);
+			path = Onboarding;
 			sourceTree = "<group>";
 		};
 		176A54E8BEB8167156F3FAB9 /* Components */ = {
@@ -235,6 +245,7 @@
 				29341B72472A6EA131DB06A6 /* Capture */,
 				176A54E8BEB8167156F3FAB9 /* Components */,
 				CF5F8E0A66F6AF1AF9AE7359 /* Log */,
+				116B9B09D3D653C09D885B75 /* Onboarding */,
 				A10B6C7DDA1E2FE23F55A61E /* Reports */,
 				9EE38DA1B8C2F671002C4D52 /* Shared */,
 			);
@@ -298,6 +309,9 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
+					06EC93AD269E9AE36A5AC746 = {
+						DevelopmentTeam = "";
+					};
 					8510B79B6373AAF2006E8AE0 = {
 						DevelopmentTeam = "";
 					};
@@ -313,6 +327,7 @@
 			);
 			mainGroup = 72E8893325DF86EFD871E51A;
 			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -354,6 +369,7 @@
 				9104D4A2392996CF51EF2D44 /* LogView.swift in Sources */,
 				DB52857F20445E4FBBD6953A /* LogViewModel.swift in Sources */,
 				55126D7116238936F2E3499A /* MetricCard.swift in Sources */,
+				BD88C0CFB61717FF56DA45A0 /* OnboardingView.swift in Sources */,
 				D263CF5BEF68F353E468EE4F /* ReportExporter.swift in Sources */,
 				F3E2A2A34D91CDB86D4F6312 /* ReportView.swift in Sources */,
 				C01229A4FE6B452AA7CEB6CF /* ReportViewModel.swift in Sources */,
@@ -399,7 +415,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = USDFZ2X72H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "SlowDown needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowDown uses your location to tag speed measurements with street addresses.";
@@ -422,7 +437,6 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = USDFZ2X72H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_NSCameraUsageDescription = "SlowDown needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowDown uses your location to tag speed measurements with street addresses.";
