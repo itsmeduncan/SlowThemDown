@@ -37,6 +37,13 @@ jobs:
       - name: Generate Xcode project
         run: cd ios && xcodegen generate
 
+      - name: Resolve SPM packages
+        run: |
+          xcodebuild -resolvePackageDependencies \
+            -project ios/SlowThemDown.xcodeproj \
+            -scheme SlowThemDown \
+            -skipPackagePluginValidation
+
       - name: Archive
         run: |
           set -o pipefail
