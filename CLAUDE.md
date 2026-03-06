@@ -110,4 +110,12 @@ SlowDown/
 
 - **iOS CI** (`.github/workflows/ci.yml`) — Runs on `ios/` changes: XcodeGen generate, build, test
 - **Android CI** (`.github/workflows/android-ci.yml`) — Runs on `android/`, `shared/`, or Gradle file changes: shared tests, build, unit tests, lint
-- **Release** (`.github/workflows/release.yml`) — Triggered by `v*` tags: builds both platforms in parallel, creates GitHub Release with iOS archive + Android APK/AAB
+- **Beta Release** (`.github/workflows/beta-release.yml`) — Triggers when both CIs pass on `main`: builds signed IPA + AAB, uploads to TestFlight and Google Play internal track, creates `vX.Y.Z-beta.N` tag and GitHub pre-release
+- **Release** (`.github/workflows/release.yml`) — Triggered by `vX.Y.Z` tags (no pre-release suffix): builds both platforms in parallel, creates GitHub Release with iOS archive + Android APK/AAB
+
+### Versioning
+
+- `VERSION` file at repo root is the marketing version (e.g., `1.0.0`)
+- Build numbers derived from total `v*` tag count — no commits needed to bump
+- Beta numbers derived from `v{version}-beta.*` tag count for current version
+- To bump version: update `VERSION` in a PR
