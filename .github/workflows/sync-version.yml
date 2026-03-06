@@ -1,0 +1,37 @@
+name: Sync Version
+
+on:
+  push:
+    branches: [main]
+    paths: [VERSION]
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Read VERSION
+        id: version
+        run: echo "version=$(cat VERSION | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
+
+      - name: Update gradle.properties
+        run: sed -i "s/^version=.*/version=${{ steps.version.outputs.version }}/" gradle.properties
+
+      - name: Update ios/project.yml
+        run: sed -i 's/MARKETING_VERSION: ".*"/MARKETING_VERSION: "${{ steps.version.outputs.version }}"/' ios/project.yml
+
+      - name: Update android/app/build.gradle.kts
+        run: sed -i 's/?: ".*"/?: "${{ steps.version.outputs.version }}"/' android/app/build.gradle.kts
+
+      - name: Commit and push if changed
+        run: |
+          git diff --quiet && exit 0
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add gradle.properties ios/project.yml android/app/build.gradle.kts
+          git commit -m "Sync version to ${{ steps.version.outputs.version }}"
+          git push

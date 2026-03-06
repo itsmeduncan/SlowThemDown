@@ -118,4 +118,4 @@ SlowDown/
 - `VERSION` file at repo root is the marketing version (e.g., `1.0.0`)
 - Build numbers derived from total `v*` tag count — no commits needed to bump
 - Beta numbers derived from `v{version}-beta.*` tag count for current version
-- To bump version: update `VERSION` in a PR
+- To bump version: edit the `VERSION` file only. The `sync-version` workflow auto-updates `gradle.properties`, `ios/project.yml`, and `android/app/build.gradle.kts` on push to main
