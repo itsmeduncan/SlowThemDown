@@ -12,8 +12,27 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Cache SPM packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/org.swift.swiftpm
+            ~/Library/org.swift.swiftpm
+          key: spm-${{ runner.os }}-${{ hashFiles('ios/project.yml') }}
+          restore-keys: |
+            spm-${{ runner.os }}-
+
+      - name: Cache Homebrew
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/Library/Caches/Homebrew
+            /usr/local/Cellar/xcodegen
+            /opt/homebrew/Cellar/xcodegen
+          key: brew-xcodegen-${{ runner.os }}
+
       - name: Install XcodeGen
-        run: brew install xcodegen
+        run: brew install xcodegen || true
 
       - name: Generate Xcode project
         run: cd ios && xcodegen generate
@@ -57,20 +76,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Run shared module tests
-        run: ./gradlew :shared:allTests
-
-      - name: Run Android unit tests
-        run: ./gradlew :android:app:testDebugUnitTest
-
-      - name: Run Android lint
-        run: ./gradlew :android:app:lintRelease
-
-      - name: Build release APK
-        run: ./gradlew :android:app:assembleRelease
-
-      - name: Build release AAB
-        run: ./gradlew :android:app:bundleRelease
+      - name: Test, lint, and build release
+        run: ./gradlew :shared:allTests :android:app:testDebugUnitTest :android:app:lintRelease :android:app:assembleRelease :android:app:bundleRelease
 
       - name: Upload Android artifacts
         uses: actions/upload-artifact@v4
