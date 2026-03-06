@@ -51,7 +51,7 @@ private val pages = listOf(
     OnboardingPage(
         icon = Icons.Default.Speed,
         title = "Measure Traffic Speeds",
-        description = "SlowDown estimates vehicle speeds on your street using video from your phone. No radar gun needed — just point, record, and mark."
+        description = "Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed — just point, record, and mark."
     ),
     OnboardingPage(
         icon = Icons.Default.Settings,
@@ -61,12 +61,12 @@ private val pages = listOf(
     OnboardingPage(
         icon = Icons.Default.CameraAlt,
         title = "Record & Mark",
-        description = "Record a short video of passing traffic. Pick two frames, then tap the same point on the vehicle in each frame. SlowDown calculates the speed from the displacement."
+        description = "Record a short video of passing traffic. Pick two frames, then tap the same point on the vehicle in each frame. Slow Them Down calculates the speed from the displacement."
     ),
     OnboardingPage(
         icon = Icons.Default.PlayArrow,
         title = "Or Use Vehicle Reference",
-        description = "No calibration needed — select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and SlowDown uses the known vehicle length."
+        description = "No calibration needed — select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and Slow Them Down uses the known vehicle length."
     ),
     OnboardingPage(
         icon = Icons.Default.BarChart,

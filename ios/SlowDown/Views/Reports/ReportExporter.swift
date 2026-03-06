@@ -40,7 +40,7 @@ enum ReportExporter {
             let titleAttrs: [NSAttributedString.Key: Any] = [
                 .font: UIFont.systemFont(ofSize: 24, weight: .bold),
             ]
-            let title = "SlowDown Speed Report"
+            let title = "Slow Them Down Speed Report"
             title.draw(at: CGPoint(x: margin, y: y), withAttributes: titleAttrs)
             y += 36
 
@@ -132,7 +132,7 @@ enum ReportExporter {
 
     static func csvFileURL(entries: [SpeedEntry]) -> URL? {
         let csv = generateCSV(entries: entries)
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("SlowDown_Report.csv")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("SlowThemDown_Report.csv")
         do {
             try csv.write(to: url, atomically: true, encoding: .utf8)
             return url
@@ -143,7 +143,7 @@ enum ReportExporter {
 
     static func pdfFileURL(entries: [SpeedEntry], stats: TrafficStats?) -> URL? {
         let data = generatePDF(entries: entries, stats: stats)
-        let url = FileManager.default.temporaryDirectory.appendingPathComponent("SlowDown_Report.pdf")
+        let url = FileManager.default.temporaryDirectory.appendingPathComponent("SlowThemDown_Report.pdf")
         do {
             try data.write(to: url)
             return url
