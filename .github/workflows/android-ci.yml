@@ -39,17 +39,8 @@ jobs:
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v4
 
-      - name: Run shared module tests
-        run: ./gradlew :shared:allTests
-
-      - name: Build Android app
-        run: ./gradlew :android:app:assembleDebug
-
-      - name: Run Android unit tests
-        run: ./gradlew :android:app:testDebugUnitTest
-
-      - name: Run Android lint
-        run: ./gradlew :android:app:lintDebug
+      - name: Build, test, and lint
+        run: ./gradlew :shared:allTests :android:app:assembleDebug :android:app:testDebugUnitTest :android:app:lintDebug
 
       - name: Upload lint results
         if: always()
