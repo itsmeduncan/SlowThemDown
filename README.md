@@ -1,6 +1,6 @@
 # SlowDown
 
-A native iOS app for estimating vehicle speeds on residential streets using video analysis.
+A cross-platform app for estimating vehicle speeds on residential streets using video analysis. Available for **iOS** and **Android**.
 
 SlowDown helps residents, neighborhood groups, and traffic safety advocates collect speed data on their streets. Record or import a video clip, mark a vehicle across two frames, and SlowDown calculates the estimated speed using pixel displacement and a calibrated reference distance.
 
@@ -13,62 +13,69 @@ SlowDown helps residents, neighborhood groups, and traffic safety advocates coll
 
 ## Requirements
 
+### iOS
 - iOS 17.0+
 - Xcode 15.0+
 - Swift 5.9+
+- [XcodeGen](https://github.com/yonaskolb/XcodeGen)
+
+### Android
+- Android 8.0+ (API 26)
+- JDK 17+
+- Android Studio Hedgehog or later
 
 ## Getting Started
 
-### Prerequisites
-
-Install [XcodeGen](https://github.com/yonaskolb/XcodeGen) to generate the Xcode project from `project.yml`:
-
-```bash
-brew install xcodegen
-```
-
-### Build
+### iOS
 
 ```bash
 git clone https://github.com/itsmeduncan/SlowDown.git
 cd SlowDown
-xcodegen generate
+brew install xcodegen
+cd ios && xcodegen generate
 open SlowDown.xcodeproj
 ```
 
 Select an iOS Simulator target and press **Cmd+R** to build and run. Debug builds auto-seed 50 realistic speed entries so the Log and Reports tabs are populated immediately.
 
-### Project Structure
+### Android
+
+```bash
+git clone https://github.com/itsmeduncan/SlowDown.git
+cd SlowDown
+./gradlew :android:app:assembleDebug
+```
+
+Or open the root directory in Android Studio — it will detect the Gradle project and configure automatically.
+
+## Project Structure
 
 ```
 SlowDown/
-├── Models/             # Data models, enums, speed math
-│   ├── Calibration.swift
-│   ├── RoadStandards.swift
-│   ├── SpeedCalculator.swift
-│   ├── SpeedEntry.swift        # @Model (SwiftData)
-│   └── VehicleReferences.swift
-├── Services/           # Framework wrappers
-│   ├── CoordinateMapper.swift
-│   ├── HapticManager.swift
-│   ├── LocationManager.swift
-│   └── VideoFrameExtractor.swift
-├── ViewModels/         # @Observable view models
-│   ├── CalibrationViewModel.swift
-│   ├── CaptureViewModel.swift
-│   ├── LogViewModel.swift
-│   └── ReportViewModel.swift
-├── Views/
-│   ├── Calibrate/      # Calibration flow
-│   ├── Capture/        # Video capture + speed estimation flow
-│   ├── Components/     # Reusable UI components
-│   ├── Log/            # Speed entry list
-│   ├── Reports/        # Charts, V85, PDF/CSV export
-│   ├── Shared/         # ImageMarkerOverlay
-│   └── ContentView.swift
-├── Debug/
-│   └── SeedData.swift  # #if DEBUG seed generator
-└── SlowDownApp.swift   # @main entry point
+├── ios/                        # iOS app (SwiftUI)
+│   ├── project.yml             # XcodeGen project spec
+│   ├── SlowDown/
+│   │   ├── Models/             # Data models, enums, speed math
+│   │   ├── Services/           # AVFoundation, CoreLocation, Haptics
+│   │   ├── ViewModels/         # @Observable view models
+│   │   ├── Views/              # SwiftUI views by feature
+│   │   ├── Debug/              # Seed data for debug builds
+│   │   └── SlowDownApp.swift
+│   └── SlowDownTests/          # Swift Testing unit tests
+├── android/                    # Android app (Jetpack Compose)
+│   └── app/src/main/java/com/slowdown/android/
+│       ├── data/               # Room database, DataStore
+│       ├── di/                 # Hilt dependency injection
+│       ├── service/            # Video extraction, location
+│       ├── viewmodel/          # ViewModel + StateFlow
+│       └── ui/                 # Compose screens by feature
+├── shared/                     # KMP shared module (pure Kotlin)
+│   └── src/
+│       ├── commonMain/         # SpeedCalculator, CoordinateMapper, enums
+│       └── commonTest/         # Parity tests with Swift originals
+├── build.gradle.kts            # Root Gradle build
+├── settings.gradle.kts         # Gradle settings
+└── .github/workflows/          # CI/CD for both platforms
 ```
 
 ## How It Works
@@ -97,12 +104,27 @@ The V85 (85th percentile speed) is a standard traffic engineering metric. It rep
 
 ## Tech Stack
 
+### iOS
 - **SwiftUI** with `@Observable` (MVVM)
 - **SwiftData** for persistent storage
 - **AVFoundation** for video frame extraction
 - **Swift Charts** for visualizations
 - **CoreLocation** for street name geocoding
 - No external dependencies — Apple frameworks only
+
+### Android
+- **Jetpack Compose** with `ViewModel` + `StateFlow` (MVVM)
+- **Room** for persistent storage
+- **MediaMetadataRetriever** for video frame extraction
+- **Hilt** for dependency injection
+- **DataStore** for calibration settings
+- **FusedLocationProviderClient** for location
+
+### Shared (KMP)
+- **Kotlin Multiplatform** shared module with pure business logic
+- `SpeedCalculator` — speed formula, V85, traffic statistics
+- `CoordinateMapper` — view-to-image coordinate transforms
+- All enums and reference data (vehicle lengths, road standards)
 
 ## Contributing
 

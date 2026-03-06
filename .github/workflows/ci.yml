@@ -1,10 +1,14 @@
-name: CI
+name: iOS CI
 
 on:
   push:
     branches: [main]
+    paths:
+      - 'ios/**'
   pull_request:
     branches: [main]
+    paths:
+      - 'ios/**'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -20,12 +24,12 @@ jobs:
         run: brew install xcodegen
 
       - name: Generate Xcode project
-        run: xcodegen generate
+        run: cd ios && xcodegen generate
 
       - name: Build
         run: |
           xcodebuild build \
-            -project SlowDown.xcodeproj \
+            -project ios/SlowDown.xcodeproj \
             -scheme SlowDown \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -skipPackagePluginValidation \
@@ -34,7 +38,7 @@ jobs:
       - name: Test
         run: |
           xcodebuild test \
-            -project SlowDown.xcodeproj \
+            -project ios/SlowDown.xcodeproj \
             -scheme SlowDownTests \
             -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
             -skipPackagePluginValidation \
