@@ -90,9 +90,9 @@ jobs:
           BETA_NUMBER=$((BETA_COUNT + 1))
           echo "beta_number=$BETA_NUMBER"
 
-          # Build number = total v* tags + 1
-          TOTAL_TAGS=$(git tag -l "v*" | wc -l | tr -d ' ')
-          BUILD_NUMBER=$((TOTAL_TAGS + 1))
+          # Build number = total commits on main (monotonically increasing, never reused)
+          BUILD_NUMBER=$(git rev-list --count HEAD)
+          echo "Commit count: $BUILD_NUMBER"
           echo "build_number=$BUILD_NUMBER"
 
           TAG="v${VERSION}-beta.${BETA_NUMBER}"
