@@ -1,14 +1,14 @@
-# Contributing to SlowDown
+# Contributing to SlowThemDown
 
-Thanks for your interest in contributing to SlowDown! This project aims to help communities collect traffic speed data on residential streets. It runs on both iOS and Android with shared business logic via Kotlin Multiplatform.
+Thanks for your interest in contributing to SlowThemDown! This project aims to help communities collect traffic speed data on residential streets. It runs on both iOS and Android with shared business logic via Kotlin Multiplatform.
 
 ## Getting Started
 
 1. Fork the repository
 2. Clone your fork:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/SlowDown.git
-   cd SlowDown
+   git clone https://github.com/YOUR_USERNAME/SlowThemDown.git
+   cd SlowThemDown
    ```
 3. Set up the platform you're working on (or both):
 
@@ -17,12 +17,12 @@ Thanks for your interest in contributing to SlowDown! This project aims to help 
 ```bash
 brew install xcodegen
 cd ios && xcodegen generate
-open SlowDown.xcodeproj
+open SlowThemDown.xcodeproj
 ```
 
 ### Android Setup
 
-Open the root `SlowDown/` directory in Android Studio, or build from the command line:
+Open the root `SlowThemDown/` directory in Android Studio, or build from the command line:
 
 ```bash
 ./gradlew :android:app:assembleDebug
@@ -42,9 +42,9 @@ Requires JDK 17+.
 
 ```bash
 cd ios && xcodegen generate    # if you added or removed files
-xcodebuild build -project SlowDown.xcodeproj -scheme SlowDown \
+xcodebuild build -project SlowThemDown.xcodeproj -scheme SlowThemDown \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -quiet
-xcodebuild test -project SlowDown.xcodeproj -scheme SlowDownTests \
+xcodebuild test -project SlowThemDown.xcodeproj -scheme SlowThemDownTests \
   -destination 'platform=iOS Simulator,name=iPhone 17 Pro' -quiet
 ```
 
@@ -90,12 +90,12 @@ Changes to shared business logic require updates in multiple places:
 
 | What Changed | Update These Files |
 |---|---|
-| Speed formula | `shared/.../calculator/SpeedCalculator.kt` + `ios/SlowDown/Models/SpeedCalculator.swift` |
-| Coordinate mapping | `shared/.../calculator/CoordinateMapper.kt` + `ios/SlowDown/Services/CoordinateMapper.swift` |
-| Enums | `shared/.../model/Enums.kt` + `ios/SlowDown/Models/Calibration.swift` |
-| Vehicle references | `shared/.../model/VehicleReferences.kt` + `ios/SlowDown/Models/VehicleReferences.swift` |
-| Road standards | `shared/.../model/RoadStandards.kt` + `ios/SlowDown/Models/RoadStandards.swift` |
-| Data model fields | `android/.../data/db/SpeedEntryEntity.kt` + `ios/SlowDown/Models/SpeedEntry.swift` |
+| Speed formula | `shared/.../calculator/SpeedCalculator.kt` + `ios/SlowThemDown/Models/SpeedCalculator.swift` |
+| Coordinate mapping | `shared/.../calculator/CoordinateMapper.kt` + `ios/SlowThemDown/Services/CoordinateMapper.swift` |
+| Enums | `shared/.../model/Enums.kt` + `ios/SlowThemDown/Models/Calibration.swift` |
+| Vehicle references | `shared/.../model/VehicleReferences.kt` + `ios/SlowThemDown/Models/VehicleReferences.swift` |
+| Road standards | `shared/.../model/RoadStandards.kt` + `ios/SlowThemDown/Models/RoadStandards.swift` |
+| Data model fields | `android/.../data/db/SpeedEntryEntity.kt` + `ios/SlowThemDown/Models/SpeedEntry.swift` |
 
 ### Commits
 

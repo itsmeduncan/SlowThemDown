@@ -1,23 +1,23 @@
 # CLAUDE.md
 
-Instructions for Claude Code when working on the SlowDown project.
+Instructions for Claude Code when working on the SlowThemDown project.
 
 ## Project Overview
 
-SlowDown is a cross-platform app for estimating vehicle speeds on residential streets using video analysis. It targets iOS 17+ (SwiftUI) and Android 8.0+ (Jetpack Compose) with shared business logic via Kotlin Multiplatform (KMP).
+SlowThemDown is a cross-platform app for estimating vehicle speeds on residential streets using video analysis. It targets iOS 17+ (SwiftUI) and Android 8.0+ (Jetpack Compose) with shared business logic via Kotlin Multiplatform (KMP).
 
 ## Repository Structure
 
 ```
-SlowDown/
+SlowThemDown/
 ├── ios/                    # iOS app (SwiftUI + SwiftData)
 │   ├── project.yml         # XcodeGen spec
-│   ├── SlowDown/           # iOS source files
-│   └── SlowDownTests/      # iOS tests (Swift Testing)
+│   ├── SlowThemDown/           # iOS source files
+│   └── SlowThemDownTests/      # iOS tests (Swift Testing)
 ├── android/                # Android app (Jetpack Compose + Room)
-│   └── app/src/main/java/com/slowdown/android/
+│   └── app/src/main/java/com/slowthemdown/android/
 ├── shared/                 # KMP shared module (pure Kotlin)
-│   └── src/commonMain/kotlin/com/slowdown/shared/
+│   └── src/commonMain/kotlin/com/slowthemdown/shared/
 │       ├── model/          # Enums, data classes, constants
 │       └── calculator/     # SpeedCalculator, CoordinateMapper
 ├── build.gradle.kts        # Root Gradle build
@@ -28,9 +28,9 @@ SlowDown/
 ## Build System
 
 ### iOS
-- **XcodeGen** generates `SlowDown.xcodeproj` from `ios/project.yml`
+- **XcodeGen** generates `SlowThemDown.xcodeproj` from `ios/project.yml`
 - Generate: `cd ios && xcodegen generate`
-- Build: `xcodebuild build -project ios/SlowDown.xcodeproj -scheme SlowDown -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
+- Build: `xcodebuild build -project ios/SlowThemDown.xcodeproj -scheme SlowThemDown -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
 - No external dependencies — Apple frameworks only
 
 ### Android
@@ -91,7 +91,7 @@ SlowDown/
 ## Testing
 
 ### iOS
-- Swift Testing (`@Test`) in `ios/SlowDownTests/`
+- Swift Testing (`@Test`) in `ios/SlowThemDownTests/`
 - Tests for `SpeedCalculator` and `CoordinateMapper`
 
 ### KMP Shared
@@ -100,10 +100,10 @@ SlowDown/
 
 ## Common Tasks
 
-- **Modify the speed formula**: Update both `shared/.../SpeedCalculator.kt` AND `ios/SlowDown/Models/SpeedCalculator.swift`. Run both test suites.
-- **Add a new enum value**: Update `shared/.../model/Enums.kt` and `ios/SlowDown/Models/Calibration.swift`
-- **Add an iOS view**: Create under `ios/SlowDown/Views/`, run `cd ios && xcodegen generate`
-- **Add an Android screen**: Create under `android/app/.../ui/`, add to navigation in `SlowDownApp.kt`
+- **Modify the speed formula**: Update both `shared/.../SpeedCalculator.kt` AND `ios/SlowThemDown/Models/SpeedCalculator.swift`. Run both test suites.
+- **Add a new enum value**: Update `shared/.../model/Enums.kt` and `ios/SlowThemDown/Models/Calibration.swift`
+- **Add an iOS view**: Create under `ios/SlowThemDown/Views/`, run `cd ios && xcodegen generate`
+- **Add an Android screen**: Create under `android/app/.../ui/`, add to navigation in `SlowThemDownApp.kt`
 - **Add a new model property**: Update `SpeedEntryEntity.kt` (Android) and `SpeedEntry.swift` (iOS), plus Room migration if needed
 
 ## CI/CD

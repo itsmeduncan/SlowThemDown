@@ -26,6 +26,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "SlowDown"
+rootProject.name = "SlowThemDown"
 include(":android:app")
 include(":shared")

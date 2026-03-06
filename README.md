@@ -1,8 +1,8 @@
-# SlowDown
+# SlowThemDown
 
 A cross-platform app for estimating vehicle speeds on residential streets using video analysis. Available for **iOS** and **Android**.
 
-SlowDown helps residents, neighborhood groups, and traffic safety advocates collect speed data on their streets. Record or import a video clip, mark a vehicle across two frames, and SlowDown calculates the estimated speed using pixel displacement and a calibrated reference distance.
+SlowThemDown helps residents, neighborhood groups, and traffic safety advocates collect speed data on their streets. Record or import a video clip, mark a vehicle across two frames, and SlowThemDown calculates the estimated speed using pixel displacement and a calibrated reference distance.
 
 ## Features
 
@@ -29,11 +29,11 @@ SlowDown helps residents, neighborhood groups, and traffic safety advocates coll
 ### iOS
 
 ```bash
-git clone https://github.com/itsmeduncan/SlowDown.git
-cd SlowDown
+git clone https://github.com/itsmeduncan/SlowThemDown.git
+cd SlowThemDown
 brew install xcodegen
 cd ios && xcodegen generate
-open SlowDown.xcodeproj
+open SlowThemDown.xcodeproj
 ```
 
 Select an iOS Simulator target and press **Cmd+R** to build and run. Debug builds auto-seed 50 realistic speed entries so the Log and Reports tabs are populated immediately.
@@ -41,8 +41,8 @@ Select an iOS Simulator target and press **Cmd+R** to build and run. Debug build
 ### Android
 
 ```bash
-git clone https://github.com/itsmeduncan/SlowDown.git
-cd SlowDown
+git clone https://github.com/itsmeduncan/SlowThemDown.git
+cd SlowThemDown
 ./gradlew :android:app:assembleDebug
 ```
 
@@ -51,19 +51,19 @@ Or open the root directory in Android Studio — it will detect the Gradle proje
 ## Project Structure
 
 ```
-SlowDown/
+SlowThemDown/
 ├── ios/                        # iOS app (SwiftUI)
 │   ├── project.yml             # XcodeGen project spec
-│   ├── SlowDown/
+│   ├── SlowThemDown/
 │   │   ├── Models/             # Data models, enums, speed math
 │   │   ├── Services/           # AVFoundation, CoreLocation, Haptics
 │   │   ├── ViewModels/         # @Observable view models
 │   │   ├── Views/              # SwiftUI views by feature
 │   │   ├── Debug/              # Seed data for debug builds
-│   │   └── SlowDownApp.swift
-│   └── SlowDownTests/          # Swift Testing unit tests
+│   │   └── SlowThemDownApp.swift
+│   └── SlowThemDownTests/          # Swift Testing unit tests
 ├── android/                    # Android app (Jetpack Compose)
-│   └── app/src/main/java/com/slowdown/android/
+│   └── app/src/main/java/com/slowthemdown/android/
 │       ├── data/               # Room database, DataStore
 │       ├── di/                 # Hilt dependency injection
 │       ├── service/            # Video extraction, location
@@ -81,7 +81,7 @@ SlowDown/
 
 ## CI/CD
 
-SlowDown uses GitHub Actions for continuous integration and automated beta releases.
+SlowThemDown uses GitHub Actions for continuous integration and automated beta releases.
 
 | Workflow | Trigger | What it does |
 |---|---|---|
@@ -101,7 +101,7 @@ SlowDown uses GitHub Actions for continuous integration and automated beta relea
 
 ### Speed Calculation
 
-SlowDown estimates speed by measuring how far a vehicle moves (in pixels) between two video frames with a known time delta:
+SlowThemDown estimates speed by measuring how far a vehicle moves (in pixels) between two video frames with a known time delta:
 
 ```
 distance_feet = pixel_displacement / pixels_per_foot
@@ -112,14 +112,14 @@ The `pixels_per_foot` ratio comes from calibration — either by marking a known
 
 ### V85
 
-The V85 (85th percentile speed) is a standard traffic engineering metric. It represents the speed at or below which 85% of vehicles travel. SlowDown computes V85 using linear interpolation over sorted speed measurements.
+The V85 (85th percentile speed) is a standard traffic engineering metric. It represents the speed at or below which 85% of vehicles travel. SlowThemDown computes V85 using linear interpolation over sorted speed measurements.
 
 ### Calibration Methods
 
 | Method | How It Works |
 |--------|-------------|
-| **Manual Distance** | Mark two points in a reference image with a known real-world distance (e.g., a 10-ft lane width). SlowDown computes pixels-per-foot. |
-| **Vehicle Reference** | Select a vehicle make/model from the built-in lookup table. Mark the vehicle's front and rear in a frame. SlowDown uses the known vehicle length to derive pixels-per-foot per-capture. |
+| **Manual Distance** | Mark two points in a reference image with a known real-world distance (e.g., a 10-ft lane width). SlowThemDown computes pixels-per-foot. |
+| **Vehicle Reference** | Select a vehicle make/model from the built-in lookup table. Mark the vehicle's front and rear in a frame. SlowThemDown uses the known vehicle length to derive pixels-per-foot per-capture. |
 
 ## Tech Stack
 

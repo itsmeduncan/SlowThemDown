@@ -11,18 +11,18 @@
     <uses-feature android:name="android.hardware.camera" android:required="false" />
 
     <application
-        android:name=".SlowDownApplication"
+        android:name=".SlowThemDownApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="Slow Them Down"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.SlowDown">
+        android:theme="@style/Theme.SlowThemDown">
 
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.SlowDown">
+            android:theme="@style/Theme.SlowThemDown">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
