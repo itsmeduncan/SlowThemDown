@@ -246,7 +246,7 @@ jobs:
           packageName: com.slowdown.android
           releaseFiles: android/app/build/outputs/bundle/release/*.aab
           track: internal
-          status: completed
+          status: draft
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
