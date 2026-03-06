@@ -109,6 +109,25 @@ Changes to shared business logic require updates in multiple places:
 - Include steps to test the change
 - Reference any related issues
 
+## CI/CD
+
+GitHub Actions runs automatically on every push and pull request to `main`:
+
+- **iOS CI** — Triggers on `ios/` changes: XcodeGen generate, build, test
+- **Android CI** — Triggers on `android/`, `shared/`, or Gradle file changes: shared tests, build, unit tests, lint
+
+When both CI workflows pass on `main`, a **Beta Release** workflow automatically:
+1. Computes the next version from the `VERSION` file and existing git tags
+2. Builds a signed IPA and uploads to TestFlight
+3. Builds a signed AAB and uploads to Google Play internal track
+4. Creates a git tag (e.g., `v1.0.0-beta.3`) and a GitHub pre-release
+
+Production releases are triggered by pushing a `vX.Y.Z` tag (without a pre-release suffix).
+
+### Versioning
+
+The `VERSION` file at the repo root controls the marketing version. Build numbers are derived from git tag counts — no manual bumping needed. To start a new version series, update `VERSION` in your PR.
+
 ## Reporting Issues
 
 Open an issue on GitHub with:

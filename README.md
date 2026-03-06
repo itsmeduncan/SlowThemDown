@@ -75,8 +75,27 @@ SlowDown/
 │       └── commonTest/         # Parity tests with Swift originals
 ├── build.gradle.kts            # Root Gradle build
 ├── settings.gradle.kts         # Gradle settings
+├── VERSION                     # Central marketing version (e.g., 1.0.0)
 └── .github/workflows/          # CI/CD for both platforms
 ```
+
+## CI/CD
+
+SlowDown uses GitHub Actions for continuous integration and automated beta releases.
+
+| Workflow | Trigger | What it does |
+|---|---|---|
+| **iOS CI** | Push/PR to `main` (ios/ changes) | Build + test on iOS Simulator |
+| **Android CI** | Push/PR to `main` (android/, shared/, gradle changes) | Shared tests, build, unit tests, lint |
+| **Beta Release** | Both CIs pass on `main` | Builds signed IPA + AAB, uploads to TestFlight and Google Play internal track, tags `vX.Y.Z-beta.N` |
+| **Release** | Push `vX.Y.Z` tag (no pre-release suffix) | Builds both platforms, creates GitHub Release with artifacts |
+
+### Versioning
+
+- The `VERSION` file at repo root is the single source of truth for the marketing version
+- **Build numbers** are derived from the total count of `v*` git tags (monotonically increasing)
+- **Beta numbers** are derived from the count of `v{version}-beta.*` tags for the current version
+- To bump the version: update the `VERSION` file in a PR — the next merge to `main` auto-generates `vX.Y.Z-beta.1`
 
 ## How It Works
 
