@@ -21,7 +21,8 @@ class VideoFrameExtractor @Inject constructor(
     )
 
     suspend fun getVideoInfo(uri: Uri): VideoInfo = withContext(Dispatchers.IO) {
-        MediaMetadataRetriever().use { retriever ->
+        val retriever = MediaMetadataRetriever()
+        try {
             retriever.setDataSource(context, uri)
             val duration = retriever.extractMetadata(
                 MediaMetadataRetriever.METADATA_KEY_DURATION
@@ -33,14 +34,19 @@ class VideoFrameExtractor @Inject constructor(
                 MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT
             )?.toIntOrNull() ?: 0
             VideoInfo(duration, width, height)
+        } finally {
+            retriever.release()
         }
     }
 
     suspend fun extractFrame(uri: Uri, timeSeconds: Double): Bitmap? = withContext(Dispatchers.IO) {
-        MediaMetadataRetriever().use { retriever ->
+        val retriever = MediaMetadataRetriever()
+        try {
             retriever.setDataSource(context, uri)
             val timeUs = (timeSeconds * 1_000_000).toLong()
             retriever.getFrameAtTime(timeUs, MediaMetadataRetriever.OPTION_CLOSEST)
+        } finally {
+            retriever.release()
         }
     }
 }
