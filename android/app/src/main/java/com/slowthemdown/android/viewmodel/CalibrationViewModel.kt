@@ -1,5 +1,7 @@
 package com.slowthemdown.android.viewmodel
 
+import android.graphics.Bitmap
+import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slowthemdown.android.data.datastore.Calibration
@@ -15,6 +17,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -39,12 +42,42 @@ class CalibrationViewModel @Inject constructor(
     private val _selectedVehicleRef = MutableStateFlow<VehicleReference?>(null)
     val selectedVehicleRef: StateFlow<VehicleReference?> = _selectedVehicleRef.asStateFlow()
 
+    private val _selectedImageBitmap = MutableStateFlow<Bitmap?>(null)
+    val selectedImageBitmap: StateFlow<Bitmap?> = _selectedImageBitmap.asStateFlow()
+
+    private val _imageSize = MutableStateFlow(Size.ZERO)
+    val imageSize: StateFlow<Size> = _imageSize.asStateFlow()
+
+    val pixelDistance: StateFlow<Double> = _markers.combine(_markers) { markers, _ ->
+        if (markers.size == 2) CoordinateMapper.pixelDistance(markers[0], markers[1]) else 0.0
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
+
+    val canSave: StateFlow<Boolean> = combine(_markers, _referenceDistanceFeet) { markers, dist ->
+        markers.size == 2 && dist > 0
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     fun setMethod(method: CalibrationMethod) { _method.value = method }
     fun setReferenceDistance(feet: Double) { _referenceDistanceFeet.value = feet }
     fun setSelectedVehicleRef(ref: VehicleReference?) { _selectedVehicleRef.value = ref }
 
-    fun addMarker(viewPoint: Point, viewSize: Size, imageSize: Size) {
-        val imagePoint = CoordinateMapper.viewToImage(viewPoint, viewSize, imageSize)
+    fun setImage(bitmap: Bitmap) {
+        _selectedImageBitmap.value = bitmap
+        _imageSize.value = Size(bitmap.width.toDouble(), bitmap.height.toDouble())
+        resetMarkers()
+    }
+
+    fun clearImage() {
+        _selectedImageBitmap.value = null
+        _imageSize.value = Size.ZERO
+        resetMarkers()
+    }
+
+    fun resetMarkers() {
+        _markers.value = emptyList()
+    }
+
+    fun addMarker(viewPoint: Point, viewSize: Size) {
+        val imagePoint = CoordinateMapper.viewToImage(viewPoint, viewSize, _imageSize.value)
         val current = _markers.value
         _markers.value = if (current.size >= 2) listOf(imagePoint) else current + imagePoint
     }
@@ -72,5 +105,13 @@ class CalibrationViewModel @Inject constructor(
                 )
             )
         }
+    }
+
+    fun clearCalibration() {
+        viewModelScope.launch {
+            calibrationStore.save(Calibration())
+        }
+        clearImage()
+        _referenceDistanceFeet.value = 0.0
     }
 }
