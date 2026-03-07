@@ -1,5 +1,6 @@
 package com.slowthemdown.android.ui.capture
 
+import android.Manifest
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -17,12 +18,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
+import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.slowthemdown.android.viewmodel.CaptureFlowState
 import com.slowthemdown.android.viewmodel.CaptureViewModel
+import java.io.File
 
 @Composable
 fun CaptureScreen(viewModel: CaptureViewModel = hiltViewModel()) {
@@ -40,10 +47,38 @@ fun CaptureScreen(viewModel: CaptureViewModel = hiltViewModel()) {
 
 @Composable
 private fun SelectSourceContent(viewModel: CaptureViewModel) {
+    val context = LocalContext.current
+
     val videoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
     ) { uri: Uri? ->
         uri?.let { viewModel.loadVideo(it) }
+    }
+
+    var videoUri by remember { mutableStateOf<Uri?>(null) }
+
+    val videoCaptureLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.CaptureVideo()
+    ) { success: Boolean ->
+        if (success) {
+            videoUri?.let { viewModel.loadVideo(it) }
+        }
+    }
+
+    val cameraPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { granted: Boolean ->
+        if (granted) {
+            val videosDir = File(context.cacheDir, "videos").apply { mkdirs() }
+            val videoFile = File(videosDir, "capture_${System.currentTimeMillis()}.mp4")
+            val uri = FileProvider.getUriForFile(
+                context,
+                "${context.packageName}.fileprovider",
+                videoFile
+            )
+            videoUri = uri
+            videoCaptureLauncher.launch(uri)
+        }
     }
 
     Column(
@@ -64,7 +99,7 @@ private fun SelectSourceContent(viewModel: CaptureViewModel) {
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedButton(
-            onClick = { /* TODO: CameraX recording */ },
+            onClick = { cameraPermissionLauncher.launch(Manifest.permission.CAMERA) },
             modifier = Modifier.fillMaxWidth(),
         ) {
             Text("Record Video")
