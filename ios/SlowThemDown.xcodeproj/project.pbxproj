@@ -3,273 +3,307 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01E0A4CA2036226C253F9BB1 /* FrameMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8601AEE9D430BF8E2973D8F0 /* FrameMarkerView.swift */; };
-		1E2037461F4725FE112A6789 /* ImageMarkerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 558724531F5755C19F43490A /* ImageMarkerOverlay.swift */; };
-		270071BFE4F0935628F51ECD /* DirectionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CBACAE8A6D7A4CE54F0F96E /* DirectionPicker.swift */; };
-		333D3FC00370C57191A68207 /* CoordinateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18AA53E19B27FD9299F10326 /* CoordinateMapper.swift */; };
-		36228288005F49C791C71236 /* VehicleRefPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C5F74F34D11147441E73AC8 /* VehicleRefPicker.swift */; };
-		393B1301AF778C861DD3C3BF /* V85CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECBCA986661B529E10232565 /* V85CardView.swift */; };
-		499D85C05EDF14155F18497E /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C66A4EBC6C28B417C80AB14 /* ContentView.swift */; };
-		55126D7116238936F2E3499A /* MetricCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DC4543103CF7D7B6883048A7 /* MetricCard.swift */; };
-		5BE06A54090A6783BAE57517 /* SpeedEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFA68F1D8CAFD5CDC7A3CBFD /* SpeedEntry.swift */; };
-		5F83FC68B519B12F37168B00 /* CalibrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1307E18899C867D49AB017C1 /* CalibrationViewModel.swift */; };
-		6088D4AD17C5682306077A13 /* VideoFrameExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 543449116E7DD19A7B307DE9 /* VideoFrameExtractor.swift */; };
-		6A8F5973C5019DC6A70C9736 /* VehicleReferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295FD72372C0730C3365B61D /* VehicleReferences.swift */; };
-		6E3EFD7529A2A551C85E98AA /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 35564FDF49B022DA80FD2145 /* Assets.xcassets */; };
-		720160646B2B7CE17E9095B2 /* VehicleTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A117943BFDDAC2A15BB2CEB /* VehicleTypePicker.swift */; };
-		7C1FBC89321E16CE10215FC8 /* SpeedBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = EAF4F1B6168079EC2D4BB3F5 /* SpeedBadge.swift */; };
-		80B13B487F34D3B6CBF1FC96 /* SlowThemDownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86127FCE395659EF73844322 /* SlowThemDownApp.swift */; };
-		8476D7734E6AAEBAF8B10CA6 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 555DD363FBA01F336472572A /* CaptureView.swift */; };
-		8CB96CF489D2A17E05CBF8AC /* SpeedCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FD841C32E4D92A86DF68AE /* SpeedCalculator.swift */; };
-		9104D4A2392996CF51EF2D44 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9E49D1B0310043DADB7A7D34 /* LogView.swift */; };
-		A42509DAED6C9A9778F83B8F /* VideoRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9218B34EEBE8B003B3A36A68 /* VideoRecorderView.swift */; };
-		AEE5E9F1014FB5DF86235F65 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5CD521EEE6C98F22AEC3B9D1 /* Calibration.swift */; };
-		B3F40B691A4965F2819B1608 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF2816028D94D4DF9AEDAC1 /* LocationManager.swift */; };
-		BD88C0CFB61717FF56DA45A0 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F81B0BB50ACDBD63F69C8B13 /* OnboardingView.swift */; };
-		C01229A4FE6B452AA7CEB6CF /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 924E91C80A2A174E5A4B39AB /* ReportViewModel.swift */; };
-		C37F26DB693FF94A56BD05DE /* SpeedResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 465020CB5CE13FF1A322FCA0 /* SpeedResultView.swift */; };
-		D263CF5BEF68F353E468EE4F /* ReportExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E87315B81FF5A926BCB49D4D /* ReportExporter.swift */; };
-		DB52857F20445E4FBBD6953A /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DBD36C9E4C3AAF9870F8508 /* LogViewModel.swift */; };
-		E890140F3AD6484B2E338961 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 101CEBA16551766D05EFEE08 /* SeedData.swift */; };
-		E9BF2C29F282081DE76D76B0 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E76BA9D626B95E3572050D /* CaptureViewModel.swift */; };
-		EB55E4C8D38D18A024E57937 /* SpeedCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B26A23E2FE3FE44EBCE208 /* SpeedCalculatorTests.swift */; };
-		F2494DD15E99DA31EBC6C853 /* CalibrateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAF5799785F562F3FE9AEC51 /* CalibrateView.swift */; };
-		F3E2A2A34D91CDB86D4F6312 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1440A1489C41CBEC96B974E6 /* ReportView.swift */; };
-		FA02A8015FC3CF96B9C0D74A /* CoordinateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */; };
-		FA9380EAFAF43A59CD314EFC /* RoadStandards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BA63C07BC38358E8F356FFA /* RoadStandards.swift */; };
-		FBFFDF5152E61D853A7BADE6 /* FrameSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D5E250D85F6478DFC488334 /* FrameSelectorView.swift */; };
-		FC8D0CD509CA5B797D652D66 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = B95B832AE7C1966CA021EEE7 /* HapticManager.swift */; };
+		02868A62977FC1F7E2CEE496 /* VideoFrameExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7984D2693C63DFAA8F164E2 /* VideoFrameExtractor.swift */; };
+		0527545F311F1FCB2DD677FF /* DirectionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */; };
+		061A6B6DDB19F6A8E282EC99 /* V85CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B477DAEE5E2F153077812770 /* V85CardView.swift */; };
+		086E72CF0D34F8524ECF1DC8 /* VideoRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58765E1A93CF0342AD4F7BEC /* VideoRecorderView.swift */; };
+		0CE36F0352225E986F522204 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B756386BB5863DA65FBDF /* ReportView.swift */; };
+		29D27B345A29324C2E785C03 /* VehicleTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */; };
+		2E17E8003FDC96F0AEB72B2F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26BC4AB5E5A5710E42FEB072 /* GoogleService-Info.plist */; };
+		380066D4220359B3E26E9135 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C2CE2C5561A062D29A7891 /* LogView.swift */; };
+		396076A4A0AE55019A2330D8 /* SpeedCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */; };
+		3A3D0583304474BB745FF850 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF756416CD083546000330C /* HapticManager.swift */; };
+		3EB111093E4A7C1D7C4D5D7B /* VehicleRefPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E79D8618F4F2D24D94D00D /* VehicleRefPicker.swift */; };
+		447E1E645094437D0BF67CC0 /* CoordinateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D16794431DFB880A87225B /* CoordinateMapperTests.swift */; };
+		4708EE1D9301544078EFC179 /* FrameSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115F702DDF9356A7793E2724 /* FrameSelectorView.swift */; };
+		47679D062CCAEE688214451C /* ImageMarkerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745F1C94A27793954831F63 /* ImageMarkerOverlay.swift */; };
+		481F235545802BDB2DEB7F04 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648AF0AEE6B09D68A2980382 /* CaptureView.swift */; };
+		5BD48B733A5B5C847CBF4FC9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = A67C08CFE7688D9903E5F52D /* FirebaseCrashlytics */; };
+		6993C91BBBD30C25397E2E97 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */; };
+		7378C09EF250D91EA696F08C /* SpeedEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635FD6EB01979D112340CC4 /* SpeedEntry.swift */; };
+		76381DFE4367C6DD04C49370 /* CalibrateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF9A07F59C639EAD454901F /* CalibrateView.swift */; };
+		8ABB751F1EBE1C3D120B297E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0354163D2D08D093CD8AF19 /* Assets.xcassets */; };
+		963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685454CF76255109D5775A2 /* LogViewModel.swift */; };
+		9D90D07295F60731E756296B /* FrameMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */; };
+		AAF94F9C62F917053502B4FC /* CalibrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93F70E6B0E6E2BEAEB328 /* CalibrationViewModel.swift */; };
+		AB21F28C8685E981D80482F8 /* SlowThemDownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DC79F0CB2131404EA7C783 /* SlowThemDownApp.swift */; };
+		B237C60C5A10B288DE8C61D0 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A1FC3D67AFD3A1E25499C9 /* SeedData.swift */; };
+		B65AA162CF531F2AC12F11D2 /* SpeedResultView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA4B084E443D2CCD6037933 /* SpeedResultView.swift */; };
+		B768B8104C52646D07CCEF63 /* MetricCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C712C3EC796408BFB3CCA /* MetricCard.swift */; };
+		BB3F77A8FF7D126D61FCAB3A /* SpeedBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB195968CF9F81520F0CE434 /* SpeedBadge.swift */; };
+		BECB0CB5E8CFD15497B552A0 /* RoadStandards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D98259EC568C5CE9165613 /* RoadStandards.swift */; };
+		CEE57FC771538ACA7AB491E2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5AA453EEBCA840B9F79DE8 /* LocationManager.swift */; };
+		D559C2833DAEA0A1A8E703A0 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */; };
+		D64F47A1B351D661B181B412 /* ReportExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37286E2564E752BBBE3E4FA /* ReportExporter.swift */; };
+		D80825B5E85170131ECB736F /* SpeedCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9793B8022619CD4379AC089 /* SpeedCalculator.swift */; };
+		E4021A1464CAE25D17616D05 /* VehicleReferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1BFEBFF54830B10D517B66 /* VehicleReferences.swift */; };
+		EEC9E1AE25849A62B23422E2 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F816BD022D4B9A3ED5F51CEC /* Calibration.swift */; };
+		F971C8DA4A433A2A1A5919DA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76FA20D937238BDAB1F27B /* OnboardingView.swift */; };
+		FB21F5AFF2633032B37C99E8 /* CoordinateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B2B45F02AF33208619D5B5 /* CoordinateMapper.swift */; };
+		FD201CBE8475788813EE1170 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF410C15E9F4F877F32531AC /* ContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		B55FDCAED47494EBD7BA09E2 /* PBXContainerItemProxy */ = {
+		A3C5880531263C971D4DEFCC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 0A844DFCC7D90E81C054A51F /* Project object */;
+			containerPortal = 0FA8946B309B13CB255BB096 /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 06EC93AD269E9AE36A5AC746;
+			remoteGlobalIDString = DCB50EEC289C786B87CA6E9F;
 			remoteInfo = SlowThemDown;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		0EF2816028D94D4DF9AEDAC1 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		101CEBA16551766D05EFEE08 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
-		1307E18899C867D49AB017C1 /* CalibrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationViewModel.swift; sourceTree = "<group>"; };
-		1440A1489C41CBEC96B974E6 /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
-		1676CA770ED3A6EE7554B8A7 /* SlowThemDownTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SlowThemDownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		18AA53E19B27FD9299F10326 /* CoordinateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapper.swift; sourceTree = "<group>"; };
-		1BA63C07BC38358E8F356FFA /* RoadStandards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadStandards.swift; sourceTree = "<group>"; };
-		295FD72372C0730C3365B61D /* VehicleReferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleReferences.swift; sourceTree = "<group>"; };
-		35564FDF49B022DA80FD2145 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapperTests.swift; sourceTree = "<group>"; };
-		465020CB5CE13FF1A322FCA0 /* SpeedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedResultView.swift; sourceTree = "<group>"; };
-		4D3F960D1F9CD7B79DF4B5D0 /* SlowThemDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlowThemDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		543449116E7DD19A7B307DE9 /* VideoFrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameExtractor.swift; sourceTree = "<group>"; };
-		555DD363FBA01F336472572A /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
-		558724531F5755C19F43490A /* ImageMarkerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMarkerOverlay.swift; sourceTree = "<group>"; };
-		5CD521EEE6C98F22AEC3B9D1 /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
-		5DBD36C9E4C3AAF9870F8508 /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
-		6A117943BFDDAC2A15BB2CEB /* VehicleTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleTypePicker.swift; sourceTree = "<group>"; };
-		6CBACAE8A6D7A4CE54F0F96E /* DirectionPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionPicker.swift; sourceTree = "<group>"; };
-		7C5F74F34D11147441E73AC8 /* VehicleRefPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleRefPicker.swift; sourceTree = "<group>"; };
-		7C66A4EBC6C28B417C80AB14 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		84B26A23E2FE3FE44EBCE208 /* SpeedCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculatorTests.swift; sourceTree = "<group>"; };
-		8601AEE9D430BF8E2973D8F0 /* FrameMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameMarkerView.swift; sourceTree = "<group>"; };
-		86127FCE395659EF73844322 /* SlowThemDownApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowThemDownApp.swift; sourceTree = "<group>"; };
-		9218B34EEBE8B003B3A36A68 /* VideoRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderView.swift; sourceTree = "<group>"; };
-		924E91C80A2A174E5A4B39AB /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
-		94E76BA9D626B95E3572050D /* CaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewModel.swift; sourceTree = "<group>"; };
-		9D5E250D85F6478DFC488334 /* FrameSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameSelectorView.swift; sourceTree = "<group>"; };
-		9E49D1B0310043DADB7A7D34 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
-		A9FD841C32E4D92A86DF68AE /* SpeedCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculator.swift; sourceTree = "<group>"; };
-		AAF5799785F562F3FE9AEC51 /* CalibrateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrateView.swift; sourceTree = "<group>"; };
-		B95B832AE7C1966CA021EEE7 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
-		CFA68F1D8CAFD5CDC7A3CBFD /* SpeedEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedEntry.swift; sourceTree = "<group>"; };
-		DC4543103CF7D7B6883048A7 /* MetricCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCard.swift; sourceTree = "<group>"; };
-		E87315B81FF5A926BCB49D4D /* ReportExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportExporter.swift; sourceTree = "<group>"; };
-		EAF4F1B6168079EC2D4BB3F5 /* SpeedBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedBadge.swift; sourceTree = "<group>"; };
-		ECBCA986661B529E10232565 /* V85CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V85CardView.swift; sourceTree = "<group>"; };
-		F81B0BB50ACDBD63F69C8B13 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		00E79D8618F4F2D24D94D00D /* VehicleRefPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleRefPicker.swift; sourceTree = "<group>"; };
+		075B756386BB5863DA65FBDF /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
+		115F702DDF9356A7793E2724 /* FrameSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameSelectorView.swift; sourceTree = "<group>"; };
+		12D98259EC568C5CE9165613 /* RoadStandards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadStandards.swift; sourceTree = "<group>"; };
+		26BC4AB5E5A5710E42FEB072 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		28B93F70E6B0E6E2BEAEB328 /* CalibrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationViewModel.swift; sourceTree = "<group>"; };
+		3685454CF76255109D5775A2 /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
+		38D16794431DFB880A87225B /* CoordinateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapperTests.swift; sourceTree = "<group>"; };
+		4EA4B084E443D2CCD6037933 /* SpeedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedResultView.swift; sourceTree = "<group>"; };
+		530C712C3EC796408BFB3CCA /* MetricCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCard.swift; sourceTree = "<group>"; };
+		537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculatorTests.swift; sourceTree = "<group>"; };
+		5635FD6EB01979D112340CC4 /* SpeedEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedEntry.swift; sourceTree = "<group>"; };
+		56B2B45F02AF33208619D5B5 /* CoordinateMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapper.swift; sourceTree = "<group>"; };
+		58765E1A93CF0342AD4F7BEC /* VideoRecorderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoRecorderView.swift; sourceTree = "<group>"; };
+		5B76FA20D937238BDAB1F27B /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		648AF0AEE6B09D68A2980382 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
+		6E5AA453EEBCA840B9F79DE8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		75C2CE2C5561A062D29A7891 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameMarkerView.swift; sourceTree = "<group>"; };
+		8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewModel.swift; sourceTree = "<group>"; };
+		94075604E995DB222B335641 /* SlowThemDown.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SlowThemDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A0354163D2D08D093CD8AF19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A0A1FC3D67AFD3A1E25499C9 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
+		A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleTypePicker.swift; sourceTree = "<group>"; };
+		A37286E2564E752BBBE3E4FA /* ReportExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportExporter.swift; sourceTree = "<group>"; };
+		A8DC79F0CB2131404EA7C783 /* SlowThemDownApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowThemDownApp.swift; sourceTree = "<group>"; };
+		B477DAEE5E2F153077812770 /* V85CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V85CardView.swift; sourceTree = "<group>"; };
+		BAF9A07F59C639EAD454901F /* CalibrateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrateView.swift; sourceTree = "<group>"; };
+		BF410C15E9F4F877F32531AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		C745F1C94A27793954831F63 /* ImageMarkerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMarkerOverlay.swift; sourceTree = "<group>"; };
+		C9793B8022619CD4379AC089 /* SpeedCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculator.swift; sourceTree = "<group>"; };
+		D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionPicker.swift; sourceTree = "<group>"; };
+		D7984D2693C63DFAA8F164E2 /* VideoFrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameExtractor.swift; sourceTree = "<group>"; };
+		DA91F0D74A259424327732A9 /* SlowThemDownTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SlowThemDownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB195968CF9F81520F0CE434 /* SpeedBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedBadge.swift; sourceTree = "<group>"; };
+		F816BD022D4B9A3ED5F51CEC /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
+		FB1BFEBFF54830B10D517B66 /* VehicleReferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleReferences.swift; sourceTree = "<group>"; };
+		FFF756416CD083546000330C /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
+/* Begin PBXFrameworksBuildPhase section */
+		E3EAA245F76966D149B0B5C8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5BD48B733A5B5C847CBF4FC9 /* FirebaseCrashlytics in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
 /* Begin PBXGroup section */
-		04C08DE43475E0C7C4918F25 /* ViewModels */ = {
+		2237A0BF3FAF1CE0630684A5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				1307E18899C867D49AB017C1 /* CalibrationViewModel.swift */,
-				94E76BA9D626B95E3572050D /* CaptureViewModel.swift */,
-				5DBD36C9E4C3AAF9870F8508 /* LogViewModel.swift */,
-				924E91C80A2A174E5A4B39AB /* ReportViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
-		116B9B09D3D653C09D885B75 /* Onboarding */ = {
-			isa = PBXGroup;
-			children = (
-				F81B0BB50ACDBD63F69C8B13 /* OnboardingView.swift */,
-			);
-			path = Onboarding;
-			sourceTree = "<group>";
-		};
-		176A54E8BEB8167156F3FAB9 /* Components */ = {
-			isa = PBXGroup;
-			children = (
-				6CBACAE8A6D7A4CE54F0F96E /* DirectionPicker.swift */,
-				DC4543103CF7D7B6883048A7 /* MetricCard.swift */,
-				EAF4F1B6168079EC2D4BB3F5 /* SpeedBadge.swift */,
-				7C5F74F34D11147441E73AC8 /* VehicleRefPicker.swift */,
-				6A117943BFDDAC2A15BB2CEB /* VehicleTypePicker.swift */,
+				D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */,
+				530C712C3EC796408BFB3CCA /* MetricCard.swift */,
+				DB195968CF9F81520F0CE434 /* SpeedBadge.swift */,
+				00E79D8618F4F2D24D94D00D /* VehicleRefPicker.swift */,
+				A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
 		};
-		29341B72472A6EA131DB06A6 /* Capture */ = {
+		2C717F2F618E0BEC540B7E9F /* SlowThemDown */ = {
 			isa = PBXGroup;
 			children = (
-				555DD363FBA01F336472572A /* CaptureView.swift */,
-				8601AEE9D430BF8E2973D8F0 /* FrameMarkerView.swift */,
-				9D5E250D85F6478DFC488334 /* FrameSelectorView.swift */,
-				465020CB5CE13FF1A322FCA0 /* SpeedResultView.swift */,
-				9218B34EEBE8B003B3A36A68 /* VideoRecorderView.swift */,
-			);
-			path = Capture;
-			sourceTree = "<group>";
-		};
-		31FCC27B7DB3107B112DF634 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				5CD521EEE6C98F22AEC3B9D1 /* Calibration.swift */,
-				1BA63C07BC38358E8F356FFA /* RoadStandards.swift */,
-				A9FD841C32E4D92A86DF68AE /* SpeedCalculator.swift */,
-				CFA68F1D8CAFD5CDC7A3CBFD /* SpeedEntry.swift */,
-				295FD72372C0730C3365B61D /* VehicleReferences.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		320E3E6056BC5903921D2BD1 /* Calibrate */ = {
-			isa = PBXGroup;
-			children = (
-				AAF5799785F562F3FE9AEC51 /* CalibrateView.swift */,
-			);
-			path = Calibrate;
-			sourceTree = "<group>";
-		};
-		6CA3935CB6F43AE5CF2CAA1C /* SlowThemDown */ = {
-			isa = PBXGroup;
-			children = (
-				35564FDF49B022DA80FD2145 /* Assets.xcassets */,
-				86127FCE395659EF73844322 /* SlowThemDownApp.swift */,
-				819134259E726E95F0EE3C22 /* Debug */,
-				31FCC27B7DB3107B112DF634 /* Models */,
-				B4C53AB420302940FAFA32A0 /* Services */,
-				04C08DE43475E0C7C4918F25 /* ViewModels */,
-				E494F2B80AA542F4A92C64D5 /* Views */,
+				A0354163D2D08D093CD8AF19 /* Assets.xcassets */,
+				26BC4AB5E5A5710E42FEB072 /* GoogleService-Info.plist */,
+				A8DC79F0CB2131404EA7C783 /* SlowThemDownApp.swift */,
+				A74532B74BD69E0254A14BB1 /* Debug */,
+				EE73B65ABAD8D47D630E6380 /* Models */,
+				5DDE6A29A0447DC0FB81FBD9 /* Services */,
+				A919270727F8E4799599ACAA /* ViewModels */,
+				AD395D9FDC66CF6EA504A140 /* Views */,
 			);
 			path = SlowThemDown;
 			sourceTree = "<group>";
 		};
-		72E8893325DF86EFD871E51A = {
+		3625E5F3A75A9B763B8C8403 = {
 			isa = PBXGroup;
 			children = (
-				6CA3935CB6F43AE5CF2CAA1C /* SlowThemDown */,
-				89BF29360D651E24450EA653 /* SlowThemDownTests */,
-				F2A4A3B1E25003C98A16884E /* Products */,
+				2C717F2F618E0BEC540B7E9F /* SlowThemDown */,
+				B19903CE1132D3A92AB60EDD /* SlowThemDownTests */,
+				3E67F7ACBBAAA4CA79EFB99F /* Products */,
 			);
 			sourceTree = "<group>";
 		};
-		819134259E726E95F0EE3C22 /* Debug */ = {
+		3E67F7ACBBAAA4CA79EFB99F /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				101CEBA16551766D05EFEE08 /* SeedData.swift */,
+				94075604E995DB222B335641 /* SlowThemDown.app */,
+				DA91F0D74A259424327732A9 /* SlowThemDownTests.xctest */,
 			);
-			path = Debug;
+			name = Products;
 			sourceTree = "<group>";
 		};
-		89BF29360D651E24450EA653 /* SlowThemDownTests */ = {
+		460ED202E5392B634EA29AB5 /* Reports */ = {
 			isa = PBXGroup;
 			children = (
-				364DD725FEFA07339A4BF941 /* CoordinateMapperTests.swift */,
-				84B26A23E2FE3FE44EBCE208 /* SpeedCalculatorTests.swift */,
-			);
-			path = SlowThemDownTests;
-			sourceTree = "<group>";
-		};
-		9EE38DA1B8C2F671002C4D52 /* Shared */ = {
-			isa = PBXGroup;
-			children = (
-				558724531F5755C19F43490A /* ImageMarkerOverlay.swift */,
-			);
-			path = Shared;
-			sourceTree = "<group>";
-		};
-		A10B6C7DDA1E2FE23F55A61E /* Reports */ = {
-			isa = PBXGroup;
-			children = (
-				E87315B81FF5A926BCB49D4D /* ReportExporter.swift */,
-				1440A1489C41CBEC96B974E6 /* ReportView.swift */,
-				ECBCA986661B529E10232565 /* V85CardView.swift */,
+				A37286E2564E752BBBE3E4FA /* ReportExporter.swift */,
+				075B756386BB5863DA65FBDF /* ReportView.swift */,
+				B477DAEE5E2F153077812770 /* V85CardView.swift */,
 			);
 			path = Reports;
 			sourceTree = "<group>";
 		};
-		B4C53AB420302940FAFA32A0 /* Services */ = {
+		5DDE6A29A0447DC0FB81FBD9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				18AA53E19B27FD9299F10326 /* CoordinateMapper.swift */,
-				B95B832AE7C1966CA021EEE7 /* HapticManager.swift */,
-				0EF2816028D94D4DF9AEDAC1 /* LocationManager.swift */,
-				543449116E7DD19A7B307DE9 /* VideoFrameExtractor.swift */,
+				56B2B45F02AF33208619D5B5 /* CoordinateMapper.swift */,
+				FFF756416CD083546000330C /* HapticManager.swift */,
+				6E5AA453EEBCA840B9F79DE8 /* LocationManager.swift */,
+				D7984D2693C63DFAA8F164E2 /* VideoFrameExtractor.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
 		};
-		CF5F8E0A66F6AF1AF9AE7359 /* Log */ = {
+		66844D19D5FFAE11F16E9861 /* Calibrate */ = {
 			isa = PBXGroup;
 			children = (
-				9E49D1B0310043DADB7A7D34 /* LogView.swift */,
+				BAF9A07F59C639EAD454901F /* CalibrateView.swift */,
+			);
+			path = Calibrate;
+			sourceTree = "<group>";
+		};
+		835044958582765886375B4D /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				C745F1C94A27793954831F63 /* ImageMarkerOverlay.swift */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		91D475ED8D1A0DE9D0583FD5 /* Log */ = {
+			isa = PBXGroup;
+			children = (
+				75C2CE2C5561A062D29A7891 /* LogView.swift */,
 			);
 			path = Log;
 			sourceTree = "<group>";
 		};
-		E494F2B80AA542F4A92C64D5 /* Views */ = {
+		A74532B74BD69E0254A14BB1 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
-				7C66A4EBC6C28B417C80AB14 /* ContentView.swift */,
-				320E3E6056BC5903921D2BD1 /* Calibrate */,
-				29341B72472A6EA131DB06A6 /* Capture */,
-				176A54E8BEB8167156F3FAB9 /* Components */,
-				CF5F8E0A66F6AF1AF9AE7359 /* Log */,
-				116B9B09D3D653C09D885B75 /* Onboarding */,
-				A10B6C7DDA1E2FE23F55A61E /* Reports */,
-				9EE38DA1B8C2F671002C4D52 /* Shared */,
+				A0A1FC3D67AFD3A1E25499C9 /* SeedData.swift */,
+			);
+			path = Debug;
+			sourceTree = "<group>";
+		};
+		A919270727F8E4799599ACAA /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				28B93F70E6B0E6E2BEAEB328 /* CalibrationViewModel.swift */,
+				8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */,
+				3685454CF76255109D5775A2 /* LogViewModel.swift */,
+				8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		AD395D9FDC66CF6EA504A140 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BF410C15E9F4F877F32531AC /* ContentView.swift */,
+				66844D19D5FFAE11F16E9861 /* Calibrate */,
+				B94099674335C91E09F4AD44 /* Capture */,
+				2237A0BF3FAF1CE0630684A5 /* Components */,
+				91D475ED8D1A0DE9D0583FD5 /* Log */,
+				C609B8B14BAF3D6F1FDEA791 /* Onboarding */,
+				460ED202E5392B634EA29AB5 /* Reports */,
+				835044958582765886375B4D /* Shared */,
 			);
 			path = Views;
 			sourceTree = "<group>";
 		};
-		F2A4A3B1E25003C98A16884E /* Products */ = {
+		B19903CE1132D3A92AB60EDD /* SlowThemDownTests */ = {
 			isa = PBXGroup;
 			children = (
-				4D3F960D1F9CD7B79DF4B5D0 /* SlowThemDown.app */,
-				1676CA770ED3A6EE7554B8A7 /* SlowThemDownTests.xctest */,
+				38D16794431DFB880A87225B /* CoordinateMapperTests.swift */,
+				537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */,
 			);
-			name = Products;
+			path = SlowThemDownTests;
+			sourceTree = "<group>";
+		};
+		B94099674335C91E09F4AD44 /* Capture */ = {
+			isa = PBXGroup;
+			children = (
+				648AF0AEE6B09D68A2980382 /* CaptureView.swift */,
+				84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */,
+				115F702DDF9356A7793E2724 /* FrameSelectorView.swift */,
+				4EA4B084E443D2CCD6037933 /* SpeedResultView.swift */,
+				58765E1A93CF0342AD4F7BEC /* VideoRecorderView.swift */,
+			);
+			path = Capture;
+			sourceTree = "<group>";
+		};
+		C609B8B14BAF3D6F1FDEA791 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				5B76FA20D937238BDAB1F27B /* OnboardingView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		EE73B65ABAD8D47D630E6380 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F816BD022D4B9A3ED5F51CEC /* Calibration.swift */,
+				12D98259EC568C5CE9165613 /* RoadStandards.swift */,
+				C9793B8022619CD4379AC089 /* SpeedCalculator.swift */,
+				5635FD6EB01979D112340CC4 /* SpeedEntry.swift */,
+				FB1BFEBFF54830B10D517B66 /* VehicleReferences.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		06EC93AD269E9AE36A5AC746 /* SlowThemDown */ = {
+		C2A39E836AB4E8F8E4F6EDF1 /* SlowThemDownTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A867473AEA3C4140E8C6D60D /* Build configuration list for PBXNativeTarget "SlowThemDown" */;
+			buildConfigurationList = 2B3EFE655AD87CF6DC87FF35 /* Build configuration list for PBXNativeTarget "SlowThemDownTests" */;
 			buildPhases = (
-				71B84F8D67515930EE7DE839 /* Sources */,
-				D9013389AB1FC58DA0D5FCEC /* Resources */,
+				94FDD8B040EAD214D4BFF4AF /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				0D0C480DDADB17BB2ABA136D /* PBXTargetDependency */,
+			);
+			name = SlowThemDownTests;
+			packageProductDependencies = (
+			);
+			productName = SlowThemDownTests;
+			productReference = DA91F0D74A259424327732A9 /* SlowThemDownTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		DCB50EEC289C786B87CA6E9F /* SlowThemDown */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B99B5E7FC1F4683EFE9FE972 /* Build configuration list for PBXNativeTarget "SlowThemDown" */;
+			buildPhases = (
+				0169675ED888E332D5FDEF3B /* Sources */,
+				519DD97D07C33CFAAA07304A /* Resources */,
+				E3EAA245F76966D149B0B5C8 /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -277,44 +311,30 @@
 			);
 			name = SlowThemDown;
 			packageProductDependencies = (
+				A67C08CFE7688D9903E5F52D /* FirebaseCrashlytics */,
 			);
 			productName = SlowThemDown;
-			productReference = 4D3F960D1F9CD7B79DF4B5D0 /* SlowThemDown.app */;
+			productReference = 94075604E995DB222B335641 /* SlowThemDown.app */;
 			productType = "com.apple.product-type.application";
-		};
-		8510B79B6373AAF2006E8AE0 /* SlowThemDownTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 41EB1B15DFCD408287F04E7F /* Build configuration list for PBXNativeTarget "SlowThemDownTests" */;
-			buildPhases = (
-				930038B2081FB6A5F25E85B2 /* Sources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				84CB3EC7C836D4C19F57B80D /* PBXTargetDependency */,
-			);
-			name = SlowThemDownTests;
-			packageProductDependencies = (
-			);
-			productName = SlowThemDownTests;
-			productReference = 1676CA770ED3A6EE7554B8A7 /* SlowThemDownTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		0A844DFCC7D90E81C054A51F /* Project object */ = {
+		0FA8946B309B13CB255BB096 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1500;
 				TargetAttributes = {
-					8510B79B6373AAF2006E8AE0 = {
+					C2A39E836AB4E8F8E4F6EDF1 = {
+						DevelopmentTeam = "";
+					};
+					DCB50EEC289C786B87CA6E9F = {
 						DevelopmentTeam = "";
 					};
 				};
 			};
-			buildConfigurationList = D805152267FDECE4DCFEE38C /* Build configuration list for PBXProject "SlowThemDown" */;
+			buildConfigurationList = FE2F99369445CFBDF22F587E /* Build configuration list for PBXProject "SlowThemDown" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -322,140 +342,112 @@
 				Base,
 				en,
 			);
-			mainGroup = 72E8893325DF86EFD871E51A;
+			mainGroup = 3625E5F3A75A9B763B8C8403;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				501F78BA21A8D46E187067B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+			);
+			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				06EC93AD269E9AE36A5AC746 /* SlowThemDown */,
-				8510B79B6373AAF2006E8AE0 /* SlowThemDownTests */,
+				DCB50EEC289C786B87CA6E9F /* SlowThemDown */,
+				C2A39E836AB4E8F8E4F6EDF1 /* SlowThemDownTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		D9013389AB1FC58DA0D5FCEC /* Resources */ = {
+		519DD97D07C33CFAAA07304A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6E3EFD7529A2A551C85E98AA /* Assets.xcassets in Resources */,
+				8ABB751F1EBE1C3D120B297E /* Assets.xcassets in Resources */,
+				2E17E8003FDC96F0AEB72B2F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		71B84F8D67515930EE7DE839 /* Sources */ = {
+		0169675ED888E332D5FDEF3B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2494DD15E99DA31EBC6C853 /* CalibrateView.swift in Sources */,
-				AEE5E9F1014FB5DF86235F65 /* Calibration.swift in Sources */,
-				5F83FC68B519B12F37168B00 /* CalibrationViewModel.swift in Sources */,
-				8476D7734E6AAEBAF8B10CA6 /* CaptureView.swift in Sources */,
-				E9BF2C29F282081DE76D76B0 /* CaptureViewModel.swift in Sources */,
-				499D85C05EDF14155F18497E /* ContentView.swift in Sources */,
-				333D3FC00370C57191A68207 /* CoordinateMapper.swift in Sources */,
-				270071BFE4F0935628F51ECD /* DirectionPicker.swift in Sources */,
-				01E0A4CA2036226C253F9BB1 /* FrameMarkerView.swift in Sources */,
-				FBFFDF5152E61D853A7BADE6 /* FrameSelectorView.swift in Sources */,
-				FC8D0CD509CA5B797D652D66 /* HapticManager.swift in Sources */,
-				1E2037461F4725FE112A6789 /* ImageMarkerOverlay.swift in Sources */,
-				B3F40B691A4965F2819B1608 /* LocationManager.swift in Sources */,
-				9104D4A2392996CF51EF2D44 /* LogView.swift in Sources */,
-				DB52857F20445E4FBBD6953A /* LogViewModel.swift in Sources */,
-				55126D7116238936F2E3499A /* MetricCard.swift in Sources */,
-				BD88C0CFB61717FF56DA45A0 /* OnboardingView.swift in Sources */,
-				D263CF5BEF68F353E468EE4F /* ReportExporter.swift in Sources */,
-				F3E2A2A34D91CDB86D4F6312 /* ReportView.swift in Sources */,
-				C01229A4FE6B452AA7CEB6CF /* ReportViewModel.swift in Sources */,
-				FA9380EAFAF43A59CD314EFC /* RoadStandards.swift in Sources */,
-				E890140F3AD6484B2E338961 /* SeedData.swift in Sources */,
-				80B13B487F34D3B6CBF1FC96 /* SlowThemDownApp.swift in Sources */,
-				7C1FBC89321E16CE10215FC8 /* SpeedBadge.swift in Sources */,
-				8CB96CF489D2A17E05CBF8AC /* SpeedCalculator.swift in Sources */,
-				5BE06A54090A6783BAE57517 /* SpeedEntry.swift in Sources */,
-				C37F26DB693FF94A56BD05DE /* SpeedResultView.swift in Sources */,
-				393B1301AF778C861DD3C3BF /* V85CardView.swift in Sources */,
-				36228288005F49C791C71236 /* VehicleRefPicker.swift in Sources */,
-				6A8F5973C5019DC6A70C9736 /* VehicleReferences.swift in Sources */,
-				720160646B2B7CE17E9095B2 /* VehicleTypePicker.swift in Sources */,
-				6088D4AD17C5682306077A13 /* VideoFrameExtractor.swift in Sources */,
-				A42509DAED6C9A9778F83B8F /* VideoRecorderView.swift in Sources */,
+				76381DFE4367C6DD04C49370 /* CalibrateView.swift in Sources */,
+				EEC9E1AE25849A62B23422E2 /* Calibration.swift in Sources */,
+				AAF94F9C62F917053502B4FC /* CalibrationViewModel.swift in Sources */,
+				481F235545802BDB2DEB7F04 /* CaptureView.swift in Sources */,
+				6993C91BBBD30C25397E2E97 /* CaptureViewModel.swift in Sources */,
+				FD201CBE8475788813EE1170 /* ContentView.swift in Sources */,
+				FB21F5AFF2633032B37C99E8 /* CoordinateMapper.swift in Sources */,
+				0527545F311F1FCB2DD677FF /* DirectionPicker.swift in Sources */,
+				9D90D07295F60731E756296B /* FrameMarkerView.swift in Sources */,
+				4708EE1D9301544078EFC179 /* FrameSelectorView.swift in Sources */,
+				3A3D0583304474BB745FF850 /* HapticManager.swift in Sources */,
+				47679D062CCAEE688214451C /* ImageMarkerOverlay.swift in Sources */,
+				CEE57FC771538ACA7AB491E2 /* LocationManager.swift in Sources */,
+				380066D4220359B3E26E9135 /* LogView.swift in Sources */,
+				963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */,
+				B768B8104C52646D07CCEF63 /* MetricCard.swift in Sources */,
+				F971C8DA4A433A2A1A5919DA /* OnboardingView.swift in Sources */,
+				D64F47A1B351D661B181B412 /* ReportExporter.swift in Sources */,
+				0CE36F0352225E986F522204 /* ReportView.swift in Sources */,
+				D559C2833DAEA0A1A8E703A0 /* ReportViewModel.swift in Sources */,
+				BECB0CB5E8CFD15497B552A0 /* RoadStandards.swift in Sources */,
+				B237C60C5A10B288DE8C61D0 /* SeedData.swift in Sources */,
+				AB21F28C8685E981D80482F8 /* SlowThemDownApp.swift in Sources */,
+				BB3F77A8FF7D126D61FCAB3A /* SpeedBadge.swift in Sources */,
+				D80825B5E85170131ECB736F /* SpeedCalculator.swift in Sources */,
+				7378C09EF250D91EA696F08C /* SpeedEntry.swift in Sources */,
+				B65AA162CF531F2AC12F11D2 /* SpeedResultView.swift in Sources */,
+				061A6B6DDB19F6A8E282EC99 /* V85CardView.swift in Sources */,
+				3EB111093E4A7C1D7C4D5D7B /* VehicleRefPicker.swift in Sources */,
+				E4021A1464CAE25D17616D05 /* VehicleReferences.swift in Sources */,
+				29D27B345A29324C2E785C03 /* VehicleTypePicker.swift in Sources */,
+				02868A62977FC1F7E2CEE496 /* VideoFrameExtractor.swift in Sources */,
+				086E72CF0D34F8524ECF1DC8 /* VideoRecorderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		930038B2081FB6A5F25E85B2 /* Sources */ = {
+		94FDD8B040EAD214D4BFF4AF /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FA02A8015FC3CF96B9C0D74A /* CoordinateMapperTests.swift in Sources */,
-				EB55E4C8D38D18A024E57937 /* SpeedCalculatorTests.swift in Sources */,
+				447E1E645094437D0BF67CC0 /* CoordinateMapperTests.swift in Sources */,
+				396076A4A0AE55019A2330D8 /* SpeedCalculatorTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		84CB3EC7C836D4C19F57B80D /* PBXTargetDependency */ = {
+		0D0C480DDADB17BB2ABA136D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 06EC93AD269E9AE36A5AC746 /* SlowThemDown */;
-			targetProxy = B55FDCAED47494EBD7BA09E2 /* PBXContainerItemProxy */;
+			target = DCB50EEC289C786B87CA6E9F /* SlowThemDown */;
+			targetProxy = A3C5880531263C971D4DEFCC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		21B5819A290FC65B2B134C02 /* Release */ = {
+		23FBF14BBCF2442950C79874 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = USDFZ2X72H;
+				BUNDLE_LOADER = "$(TEST_HOST)";
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCameraUsageDescription = "SlowThemDown needs camera access to record vehicles for speed estimation.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowThemDown uses your location to tag speed measurements with street addresses.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SlowThemDown needs photo library access to import video clips.";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.SlowThemDownTests;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		2C0CEE1342CFE172D0B488C4 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = USDFZ2X72H;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
-				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSCameraUsageDescription = "SlowThemDown needs camera access to record vehicles for speed estimation.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "SlowThemDown uses your location to tag speed measurements with street addresses.";
-				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "SlowThemDown needs photo library access to import video clips.";
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
-				MARKETING_VERSION = 1.0.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.app;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SlowThemDown.app/SlowThemDown";
 			};
 			name = Debug;
 		};
-		3197EB2A4749C94C9E1B6E5B /* Release */ = {
+		8F07E7A148C42F2715DB55F8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
@@ -472,7 +464,31 @@
 			};
 			name = Release;
 		};
-		415080842CF5F3A051C92144 /* Debug */ = {
+		C763C5A769241EF8F0F75E4E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Slow Them Down needs photo library access to import video clips.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D99BC2383F207DDB8A9AC955 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -536,24 +552,7 @@
 			};
 			name = Debug;
 		};
-		8B5771D48F9BA68C16D5153A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				GENERATE_INFOPLIST_FILE = YES;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.SlowThemDownTests;
-				SDKROOT = iphoneos;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SlowThemDown.app/SlowThemDown";
-			};
-			name = Debug;
-		};
-		C1352975B5441E6CB5C772B0 /* Release */ = {
+		DB7FDBF98CA9C33F08EA3D4A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -610,37 +609,80 @@
 			};
 			name = Release;
 		};
+		FA3E4E050099C7F69437D36B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
+				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
+				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Slow Them Down needs photo library access to import video clips.";
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.app;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		41EB1B15DFCD408287F04E7F /* Build configuration list for PBXNativeTarget "SlowThemDownTests" */ = {
+		2B3EFE655AD87CF6DC87FF35 /* Build configuration list for PBXNativeTarget "SlowThemDownTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8B5771D48F9BA68C16D5153A /* Debug */,
-				3197EB2A4749C94C9E1B6E5B /* Release */,
+				23FBF14BBCF2442950C79874 /* Debug */,
+				8F07E7A148C42F2715DB55F8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		A867473AEA3C4140E8C6D60D /* Build configuration list for PBXNativeTarget "SlowThemDown" */ = {
+		B99B5E7FC1F4683EFE9FE972 /* Build configuration list for PBXNativeTarget "SlowThemDown" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				2C0CEE1342CFE172D0B488C4 /* Debug */,
-				21B5819A290FC65B2B134C02 /* Release */,
+				C763C5A769241EF8F0F75E4E /* Debug */,
+				FA3E4E050099C7F69437D36B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
-		D805152267FDECE4DCFEE38C /* Build configuration list for PBXProject "SlowThemDown" */ = {
+		FE2F99369445CFBDF22F587E /* Build configuration list for PBXProject "SlowThemDown" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				415080842CF5F3A051C92144 /* Debug */,
-				C1352975B5441E6CB5C772B0 /* Release */,
+				D99BC2383F207DDB8A9AC955 /* Debug */,
+				DB7FDBF98CA9C33F08EA3D4A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		501F78BA21A8D46E187067B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 11.7.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A67C08CFE7688D9903E5F52D /* FirebaseCrashlytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 501F78BA21A8D46E187067B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseCrashlytics;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
-	rootObject = 0A844DFCC7D90E81C054A51F /* Project object */;
+	rootObject = 0FA8946B309B13CB255BB096 /* Project object */;
 }

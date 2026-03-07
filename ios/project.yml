@@ -8,7 +8,7 @@ options:
 packages:
   FirebaseCrashlytics:
     url: https://github.com/firebase/firebase-ios-sdk
-    version: "11.7.0"
+    from: "11.7.0"
 settings:
   base:
     SWIFT_VERSION: "5.9"
