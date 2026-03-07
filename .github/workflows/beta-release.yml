@@ -178,10 +178,9 @@ jobs:
             -skipPackagePluginValidation \
             MARKETING_VERSION=$VERSION \
             CURRENT_PROJECT_VERSION=$BUILD_NUMBER \
-            CODE_SIGN_STYLE=Manual \
             DEVELOPMENT_TEAM=${{ secrets.APPLE_TEAM_ID }} \
             CODE_SIGN_IDENTITY="Apple Distribution" \
-            PROVISIONING_PROFILE_SPECIFIER="${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}"
+            PROVISIONING_PROFILE_SPECIFIER_OVERRIDE="${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}"
 
       - name: Export IPA
         run: |

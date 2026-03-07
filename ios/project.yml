@@ -34,6 +34,11 @@ targets:
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Slow Them Down uses your location to tag speed measurements with street addresses."
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
+        CODE_SIGN_STYLE: "Automatic"
+      configs:
+        Release:
+          CODE_SIGN_STYLE: "Manual"
+          PROVISIONING_PROFILE_SPECIFIER: "$(PROVISIONING_PROFILE_SPECIFIER_OVERRIDE)"
   SlowThemDownTests:
     type: bundle.unit-test
     platform: iOS
