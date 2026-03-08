@@ -8,6 +8,7 @@ import com.slowthemdown.android.data.datastore.Calibration
 import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.data.db.SpeedEntryEntity
+import com.slowthemdown.android.service.HapticManager
 import com.slowthemdown.android.service.LocationService
 import com.slowthemdown.android.service.VideoFrameExtractor
 import com.slowthemdown.shared.calculator.CoordinateMapper
@@ -45,6 +46,7 @@ class CaptureViewModel @Inject constructor(
     private val locationService: LocationService,
     private val calibrationStore: CalibrationStore,
     private val speedEntryDao: SpeedEntryDao,
+    private val hapticManager: HapticManager,
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CaptureFlowState.SELECT_SOURCE)
@@ -156,10 +158,12 @@ class CaptureViewModel @Inject constructor(
 
     fun addMarkerFrame1(viewPoint: Point, viewSize: Size) {
         _frame1Marker.value = CoordinateMapper.viewToImage(viewPoint, viewSize, videoSize)
+        hapticManager.impact(HapticManager.ImpactStyle.MEDIUM)
     }
 
     fun addMarkerFrame2(viewPoint: Point, viewSize: Size) {
         _frame2Marker.value = CoordinateMapper.viewToImage(viewPoint, viewSize, videoSize)
+        hapticManager.impact(HapticManager.ImpactStyle.MEDIUM)
     }
 
     fun advanceToMarkFrame2() { _state.value = CaptureFlowState.MARK_FRAME2 }
@@ -176,6 +180,7 @@ class CaptureViewModel @Inject constructor(
         val imagePoint = CoordinateMapper.viewToImage(viewPoint, viewSize, videoSize)
         val current = _vehicleRefMarkers.value
         _vehicleRefMarkers.value = if (current.size >= 2) listOf(imagePoint) else current + imagePoint
+        hapticManager.impact(HapticManager.ImpactStyle.LIGHT)
     }
 
     fun calculateSpeed() {
@@ -240,6 +245,7 @@ class CaptureViewModel @Inject constructor(
                 longitude = location?.longitude,
             )
             speedEntryDao.insert(entry)
+            hapticManager.notification(HapticManager.NotificationType.SUCCESS)
             reset()
         }
     }

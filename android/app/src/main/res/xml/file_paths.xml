@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <paths>
     <cache-path name="video_cache" path="videos/" />
+    <cache-path name="reports" path="." />
 </paths>
