@@ -329,9 +329,6 @@
 					C2A39E836AB4E8F8E4F6EDF1 = {
 						DevelopmentTeam = "";
 					};
-					DCB50EEC289C786B87CA6E9F = {
-						DevelopmentTeam = "";
-					};
 				};
 			};
 			buildConfigurationList = FE2F99369445CFBDF22F587E /* Build configuration list for PBXProject "SlowThemDown" */;
@@ -614,10 +611,11 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "$(CODE_SIGN_IDENTITY_OVERRIDE)";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM_OVERRIDE)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";

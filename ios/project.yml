@@ -38,6 +38,8 @@ targets:
       configs:
         Release:
           CODE_SIGN_STYLE: "Manual"
+          CODE_SIGN_IDENTITY: "$(CODE_SIGN_IDENTITY_OVERRIDE)"
+          DEVELOPMENT_TEAM: "$(DEVELOPMENT_TEAM_OVERRIDE)"
           PROVISIONING_PROFILE_SPECIFIER: "$(PROVISIONING_PROFILE_SPECIFIER_OVERRIDE)"
   SlowThemDownTests:
     type: bundle.unit-test
