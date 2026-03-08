@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slowthemdown.android.data.datastore.Calibration
 import com.slowthemdown.android.data.datastore.CalibrationStore
+import com.slowthemdown.android.service.HapticManager
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
@@ -25,6 +26,7 @@ import javax.inject.Inject
 @HiltViewModel
 class CalibrationViewModel @Inject constructor(
     private val calibrationStore: CalibrationStore,
+    private val hapticManager: HapticManager,
 ) : ViewModel() {
 
     val calibration: StateFlow<Calibration> = calibrationStore.calibration
@@ -80,6 +82,7 @@ class CalibrationViewModel @Inject constructor(
         val imagePoint = CoordinateMapper.viewToImage(viewPoint, viewSize, _imageSize.value)
         val current = _markers.value
         _markers.value = if (current.size >= 2) listOf(imagePoint) else current + imagePoint
+        hapticManager.impact(HapticManager.ImpactStyle.MEDIUM)
     }
 
     fun saveCalibration() {
@@ -104,6 +107,7 @@ class CalibrationViewModel @Inject constructor(
                     vehicleReferenceName = _selectedVehicleRef.value?.name,
                 )
             )
+            hapticManager.notification(HapticManager.NotificationType.SUCCESS)
         }
     }
 

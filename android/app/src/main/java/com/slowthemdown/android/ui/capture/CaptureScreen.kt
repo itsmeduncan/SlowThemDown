@@ -4,17 +4,39 @@ import android.Manifest
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExposedDropdownMenuBox
+import androidx.compose.material3.ExposedDropdownMenuDefaults
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MenuAnchorType
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -23,12 +45,36 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.PathEffect
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.drawText
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.rememberTextMeasurer
+import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.slowthemdown.android.service.HapticManager
 import com.slowthemdown.android.viewmodel.CaptureFlowState
 import com.slowthemdown.android.viewmodel.CaptureViewModel
+import com.slowthemdown.shared.calculator.CoordinateMapper
+import com.slowthemdown.shared.calculator.Point
+import com.slowthemdown.shared.calculator.Size
+import com.slowthemdown.shared.model.RoadStandards
+import com.slowthemdown.shared.model.SpeedCategory
+import com.slowthemdown.shared.model.TravelDirection
+import com.slowthemdown.shared.model.VehicleCategory
+import com.slowthemdown.shared.model.VehicleReferences
+import com.slowthemdown.shared.model.VehicleType
 import java.io.File
 
 @Composable
@@ -48,6 +94,7 @@ fun CaptureScreen(viewModel: CaptureViewModel = hiltViewModel()) {
 @Composable
 private fun SelectSourceContent(viewModel: CaptureViewModel) {
     val context = LocalContext.current
+    val calibration by viewModel.calibration.collectAsState()
 
     val videoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -82,7 +129,9 @@ private fun SelectSourceContent(viewModel: CaptureViewModel) {
     }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -90,7 +139,37 @@ private fun SelectSourceContent(viewModel: CaptureViewModel) {
             text = "Capture Speed",
             style = MaterialTheme.typography.headlineLarge,
         )
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Calibration status warning
+        if (!calibration.isValid) {
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFFFFC107).copy(alpha = 0.15f)
+                ),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Row(
+                    modifier = Modifier.padding(12.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Icon(
+                        Icons.Default.Warning,
+                        contentDescription = null,
+                        tint = Color(0xFFFFC107),
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(
+                        "Not calibrated. Use a vehicle reference or calibrate first.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFFFFC107),
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+        }
+
+        Spacer(modifier = Modifier.height(16.dp))
         Button(
             onClick = { videoPickerLauncher.launch("video/*") },
             modifier = Modifier.fillMaxWidth(),
@@ -112,9 +191,13 @@ private fun FrameSelectorContent(viewModel: CaptureViewModel) {
     val duration by viewModel.videoDurationSeconds.collectAsState()
     val t1 by viewModel.frame1Time.collectAsState()
     val t2 by viewModel.frame2Time.collectAsState()
+    val timeDelta = kotlin.math.abs(t2 - t1)
+    val canExtract = timeDelta >= 0.01
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text("Select Frames", style = MaterialTheme.typography.headlineMedium)
@@ -131,17 +214,54 @@ private fun FrameSelectorContent(viewModel: CaptureViewModel) {
             onValueChange = { viewModel.setFrame2Time(it.toDouble()) },
             valueRange = 0f..duration.toFloat(),
         )
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            "Time delta: %.3fs".format(timeDelta),
+            style = MaterialTheme.typography.bodySmall,
+            color = if (canExtract) MaterialTheme.colorScheme.onSurfaceVariant
+            else MaterialTheme.colorScheme.error,
+        )
+        if (!canExtract) {
+            Text(
+                "Frames must be at least 10ms apart",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.error,
+            )
+        }
         Spacer(modifier = Modifier.height(24.dp))
-        Button(onClick = { viewModel.extractFrames() }) {
+        Button(
+            onClick = { viewModel.extractFrames() },
+            enabled = canExtract,
+        ) {
             Text("Extract Frames")
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        TextButton(onClick = { viewModel.reset() }) {
+            Text("Cancel")
         }
     }
 }
 
 @Composable
 private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
+    val frame1Image by viewModel.frame1Image.collectAsState()
+    val frame2Image by viewModel.frame2Image.collectAsState()
+    val frame1Marker by viewModel.frame1Marker.collectAsState()
+    val frame2Marker by viewModel.frame2Marker.collectAsState()
+    val useVehicleRef by viewModel.useVehicleReference.collectAsState()
+    val selectedVehicleRef by viewModel.selectedVehicleRef.collectAsState()
+    val vehicleRefMarkers by viewModel.vehicleRefMarkers.collectAsState()
+
+    val bitmap = if (frameNumber == 1) frame1Image else frame2Image
+    val marker = if (frameNumber == 1) frame1Marker else frame2Marker
+    val markerColor = if (frameNumber == 1) Color(0xFF42A5F5) else Color(0xFFFF9800)
+    val hasMarker = marker != null
+
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
@@ -149,45 +269,468 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
             style = MaterialTheme.typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(8.dp))
-        Text("Tap the vehicle position on Frame $frameNumber")
+        Text(
+            "Tap the vehicle position on Frame $frameNumber",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
         Spacer(modifier = Modifier.height(16.dp))
-        // TODO: Image display with tap-to-mark overlay
-        Text("(Frame image and marker overlay will be rendered here)")
+
+        if (bitmap != null) {
+            FrameImageWithMarker(
+                bitmap = bitmap!!,
+                marker = marker,
+                markerColor = markerColor,
+                frameNumber = frameNumber,
+                onTap = { viewPoint, viewSize ->
+                    if (frameNumber == 1) viewModel.addMarkerFrame1(viewPoint, viewSize)
+                    else viewModel.addMarkerFrame2(viewPoint, viewSize)
+                },
+            )
+        } else {
+            Text(
+                "(Frame not available)",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+
+        // Vehicle reference section on Frame 1
+        if (frameNumber == 1) {
+            Spacer(modifier = Modifier.height(16.dp))
+            VehicleReferenceSection(viewModel)
+        }
+
+        // Vehicle reference markers on frame 1
+        if (frameNumber == 1 && useVehicleRef && bitmap != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            VehicleRefMarkerOverlay(
+                bitmap = bitmap!!,
+                markers = vehicleRefMarkers,
+                selectedRef = selectedVehicleRef,
+                onTap = { viewPoint, viewSize -> viewModel.addVehicleRefMarker(viewPoint, viewSize) },
+            )
+        }
+
         Spacer(modifier = Modifier.height(24.dp))
         if (frameNumber == 1) {
-            Button(onClick = { viewModel.advanceToMarkFrame2() }) {
+            Button(
+                onClick = { viewModel.advanceToMarkFrame2() },
+                enabled = hasMarker,
+            ) {
                 Text("Next: Mark Frame 2")
             }
         } else {
-            Button(onClick = { viewModel.calculateSpeed() }) {
+            Button(
+                onClick = { viewModel.calculateSpeed() },
+                enabled = hasMarker,
+            ) {
                 Text("Calculate Speed")
+            }
+        }
+        Spacer(modifier = Modifier.height(8.dp))
+        TextButton(onClick = { viewModel.reset() }) {
+            Text("Cancel")
+        }
+    }
+}
+
+@Composable
+private fun FrameImageWithMarker(
+    bitmap: android.graphics.Bitmap,
+    marker: Point?,
+    markerColor: Color,
+    frameNumber: Int,
+    onTap: (Point, Size) -> Unit,
+) {
+    val imageBitmap = remember(bitmap) { bitmap.asImageBitmap() }
+    val textMeasurer = rememberTextMeasurer()
+    var canvasSize by remember { mutableStateOf(IntSize.Zero) }
+
+    val aspectRatio = if (bitmap.height > 0) {
+        bitmap.width.toFloat() / bitmap.height.toFloat()
+    } else {
+        16f / 9f
+    }
+    val imageSize = Size(bitmap.width.toDouble(), bitmap.height.toDouble())
+
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .aspectRatio(aspectRatio, matchHeightConstraintsFirst = false)
+            .onSizeChanged { canvasSize = it }
+            .pointerInput(Unit) {
+                detectTapGestures { offset ->
+                    val viewSize = Size(canvasSize.width.toDouble(), canvasSize.height.toDouble())
+                    onTap(Point(offset.x.toDouble(), offset.y.toDouble()), viewSize)
+                }
+            },
+    ) {
+        Canvas(modifier = Modifier.fillMaxSize()) {
+            drawImage(
+                image = imageBitmap,
+                dstSize = IntSize(size.width.toInt(), size.height.toInt()),
+            )
+
+            marker?.let { imagePoint ->
+                val viewSize = Size(size.width.toDouble(), size.height.toDouble())
+                val vp = CoordinateMapper.imageToView(imagePoint, viewSize, imageSize)
+                val center = Offset(vp.x.toFloat(), vp.y.toFloat())
+
+                drawCircle(color = markerColor, radius = 14f, center = center)
+                drawCircle(
+                    color = Color.White,
+                    radius = 14f,
+                    center = center,
+                    style = Stroke(width = 2f),
+                )
+
+                val label = "$frameNumber"
+                val textResult = textMeasurer.measure(
+                    label,
+                    style = TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White),
+                )
+                drawText(
+                    textResult,
+                    topLeft = Offset(
+                        center.x - textResult.size.width / 2f,
+                        center.y - textResult.size.height / 2f,
+                    ),
+                )
             }
         }
     }
 }
 
 @Composable
+private fun VehicleReferenceSection(viewModel: CaptureViewModel) {
+    val useVehicleRef by viewModel.useVehicleReference.collectAsState()
+    val selectedRef by viewModel.selectedVehicleRef.collectAsState()
+    var showPicker by remember { mutableStateOf(false) }
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        androidx.compose.material3.Checkbox(
+            checked = useVehicleRef,
+            onCheckedChange = { viewModel.setUseVehicleReference(it) },
+        )
+        Text(
+            "Use vehicle reference instead of calibration",
+            style = MaterialTheme.typography.bodyMedium,
+        )
+    }
+
+    if (useVehicleRef) {
+        Spacer(modifier = Modifier.height(8.dp))
+        OutlinedButton(onClick = { showPicker = true }) {
+            Text(selectedRef?.let { "${it.name} (${it.lengthFeet} ft)" } ?: "Select Vehicle")
+        }
+
+        DropdownMenu(
+            expanded = showPicker,
+            onDismissRequest = { showPicker = false },
+        ) {
+            VehicleReferences.byCategory().forEach { (category, vehicles) ->
+                DropdownMenuItem(
+                    text = {
+                        Text(
+                            category.label,
+                            style = MaterialTheme.typography.labelMedium,
+                            color = MaterialTheme.colorScheme.primary,
+                        )
+                    },
+                    onClick = {},
+                    enabled = false,
+                )
+                vehicles.forEach { vehicle ->
+                    DropdownMenuItem(
+                        text = {
+                            Text("  ${vehicle.name} (${vehicle.lengthFeet} ft)")
+                        },
+                        onClick = {
+                            viewModel.setSelectedVehicleRef(vehicle)
+                            showPicker = false
+                        },
+                    )
+                }
+            }
+        }
+
+        if (selectedRef != null) {
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                "Tap the front and back of the vehicle on the frame above to mark its length",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
+    }
+}
+
+@Composable
+private fun VehicleRefMarkerOverlay(
+    bitmap: android.graphics.Bitmap,
+    markers: List<Point>,
+    selectedRef: com.slowthemdown.shared.model.VehicleReference?,
+    onTap: (Point, Size) -> Unit,
+) {
+    val imageBitmap = remember(bitmap) { bitmap.asImageBitmap() }
+    val textMeasurer = rememberTextMeasurer()
+    var canvasSize by remember { mutableStateOf(IntSize.Zero) }
+    val accentColor = Color(0xFF4CAF50)
+    val imageSize = Size(bitmap.width.toDouble(), bitmap.height.toDouble())
+
+    val aspectRatio = if (bitmap.height > 0) {
+        bitmap.width.toFloat() / bitmap.height.toFloat()
+    } else {
+        16f / 9f
+    }
+
+    Column(horizontalAlignment = Alignment.CenterHorizontally) {
+        Text(
+            "Mark vehicle ends (${selectedRef?.name ?: "vehicle"})",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Spacer(modifier = Modifier.height(4.dp))
+
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+                .aspectRatio(aspectRatio, matchHeightConstraintsFirst = false)
+                .onSizeChanged { canvasSize = it }
+                .pointerInput(Unit) {
+                    detectTapGestures { offset ->
+                        val viewSize = Size(canvasSize.width.toDouble(), canvasSize.height.toDouble())
+                        onTap(Point(offset.x.toDouble(), offset.y.toDouble()), viewSize)
+                    }
+                },
+        ) {
+            Canvas(modifier = Modifier.fillMaxSize()) {
+                drawImage(
+                    image = imageBitmap,
+                    dstSize = IntSize(size.width.toInt(), size.height.toInt()),
+                )
+
+                val viewSize = Size(size.width.toDouble(), size.height.toDouble())
+
+                if (markers.size == 2) {
+                    val p1 = CoordinateMapper.imageToView(markers[0], viewSize, imageSize)
+                    val p2 = CoordinateMapper.imageToView(markers[1], viewSize, imageSize)
+                    drawLine(
+                        color = accentColor,
+                        start = Offset(p1.x.toFloat(), p1.y.toFloat()),
+                        end = Offset(p2.x.toFloat(), p2.y.toFloat()),
+                        strokeWidth = 2f,
+                        pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 6f)),
+                    )
+                }
+
+                markers.forEachIndexed { index, imagePoint ->
+                    val vp = CoordinateMapper.imageToView(imagePoint, viewSize, imageSize)
+                    val center = Offset(vp.x.toFloat(), vp.y.toFloat())
+
+                    drawCircle(color = accentColor, radius = 12f, center = center)
+                    drawCircle(
+                        color = Color.White,
+                        radius = 12f,
+                        center = center,
+                        style = Stroke(width = 2f),
+                    )
+
+                    val label = if (index == 0) "F" else "B"
+                    val textResult = textMeasurer.measure(
+                        label,
+                        style = TextStyle(fontSize = 10.sp, fontWeight = FontWeight.Bold, color = Color.White),
+                    )
+                    drawText(
+                        textResult,
+                        topLeft = Offset(
+                            center.x - textResult.size.width / 2f,
+                            center.y - textResult.size.height / 2f,
+                        ),
+                    )
+                }
+            }
+        }
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
 private fun SpeedResultContent(viewModel: CaptureViewModel) {
     val speed by viewModel.calculatedSpeed.collectAsState()
+    val speedLimit by viewModel.speedLimit.collectAsState()
+    val vehicleType by viewModel.vehicleType.collectAsState()
+    val direction by viewModel.direction.collectAsState()
+    val streetName by viewModel.streetName.collectAsState()
+    val notes by viewModel.notes.collectAsState()
+
+    val category = SpeedCategory.fromSpeed(speed, speedLimit)
+    val speedColor = when (category) {
+        SpeedCategory.UNDER_LIMIT -> Color(0xFF4CAF50)
+        SpeedCategory.MARGINAL -> Color(0xFFFFC107)
+        SpeedCategory.OVER_LIMIT -> MaterialTheme.colorScheme.error
+    }
+
+    var speedLimitExpanded by remember { mutableStateOf(false) }
+    var vehicleTypeExpanded by remember { mutableStateOf(false) }
+    var directionExpanded by remember { mutableStateOf(false) }
 
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
     ) {
         Text("Estimated Speed", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            "%.1f MPH".format(speed),
-            style = MaterialTheme.typography.displayLarge,
-            color = MaterialTheme.colorScheme.primary,
+            "%.1f".format(speed),
+            style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
+            color = speedColor,
         )
-        Spacer(modifier = Modifier.height(32.dp))
-        Button(onClick = { viewModel.saveEntry() }) {
-            Text("Save Entry")
+        Text(
+            "MPH",
+            style = MaterialTheme.typography.titleMedium,
+            color = speedColor,
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        // Speed limit picker
+        ExposedDropdownMenuBox(
+            expanded = speedLimitExpanded,
+            onExpandedChange = { speedLimitExpanded = it },
+        ) {
+            OutlinedTextField(
+                value = "$speedLimit mph",
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Speed Limit") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = speedLimitExpanded) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            )
+            ExposedDropdownMenu(
+                expanded = speedLimitExpanded,
+                onDismissRequest = { speedLimitExpanded = false },
+            ) {
+                RoadStandards.speedLimits.forEach { limit ->
+                    DropdownMenuItem(
+                        text = { Text("$limit mph") },
+                        onClick = {
+                            viewModel.setSpeedLimit(limit)
+                            speedLimitExpanded = false
+                        },
+                    )
+                }
+            }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedButton(onClick = { viewModel.reset() }) {
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Vehicle type picker
+        ExposedDropdownMenuBox(
+            expanded = vehicleTypeExpanded,
+            onExpandedChange = { vehicleTypeExpanded = it },
+        ) {
+            OutlinedTextField(
+                value = vehicleType.label,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Vehicle Type") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = vehicleTypeExpanded) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            )
+            ExposedDropdownMenu(
+                expanded = vehicleTypeExpanded,
+                onDismissRequest = { vehicleTypeExpanded = false },
+            ) {
+                VehicleType.entries.forEach { type ->
+                    DropdownMenuItem(
+                        text = { Text(type.label) },
+                        onClick = {
+                            viewModel.setVehicleType(type)
+                            vehicleTypeExpanded = false
+                        },
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Direction picker
+        ExposedDropdownMenuBox(
+            expanded = directionExpanded,
+            onExpandedChange = { directionExpanded = it },
+        ) {
+            OutlinedTextField(
+                value = direction.label,
+                onValueChange = {},
+                readOnly = true,
+                label = { Text("Direction") },
+                trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = directionExpanded) },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+            )
+            ExposedDropdownMenu(
+                expanded = directionExpanded,
+                onDismissRequest = { directionExpanded = false },
+            ) {
+                TravelDirection.entries.forEach { dir ->
+                    DropdownMenuItem(
+                        text = { Text(dir.label) },
+                        onClick = {
+                            viewModel.setDirection(dir)
+                            directionExpanded = false
+                        },
+                    )
+                }
+            }
+        }
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Street name
+        OutlinedTextField(
+            value = streetName,
+            onValueChange = { viewModel.setStreetName(it) },
+            label = { Text("Street Name") },
+            modifier = Modifier.fillMaxWidth(),
+            singleLine = true,
+        )
+
+        Spacer(modifier = Modifier.height(12.dp))
+
+        // Notes
+        OutlinedTextField(
+            value = notes,
+            onValueChange = { viewModel.setNotes(it) },
+            label = { Text("Notes (optional)") },
+            modifier = Modifier.fillMaxWidth(),
+            minLines = 2,
+            maxLines = 4,
+        )
+
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Button(
+            onClick = { viewModel.saveEntry() },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Save to Log")
+        }
+        Spacer(modifier = Modifier.height(12.dp))
+        OutlinedButton(
+            onClick = { viewModel.reset() },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
             Text("Discard")
         }
     }
@@ -196,7 +739,9 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
 @Composable
 private fun RecordingContent(viewModel: CaptureViewModel) {
     Column(
-        modifier = Modifier.fillMaxSize().padding(24.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
