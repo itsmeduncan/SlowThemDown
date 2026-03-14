@@ -9,6 +9,7 @@ import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.data.db.SpeedEntryEntity
 import com.slowthemdown.android.service.ReportExporter
 import com.slowthemdown.shared.calculator.SpeedCalculator
+import com.slowthemdown.shared.model.RoadStandards
 import com.slowthemdown.shared.model.TrafficStats
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -88,6 +89,14 @@ class ReportViewModel @Inject constructor(
             entries.map { ScatterPoint(it.timestamp, it.speedMPH) }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val mostCommonSpeedLimit: StateFlow<Int> = dao.getAllEntries()
+        .map { entries ->
+            if (entries.isEmpty()) RoadStandards.defaultSpeedLimit
+            else entries.groupingBy { it.speedLimit }.eachCount()
+                .maxByOrNull { it.value }?.key ?: RoadStandards.defaultSpeedLimit
+        }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), RoadStandards.defaultSpeedLimit)
 
     private val _exportedFile = MutableStateFlow<File?>(null)
     val exportedFile: StateFlow<File?> = _exportedFile.asStateFlow()

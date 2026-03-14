@@ -62,6 +62,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
     val hourlyAverages by viewModel.hourlyAverages.collectAsState()
     val scatterPoints by viewModel.scatterPoints.collectAsState()
     val exportedFile by viewModel.exportedFile.collectAsState()
+    val mostCommonSpeedLimit by viewModel.mostCommonSpeedLimit.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(exportedFile) {
@@ -96,7 +97,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
         Text("Traffic Report", style = MaterialTheme.typography.headlineMedium)
 
         // V85 Card
-        V85Card(stats = s)
+        V85Card(stats = s, speedLimit = mostCommonSpeedLimit)
 
         // Metrics Grid
         FlowRow(
@@ -156,8 +157,8 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun V85Card(stats: TrafficStats) {
-    val isOverLimit = stats.v85 > 25 // default speed limit context
+private fun V85Card(stats: TrafficStats, speedLimit: Int) {
+    val isOverLimit = stats.v85 > speedLimit
     val v85Color = if (isOverLimit) MaterialTheme.colorScheme.error else Color(0xFF4CAF50)
 
     Card(
@@ -172,7 +173,8 @@ private fun V85Card(stats: TrafficStats) {
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("V85", style = MaterialTheme.typography.titleMedium)
+            Text("V85 Speed", style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 "%.1f".format(stats.v85),
@@ -181,12 +183,14 @@ private fun V85Card(stats: TrafficStats) {
             )
             Text(
                 "MPH",
-                style = MaterialTheme.typography.titleSmall,
-                color = v85Color,
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "85% of vehicles travel at or below this speed",
+                "85% of vehicles travel at or below this speed. " +
+                    if (isOverLimit) "This exceeds the $speedLimit mph speed limit."
+                    else "This is within the $speedLimit mph speed limit.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )

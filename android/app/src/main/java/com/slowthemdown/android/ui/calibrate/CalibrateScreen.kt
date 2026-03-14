@@ -60,6 +60,9 @@ import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 import com.slowthemdown.android.viewmodel.CalibrationViewModel
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
@@ -125,6 +128,11 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                 if (calibration.isValid) {
                     Text(
                         "%.1f px/ft".format(calibration.pixelsPerFoot),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    Text(
+                        "Last calibrated: ${SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(calibration.timestampMillis))}",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

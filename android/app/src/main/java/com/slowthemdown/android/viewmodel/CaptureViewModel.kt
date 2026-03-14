@@ -112,10 +112,10 @@ class CaptureViewModel @Inject constructor(
     private val videoSize: Size
         get() = Size(_videoWidth.value.toDouble(), _videoHeight.value.toDouble())
 
-    private val timeDelta: Double
+    val timeDelta: Double
         get() = abs(_frame2Time.value - _frame1Time.value)
 
-    private val pixelDisplacement: Double
+    val pixelDisplacement: Double
         get() {
             val m1 = _frame1Marker.value ?: return 0.0
             val m2 = _frame2Marker.value ?: return 0.0
@@ -201,6 +201,7 @@ class CaptureViewModel @Inject constructor(
             timeDeltaSeconds = timeDelta
         )
         _state.value = CaptureFlowState.RESULT
+        hapticManager.notification(HapticManager.NotificationType.SUCCESS)
     }
 
     fun saveEntry() {

@@ -38,6 +38,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -80,6 +81,20 @@ import java.io.File
 @Composable
 fun CaptureScreen(viewModel: CaptureViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
+
+    // Request location permission on first appear (matching iOS)
+    val locationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { /* results not needed — LocationService handles gracefully */ }
+
+    LaunchedEffect(Unit) {
+        locationPermissionLauncher.launch(
+            arrayOf(
+                android.Manifest.permission.ACCESS_FINE_LOCATION,
+                android.Manifest.permission.ACCESS_COARSE_LOCATION,
+            )
+        )
+    }
 
     when (state) {
         CaptureFlowState.SELECT_SOURCE -> SelectSourceContent(viewModel)
@@ -295,14 +310,14 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
             )
         }
 
-        // Vehicle reference section on Frame 1
-        if (frameNumber == 1) {
+        // Vehicle reference section on Frame 2 (matching iOS)
+        if (frameNumber == 2) {
             Spacer(modifier = Modifier.height(16.dp))
             VehicleReferenceSection(viewModel)
         }
 
-        // Vehicle reference markers on frame 1
-        if (frameNumber == 1 && useVehicleRef && bitmap != null) {
+        // Vehicle reference markers on frame 2
+        if (frameNumber == 2 && useVehicleRef && bitmap != null) {
             Spacer(modifier = Modifier.height(8.dp))
             VehicleRefMarkerOverlay(
                 bitmap = bitmap!!,
@@ -717,6 +732,31 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
             minLines = 2,
             maxLines = 4,
         )
+
+        Spacer(modifier = Modifier.height(16.dp))
+
+        // Measurement details
+        Column(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.Start,
+        ) {
+            Text(
+                "Measurement Details",
+                style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Spacer(modifier = Modifier.height(4.dp))
+            Text(
+                "Time delta: %.3fs".format(viewModel.timeDelta),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+            Text(
+                "Pixel displacement: %.1f px".format(viewModel.pixelDisplacement),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+            )
+        }
 
         Spacer(modifier = Modifier.height(24.dp))
 
