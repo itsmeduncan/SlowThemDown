@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 63;
+	objectVersion = 77;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -79,7 +79,7 @@
 		84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameMarkerView.swift; sourceTree = "<group>"; };
 		8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewModel.swift; sourceTree = "<group>"; };
-		94075604E995DB222B335641 /* SlowThemDown.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SlowThemDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94075604E995DB222B335641 /* SlowThemDown.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SlowThemDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A0354163D2D08D093CD8AF19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0A1FC3D67AFD3A1E25499C9 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
 		A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleTypePicker.swift; sourceTree = "<group>"; };
@@ -332,7 +332,6 @@
 				};
 			};
 			buildConfigurationList = FE2F99369445CFBDF22F587E /* Build configuration list for PBXProject "SlowThemDown" */;
-			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -344,6 +343,8 @@
 			packageReferences = (
 				501F78BA21A8D46E187067B8 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3E67F7ACBBAAA4CA79EFB99F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -615,7 +616,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM_OVERRIDE)";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = USDFZ2X72H;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";
@@ -629,7 +629,6 @@
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.app;
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROVISIONING_PROFILE_SPECIFIER_OVERRIDE)";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "v2 App Store STD.app";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -673,7 +672,7 @@
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 11.7.0;
+				minimumVersion = 12.10.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

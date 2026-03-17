@@ -26,18 +26,20 @@ shared/        # KMP shared module — pure Kotlin, no platform deps
 ### iOS
 - iOS 17.0 minimum deployment target
 - Swift 5.9+, SwiftUI only (no UIKit views except UIViewControllerRepresentable wrappers)
-- No SPM packages, CocoaPods, or Carthage dependencies
+- Firebase Crashlytics via SPM (only external dependency)
 - XcodeGen manages the project — never hand-edit `.pbxproj`
 
 ### Android
 - Min SDK 26 (Android 8.0), Target SDK 35
-- Kotlin 2.1+, Jetpack Compose for all UI
+- Kotlin 2.3+, Jetpack Compose for all UI
 - Hilt for dependency injection
 - Room for persistence, DataStore for preferences
+- AGP 9.x with Gradle 9.x
 
 ### KMP Shared Module
 - Pure Kotlin only — no platform-specific imports
 - No Android or iOS framework dependencies
+- Uses `com.android.kotlin.multiplatform.library` plugin (AGP 9 KMP plugin)
 - Used by Android via Gradle project dependency; iOS keeps Swift originals
 
 ## Before Making Changes

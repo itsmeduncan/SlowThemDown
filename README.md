@@ -22,7 +22,7 @@ SlowThemDown helps residents, neighborhood groups, and traffic safety advocates 
 ### Android
 - Android 8.0+ (API 26)
 - JDK 17+
-- Android Studio Hedgehog or later
+- Android Studio Meerkat or later
 
 ## Getting Started
 
@@ -129,7 +129,7 @@ The V85 (85th percentile speed) is a standard traffic engineering metric. It rep
 - **AVFoundation** for video frame extraction
 - **Swift Charts** for visualizations
 - **CoreLocation** for street name geocoding
-- No external dependencies — Apple frameworks only
+- **Firebase Crashlytics** via SPM for crash reporting
 
 ### Android
 - **Jetpack Compose** with `ViewModel` + `StateFlow` (MVVM)

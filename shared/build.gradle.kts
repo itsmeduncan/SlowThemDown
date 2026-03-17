@@ -1,14 +1,15 @@
 plugins {
-    kotlin("multiplatform") version "2.2.20"
-    id("com.android.library")
+    kotlin("multiplatform") version "2.3.10"
+    id("com.android.kotlin.multiplatform.library")
 }
 
 kotlin {
-    androidTarget {
-        compilerOptions {
-            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_17)
-        }
+    android {
+        namespace = "com.slowthemdown.shared"
+        compileSdk = 36
+        minSdk = 26
     }
+
     listOf(
         iosX64(),
         iosArm64(),
@@ -24,17 +25,5 @@ kotlin {
         commonTest.dependencies {
             implementation(kotlin("test"))
         }
-    }
-}
-
-android {
-    namespace = "com.slowthemdown.shared"
-    compileSdk = 35
-    defaultConfig {
-        minSdk = 26
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
     }
 }

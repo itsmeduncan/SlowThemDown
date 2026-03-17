@@ -75,7 +75,7 @@ If you modify shared business logic (speed formula, coordinate mapping, enums), 
 - Follow existing MVVM patterns
 
 #### Android
-- Kotlin 2.1+ with Jetpack Compose
+- Kotlin 2.3+ with Jetpack Compose
 - Use `ViewModel` + `StateFlow` for state management
 - Use `@HiltViewModel` with `@Inject constructor` for dependency injection
 - Use Room for persistence, DataStore for preferences
@@ -140,9 +140,6 @@ Open an issue on GitHub with:
 
 - Improving speed estimation accuracy
 - Adding new calibration methods
-- Android frame marker overlay (Canvas + pointerInput tap-to-mark)
-- Android CameraX video recording integration
-- Android PDF report export
 - Accessibility improvements
 - Localization
 - Unit and UI tests (both platforms)

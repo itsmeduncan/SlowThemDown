@@ -31,7 +31,7 @@ SlowThemDown/
 - **XcodeGen** generates `SlowThemDown.xcodeproj` from `ios/project.yml`
 - Generate: `cd ios && xcodegen generate`
 - Build: `xcodebuild build -project ios/SlowThemDown.xcodeproj -scheme SlowThemDown -destination 'platform=iOS Simulator,name=iPhone 17 Pro'`
-- No external dependencies — Apple frameworks only
+- Firebase Crashlytics via SPM; otherwise Apple frameworks only
 
 ### Android
 - **Gradle** with Kotlin DSL
@@ -80,10 +80,10 @@ SlowThemDown/
 ### iOS
 - Swift 5.9+ with strict concurrency
 - Prefer `@Observable` over `@ObservableObject`/`@Published`
-- No external dependencies — Apple frameworks only
+- Firebase Crashlytics via SPM (only external dependency)
 
 ### Android/Shared
-- Kotlin 2.1+
+- Kotlin 2.3+
 - Jetpack Compose for UI
 - `StateFlow` for observable state
 - Hilt `@Inject` for DI
