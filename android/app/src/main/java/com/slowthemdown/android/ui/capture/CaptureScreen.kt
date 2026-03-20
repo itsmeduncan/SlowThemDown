@@ -712,11 +712,11 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
 
         Spacer(modifier = Modifier.height(12.dp))
 
-        // Street name
+        // Nearest intersection
         OutlinedTextField(
             value = streetName,
             onValueChange = { viewModel.setStreetName(it) },
-            label = { Text("Street Name") },
+            label = { Text("Nearest Intersection") },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )

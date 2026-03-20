@@ -202,6 +202,19 @@ class CaptureViewModel @Inject constructor(
         )
         _state.value = CaptureFlowState.RESULT
         hapticManager.notification(HapticManager.NotificationType.SUCCESS)
+
+        // Auto-fill street name from GPS
+        viewModelScope.launch {
+            if (_streetName.value.isEmpty()) {
+                val location = locationService.getCurrentLocation()
+                if (location != null) {
+                    val street = locationService.getStreetName(location)
+                    if (street.isNotEmpty() && _streetName.value.isEmpty()) {
+                        _streetName.value = street
+                    }
+                }
+            }
+        }
     }
 
     fun saveEntry() {

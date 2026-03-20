@@ -35,10 +35,29 @@ class LocationService @Inject constructor(
 
     suspend fun getStreetName(location: Location): String = withContext(Dispatchers.IO) {
         try {
+            val geocoder = Geocoder(context, Locale.getDefault())
             @Suppress("DEPRECATION")
-            val addresses = Geocoder(context, Locale.getDefault())
+            val mainStreet = geocoder
                 .getFromLocation(location.latitude, location.longitude, 1)
-            addresses?.firstOrNull()?.thoroughfare ?: ""
+                ?.firstOrNull()?.thoroughfare ?: return@withContext ""
+
+            // Try offset points (~40m in each cardinal direction) to find a cross street
+            val offsetDeg = 0.00036
+            val offsets = listOf(
+                offsetDeg to 0.0, -offsetDeg to 0.0,
+                0.0 to offsetDeg, 0.0 to -offsetDeg,
+            )
+            for ((latOff, lonOff) in offsets) {
+                @Suppress("DEPRECATION")
+                val crossStreet = geocoder
+                    .getFromLocation(location.latitude + latOff, location.longitude + lonOff, 1)
+                    ?.firstOrNull()?.thoroughfare
+                if (crossStreet != null && crossStreet != mainStreet) {
+                    return@withContext "$mainStreet & $crossStreet"
+                }
+            }
+
+            mainStreet
         } catch (_: Exception) {
             ""
         }
