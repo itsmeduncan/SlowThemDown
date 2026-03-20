@@ -32,9 +32,32 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
         guard let location = currentLocation else { return }
         do {
             let placemarks = try await geocoder.reverseGeocodeLocation(location)
-            if let placemark = placemarks.first {
-                streetName = placemark.thoroughfare ?? ""
+            guard let placemark = placemarks.first,
+                  let mainStreet = placemark.thoroughfare else {
+                streetName = ""
+                return
             }
+
+            // Try offset points (~40m in each cardinal direction) to find a cross street
+            let offsetDeg = 0.00036 // ~40m
+            let offsets: [(Double, Double)] = [
+                (offsetDeg, 0), (-offsetDeg, 0),
+                (0, offsetDeg), (0, -offsetDeg),
+            ]
+            for (latOff, lonOff) in offsets {
+                let offsetLocation = CLLocation(
+                    latitude: location.coordinate.latitude + latOff,
+                    longitude: location.coordinate.longitude + lonOff
+                )
+                if let crossStreet = try? await geocoder.reverseGeocodeLocation(offsetLocation)
+                    .first?.thoroughfare,
+                    crossStreet != mainStreet {
+                    streetName = "\(mainStreet) & \(crossStreet)"
+                    return
+                }
+            }
+
+            streetName = mainStreet
         } catch {
             streetName = ""
         }

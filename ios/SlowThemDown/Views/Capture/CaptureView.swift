@@ -61,6 +61,12 @@ struct CaptureView: View {
                     }
                 case .result:
                     SpeedResultView(vm: vm, onSave: saveEntry, onDiscard: { vm.reset() })
+                        .task {
+                            await locationManager.reverseGeocode()
+                            if vm.streetName.isEmpty {
+                                vm.streetName = locationManager.streetName
+                            }
+                        }
                 }
             }
             .navigationTitle("Capture")

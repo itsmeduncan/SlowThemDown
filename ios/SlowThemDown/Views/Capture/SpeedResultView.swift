@@ -41,7 +41,7 @@ struct SpeedResultView: View {
                     DirectionPicker(selection: $vm.direction)
                         .pickerStyle(.menu)
 
-                    TextField("Street Name", text: $vm.streetName)
+                    TextField("Nearest Intersection", text: $vm.streetName)
                         .textFieldStyle(.roundedBorder)
 
                     TextField("Notes (optional)", text: $vm.notes)
