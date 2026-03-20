@@ -25,7 +25,9 @@ struct LogView: View {
                     )
                 } else {
                     ForEach(filteredEntries, id: \.id) { entry in
-                        entryRow(entry)
+                        NavigationLink(destination: LogDetailView(entry: entry)) {
+                            entryRow(entry)
+                        }
                     }
                     .onDelete(perform: deleteEntries)
                 }

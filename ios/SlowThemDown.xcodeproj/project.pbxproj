@@ -29,6 +29,7 @@
 		76381DFE4367C6DD04C49370 /* CalibrateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF9A07F59C639EAD454901F /* CalibrateView.swift */; };
 		8ABB751F1EBE1C3D120B297E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0354163D2D08D093CD8AF19 /* Assets.xcassets */; };
 		963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685454CF76255109D5775A2 /* LogViewModel.swift */; };
+		9BB1E4BA5AA6B52E5BA674DF /* LogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8FD0467D2FCDBBC5D13B4 /* LogDetailView.swift */; };
 		9D90D07295F60731E756296B /* FrameMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */; };
 		AAF94F9C62F917053502B4FC /* CalibrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93F70E6B0E6E2BEAEB328 /* CalibrationViewModel.swift */; };
 		AB21F28C8685E981D80482F8 /* SlowThemDownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DC79F0CB2131404EA7C783 /* SlowThemDownApp.swift */; };
@@ -82,6 +83,7 @@
 		8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewModel.swift; sourceTree = "<group>"; };
 		94075604E995DB222B335641 /* SlowThemDown.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SlowThemDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		9CA8FD0467D2FCDBBC5D13B4 /* LogDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailView.swift; sourceTree = "<group>"; };
 		A0354163D2D08D093CD8AF19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A0A1FC3D67AFD3A1E25499C9 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
 		A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleTypePicker.swift; sourceTree = "<group>"; };
@@ -199,6 +201,7 @@
 		91D475ED8D1A0DE9D0583FD5 /* Log */ = {
 			isa = PBXGroup;
 			children = (
+				9CA8FD0467D2FCDBBC5D13B4 /* LogDetailView.swift */,
 				75C2CE2C5561A062D29A7891 /* LogView.swift */,
 			);
 			path = Log;
@@ -388,6 +391,7 @@
 				3A3D0583304474BB745FF850 /* HapticManager.swift in Sources */,
 				47679D062CCAEE688214451C /* ImageMarkerOverlay.swift in Sources */,
 				CEE57FC771538ACA7AB491E2 /* LocationManager.swift in Sources */,
+				9BB1E4BA5AA6B52E5BA674DF /* LogDetailView.swift in Sources */,
 				380066D4220359B3E26E9135 /* LogView.swift in Sources */,
 				963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */,
 				B768B8104C52646D07CCEF63 /* MetricCard.swift in Sources */,
@@ -477,6 +481,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Slow Them Down needs microphone access because video recording includes audio capture.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Slow Them Down needs photo library access to import video clips.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -625,6 +630,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
 				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Slow Them Down needs microphone access because video recording includes audio capture.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Slow Them Down needs photo library access to import video clips.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;

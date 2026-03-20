@@ -70,6 +70,14 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
     val sortOrder by viewModel.sortOrder.collectAsState()
     val showingDemoData by viewModel.showingDemoData.collectAsState()
     var showFilterMenu by remember { mutableStateOf(false) }
+    var selectedEntry by remember { mutableStateOf<SpeedEntryEntity?>(null) }
+
+    selectedEntry?.let { entry ->
+        LogDetailSheet(
+            entry = entry,
+            onDismiss = { selectedEntry = null },
+        )
+    }
 
     Column(modifier = Modifier.fillMaxSize()) {
         if (showingDemoData) {
@@ -236,7 +244,7 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                             }
                         },
                     ) {
-                        SpeedEntryCard(entry)
+                        SpeedEntryCard(entry, onClick = { selectedEntry = entry })
                     }
                 }
                 item { Spacer(modifier = Modifier.height(4.dp)) }
@@ -246,7 +254,7 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun SpeedEntryCard(entry: SpeedEntryEntity) {
+private fun SpeedEntryCard(entry: SpeedEntryEntity, onClick: () -> Unit = {}) {
     val directionIcon = when (entry.direction) {
         TravelDirection.TOWARD -> "\u2B07\uFE0F"
         TravelDirection.AWAY -> "\u2B06\uFE0F"
@@ -254,7 +262,7 @@ private fun SpeedEntryCard(entry: SpeedEntryEntity) {
         TravelDirection.RIGHT_TO_LEFT -> "\u2B05\uFE0F"
     }
 
-    Card(modifier = Modifier.fillMaxWidth()) {
+    Card(modifier = Modifier.fillMaxWidth(), onClick = onClick) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
