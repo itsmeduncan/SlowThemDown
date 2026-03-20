@@ -88,17 +88,6 @@ jobs:
             CODE_SIGN_IDENTITY_OVERRIDE="Apple Distribution" \
             PROVISIONING_PROFILE_SPECIFIER_OVERRIDE="${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}"
 
-      - name: Export IPA
-        run: |
-          set -o pipefail
-          sed -i '' "s/\$(IOS_PROVISIONING_PROFILE_NAME)/${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}/" \
-            ios/ExportOptions.plist
-
-          xcodebuild -exportArchive \
-            -archivePath $RUNNER_TEMP/SlowThemDown.xcarchive \
-            -exportPath $RUNNER_TEMP/export \
-            -exportOptionsPlist ios/ExportOptions.plist
-
       - name: Install App Store Connect API key
         env:
           API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
@@ -107,30 +96,25 @@ jobs:
           mkdir -p ~/private_keys
           echo -n "$API_KEY_BASE64" | base64 --decode -o ~/private_keys/AuthKey_${API_KEY_ID}.p8
 
-      - name: Find IPA
-        id: find-ipa
+      - name: Export and upload to App Store Connect
         run: |
-          IPA_PATH=$(find $RUNNER_TEMP/export -name '*.ipa' -print -quit)
-          if [ -z "$IPA_PATH" ]; then
-            echo "No IPA found in $RUNNER_TEMP/export"
-            ls -la $RUNNER_TEMP/export/
-            exit 1
-          fi
-          echo "ipa_path=$IPA_PATH" >> "$GITHUB_OUTPUT"
+          sed -i '' "s/\$(IOS_PROVISIONING_PROFILE_NAME)/${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}/" \
+            ios/ExportOptions.plist
 
-      - name: Upload to App Store Connect
-        run: |
-          xcrun altool --upload-app \
-            --type ios \
-            --file "${{ steps.find-ipa.outputs.ipa_path }}" \
-            --apiKey ${{ secrets.APP_STORE_CONNECT_KEY_ID }} \
-            --apiIssuer ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+          xcodebuild -exportArchive \
+            -archivePath $RUNNER_TEMP/SlowThemDown.xcarchive \
+            -exportPath $RUNNER_TEMP/export \
+            -exportOptionsPlist ios/ExportOptions.plist \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath ~/private_keys/AuthKey_${{ secrets.APP_STORE_CONNECT_KEY_ID }}.p8 \
+            -authenticationKeyID ${{ secrets.APP_STORE_CONNECT_KEY_ID }} \
+            -authenticationKeyIssuerID ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
 
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v5
         with:
           name: ios-release-ipa
-          path: ${{ steps.find-ipa.outputs.ipa_path }}
+          path: $RUNNER_TEMP/export/*.ipa
 
       - name: Clean up keychain
         if: always()
