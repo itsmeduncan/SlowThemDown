@@ -63,6 +63,10 @@ final class CalibrationViewModel {
         HapticManager.notification(.success)
     }
 
+    func reload() {
+        calibration = Calibration.load() ?? Calibration()
+    }
+
     func clearCalibration() {
         calibration = Calibration()
         UserDefaults.standard.removeObject(forKey: Calibration.storageKey)

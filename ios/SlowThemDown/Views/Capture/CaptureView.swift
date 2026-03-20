@@ -110,6 +110,7 @@ struct CaptureView: View {
             }
             .onAppear {
                 locationManager.requestPermission()
+                calibrationVM.reload()
             }
         }
     }
