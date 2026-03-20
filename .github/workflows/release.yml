@@ -51,7 +51,14 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp "$PROFILE_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/
 
+      - name: Set up Firebase credentials
+        env:
+          FIREBASE_SA: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+        run: echo "$FIREBASE_SA" > "$RUNNER_TEMP/firebase-sa.json"
+
       - name: Archive
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/firebase-sa.json
         run: |
           # Strip leading 'v' from tag for marketing version
           MARKETING_VERSION="${VERSION#v}"
