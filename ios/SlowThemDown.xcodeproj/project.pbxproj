@@ -479,6 +479,8 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Slow Them Down needs photo library access to import video clips.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				"INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad" = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -626,6 +628,8 @@
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
 				INFOPLIST_KEY_NSPhotoLibraryUsageDescription = "Slow Them Down needs photo library access to import video clips.";
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				"INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad" = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

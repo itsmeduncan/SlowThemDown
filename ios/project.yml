@@ -28,6 +28,8 @@ targets:
         DEBUG_INFORMATION_FORMAT: "dwarf-with-dsym"
         GENERATE_INFOPLIST_FILE: YES
         INFOPLIST_KEY_UILaunchScreen_Generation: YES
+        INFOPLIST_KEY_UISupportedInterfaceOrientations: "UIInterfaceOrientationPortrait"
+        INFOPLIST_KEY_UISupportedInterfaceOrientations~ipad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
         INFOPLIST_KEY_CFBundleDisplayName: "Slow Them Down"
         INFOPLIST_KEY_NSCameraUsageDescription: "Slow Them Down needs camera access to record vehicles for speed estimation."
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Slow Them Down needs photo library access to import video clips."
