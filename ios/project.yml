@@ -24,7 +24,7 @@ targets:
         product: FirebaseCrashlytics
     postCompileScripts:
       - script: |
-          if [ "${DEBUG_INFORMATION_FORMAT}" != "dwarf-with-dsym" ]; then
+          if [ "${CONFIGURATION}" != "Release" ]; then
             exit 0
           fi
           CRASHLYTICS_RUN="${BUILD_DIR%/Build/*}/SourcePackages/artifacts/firebase-ios-sdk/FirebaseCrashlytics/run"
