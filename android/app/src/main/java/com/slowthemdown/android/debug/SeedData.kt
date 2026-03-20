@@ -1,5 +1,6 @@
 package com.slowthemdown.android.debug
 
+import android.content.Context
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.data.db.SpeedEntryEntity
 import com.slowthemdown.shared.model.CalibrationMethod
@@ -10,6 +11,18 @@ import java.util.Calendar
 import kotlin.random.Random
 
 object SeedData {
+
+    private const val PREFS_NAME = "seed_data_prefs"
+    private const val KEY_SEEDED = "isDemoDataSeeded"
+
+    fun isSeeded(context: Context): Boolean =
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .getBoolean(KEY_SEEDED, false)
+
+    private fun setSeeded(context: Context, value: Boolean) {
+        context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
+            .edit().putBoolean(KEY_SEEDED, value).apply()
+    }
     private val streets = listOf(
         "Oak Street", "Maple Avenue", "Elm Drive", "Pine Road",
         "Cedar Lane", "Birch Way", "Walnut Street", "Cherry Blvd",
@@ -62,10 +75,16 @@ object SeedData {
         }
     }
 
-    suspend fun seedIfEmpty(dao: SpeedEntryDao) {
+    suspend fun seedIfEmpty(dao: SpeedEntryDao, context: Context) {
         val count = dao.getCount().first()
         if (count == 0) {
             generate().forEach { dao.insert(it) }
+            setSeeded(context, true)
         }
+    }
+
+    suspend fun clearDemoData(dao: SpeedEntryDao, context: Context) {
+        dao.deleteAll()
+        setSeeded(context, false)
     }
 }

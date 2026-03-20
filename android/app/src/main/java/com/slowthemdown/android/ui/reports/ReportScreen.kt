@@ -45,6 +45,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.slowthemdown.android.ui.components.DemoBanner
 import com.slowthemdown.android.viewmodel.HistogramBucket
 import com.slowthemdown.android.viewmodel.HourlyAverage
 import com.slowthemdown.android.viewmodel.ReportViewModel
@@ -63,6 +64,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
     val scatterPoints by viewModel.scatterPoints.collectAsState()
     val exportedFile by viewModel.exportedFile.collectAsState()
     val mostCommonSpeedLimit by viewModel.mostCommonSpeedLimit.collectAsState()
+    val showingDemoData by viewModel.showingDemoData.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(exportedFile) {
@@ -94,6 +96,10 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        if (showingDemoData) {
+            DemoBanner(onClear = { viewModel.clearDemoData() })
+        }
+
         Text("Traffic Report", style = MaterialTheme.typography.headlineMedium)
 
         // V85 Card

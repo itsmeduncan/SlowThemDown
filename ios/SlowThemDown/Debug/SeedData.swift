@@ -64,6 +64,12 @@ enum SeedData {
         return entries
     }
 
+    private static let seededKey = "isDemoDataSeeded"
+
+    static var isSeeded: Bool {
+        UserDefaults.standard.bool(forKey: seededKey)
+    }
+
     static func seedIfEmpty(context: ModelContext) {
         let descriptor = FetchDescriptor<SpeedEntry>()
         let count = (try? context.fetchCount(descriptor)) ?? 0
@@ -72,7 +78,18 @@ enum SeedData {
             for entry in entries {
                 context.insert(entry)
             }
+            UserDefaults.standard.set(true, forKey: seededKey)
         }
+    }
+
+    static func clearDemoData(context: ModelContext) {
+        let descriptor = FetchDescriptor<SpeedEntry>()
+        if let entries = try? context.fetch(descriptor) {
+            for entry in entries {
+                context.delete(entry)
+            }
+        }
+        UserDefaults.standard.set(false, forKey: seededKey)
     }
 }
 #endif

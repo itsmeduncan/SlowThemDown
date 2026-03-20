@@ -5,10 +5,22 @@ struct LogView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \SpeedEntry.timestamp, order: .reverse) private var entries: [SpeedEntry]
     @State private var vm = LogViewModel()
+    #if DEBUG
+    @State private var showingDemoData = SeedData.isSeeded
+    #endif
 
     var body: some View {
         NavigationStack {
             List {
+                #if DEBUG
+                if showingDemoData {
+                    DemoBanner {
+                        SeedData.clearDemoData(context: modelContext)
+                        showingDemoData = false
+                    }
+                }
+                #endif
+
                 if filteredEntries.isEmpty {
                     ContentUnavailableView(
                         "No Entries",
@@ -93,3 +105,4 @@ struct LogView: View {
         }
     }
 }
+
