@@ -74,8 +74,8 @@ struct ReportViewModelTests {
     @Test func hourlyAverages_groupsByHour() {
         let vm = ReportViewModel()
         let cal = Calendar.current
-        var date9am = cal.date(from: DateComponents(year: 2026, month: 3, day: 20, hour: 9))!
-        var date3pm = cal.date(from: DateComponents(year: 2026, month: 3, day: 20, hour: 15))!
+        let date9am = cal.date(from: DateComponents(year: 2026, month: 3, day: 20, hour: 9))!
+        let date3pm = cal.date(from: DateComponents(year: 2026, month: 3, day: 20, hour: 15))!
 
         let entries = [
             SpeedEntry(speedMPH: 20, timestamp: date9am),
