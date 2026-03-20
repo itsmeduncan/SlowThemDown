@@ -1,0 +1,59 @@
+name: Setup iOS
+description: Install XcodeGen, generate Xcode project, and resolve SPM packages with caching
+
+inputs:
+  xcodegen-version:
+    description: XcodeGen version to install
+    required: false
+    default: '2.45.3'
+
+runs:
+  using: composite
+  steps:
+    - name: Cache XcodeGen binary
+      id: cache-xcodegen
+      uses: actions/cache@v5
+      with:
+        path: /usr/local/bin/xcodegen
+        key: xcodegen-${{ runner.os }}-${{ inputs.xcodegen-version }}
+
+    - name: Install XcodeGen
+      if: steps.cache-xcodegen.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        brew install xcodegen
+        # Copy to cached path if brew installed elsewhere
+        XCODEGEN_PATH=$(which xcodegen)
+        if [ "$XCODEGEN_PATH" != "/usr/local/bin/xcodegen" ]; then
+          sudo cp "$XCODEGEN_PATH" /usr/local/bin/xcodegen
+        fi
+
+    - name: Cache generated Xcode project
+      id: cache-xcodeproj
+      uses: actions/cache@v5
+      with:
+        path: ios/SlowThemDown.xcodeproj
+        key: xcodeproj-${{ runner.os }}-${{ hashFiles('ios/project.yml') }}-${{ inputs.xcodegen-version }}
+
+    - name: Generate Xcode project
+      if: steps.cache-xcodeproj.outputs.cache-hit != 'true'
+      shell: bash
+      run: cd ios && xcodegen generate
+
+    - name: Cache SPM packages
+      uses: actions/cache@v5
+      with:
+        path: |
+          ~/Library/Caches/org.swift.swiftpm
+          ~/Library/org.swift.swiftpm
+        key: spm-${{ runner.os }}-${{ hashFiles('ios/SlowThemDown.xcodeproj/project.xcworkspace/xcshareddata/swiftpm/Package.resolved') }}
+        restore-keys: |
+          spm-${{ runner.os }}-
+
+    - name: Resolve SPM packages
+      shell: bash
+      run: |
+        xcodebuild -resolvePackageDependencies \
+          -project ios/SlowThemDown.xcodeproj \
+          -scheme SlowThemDown \
+          -skipPackagePluginValidation

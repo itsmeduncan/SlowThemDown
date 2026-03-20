@@ -112,18 +112,7 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
-      - name: Cache SPM packages
-        uses: actions/cache@v5
-        with:
-          path: |
-            ~/Library/Caches/org.swift.swiftpm
-            ~/Library/org.swift.swiftpm
-          key: spm-${{ runner.os }}-${{ hashFiles('ios/project.yml') }}
-          restore-keys: |
-            spm-${{ runner.os }}-
-
-      - name: Install XcodeGen
-        run: brew install xcodegen
+      - uses: ./.github/actions/setup-ios
 
       - name: Install Apple certificate and provisioning profile
         env:
@@ -157,16 +146,6 @@ jobs:
           # Install provisioning profile
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp "$PROFILE_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/
-
-      - name: Generate Xcode project
-        run: cd ios && xcodegen generate
-
-      - name: Resolve SPM packages
-        run: |
-          xcodebuild -resolvePackageDependencies \
-            -project ios/SlowThemDown.xcodeproj \
-            -scheme SlowThemDown \
-            -skipPackagePluginValidation
 
       - name: Archive
         run: |
