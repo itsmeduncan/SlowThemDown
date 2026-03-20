@@ -5,12 +5,22 @@ on:
     tags: ["v[0-9]+.[0-9]+.[0-9]+"]
 
 jobs:
-  ios-archive:
+  ios-release:
     runs-on: macos-15
     permissions:
       contents: write
+    env:
+      VERSION: ${{ github.ref_name }}
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compute build number
+        id: build
+        run: |
+          BUILD_NUMBER=$(git rev-list --count HEAD)
+          echo "build_number=$BUILD_NUMBER" >> "$GITHUB_OUTPUT"
 
       - name: Cache SPM packages
         uses: actions/cache@v4
@@ -25,6 +35,33 @@ jobs:
       - name: Install XcodeGen
         run: brew install xcodegen
 
+      - name: Install Apple certificate and provisioning profile
+        env:
+          CERT_BASE64: ${{ secrets.IOS_DISTRIBUTION_CERT_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.IOS_DISTRIBUTION_CERT_PASSWORD }}
+          PROFILE_BASE64: ${{ secrets.IOS_PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          CERTIFICATE_PATH=$RUNNER_TEMP/certificate.p12
+          PROFILE_PATH=$RUNNER_TEMP/profile.mobileprovision
+          KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          KEYCHAIN_PASSWORD=$(openssl rand -hex 16)
+
+          echo -n "$CERT_BASE64" | base64 --decode -o "$CERTIFICATE_PATH"
+          echo -n "$PROFILE_BASE64" | base64 --decode -o "$PROFILE_PATH"
+
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+          security set-keychain-settings -lut 21600 "$KEYCHAIN_PATH"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN_PATH"
+
+          security import "$CERTIFICATE_PATH" -P "$CERT_PASSWORD" -A -t cert -f pkcs12 \
+            -k "$KEYCHAIN_PATH"
+          security set-key-partition-list -S apple-tool:,apple: -k "$KEYCHAIN_PASSWORD" \
+            "$KEYCHAIN_PATH"
+          security list-keychain -d user -s "$KEYCHAIN_PATH"
+
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          cp "$PROFILE_PATH" ~/Library/MobileDevice/Provisioning\ Profiles/
+
       - name: Generate Xcode project
         run: cd ios && xcodegen generate
 
@@ -37,26 +74,67 @@ jobs:
 
       - name: Archive
         run: |
-          set -o pipefail
+          # Strip leading 'v' from tag for marketing version
+          MARKETING_VERSION="${VERSION#v}"
           xcodebuild archive \
             -project ios/SlowThemDown.xcodeproj \
             -scheme SlowThemDown \
             -destination 'generic/platform=iOS' \
-            -archivePath build/SlowThemDown.xcarchive \
+            -archivePath $RUNNER_TEMP/SlowThemDown.xcarchive \
             -skipPackagePluginValidation \
-            CODE_SIGNING_ALLOWED=NO \
-            CODE_SIGN_IDENTITY="" | xcpretty
+            MARKETING_VERSION=$MARKETING_VERSION \
+            CURRENT_PROJECT_VERSION=${{ steps.build.outputs.build_number }} \
+            DEVELOPMENT_TEAM_OVERRIDE=${{ secrets.APPLE_TEAM_ID }} \
+            CODE_SIGN_IDENTITY_OVERRIDE="Apple Distribution" \
+            PROVISIONING_PROFILE_SPECIFIER_OVERRIDE="${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}"
 
-      - name: Zip archive
+      - name: Export IPA
         run: |
-          cd build
-          zip -r SlowThemDown.xcarchive.zip SlowThemDown.xcarchive
+          set -o pipefail
+          sed -i '' "s/\$(IOS_PROVISIONING_PROFILE_NAME)/${{ secrets.IOS_PROVISIONING_PROFILE_NAME }}/" \
+            ios/ExportOptions.plist
 
-      - name: Upload iOS artifact
+          xcodebuild -exportArchive \
+            -archivePath $RUNNER_TEMP/SlowThemDown.xcarchive \
+            -exportPath $RUNNER_TEMP/export \
+            -exportOptionsPlist ios/ExportOptions.plist
+
+      - name: Install App Store Connect API key
+        env:
+          API_KEY_BASE64: ${{ secrets.APP_STORE_CONNECT_PRIVATE_KEY }}
+          API_KEY_ID: ${{ secrets.APP_STORE_CONNECT_KEY_ID }}
+        run: |
+          mkdir -p ~/private_keys
+          echo -n "$API_KEY_BASE64" | base64 --decode -o ~/private_keys/AuthKey_${API_KEY_ID}.p8
+
+      - name: Find IPA
+        id: find-ipa
+        run: |
+          IPA_PATH=$(find $RUNNER_TEMP/export -name '*.ipa' -print -quit)
+          if [ -z "$IPA_PATH" ]; then
+            echo "No IPA found in $RUNNER_TEMP/export"
+            ls -la $RUNNER_TEMP/export/
+            exit 1
+          fi
+          echo "ipa_path=$IPA_PATH" >> "$GITHUB_OUTPUT"
+
+      - name: Upload to App Store Connect
+        run: |
+          xcrun altool --upload-app \
+            --type ios \
+            --file "${{ steps.find-ipa.outputs.ipa_path }}" \
+            --apiKey ${{ secrets.APP_STORE_CONNECT_KEY_ID }} \
+            --apiIssuer ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
+
+      - name: Upload IPA artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ios-archive
-          path: build/SlowThemDown.xcarchive.zip
+          name: ios-release-ipa
+          path: ${{ steps.find-ipa.outputs.ipa_path }}
+
+      - name: Clean up keychain
+        if: always()
+        run: security delete-keychain $RUNNER_TEMP/app-signing.keychain-db || true
 
   android-build:
     runs-on: ubuntu-latest
@@ -86,7 +164,7 @@ jobs:
             android/app/build/outputs/bundle/release/*.aab
 
   create-release:
-    needs: [ios-archive, android-build]
+    needs: [ios-release, android-build]
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -96,8 +174,8 @@ jobs:
       - name: Download iOS artifact
         uses: actions/download-artifact@v4
         with:
-          name: ios-archive
-          path: release-assets
+          name: ios-release-ipa
+          path: release-assets/ios
 
       - name: Download Android artifacts
         uses: actions/download-artifact@v4
@@ -109,7 +187,7 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: |
-            release-assets/SlowThemDown.xcarchive.zip
+            release-assets/ios/*.ipa
             release-assets/android/**/*.apk
             release-assets/android/**/*.aab
           generate_release_notes: true
