@@ -184,7 +184,7 @@ jobs:
             -authenticationKeyIssuerID ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
 
       - name: Upload IPA artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: ios-beta-ipa
           path: ${{ runner.temp }}/export/*.ipa
@@ -238,7 +238,7 @@ jobs:
           status: draft
 
       - name: Upload AAB artifact
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: android-beta-aab
           path: android/app/build/outputs/bundle/release/*.aab
