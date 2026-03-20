@@ -116,7 +116,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v4
 
       - name: Test, lint, and build release
-        run: ./gradlew :shared:allTests :android:app:testDebugUnitTest :android:app:lintRelease :android:app:assembleRelease :android:app:bundleRelease
+        run: ./gradlew :shared:allTests :android:app:testDebugUnitTest :android:app:lintRelease :android:app:assembleRelease :android:app:bundleRelease --no-configuration-cache
 
       - name: Upload Android artifacts
         uses: actions/upload-artifact@v5
