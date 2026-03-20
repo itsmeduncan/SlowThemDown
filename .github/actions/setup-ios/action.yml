@@ -32,7 +32,7 @@ runs:
       id: sources-hash
       shell: bash
       run: |
-        echo "hash=$(find ios/SlowThemDown ios/SlowThemDownTests -name '*.swift' | sort | sha256sum | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
+        echo "hash=$(find ios/SlowThemDown ios/SlowThemDownTests -name '*.swift' | sort | shasum -a 256 | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
 
     - name: Cache generated Xcode project
       id: cache-xcodeproj
