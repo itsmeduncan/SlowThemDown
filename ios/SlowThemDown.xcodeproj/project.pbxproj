@@ -11,6 +11,7 @@
 		0527545F311F1FCB2DD677FF /* DirectionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */; };
 		061A6B6DDB19F6A8E282EC99 /* V85CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B477DAEE5E2F153077812770 /* V85CardView.swift */; };
 		086E72CF0D34F8524ECF1DC8 /* VideoRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58765E1A93CF0342AD4F7BEC /* VideoRecorderView.swift */; };
+		08CFA017DEDF5C2222E9256B /* DemoBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009BB3FDB97376EEF18FEE26 /* DemoBanner.swift */; };
 		0CE36F0352225E986F522204 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B756386BB5863DA65FBDF /* ReportView.swift */; };
 		29D27B345A29324C2E785C03 /* VehicleTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */; };
 		2E17E8003FDC96F0AEB72B2F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26BC4AB5E5A5710E42FEB072 /* GoogleService-Info.plist */; };
@@ -58,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		009BB3FDB97376EEF18FEE26 /* DemoBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBanner.swift; sourceTree = "<group>"; };
 		00E79D8618F4F2D24D94D00D /* VehicleRefPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleRefPicker.swift; sourceTree = "<group>"; };
 		075B756386BB5863DA65FBDF /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		115F702DDF9356A7793E2724 /* FrameSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameSelectorView.swift; sourceTree = "<group>"; };
@@ -114,6 +116,7 @@
 		2237A0BF3FAF1CE0630684A5 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				009BB3FDB97376EEF18FEE26 /* DemoBanner.swift */,
 				D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */,
 				530C712C3EC796408BFB3CCA /* MetricCard.swift */,
 				DB195968CF9F81520F0CE434 /* SpeedBadge.swift */,
@@ -378,6 +381,7 @@
 				6993C91BBBD30C25397E2E97 /* CaptureViewModel.swift in Sources */,
 				FD201CBE8475788813EE1170 /* ContentView.swift in Sources */,
 				FB21F5AFF2633032B37C99E8 /* CoordinateMapper.swift in Sources */,
+				08CFA017DEDF5C2222E9256B /* DemoBanner.swift in Sources */,
 				0527545F311F1FCB2DD677FF /* DirectionPicker.swift in Sources */,
 				9D90D07295F60731E756296B /* FrameMarkerView.swift in Sources */,
 				4708EE1D9301544078EFC179 /* FrameSelectorView.swift in Sources */,

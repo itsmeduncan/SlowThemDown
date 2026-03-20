@@ -1,12 +1,15 @@
 package com.slowthemdown.android.viewmodel
 
+import android.app.Application
 import android.content.Context
 import android.content.Intent
 import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.slowthemdown.android.BuildConfig
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.data.db.SpeedEntryEntity
+import com.slowthemdown.android.debug.SeedData
 import com.slowthemdown.android.service.ReportExporter
 import com.slowthemdown.shared.calculator.SpeedCalculator
 import com.slowthemdown.shared.model.RoadStandards
@@ -32,9 +35,22 @@ data class ScatterPoint(val timestampMillis: Long, val speedMPH: Double)
 
 @HiltViewModel
 class ReportViewModel @Inject constructor(
-    dao: SpeedEntryDao,
+    private val dao: SpeedEntryDao,
     private val exporter: ReportExporter,
+    private val application: Application,
 ) : ViewModel() {
+
+    private val _showingDemoData = MutableStateFlow(
+        BuildConfig.DEBUG && SeedData.isSeeded(application)
+    )
+    val showingDemoData: StateFlow<Boolean> = _showingDemoData.asStateFlow()
+
+    fun clearDemoData() {
+        viewModelScope.launch {
+            SeedData.clearDemoData(dao, application)
+            _showingDemoData.value = false
+        }
+    }
 
     val stats: StateFlow<TrafficStats?> = dao.getAllEntries()
         .map { entries ->

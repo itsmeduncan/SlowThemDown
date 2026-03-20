@@ -3,14 +3,28 @@ import SwiftData
 import SwiftUI
 
 struct ReportView: View {
+    @Environment(\.modelContext) private var modelContext
     @Query(sort: \SpeedEntry.timestamp, order: .reverse) private var entries: [SpeedEntry]
     @State private var vm = ReportViewModel()
     @State private var showShareSheet = false
     @State private var shareURL: URL?
+    #if DEBUG
+    @State private var showingDemoData = SeedData.isSeeded
+    #endif
 
     var body: some View {
         NavigationStack {
             ScrollView {
+                #if DEBUG
+                if showingDemoData {
+                    DemoBanner {
+                        SeedData.clearDemoData(context: modelContext)
+                        showingDemoData = false
+                    }
+                    .padding(.horizontal)
+                }
+                #endif
+
                 if entries.isEmpty {
                     ContentUnavailableView(
                         "No Data",

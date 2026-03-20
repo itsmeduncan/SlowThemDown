@@ -32,6 +32,7 @@ import com.slowthemdown.android.ui.log.LogScreen
 import com.slowthemdown.android.ui.onboarding.OnboardingScreen
 import com.slowthemdown.android.ui.onboarding.OnboardingStore
 import com.slowthemdown.android.ui.reports.ReportScreen
+import android.app.Application
 import com.slowthemdown.android.BuildConfig
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.debug.SeedData
@@ -52,10 +53,11 @@ private const val ONBOARDING_ROUTE = "onboarding"
 class AppViewModel @Inject constructor(
     val onboardingStore: OnboardingStore,
     private val speedEntryDao: SpeedEntryDao,
+    private val application: Application,
 ) : ViewModel() {
     suspend fun seedDemoDataIfDebug() {
         if (BuildConfig.DEBUG) {
-            SeedData.seedIfEmpty(speedEntryDao)
+            SeedData.seedIfEmpty(speedEntryDao, application)
         }
     }
 }

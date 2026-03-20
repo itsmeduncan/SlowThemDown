@@ -50,6 +50,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.slowthemdown.android.data.db.SpeedEntryEntity
+import com.slowthemdown.android.ui.components.DemoBanner
 import com.slowthemdown.android.ui.components.SpeedBadge
 import com.slowthemdown.android.viewmodel.LogViewModel
 import com.slowthemdown.android.viewmodel.SortOrder
@@ -67,9 +68,13 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
     val overLimitOnly by viewModel.overLimitOnly.collectAsState()
     val vehicleTypeFilter by viewModel.vehicleTypeFilter.collectAsState()
     val sortOrder by viewModel.sortOrder.collectAsState()
+    val showingDemoData by viewModel.showingDemoData.collectAsState()
     var showFilterMenu by remember { mutableStateOf(false) }
 
     Column(modifier = Modifier.fillMaxSize()) {
+        if (showingDemoData) {
+            DemoBanner(onClear = { viewModel.clearDemoData() })
+        }
         // Search bar
         TextField(
             value = searchText,
@@ -288,3 +293,4 @@ private fun SpeedEntryCard(entry: SpeedEntryEntity) {
         }
     }
 }
+

@@ -18,7 +18,7 @@ class SlowThemDownApplication : Application() {
         super.onCreate()
         if (BuildConfig.DEBUG) {
             CoroutineScope(Dispatchers.IO).launch {
-                SeedData.seedIfEmpty(speedEntryDao)
+                SeedData.seedIfEmpty(speedEntryDao, this@SlowThemDownApplication)
             }
         }
     }
