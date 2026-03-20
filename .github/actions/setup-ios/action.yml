@@ -28,21 +28,7 @@ runs:
           sudo cp "$XCODEGEN_PATH" /usr/local/bin/xcodegen
         fi
 
-    - name: Hash source file list
-      id: sources-hash
-      shell: bash
-      run: |
-        echo "hash=$(find ios/SlowThemDown ios/SlowThemDownTests -name '*.swift' | sort | shasum -a 256 | cut -d' ' -f1)" >> "$GITHUB_OUTPUT"
-
-    - name: Cache generated Xcode project
-      id: cache-xcodeproj
-      uses: actions/cache@v5
-      with:
-        path: ios/SlowThemDown.xcodeproj
-        key: xcodeproj-${{ runner.os }}-${{ hashFiles('ios/project.yml') }}-${{ inputs.xcodegen-version }}-${{ steps.sources-hash.outputs.hash }}
-
     - name: Generate Xcode project
-      if: steps.cache-xcodeproj.outputs.cache-hit != 'true'
       shell: bash
       run: cd ios && xcodegen generate
 
