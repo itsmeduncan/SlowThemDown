@@ -1,32 +1,12 @@
 name: Setup iOS
 description: Install XcodeGen, generate Xcode project, and resolve SPM packages with caching
 
-inputs:
-  xcodegen-version:
-    description: XcodeGen version to install
-    required: false
-    default: '2.45.3'
-
 runs:
   using: composite
   steps:
-    - name: Cache XcodeGen binary
-      id: cache-xcodegen
-      uses: actions/cache@v5
-      with:
-        path: /usr/local/bin/xcodegen
-        key: xcodegen-${{ runner.os }}-${{ inputs.xcodegen-version }}
-
     - name: Install XcodeGen
-      if: steps.cache-xcodegen.outputs.cache-hit != 'true'
       shell: bash
-      run: |
-        brew install xcodegen
-        # Copy to cached path if brew installed elsewhere
-        XCODEGEN_PATH=$(which xcodegen)
-        if [ "$XCODEGEN_PATH" != "/usr/local/bin/xcodegen" ]; then
-          sudo cp "$XCODEGEN_PATH" /usr/local/bin/xcodegen
-        fi
+      run: brew install xcodegen
 
     - name: Generate Xcode project
       shell: bash
