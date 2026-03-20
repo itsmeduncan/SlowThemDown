@@ -198,8 +198,9 @@ struct ReportView: View {
 
     private func exportCSV() {
         isExporting = true
+        let capturedEntries = entries
         Task.detached {
-            let url = ReportExporter.csvFileURL(entries: entries)
+            let url = ReportExporter.csvFileURL(entries: capturedEntries)
             await MainActor.run {
                 isExporting = false
                 if let url {
@@ -212,9 +213,10 @@ struct ReportView: View {
 
     private func exportPDF() {
         isExporting = true
+        let capturedEntries = entries
         let stats = vm.stats
         Task.detached {
-            let url = ReportExporter.pdfFileURL(entries: entries, stats: stats)
+            let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats)
             await MainActor.run {
                 isExporting = false
                 if let url {
