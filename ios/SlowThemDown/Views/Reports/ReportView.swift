@@ -8,14 +8,11 @@ struct ReportView: View {
     @State private var vm = ReportViewModel()
     @State private var showShareSheet = false
     @State private var shareURL: URL?
-    #if DEBUG
     @State private var showingDemoData = SeedData.isSeeded
-    #endif
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                #if DEBUG
                 if showingDemoData {
                     DemoBanner {
                         SeedData.clearDemoData(context: modelContext)
@@ -23,7 +20,6 @@ struct ReportView: View {
                     }
                     .padding(.horizontal)
                 }
-                #endif
 
                 if entries.isEmpty {
                     ContentUnavailableView(

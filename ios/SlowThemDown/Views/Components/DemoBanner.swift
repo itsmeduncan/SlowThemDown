@@ -1,6 +1,5 @@
 import SwiftUI
 
-#if DEBUG
 struct DemoBanner: View {
     let onClear: () -> Void
 
@@ -18,4 +17,3 @@ struct DemoBanner: View {
         .listRowBackground(Color.orange.opacity(0.1))
     }
 }
-#endif
