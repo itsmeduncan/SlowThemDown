@@ -8,6 +8,7 @@ struct ReportView: View {
     @State private var vm = ReportViewModel()
     @State private var showShareSheet = false
     @State private var shareURL: URL?
+    @State private var isExporting = false
     @State private var showingDemoData = SeedData.isSeeded
 
     var body: some View {
@@ -56,6 +57,23 @@ struct ReportView: View {
                         } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
+                    }
+                }
+            }
+            .overlay {
+                if isExporting {
+                    ZStack {
+                        Color.black.opacity(0.4)
+                            .ignoresSafeArea()
+                        VStack(spacing: 12) {
+                            ProgressView()
+                                .controlSize(.large)
+                            Text("Generating report…")
+                                .font(.subheadline)
+                                .foregroundStyle(.white)
+                        }
+                        .padding(24)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
                     }
                 }
             }
@@ -179,16 +197,31 @@ struct ReportView: View {
     }
 
     private func exportCSV() {
-        if let url = ReportExporter.csvFileURL(entries: entries) {
-            shareURL = url
-            showShareSheet = true
+        isExporting = true
+        Task.detached {
+            let url = ReportExporter.csvFileURL(entries: entries)
+            await MainActor.run {
+                isExporting = false
+                if let url {
+                    shareURL = url
+                    showShareSheet = true
+                }
+            }
         }
     }
 
     private func exportPDF() {
-        if let url = ReportExporter.pdfFileURL(entries: entries, stats: vm.stats) {
-            shareURL = url
-            showShareSheet = true
+        isExporting = true
+        let stats = vm.stats
+        Task.detached {
+            let url = ReportExporter.pdfFileURL(entries: entries, stats: stats)
+            await MainActor.run {
+                isExporting = false
+                if let url {
+                    shareURL = url
+                    showShareSheet = true
+                }
+            }
         }
     }
 }

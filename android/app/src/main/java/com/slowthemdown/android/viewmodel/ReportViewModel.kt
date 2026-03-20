@@ -117,18 +117,28 @@ class ReportViewModel @Inject constructor(
     private val _exportedFile = MutableStateFlow<File?>(null)
     val exportedFile: StateFlow<File?> = _exportedFile.asStateFlow()
 
+    private val _isExporting = MutableStateFlow(false)
+    val isExporting: StateFlow<Boolean> = _isExporting.asStateFlow()
+
     fun exportCsv() {
         viewModelScope.launch(Dispatchers.IO) {
+            _isExporting.value = true
             val file = exporter.generateCsvFile(entries.value)
             _exportedFile.value = file
+            _isExporting.value = false
         }
     }
 
     fun exportPdf() {
         viewModelScope.launch(Dispatchers.IO) {
-            val s = stats.value ?: return@launch
+            _isExporting.value = true
+            val s = stats.value ?: run {
+                _isExporting.value = false
+                return@launch
+            }
             val file = exporter.generatePdfFile(entries.value, s)
             _exportedFile.value = file
+            _isExporting.value = false
         }
     }
 
