@@ -93,7 +93,7 @@ jobs:
         uses: actions/upload-artifact@v5
         with:
           name: ios-release-ipa
-          path: $RUNNER_TEMP/export/*.ipa
+          path: ${{ runner.temp }}/export/*.ipa
 
       - name: Clean up keychain
         if: always()
