@@ -27,7 +27,12 @@ targets:
           if [ "${DEBUG_INFORMATION_FORMAT}" != "dwarf-with-dsym" ]; then
             exit 0
           fi
-          "${BUILD_DIR%/Build/*}/SourcePackages/artifacts/firebase-ios-sdk/FirebaseCrashlytics/run"
+          CRASHLYTICS_RUN="${BUILD_DIR%/Build/*}/SourcePackages/artifacts/firebase-ios-sdk/FirebaseCrashlytics/run"
+          if [ ! -x "$CRASHLYTICS_RUN" ]; then
+            echo "warning: Crashlytics upload script not found, skipping dSYM upload"
+            exit 0
+          fi
+          "$CRASHLYTICS_RUN"
         name: Upload dSYMs to Crashlytics
         inputFiles:
           - $(DWARF_DSYM_FOLDER_PATH)/$(DWARF_DSYM_FILE_NAME)
