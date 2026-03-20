@@ -13,15 +13,19 @@
 		086E72CF0D34F8524ECF1DC8 /* VideoRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58765E1A93CF0342AD4F7BEC /* VideoRecorderView.swift */; };
 		08CFA017DEDF5C2222E9256B /* DemoBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009BB3FDB97376EEF18FEE26 /* DemoBanner.swift */; };
 		0CE36F0352225E986F522204 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B756386BB5863DA65FBDF /* ReportView.swift */; };
+		1DC9D02E104D96DE0AB3B532 /* CalibrationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFEC0D54A19B8FCD5839E19 /* CalibrationViewModelTests.swift */; };
 		29D27B345A29324C2E785C03 /* VehicleTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */; };
 		2E17E8003FDC96F0AEB72B2F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26BC4AB5E5A5710E42FEB072 /* GoogleService-Info.plist */; };
+		35BA6F2EC5BC540DA4EB5211 /* ReportViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4C2586622FDE791DD7B6D /* ReportViewModelTests.swift */; };
 		380066D4220359B3E26E9135 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C2CE2C5561A062D29A7891 /* LogView.swift */; };
 		396076A4A0AE55019A2330D8 /* SpeedCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */; };
 		3A3D0583304474BB745FF850 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFF756416CD083546000330C /* HapticManager.swift */; };
+		3ADFBEAAE7C9D44D7F7CD24B /* CalibrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89D55457E0849239FA74678F /* CalibrationTests.swift */; };
 		3EB111093E4A7C1D7C4D5D7B /* VehicleRefPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00E79D8618F4F2D24D94D00D /* VehicleRefPicker.swift */; };
 		447E1E645094437D0BF67CC0 /* CoordinateMapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D16794431DFB880A87225B /* CoordinateMapperTests.swift */; };
 		4708EE1D9301544078EFC179 /* FrameSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 115F702DDF9356A7793E2724 /* FrameSelectorView.swift */; };
 		47679D062CCAEE688214451C /* ImageMarkerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745F1C94A27793954831F63 /* ImageMarkerOverlay.swift */; };
+		480E39ACDCEE8D459D6585F7 /* SpeedEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A923CD6B2271D8D6B3E2CD5E /* SpeedEntryTests.swift */; };
 		481F235545802BDB2DEB7F04 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648AF0AEE6B09D68A2980382 /* CaptureView.swift */; };
 		5BD48B733A5B5C847CBF4FC9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = A67C08CFE7688D9903E5F52D /* FirebaseCrashlytics */; };
 		6993C91BBBD30C25397E2E97 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */; };
@@ -38,12 +42,14 @@
 		B768B8104C52646D07CCEF63 /* MetricCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 530C712C3EC796408BFB3CCA /* MetricCard.swift */; };
 		BB3F77A8FF7D126D61FCAB3A /* SpeedBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB195968CF9F81520F0CE434 /* SpeedBadge.swift */; };
 		BECB0CB5E8CFD15497B552A0 /* RoadStandards.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12D98259EC568C5CE9165613 /* RoadStandards.swift */; };
+		C48C84D255084000E870C5C3 /* CaptureViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E125AFDE8BD433E2A22075D /* CaptureViewModelTests.swift */; };
 		CEE57FC771538ACA7AB491E2 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E5AA453EEBCA840B9F79DE8 /* LocationManager.swift */; };
 		D559C2833DAEA0A1A8E703A0 /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */; };
 		D64F47A1B351D661B181B412 /* ReportExporter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A37286E2564E752BBBE3E4FA /* ReportExporter.swift */; };
 		D80825B5E85170131ECB736F /* SpeedCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9793B8022619CD4379AC089 /* SpeedCalculator.swift */; };
 		E4021A1464CAE25D17616D05 /* VehicleReferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = FB1BFEBFF54830B10D517B66 /* VehicleReferences.swift */; };
 		EEC9E1AE25849A62B23422E2 /* Calibration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F816BD022D4B9A3ED5F51CEC /* Calibration.swift */; };
+		F40FF3E57CFABA91647F4E32 /* LogViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7B94E5ED291760C55DB59F3 /* LogViewModelTests.swift */; };
 		F971C8DA4A433A2A1A5919DA /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B76FA20D937238BDAB1F27B /* OnboardingView.swift */; };
 		FB21F5AFF2633032B37C99E8 /* CoordinateMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56B2B45F02AF33208619D5B5 /* CoordinateMapper.swift */; };
 		FD201CBE8475788813EE1170 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF410C15E9F4F877F32531AC /* ContentView.swift */; };
@@ -67,6 +73,7 @@
 		12D98259EC568C5CE9165613 /* RoadStandards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadStandards.swift; sourceTree = "<group>"; };
 		26BC4AB5E5A5710E42FEB072 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		28B93F70E6B0E6E2BEAEB328 /* CalibrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationViewModel.swift; sourceTree = "<group>"; };
+		2FFEC0D54A19B8FCD5839E19 /* CalibrationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationViewModelTests.swift; sourceTree = "<group>"; };
 		3685454CF76255109D5775A2 /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
 		38D16794431DFB880A87225B /* CoordinateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapperTests.swift; sourceTree = "<group>"; };
 		4EA4B084E443D2CCD6037933 /* SpeedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedResultView.swift; sourceTree = "<group>"; };
@@ -81,7 +88,9 @@
 		75C2CE2C5561A062D29A7891 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameMarkerView.swift; sourceTree = "<group>"; };
 		8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		89D55457E0849239FA74678F /* CalibrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationTests.swift; sourceTree = "<group>"; };
 		8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewModel.swift; sourceTree = "<group>"; };
+		8E125AFDE8BD433E2A22075D /* CaptureViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureViewModelTests.swift; sourceTree = "<group>"; };
 		94075604E995DB222B335641 /* SlowThemDown.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SlowThemDown.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9CA8FD0467D2FCDBBC5D13B4 /* LogDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogDetailView.swift; sourceTree = "<group>"; };
 		A0354163D2D08D093CD8AF19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -89,10 +98,13 @@
 		A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleTypePicker.swift; sourceTree = "<group>"; };
 		A37286E2564E752BBBE3E4FA /* ReportExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportExporter.swift; sourceTree = "<group>"; };
 		A8DC79F0CB2131404EA7C783 /* SlowThemDownApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlowThemDownApp.swift; sourceTree = "<group>"; };
+		A923CD6B2271D8D6B3E2CD5E /* SpeedEntryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedEntryTests.swift; sourceTree = "<group>"; };
+		ACE4C2586622FDE791DD7B6D /* ReportViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModelTests.swift; sourceTree = "<group>"; };
 		B477DAEE5E2F153077812770 /* V85CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = V85CardView.swift; sourceTree = "<group>"; };
 		BAF9A07F59C639EAD454901F /* CalibrateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrateView.swift; sourceTree = "<group>"; };
 		BF410C15E9F4F877F32531AC /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		C745F1C94A27793954831F63 /* ImageMarkerOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageMarkerOverlay.swift; sourceTree = "<group>"; };
+		C7B94E5ED291760C55DB59F3 /* LogViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModelTests.swift; sourceTree = "<group>"; };
 		C9793B8022619CD4379AC089 /* SpeedCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculator.swift; sourceTree = "<group>"; };
 		D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionPicker.swift; sourceTree = "<group>"; };
 		D7984D2693C63DFAA8F164E2 /* VideoFrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameExtractor.swift; sourceTree = "<group>"; };
@@ -244,8 +256,14 @@
 		B19903CE1132D3A92AB60EDD /* SlowThemDownTests */ = {
 			isa = PBXGroup;
 			children = (
+				89D55457E0849239FA74678F /* CalibrationTests.swift */,
+				2FFEC0D54A19B8FCD5839E19 /* CalibrationViewModelTests.swift */,
+				8E125AFDE8BD433E2A22075D /* CaptureViewModelTests.swift */,
 				38D16794431DFB880A87225B /* CoordinateMapperTests.swift */,
+				C7B94E5ED291760C55DB59F3 /* LogViewModelTests.swift */,
+				ACE4C2586622FDE791DD7B6D /* ReportViewModelTests.swift */,
 				537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */,
+				A923CD6B2271D8D6B3E2CD5E /* SpeedEntryTests.swift */,
 			);
 			path = SlowThemDownTests;
 			sourceTree = "<group>";
@@ -445,8 +463,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3ADFBEAAE7C9D44D7F7CD24B /* CalibrationTests.swift in Sources */,
+				1DC9D02E104D96DE0AB3B532 /* CalibrationViewModelTests.swift in Sources */,
+				C48C84D255084000E870C5C3 /* CaptureViewModelTests.swift in Sources */,
 				447E1E645094437D0BF67CC0 /* CoordinateMapperTests.swift in Sources */,
+				F40FF3E57CFABA91647F4E32 /* LogViewModelTests.swift in Sources */,
+				35BA6F2EC5BC540DA4EB5211 /* ReportViewModelTests.swift in Sources */,
 				396076A4A0AE55019A2330D8 /* SpeedCalculatorTests.swift in Sources */,
+				480E39ACDCEE8D459D6585F7 /* SpeedEntryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
