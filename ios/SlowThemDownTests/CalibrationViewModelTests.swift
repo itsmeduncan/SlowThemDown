@@ -35,16 +35,18 @@ struct CalibrationViewModelTests {
         #expect(abs(vm.pixelDistance - 5.0) < 0.001)
     }
 
-    @Test func referenceDistanceFeet_parsesValidNumber() {
+    @Test func referenceDistanceMeters_parsesValidNumber() {
         let vm = CalibrationViewModel()
+        // In imperial mode (default for US), "20.5" feet -> meters
+        vm.measurementSystemRaw = MeasurementSystem.imperial.rawValue
         vm.referenceDistanceText = "20.5"
-        #expect(abs(vm.referenceDistanceFeet - 20.5) < 0.001)
+        #expect(abs(vm.referenceDistanceMeters - 6.248) < 0.01)
     }
 
-    @Test func referenceDistanceFeet_invalidText_returnsZero() {
+    @Test func referenceDistanceMeters_invalidText_returnsZero() {
         let vm = CalibrationViewModel()
         vm.referenceDistanceText = "abc"
-        #expect(vm.referenceDistanceFeet == 0)
+        #expect(vm.referenceDistanceMeters == 0)
     }
 
     @Test func canSave_requiresMarkersAndDistance() {
@@ -102,14 +104,16 @@ struct CalibrationViewModelTests {
     @Test func saveCalibration_updatesInMemoryState() {
         UserDefaults.standard.removeObject(forKey: Calibration.storageKey)
         let vm = CalibrationViewModel()
+        vm.measurementSystemRaw = MeasurementSystem.imperial.rawValue
         vm.markerPoints = [CGPoint(x: 0, y: 0), CGPoint(x: 200, y: 0)]
-        vm.referenceDistanceText = "10"
+        vm.referenceDistanceText = "10" // 10 feet = 3.048 meters
 
         vm.saveCalibration()
 
         #expect(vm.isCalibrated)
-        #expect(vm.calibration.pixelsPerFoot == 20.0)
-        #expect(vm.calibration.referenceDistanceFeet == 10.0)
+        // 200 px / 3.048 m = 65.617 px/m
+        #expect(abs(vm.calibration.pixelsPerMeter - 65.617) < 0.1)
+        #expect(abs(vm.calibration.referenceDistanceMeters - 3.048) < 0.01)
         #expect(vm.calibration.method == .manualDistance)
 
         // Clean up

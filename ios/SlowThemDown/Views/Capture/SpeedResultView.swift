@@ -5,6 +5,12 @@ struct SpeedResultView: View {
     let onSave: () -> Void
     let onDiscard: () -> Void
 
+    @AppStorage("measurementSystem") private var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
+
+    private var measurementSystem: MeasurementSystem {
+        MeasurementSystem(rawValue: measurementSystemRaw) ?? .imperial
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 24) {
@@ -13,10 +19,10 @@ struct SpeedResultView: View {
                     Text("Estimated Speed")
                         .font(.caption)
                         .foregroundStyle(.secondary)
-                    Text("\(vm.calculatedSpeed, specifier: "%.1f")")
+                    Text("\(UnitConverter.displaySpeed(vm.calculatedSpeed, system: measurementSystem), specifier: "%.1f")")
                         .font(.system(size: 72, weight: .bold, design: .rounded))
                         .foregroundStyle(speedColor)
-                    Text("MPH")
+                    Text(UnitConverter.speedUnit(measurementSystem))
                         .font(.title3)
                         .foregroundStyle(.secondary)
                 }
@@ -28,8 +34,8 @@ struct SpeedResultView: View {
                         Text("Speed Limit")
                         Spacer()
                         Picker("", selection: $vm.speedLimit) {
-                            ForEach(RoadStandards.speedLimits, id: \.self) { limit in
-                                Text("\(limit) mph").tag(limit)
+                            ForEach(RoadStandards.speedLimitsForSystem(measurementSystem), id: \.self) { limit in
+                                Text("\(Int(UnitConverter.displaySpeed(limit, system: measurementSystem))) \(UnitConverter.speedUnit(measurementSystem))").tag(limit)
                             }
                         }
                         .pickerStyle(.menu)
@@ -93,7 +99,8 @@ struct SpeedResultView: View {
     }
 
     private var speedColor: Color {
-        let ratio = vm.calculatedSpeed / Double(vm.speedLimit)
+        guard vm.speedLimit > 0 else { return .green }
+        let ratio = vm.calculatedSpeed / vm.speedLimit
         if ratio <= 1.0 { return .green }
         if ratio <= 1.2 { return .yellow }
         return .red

@@ -5,7 +5,9 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import com.slowthemdown.android.data.db.SpeedEntryEntity
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.TrafficStats
+import com.slowthemdown.shared.model.UnitConverter
 import dagger.hilt.android.qualifiers.ApplicationContext
 import java.io.File
 import java.io.FileWriter
@@ -22,25 +24,29 @@ class ReportExporter @Inject constructor(
     private val dateFormat = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US)
     private val displayDateFormat = SimpleDateFormat("MMM d, yyyy h:mm a", Locale.getDefault())
 
-    fun generateCsvFile(entries: List<SpeedEntryEntity>): File {
+    fun generateCsvFile(entries: List<SpeedEntryEntity>, system: MeasurementSystem): File {
+        val speedUnit = UnitConverter.speedUnit(system)
         val file = File(context.cacheDir, "SlowThemDown_Report.csv")
         FileWriter(file).use { writer ->
-            writer.write("Timestamp,Speed (MPH),Speed Limit,Street,Vehicle Type,Direction,Over Limit,Calibration Method,Time Delta,Notes\n")
+            writer.write("Timestamp,Speed ($speedUnit),Speed Limit ($speedUnit),Street,Vehicle Type,Direction,Over Limit,Calibration Method,Time Delta,Notes\n")
             entries.forEach { entry ->
                 val timestamp = dateFormat.format(Date(entry.timestamp))
                 val street = escapeCsv(entry.streetName)
                 val notes = escapeCsv(entry.notes)
                 val overLimit = if (entry.isOverLimit) "Yes" else "No"
+                val displaySpeed = UnitConverter.displaySpeed(entry.speed, system)
+                val displayLimit = UnitConverter.displaySpeed(entry.speedLimit, system).toInt()
                 writer.write(
-                    "$timestamp,%.1f,${entry.speedLimit},$street,${entry.vehicleType.label},${entry.direction.label},$overLimit,${entry.calibrationMethod.label},%.3f,$notes\n"
-                        .format(entry.speedMPH, entry.timeDeltaSeconds)
+                    "$timestamp,%.1f,$displayLimit,$street,${entry.vehicleType.label},${entry.direction.label},$overLimit,${entry.calibrationMethod.label},%.3f,$notes\n"
+                        .format(displaySpeed, entry.timeDeltaSeconds)
                 )
             }
         }
         return file
     }
 
-    fun generatePdfFile(entries: List<SpeedEntryEntity>, stats: TrafficStats): File {
+    fun generatePdfFile(entries: List<SpeedEntryEntity>, stats: TrafficStats, system: MeasurementSystem): File {
+        val speedUnit = UnitConverter.speedUnit(system)
         val file = File(context.cacheDir, "SlowThemDown_Report.pdf")
         val document = PdfDocument()
 
@@ -87,12 +93,16 @@ class ReportExporter @Inject constructor(
         y += 20f
         val statLines = listOf(
             "Total Entries: ${stats.count}",
-            "V85: %.1f MPH".format(stats.v85),
-            "Mean: %.1f MPH".format(stats.mean),
-            "Median: %.1f MPH".format(stats.median),
-            "Min / Max: %.1f / %.1f MPH".format(stats.min, stats.max),
+            "V85: %.1f %s".format(UnitConverter.displaySpeed(stats.v85, system), speedUnit),
+            "Mean: %.1f %s".format(UnitConverter.displaySpeed(stats.mean, system), speedUnit),
+            "Median: %.1f %s".format(UnitConverter.displaySpeed(stats.median, system), speedUnit),
+            "Min / Max: %.1f / %.1f %s".format(
+                UnitConverter.displaySpeed(stats.min, system),
+                UnitConverter.displaySpeed(stats.max, system),
+                speedUnit,
+            ),
             "Over Limit: ${stats.overLimitCount} (%.0f%%)".format(stats.overLimitPercent),
-            "Std Deviation: %.1f".format(stats.standardDeviation),
+            "Std Deviation: %.1f".format(UnitConverter.displaySpeed(stats.standardDeviation, system)),
         )
         statLines.forEach { line ->
             canvas.drawText(line, margin + 10f, y + 10f, bodyPaint)
@@ -130,8 +140,10 @@ class ReportExporter @Inject constructor(
 
             var x = margin
             val time = SimpleDateFormat("M/d h:mm a", Locale.getDefault()).format(Date(entry.timestamp))
+            val displaySpeed = "%.1f".format(UnitConverter.displaySpeed(entry.speed, system))
+            val displayLimit = "${UnitConverter.displaySpeed(entry.speedLimit, system).toInt()}"
             val rowData = listOf(
-                time, "%.1f".format(entry.speedMPH), "${entry.speedLimit}",
+                time, displaySpeed, displayLimit,
                 entry.streetName.take(20), entry.vehicleType.label,
                 if (entry.isOverLimit) "Yes" else "No"
             )

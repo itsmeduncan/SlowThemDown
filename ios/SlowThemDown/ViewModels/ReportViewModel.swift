@@ -81,7 +81,7 @@ final class ReportViewModel {
     private func buildStreetGroups() {
         let grouped = Dictionary(grouping: entries.filter { !$0.streetName.isEmpty }) { $0.streetName }
         streetGroups = grouped.map { street, streetEntries in
-            let mean = streetEntries.map(\.speedMPH).reduce(0, +) / Double(streetEntries.count)
+            let mean = streetEntries.map(\.speed).reduce(0, +) / Double(streetEntries.count)
             let overCount = streetEntries.filter(\.isOverLimit).count
             let overPercent = Double(overCount) / Double(streetEntries.count) * 100
             return StreetGroup(name: street, count: streetEntries.count, meanSpeed: mean, overLimitPercent: overPercent)
@@ -89,8 +89,8 @@ final class ReportViewModel {
     }
 
     private func buildHistogram(from entries: [SpeedEntry]) {
-        let bucketSize = 5.0
-        let speeds = entries.map(\.speedMPH)
+        let bucketSize = 2.235 // ~5 MPH in m/s, works as a reasonable bucket for both systems
+        let speeds = entries.map(\.speed)
         guard let minSpeed = speeds.min(), let maxSpeed = speeds.max() else {
             histogram = []
             return
@@ -105,7 +105,7 @@ final class ReportViewModel {
             let upper = lower + bucketSize
             let count = speeds.filter { $0 >= lower && $0 < upper }.count
             buckets.append(SpeedBucket(
-                range: "\(Int(lower))-\(Int(upper))",
+                range: "\(String(format: "%.0f", lower))-\(String(format: "%.0f", upper))",
                 count: count,
                 lowerBound: lower
             ))
@@ -120,14 +120,14 @@ final class ReportViewModel {
             calendar.component(.hour, from: entry.timestamp)
         }
         hourlyAverages = grouped.map { hour, entries in
-            let avg = entries.map(\.speedMPH).reduce(0, +) / Double(entries.count)
+            let avg = entries.map(\.speed).reduce(0, +) / Double(entries.count)
             return HourlyAverage(hour: hour, averageSpeed: avg)
         }.sorted { $0.hour < $1.hour }
     }
 
     private func buildDailyEntries(from entries: [SpeedEntry]) {
         dailyEntries = entries.map {
-            DailyEntry(date: $0.timestamp, speed: $0.speedMPH)
+            DailyEntry(date: $0.timestamp, speed: $0.speed)
         }.sorted { $0.date < $1.date }
     }
 }

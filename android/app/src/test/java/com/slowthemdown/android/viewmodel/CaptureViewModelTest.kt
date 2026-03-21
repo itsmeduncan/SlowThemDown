@@ -11,6 +11,8 @@ import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
 import com.slowthemdown.shared.model.CalibrationMethod
+import com.slowthemdown.shared.model.MeasurementSystem
+import com.slowthemdown.shared.model.RoadStandards
 import com.slowthemdown.shared.model.TravelDirection
 import com.slowthemdown.shared.model.VehicleReferences
 import com.slowthemdown.shared.model.VehicleType
@@ -47,8 +49,9 @@ class CaptureViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         every { calibrationStore.calibration } returns flowOf(
-            Calibration(pixelsPerFoot = 10.0, referenceDistanceFeet = 20.0)
+            Calibration(pixelsPerMeter = 32.8084, referenceDistanceMeters = 6.096)
         )
+        every { calibrationStore.measurementSystem } returns flowOf(MeasurementSystem.IMPERIAL)
         vm = CaptureViewModel(frameExtractor, locationService, calibrationStore, speedEntryDao, hapticManager, piiBlurService)
     }
 
@@ -90,8 +93,9 @@ class CaptureViewModelTest {
 
     @Test
     fun setSpeedLimit_updatesState() {
-        vm.setSpeedLimit(35)
-        assertEquals(35, vm.speedLimit.value)
+        val limit = RoadStandards.imperialSpeedLimits[3] // 30 MPH in m/s
+        vm.setSpeedLimit(limit)
+        assertEquals(limit, vm.speedLimit.value, 0.001)
     }
 
     @Test

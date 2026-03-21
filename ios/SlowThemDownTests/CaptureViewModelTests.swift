@@ -112,7 +112,7 @@ struct CaptureViewModelTests {
         vm.frame1Time = 0
         vm.frame2Time = 1.0
 
-        let cal = Calibration(pixelsPerFoot: 10.0, referenceDistanceFeet: 20.0)
+        let cal = Calibration(pixelsPerMeter: 32.808, referenceDistanceMeters: 6.096)
         vm.calculateSpeed(calibration: cal)
 
         #expect(vm.state == .result)
@@ -150,28 +150,28 @@ struct CaptureViewModelTests {
 
     @Test func buildEntry_usesCalibrationValues() {
         let vm = CaptureViewModel()
-        vm.calculatedSpeed = 35.0
-        vm.speedLimit = 25
+        vm.calculatedSpeed = 15.65  // ~35 MPH in m/s
+        vm.speedLimit = 11.176      // ~25 MPH in m/s
         vm.streetName = "Oak Ave"
         vm.vehicleType = .truck
         vm.direction = .toward
 
         let cal = Calibration(
             method: .manualDistance,
-            pixelsPerFoot: 10.0,
-            referenceDistanceFeet: 20.0
+            pixelsPerMeter: 32.808,
+            referenceDistanceMeters: 6.096
         )
         let loc = LocationManager()
         let entry = vm.buildEntry(calibration: cal, location: loc)
 
-        #expect(entry.speedMPH == 35.0)
-        #expect(entry.speedLimit == 25)
+        #expect(entry.speed == 15.65)
+        #expect(entry.speedLimit == 11.176)
         #expect(entry.streetName == "Oak Ave")
         #expect(entry.vehicleType == .truck)
         #expect(entry.direction == .toward)
         #expect(entry.calibrationMethod == .manualDistance)
-        #expect(entry.pixelsPerFoot == 10.0)
-        #expect(entry.referenceDistanceFeet == 20.0)
+        #expect(entry.pixelsPerMeter == 32.808)
+        #expect(entry.referenceDistanceMeters == 6.096)
     }
 
     @Test func buildEntry_fallsBackToLocationStreetName() {
@@ -202,7 +202,7 @@ struct CaptureViewModelTests {
         let vm = CaptureViewModel()
         vm.streetName = "Test"
         vm.notes = "Note"
-        vm.calculatedSpeed = 45
+        vm.calculatedSpeed = 20.12
         vm.useVehicleReference = true
         vm.selectedVehicleRef = VehicleReferences.all.first
         vm.frame1Markers = [CGPoint(x: 1, y: 1)]

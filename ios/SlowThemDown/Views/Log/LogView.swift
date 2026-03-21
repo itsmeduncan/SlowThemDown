@@ -6,6 +6,11 @@ struct LogView: View {
     @Query(sort: \SpeedEntry.timestamp, order: .reverse) private var entries: [SpeedEntry]
     @State private var vm = LogViewModel()
     @State private var showingDemoData = SeedData.isSeeded
+    @AppStorage("measurementSystem") private var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
+
+    private var measurementSystem: MeasurementSystem {
+        MeasurementSystem(rawValue: measurementSystemRaw) ?? .imperial
+    }
 
     var body: some View {
         NavigationStack {
@@ -65,7 +70,7 @@ struct LogView: View {
 
     private func entryRow(_ entry: SpeedEntry) -> some View {
         HStack {
-            SpeedBadge(speed: entry.speedMPH, speedLimit: entry.speedLimit)
+            SpeedBadge(speed: entry.speed, speedLimit: entry.speedLimit, system: measurementSystem)
 
             VStack(alignment: .leading, spacing: 2) {
                 if !entry.streetName.isEmpty {
@@ -77,9 +82,9 @@ struct LogView: View {
                         .font(.caption2)
                     Text(entry.vehicleType.label)
                         .font(.caption)
-                    Text("•")
+                    Text("\u{2022}")
                         .font(.caption)
-                    Text("\(entry.speedLimit) mph limit")
+                    Text("\(Int(UnitConverter.displaySpeed(entry.speedLimit, system: measurementSystem))) \(UnitConverter.speedUnit(measurementSystem).lowercased()) limit")
                         .font(.caption)
                 }
                 .foregroundStyle(.secondary)
@@ -103,4 +108,3 @@ struct LogView: View {
         }
     }
 }
-

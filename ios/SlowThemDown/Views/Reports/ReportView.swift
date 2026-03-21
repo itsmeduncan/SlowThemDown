@@ -18,6 +18,12 @@ struct ReportView: View {
     @State private var agencyPdfURL: URL?
     @State private var matchedAgencies: [Agency] = []
 
+    @AppStorage("measurementSystem") private var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
+
+    private var measurementSystem: MeasurementSystem {
+        MeasurementSystem(rawValue: measurementSystemRaw) ?? .imperial
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
@@ -85,7 +91,7 @@ struct ReportView: View {
                         VStack(spacing: 12) {
                             ProgressView()
                                 .controlSize(.large)
-                            Text("Generating report…")
+                            Text("Generating report...")
                                 .font(.subheadline)
                                 .foregroundStyle(.white)
                         }
@@ -173,7 +179,7 @@ struct ReportView: View {
                             Text(group.name)
                                 .font(.subheadline)
                                 .fontWeight(.medium)
-                            Text("\(group.count) entries · Avg \(String(format: "%.1f", group.meanSpeed)) MPH")
+                            Text("\(group.count) entries \u{00B7} Avg \(String(format: "%.1f", UnitConverter.displaySpeed(group.meanSpeed, system: measurementSystem))) \(UnitConverter.speedUnit(measurementSystem))")
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         }
@@ -201,7 +207,7 @@ struct ReportView: View {
         Group {
             if let stats = vm.stats {
                 let mostCommonLimit = mostCommonSpeedLimit()
-                V85CardView(v85: stats.v85, speedLimit: mostCommonLimit)
+                V85CardView(v85: stats.v85, speedLimit: mostCommonLimit, system: measurementSystem)
             }
         }
     }
@@ -211,12 +217,13 @@ struct ReportView: View {
     private var metricsGrid: some View {
         Group {
             if let stats = vm.stats {
+                let unit = UnitConverter.speedUnit(measurementSystem)
                 LazyVGrid(columns: [
                     GridItem(.flexible()),
                     GridItem(.flexible()),
                 ], spacing: 12) {
-                    MetricCard(title: "Mean", value: String(format: "%.1f", stats.mean), unit: "MPH")
-                    MetricCard(title: "Median", value: String(format: "%.1f", stats.median), unit: "MPH")
+                    MetricCard(title: "Mean", value: String(format: "%.1f", UnitConverter.displaySpeed(stats.mean, system: measurementSystem)), unit: unit)
+                    MetricCard(title: "Median", value: String(format: "%.1f", UnitConverter.displaySpeed(stats.median, system: measurementSystem)), unit: unit)
                     MetricCard(title: "Total", value: "\(stats.count)", unit: "entries")
                     MetricCard(
                         title: "Over Limit",
@@ -256,14 +263,14 @@ struct ReportView: View {
             Chart(vm.hourlyAverages) { item in
                 LineMark(
                     x: .value("Hour", item.hourLabel),
-                    y: .value("Avg Speed", item.averageSpeed)
+                    y: .value("Avg Speed", UnitConverter.displaySpeed(item.averageSpeed, system: measurementSystem))
                 )
                 .foregroundStyle(Color.orange)
                 .interpolationMethod(.catmullRom)
 
                 PointMark(
                     x: .value("Hour", item.hourLabel),
-                    y: .value("Avg Speed", item.averageSpeed)
+                    y: .value("Avg Speed", UnitConverter.displaySpeed(item.averageSpeed, system: measurementSystem))
                 )
                 .foregroundStyle(Color.orange)
             }
@@ -281,7 +288,7 @@ struct ReportView: View {
             Chart(vm.dailyEntries) { item in
                 PointMark(
                     x: .value("Date", item.date),
-                    y: .value("Speed", item.speed)
+                    y: .value("Speed", UnitConverter.displaySpeed(item.speed, system: measurementSystem))
                 )
                 .foregroundStyle(Color.blue)
             }
@@ -294,7 +301,7 @@ struct ReportView: View {
 
     // MARK: - Helpers
 
-    private func mostCommonSpeedLimit() -> Int {
+    private func mostCommonSpeedLimit() -> Double {
         let active = vm.filteredEntries
         let limits = active.map(\.speedLimit)
         let counts = Dictionary(grouping: limits, by: { $0 }).mapValues(\.count)
@@ -304,8 +311,9 @@ struct ReportView: View {
     private func exportCSV() {
         isExporting = true
         let capturedEntries = vm.filteredEntries
+        let system = measurementSystem
         Task.detached {
-            let url = ReportExporter.csvFileURL(entries: capturedEntries)
+            let url = ReportExporter.csvFileURL(entries: capturedEntries, system: system)
             await MainActor.run {
                 isExporting = false
                 if let url {
@@ -320,8 +328,9 @@ struct ReportView: View {
         isExporting = true
         let capturedEntries = vm.filteredEntries
         let stats = vm.stats
+        let system = measurementSystem
         Task.detached {
-            let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats)
+            let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats, system: system)
             await MainActor.run {
                 isExporting = false
                 if let url {
@@ -379,9 +388,10 @@ struct ReportView: View {
         selectedAgency = agency
         let capturedEntries = vm.filteredEntries
         let stats = vm.stats
+        let system = measurementSystem
         isExporting = true
         Task.detached {
-            let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats)
+            let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats, system: system)
             await MainActor.run {
                 agencyPdfURL = url
                 isExporting = false
@@ -398,8 +408,11 @@ struct ReportView: View {
         let active = vm.filteredEntries
         let street = mostCommonStreet(from: active)
         let limit = mostCommonSpeedLimit()
+        let unit = UnitConverter.speedUnit(measurementSystem)
         if let stats = vm.stats {
-            return "Speeding Concern: \(street) — V85 \(String(format: "%.0f", stats.v85)) MPH in a \(limit) MPH Zone"
+            let v85Display = Int(UnitConverter.displaySpeed(stats.v85, system: measurementSystem))
+            let limitDisplay = Int(UnitConverter.displaySpeed(limit, system: measurementSystem))
+            return "Speeding Concern: \(street) \u{2014} V85 \(v85Display) \(unit) in a \(limitDisplay) \(unit) Zone"
         }
         return "Speeding Concern: \(street)"
     }
@@ -408,6 +421,7 @@ struct ReportView: View {
         let active = vm.filteredEntries
         let street = mostCommonStreet(from: active)
         let limit = mostCommonSpeedLimit()
+        let unit = UnitConverter.speedUnit(measurementSystem).lowercased()
         guard let stats = vm.stats else { return "" }
 
         let dateFormatter = DateFormatter()
@@ -417,6 +431,10 @@ struct ReportView: View {
         let start = timestamps.first.map { dateFormatter.string(from: $0) } ?? "N/A"
         let end = timestamps.last.map { dateFormatter.string(from: $0) } ?? "N/A"
 
+        let v85Display = String(format: "%.1f", UnitConverter.displaySpeed(stats.v85, system: measurementSystem))
+        let meanDisplay = String(format: "%.1f", UnitConverter.displaySpeed(stats.mean, system: measurementSystem))
+        let limitDisplay = Int(UnitConverter.displaySpeed(limit, system: measurementSystem))
+
         return """
         Dear \(agency.name),
 
@@ -424,10 +442,10 @@ struct ReportView: View {
 
         Over \(stats.count) observations from \(start) to \(end):
 
-        • V85 Speed: \(String(format: "%.1f", stats.v85)) MPH (85th percentile)
-        • Average Speed: \(String(format: "%.1f", stats.mean)) MPH
-        • Speed Limit: \(limit) MPH
-        • Vehicles Over Limit: \(stats.overLimitCount) (\(String(format: "%.0f", stats.overLimitPercent))%)
+        \u{2022} V85 Speed: \(v85Display) \(unit) (85th percentile)
+        \u{2022} Average Speed: \(meanDisplay) \(unit)
+        \u{2022} Speed Limit: \(limitDisplay) \(unit)
+        \u{2022} Vehicles Over Limit: \(stats.overLimitCount) (\(String(format: "%.0f", stats.overLimitPercent))%)
 
         A detailed report is attached.
 

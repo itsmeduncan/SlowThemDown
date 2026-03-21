@@ -4,9 +4,11 @@ import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slowthemdown.android.BuildConfig
+import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.data.db.SpeedEntryEntity
 import com.slowthemdown.android.debug.SeedData
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.VehicleType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +25,7 @@ enum class SortOrder { NEWEST_FIRST, OLDEST_FIRST }
 @HiltViewModel
 class LogViewModel @Inject constructor(
     private val dao: SpeedEntryDao,
+    private val calibrationStore: CalibrationStore,
     private val application: Application,
 ) : ViewModel() {
 
@@ -37,6 +40,9 @@ class LogViewModel @Inject constructor(
             _showingDemoData.value = false
         }
     }
+
+    val measurementSystem: StateFlow<MeasurementSystem> = calibrationStore.measurementSystem
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MeasurementSystem.IMPERIAL)
 
     private val allEntries: StateFlow<List<SpeedEntryEntity>> = dao.getAllEntries()
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())

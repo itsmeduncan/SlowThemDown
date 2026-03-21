@@ -10,8 +10,8 @@ struct LogViewModelTests {
     @Test func filteredEntries_emptySearch_returnsAll() {
         let vm = LogViewModel()
         let entries = [
-            SpeedEntry(speedMPH: 20, streetName: "Main St"),
-            SpeedEntry(speedMPH: 30, streetName: "Oak Ave"),
+            SpeedEntry(speed: 8.94, streetName: "Main St"),
+            SpeedEntry(speed: 13.41, streetName: "Oak Ave"),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 2)
@@ -21,8 +21,8 @@ struct LogViewModelTests {
         let vm = LogViewModel()
         vm.searchText = "main"
         let entries = [
-            SpeedEntry(speedMPH: 20, streetName: "Main St"),
-            SpeedEntry(speedMPH: 30, streetName: "Oak Ave"),
+            SpeedEntry(speed: 8.94, streetName: "Main St"),
+            SpeedEntry(speed: 13.41, streetName: "Oak Ave"),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 1)
@@ -33,8 +33,8 @@ struct LogViewModelTests {
         let vm = LogViewModel()
         vm.searchText = "red sedan"
         let entries = [
-            SpeedEntry(speedMPH: 20, notes: "Red sedan speeding"),
-            SpeedEntry(speedMPH: 30, notes: "Blue truck"),
+            SpeedEntry(speed: 8.94, notes: "Red sedan speeding"),
+            SpeedEntry(speed: 13.41, notes: "Blue truck"),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 1)
@@ -44,7 +44,7 @@ struct LogViewModelTests {
     @Test func filteredEntries_searchIsCaseInsensitive() {
         let vm = LogViewModel()
         vm.searchText = "MAIN"
-        let entries = [SpeedEntry(speedMPH: 20, streetName: "main street")]
+        let entries = [SpeedEntry(speed: 8.94, streetName: "main street")]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 1)
     }
@@ -55,9 +55,9 @@ struct LogViewModelTests {
         let vm = LogViewModel()
         vm.filterVehicleType = .truck
         let entries = [
-            SpeedEntry(speedMPH: 20, vehicleType: .car),
-            SpeedEntry(speedMPH: 30, vehicleType: .truck),
-            SpeedEntry(speedMPH: 40, vehicleType: .truck),
+            SpeedEntry(speed: 8.94, vehicleType: .car),
+            SpeedEntry(speed: 13.41, vehicleType: .truck),
+            SpeedEntry(speed: 17.88, vehicleType: .truck),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 2)
@@ -68,8 +68,8 @@ struct LogViewModelTests {
         let vm = LogViewModel()
         vm.filterVehicleType = nil
         let entries = [
-            SpeedEntry(speedMPH: 20, vehicleType: .car),
-            SpeedEntry(speedMPH: 30, vehicleType: .truck),
+            SpeedEntry(speed: 8.94, vehicleType: .car),
+            SpeedEntry(speed: 13.41, vehicleType: .truck),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 2)
@@ -80,10 +80,11 @@ struct LogViewModelTests {
     @Test func filteredEntries_overLimitOnly() {
         let vm = LogViewModel()
         vm.filterOverLimit = true
+        let limit = 11.176
         let entries = [
-            SpeedEntry(speedMPH: 20, speedLimit: 25),
-            SpeedEntry(speedMPH: 30, speedLimit: 25),
-            SpeedEntry(speedMPH: 40, speedLimit: 25),
+            SpeedEntry(speed: 8.94, speedLimit: limit),
+            SpeedEntry(speed: 13.41, speedLimit: limit),
+            SpeedEntry(speed: 17.88, speedLimit: limit),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 2)
@@ -93,9 +94,10 @@ struct LogViewModelTests {
     @Test func filteredEntries_overLimitFalse_returnsAll() {
         let vm = LogViewModel()
         vm.filterOverLimit = false
+        let limit = 11.176
         let entries = [
-            SpeedEntry(speedMPH: 20, speedLimit: 25),
-            SpeedEntry(speedMPH: 30, speedLimit: 25),
+            SpeedEntry(speed: 8.94, speedLimit: limit),
+            SpeedEntry(speed: 13.41, speedLimit: limit),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 2)
@@ -106,8 +108,8 @@ struct LogViewModelTests {
     @Test func filteredEntries_sortNewestFirst() {
         let vm = LogViewModel()
         vm.sortNewestFirst = true
-        let older = SpeedEntry(speedMPH: 20, timestamp: Date(timeIntervalSince1970: 1000))
-        let newer = SpeedEntry(speedMPH: 30, timestamp: Date(timeIntervalSince1970: 2000))
+        let older = SpeedEntry(speed: 8.94, timestamp: Date(timeIntervalSince1970: 1000))
+        let newer = SpeedEntry(speed: 13.41, timestamp: Date(timeIntervalSince1970: 2000))
         let result = vm.filteredEntries([older, newer])
         #expect(result[0].timestamp > result[1].timestamp)
     }
@@ -115,8 +117,8 @@ struct LogViewModelTests {
     @Test func filteredEntries_sortOldestFirst() {
         let vm = LogViewModel()
         vm.sortNewestFirst = false
-        let older = SpeedEntry(speedMPH: 20, timestamp: Date(timeIntervalSince1970: 1000))
-        let newer = SpeedEntry(speedMPH: 30, timestamp: Date(timeIntervalSince1970: 2000))
+        let older = SpeedEntry(speed: 8.94, timestamp: Date(timeIntervalSince1970: 1000))
+        let newer = SpeedEntry(speed: 13.41, timestamp: Date(timeIntervalSince1970: 2000))
         let result = vm.filteredEntries([older, newer])
         #expect(result[0].timestamp < result[1].timestamp)
     }
@@ -128,12 +130,13 @@ struct LogViewModelTests {
         vm.searchText = "main"
         vm.filterVehicleType = .car
         vm.filterOverLimit = true
+        let limit = 11.176
 
         let entries = [
-            SpeedEntry(speedMPH: 30, speedLimit: 25, streetName: "Main St", vehicleType: .car),
-            SpeedEntry(speedMPH: 30, speedLimit: 25, streetName: "Main St", vehicleType: .truck),
-            SpeedEntry(speedMPH: 20, speedLimit: 25, streetName: "Main St", vehicleType: .car),
-            SpeedEntry(speedMPH: 30, speedLimit: 25, streetName: "Oak Ave", vehicleType: .car),
+            SpeedEntry(speed: 13.41, speedLimit: limit, streetName: "Main St", vehicleType: .car),
+            SpeedEntry(speed: 13.41, speedLimit: limit, streetName: "Main St", vehicleType: .truck),
+            SpeedEntry(speed: 8.94, speedLimit: limit, streetName: "Main St", vehicleType: .car),
+            SpeedEntry(speed: 13.41, speedLimit: limit, streetName: "Oak Ave", vehicleType: .car),
         ]
         let result = vm.filteredEntries(entries)
         #expect(result.count == 1)

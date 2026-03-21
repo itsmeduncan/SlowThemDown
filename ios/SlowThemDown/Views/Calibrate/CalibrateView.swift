@@ -6,10 +6,18 @@ struct CalibrateView: View {
     @State private var showImagePicker = false
     @State private var selectedItem: PhotosPickerItem?
 
+    @AppStorage("measurementSystem") private var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
+
+    private var measurementSystem: MeasurementSystem {
+        get { MeasurementSystem(rawValue: measurementSystemRaw) ?? .imperial }
+        set { measurementSystemRaw = newValue.rawValue }
+    }
+
     var body: some View {
         NavigationStack {
             ScrollView {
                 VStack(spacing: 20) {
+                    unitToggle
                     statusCard
                     if vm.selectedImage != nil {
                         imageSection
@@ -31,6 +39,17 @@ struct CalibrateView: View {
         }
     }
 
+    private var unitToggle: some View {
+        Picker("Units", selection: Binding(
+            get: { measurementSystem },
+            set: { measurementSystemRaw = $0.rawValue }
+        )) {
+            Text("Imperial").tag(MeasurementSystem.imperial)
+            Text("Metric").tag(MeasurementSystem.metric)
+        }
+        .pickerStyle(.segmented)
+    }
+
     private var statusCard: some View {
         VStack(spacing: 8) {
             HStack {
@@ -40,7 +59,7 @@ struct CalibrateView: View {
                     .font(.headline)
             }
             if vm.isCalibrated {
-                Text("\(vm.calibration.pixelsPerFoot, specifier: "%.1f") px/ft")
+                Text("\(UnitConverter.displayPixelsPerUnit(vm.calibration.pixelsPerMeter, system: measurementSystem), specifier: "%.1f") \(UnitConverter.calibrationUnit(measurementSystem))")
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 Text("Last calibrated: \(vm.calibration.timestamp.formatted(.dateTime.month().day().hour().minute()))")
@@ -130,10 +149,10 @@ struct CalibrateView: View {
                 .font(.headline)
 
             HStack {
-                TextField("Distance in feet", text: $vm.referenceDistanceText)
+                TextField("Distance in \(UnitConverter.distanceUnit(measurementSystem))", text: $vm.referenceDistanceText)
                     .keyboardType(.decimalPad)
                     .textFieldStyle(.roundedBorder)
-                Text("feet")
+                Text(UnitConverter.distanceUnit(measurementSystem))
                     .foregroundStyle(.secondary)
             }
 
@@ -143,9 +162,9 @@ struct CalibrateView: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                 HStack {
-                    ForEach(RoadStandards.allWidths, id: \.feet) { width in
-                        Button(width.label) {
-                            vm.referenceDistanceText = String(format: "%.0f", width.feet)
+                    ForEach(RoadStandards.allWidths, id: \.meters) { width in
+                        Button(RoadStandards.laneLabel(key: width.key, meters: width.meters, system: measurementSystem)) {
+                            vm.referenceDistanceText = String(format: "%.1f", UnitConverter.displayDistance(width.meters, system: measurementSystem))
                         }
                         .buttonStyle(.bordered)
                         .font(.caption)

@@ -63,7 +63,9 @@ import com.slowthemdown.android.viewmodel.HourlyAverage
 import com.slowthemdown.android.viewmodel.ReportViewModel
 import com.slowthemdown.android.viewmodel.ScatterPoint
 import com.slowthemdown.android.viewmodel.StreetGroup
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.TrafficStats
+import com.slowthemdown.shared.model.UnitConverter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -84,6 +86,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
     val streetGroups by viewModel.streetGroups.collectAsState()
     val showAgencyPicker by viewModel.showAgencyPicker.collectAsState()
     val matchedAgencies by viewModel.matchedAgencies.collectAsState()
+    val system by viewModel.measurementSystem.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(exportedFile) {
@@ -107,6 +110,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
     }
 
     val s = stats!!
+    val speedUnit = UnitConverter.speedUnit(system)
 
     Box(modifier = Modifier.fillMaxSize()) {
     Column(
@@ -132,7 +136,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
         }
 
         // V85 Card
-        V85Card(stats = s, speedLimit = mostCommonSpeedLimit)
+        V85Card(stats = s, speedLimit = mostCommonSpeedLimit, system = system)
 
         // Metrics Grid
         FlowRow(
@@ -141,8 +145,8 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             val halfWidth = Modifier.weight(1f)
-            MetricCard("Mean Speed", "%.1f".format(s.mean), "MPH", modifier = halfWidth)
-            MetricCard("Median Speed", "%.1f".format(s.median), "MPH", modifier = halfWidth)
+            MetricCard("Mean Speed", "%.1f".format(UnitConverter.displaySpeed(s.mean, system)), speedUnit, modifier = halfWidth)
+            MetricCard("Median Speed", "%.1f".format(UnitConverter.displaySpeed(s.median, system)), speedUnit, modifier = halfWidth)
             MetricCard("Total Entries", "${s.count}", "", modifier = halfWidth)
             MetricCard(
                 "Over Limit",
@@ -163,19 +167,20 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
         // Average Speed by Hour
         if (hourlyAverages.size >= 2) {
             Text("Average Speed by Hour", style = MaterialTheme.typography.titleMedium)
-            HourlyAverageChart(data = hourlyAverages)
+            HourlyAverageChart(data = hourlyAverages, system = system)
         }
 
         // Speeds Over Time
         if (scatterPoints.size >= 2) {
             Text("Speeds Over Time", style = MaterialTheme.typography.titleMedium)
-            ScatterChart(points = scatterPoints)
+            ScatterChart(points = scatterPoints, system = system)
         }
 
         // Street Breakdown
         if (selectedStreet == null && streetGroups.size > 1) {
             StreetBreakdownSection(
                 groups = streetGroups,
+                system = system,
                 onSelectStreet = { viewModel.selectStreet(it) },
             )
         }
@@ -220,7 +225,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                 ) {
                     CircularProgressIndicator(modifier = Modifier.size(48.dp))
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text("Generating report…", style = MaterialTheme.typography.bodyMedium)
+                    Text("Generating report...", style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -240,9 +245,12 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun V85Card(stats: TrafficStats, speedLimit: Int) {
+private fun V85Card(stats: TrafficStats, speedLimit: Double, system: MeasurementSystem) {
+    val v85Display = UnitConverter.displaySpeed(stats.v85, system)
+    val limitDisplay = UnitConverter.displaySpeed(speedLimit, system).toInt()
     val isOverLimit = stats.v85 > speedLimit
     val v85Color = if (isOverLimit) MaterialTheme.colorScheme.error else Color(0xFF4CAF50)
+    val speedUnit = UnitConverter.speedUnit(system)
 
     Card(
         modifier = Modifier.fillMaxWidth(),
@@ -260,20 +268,20 @@ private fun V85Card(stats: TrafficStats, speedLimit: Int) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "%.1f".format(stats.v85),
+                "%.1f".format(v85Display),
                 style = MaterialTheme.typography.displayMedium.copy(fontWeight = FontWeight.Bold),
                 color = v85Color,
             )
             Text(
-                "MPH",
+                speedUnit,
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 "85% of vehicles travel at or below this speed. " +
-                    if (isOverLimit) "This exceeds the $speedLimit mph speed limit."
-                    else "This is within the $speedLimit mph speed limit.",
+                    if (isOverLimit) "This exceeds the $limitDisplay $speedUnit speed limit."
+                    else "This is within the $limitDisplay $speedUnit speed limit.",
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -366,12 +374,13 @@ private fun SpeedHistogramChart(buckets: List<HistogramBucket>) {
 }
 
 @Composable
-private fun HourlyAverageChart(data: List<HourlyAverage>) {
+private fun HourlyAverageChart(data: List<HourlyAverage>, system: MeasurementSystem) {
     val textMeasurer = rememberTextMeasurer()
     val lineColor = Color(0xFFFF9800)
     val labelColor = MaterialTheme.colorScheme.onSurfaceVariant
-    val minSpeed = data.minOf { it.averageSpeed } - 2
-    val maxSpeed = data.maxOf { it.averageSpeed } + 2
+    val displaySpeeds = data.map { UnitConverter.displaySpeed(it.averageSpeed, system) }
+    val minSpeed = displaySpeeds.min() - 2
+    val maxSpeed = displaySpeeds.max() + 2
     val speedRange = (maxSpeed - minSpeed).coerceAtLeast(1.0)
 
     Card {
@@ -389,24 +398,24 @@ private fun HourlyAverageChart(data: List<HourlyAverage>) {
             fun xFor(index: Int): Float =
                 leftPadding + index.toFloat() / (data.size - 1).coerceAtLeast(1) * chartWidth
 
-            fun yFor(speed: Double): Float =
-                (chartHeight - ((speed - minSpeed) / speedRange * chartHeight)).toFloat()
+            fun yFor(displaySpeed: Double): Float =
+                (chartHeight - ((displaySpeed - minSpeed) / speedRange * chartHeight)).toFloat()
 
             // Draw line
             val path = Path()
-            data.forEachIndexed { i, point ->
+            displaySpeeds.forEachIndexed { i, speed ->
                 val x = xFor(i)
-                val y = yFor(point.averageSpeed)
+                val y = yFor(speed)
                 if (i == 0) path.moveTo(x, y) else path.lineTo(x, y)
             }
             drawPath(path, color = lineColor, style = Stroke(width = 3f, cap = StrokeCap.Round))
 
             // Draw points
-            data.forEachIndexed { i, point ->
+            displaySpeeds.forEachIndexed { i, speed ->
                 drawCircle(
                     color = lineColor,
                     radius = 5f,
-                    center = Offset(xFor(i), yFor(point.averageSpeed)),
+                    center = Offset(xFor(i), yFor(speed)),
                 )
             }
 
@@ -432,15 +441,16 @@ private fun HourlyAverageChart(data: List<HourlyAverage>) {
 }
 
 @Composable
-private fun ScatterChart(points: List<ScatterPoint>) {
+private fun ScatterChart(points: List<ScatterPoint>, system: MeasurementSystem) {
     val dotColor = MaterialTheme.colorScheme.primary
     val labelColor = MaterialTheme.colorScheme.onSurfaceVariant
     val textMeasurer = rememberTextMeasurer()
+    val displaySpeeds = points.map { UnitConverter.displaySpeed(it.speed, system) }
     val minTime = points.minOf { it.timestampMillis }
     val maxTime = points.maxOf { it.timestampMillis }
     val timeRange = (maxTime - minTime).coerceAtLeast(1L)
-    val minSpeed = points.minOf { it.speedMPH } - 2
-    val maxSpeed = points.maxOf { it.speedMPH } + 2
+    val minSpeed = displaySpeeds.min() - 2
+    val maxSpeed = displaySpeeds.max() + 2
     val speedRange = (maxSpeed - minSpeed).coerceAtLeast(1.0)
     val dateFormat = SimpleDateFormat("M/d", Locale.getDefault())
 
@@ -456,9 +466,9 @@ private fun ScatterChart(points: List<ScatterPoint>) {
             val chartWidth = size.width - leftPadding
             val chartHeight = size.height - bottomPadding
 
-            points.forEach { point ->
+            points.forEachIndexed { i, point ->
                 val x = leftPadding + ((point.timestampMillis - minTime).toFloat() / timeRange) * chartWidth
-                val y = (chartHeight - ((point.speedMPH - minSpeed) / speedRange * chartHeight)).toFloat()
+                val y = (chartHeight - ((displaySpeeds[i] - minSpeed) / speedRange * chartHeight)).toFloat()
                 drawCircle(
                     color = dotColor,
                     radius = 4f,
@@ -512,8 +522,11 @@ private fun StreetFilterRow(
 @Composable
 private fun StreetBreakdownSection(
     groups: List<StreetGroup>,
+    system: MeasurementSystem,
     onSelectStreet: (String) -> Unit,
 ) {
+    val speedUnit = UnitConverter.speedUnit(system)
+
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
         Text("By Street", style = MaterialTheme.typography.titleMedium)
         groups.forEach { group ->
@@ -536,7 +549,7 @@ private fun StreetBreakdownSection(
                             fontWeight = FontWeight.Medium,
                         )
                         Text(
-                            "${group.count} entries · Avg ${"%.1f".format(group.meanSpeed)} MPH",
+                            "${group.count} entries · Avg ${"%.1f".format(UnitConverter.displaySpeed(group.meanSpeed, system))} $speedUnit",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )

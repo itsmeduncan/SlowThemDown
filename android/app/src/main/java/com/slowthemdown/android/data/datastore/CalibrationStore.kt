@@ -7,6 +7,7 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import com.slowthemdown.shared.model.CalibrationMethod
+import com.slowthemdown.shared.model.MeasurementSystem
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -15,13 +16,13 @@ import javax.inject.Singleton
 
 data class Calibration(
     val method: CalibrationMethod = CalibrationMethod.MANUAL_DISTANCE,
-    val pixelsPerFoot: Double = 0.0,
-    val referenceDistanceFeet: Double = 0.0,
+    val pixelsPerMeter: Double = 0.0,
+    val referenceDistanceMeters: Double = 0.0,
     val pixelDistance: Double = 0.0,
     val vehicleReferenceName: String? = null,
     val timestampMillis: Long = System.currentTimeMillis(),
 ) {
-    val isValid: Boolean get() = pixelsPerFoot > 0
+    val isValid: Boolean get() = pixelsPerMeter > 0
 }
 
 private val Context.dataStore by preferencesDataStore(name = "calibration")
@@ -32,19 +33,32 @@ class CalibrationStore @Inject constructor(
 ) {
     private object Keys {
         val METHOD = stringPreferencesKey("method")
-        val PIXELS_PER_FOOT = doublePreferencesKey("pixels_per_foot")
-        val REFERENCE_DISTANCE = doublePreferencesKey("reference_distance")
+        val PIXELS_PER_METER = doublePreferencesKey("pixels_per_meter")
+        val REFERENCE_DISTANCE_METERS = doublePreferencesKey("reference_distance_meters")
         val PIXEL_DISTANCE = doublePreferencesKey("pixel_distance")
         val VEHICLE_REF_NAME = stringPreferencesKey("vehicle_ref_name")
         val TIMESTAMP = longPreferencesKey("timestamp")
+        val MEASUREMENT_SYSTEM = stringPreferencesKey("measurement_system")
+
+        // Legacy keys for migration
+        val LEGACY_PIXELS_PER_FOOT = doublePreferencesKey("pixels_per_foot")
+        val LEGACY_REFERENCE_DISTANCE = doublePreferencesKey("reference_distance")
     }
 
     val calibration: Flow<Calibration> = context.dataStore.data.map { prefs ->
+        // Try new keys first, fall back to converted legacy values
+        val ppm = prefs[Keys.PIXELS_PER_METER]
+            ?: prefs[Keys.LEGACY_PIXELS_PER_FOOT]?.let { it * 3.28084 }
+            ?: 0.0
+        val refMeters = prefs[Keys.REFERENCE_DISTANCE_METERS]
+            ?: prefs[Keys.LEGACY_REFERENCE_DISTANCE]?.let { it * 0.3048 }
+            ?: 0.0
+
         Calibration(
             method = prefs[Keys.METHOD]?.let { CalibrationMethod.fromRawValue(it) }
                 ?: CalibrationMethod.MANUAL_DISTANCE,
-            pixelsPerFoot = prefs[Keys.PIXELS_PER_FOOT] ?: 0.0,
-            referenceDistanceFeet = prefs[Keys.REFERENCE_DISTANCE] ?: 0.0,
+            pixelsPerMeter = ppm,
+            referenceDistanceMeters = refMeters,
             pixelDistance = prefs[Keys.PIXEL_DISTANCE] ?: 0.0,
             vehicleReferenceName = prefs[Keys.VEHICLE_REF_NAME],
             timestampMillis = prefs[Keys.TIMESTAMP] ?: System.currentTimeMillis(),
@@ -54,11 +68,28 @@ class CalibrationStore @Inject constructor(
     suspend fun save(calibration: Calibration) {
         context.dataStore.edit { prefs ->
             prefs[Keys.METHOD] = calibration.method.rawValue
-            prefs[Keys.PIXELS_PER_FOOT] = calibration.pixelsPerFoot
-            prefs[Keys.REFERENCE_DISTANCE] = calibration.referenceDistanceFeet
+            prefs[Keys.PIXELS_PER_METER] = calibration.pixelsPerMeter
+            prefs[Keys.REFERENCE_DISTANCE_METERS] = calibration.referenceDistanceMeters
             prefs[Keys.PIXEL_DISTANCE] = calibration.pixelDistance
             calibration.vehicleReferenceName?.let { prefs[Keys.VEHICLE_REF_NAME] = it }
             prefs[Keys.TIMESTAMP] = calibration.timestampMillis
         }
+    }
+
+    val measurementSystem: Flow<MeasurementSystem> = context.dataStore.data.map { prefs ->
+        prefs[Keys.MEASUREMENT_SYSTEM]?.let { MeasurementSystem.fromRawValue(it) }
+            ?: defaultMeasurementSystem()
+    }
+
+    suspend fun saveMeasurementSystem(system: MeasurementSystem) {
+        context.dataStore.edit { prefs ->
+            prefs[Keys.MEASUREMENT_SYSTEM] = system.rawValue
+        }
+    }
+
+    private fun defaultMeasurementSystem(): MeasurementSystem {
+        val country = java.util.Locale.getDefault().country
+        return if (country in setOf("US", "LR", "MM")) MeasurementSystem.IMPERIAL
+        else MeasurementSystem.METRIC
     }
 }

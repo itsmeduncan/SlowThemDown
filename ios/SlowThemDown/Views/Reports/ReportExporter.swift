@@ -1,14 +1,15 @@
 import UIKit
 
 enum ReportExporter {
-    static func generateCSV(entries: [SpeedEntry]) -> String {
-        var csv = "Timestamp,Speed (MPH),Speed Limit,Street,Vehicle Type,Direction,Over Limit,Calibration Method,Time Delta (s),Notes\n"
+    static func generateCSV(entries: [SpeedEntry], system: MeasurementSystem) -> String {
+        let unit = UnitConverter.speedUnit(system)
+        var csv = "Timestamp,Speed (\(unit)),Speed Limit (\(unit)),Street,Vehicle Type,Direction,Over Limit,Calibration Method,Time Delta (s),Notes\n"
         let formatter = ISO8601DateFormatter()
         for entry in entries {
             let fields = [
                 formatter.string(from: entry.timestamp),
-                String(format: "%.1f", entry.speedMPH),
-                "\(entry.speedLimit)",
+                String(format: "%.1f", UnitConverter.displaySpeed(entry.speed, system: system)),
+                String(format: "%.0f", UnitConverter.displaySpeed(entry.speedLimit, system: system)),
                 entry.streetName.replacingOccurrences(of: ",", with: ";"),
                 entry.vehicleType.label,
                 entry.direction.label,
@@ -22,11 +23,12 @@ enum ReportExporter {
         return csv
     }
 
-    static func generatePDF(entries: [SpeedEntry], stats: TrafficStats?) -> Data {
+    static func generatePDF(entries: [SpeedEntry], stats: TrafficStats?, system: MeasurementSystem) -> Data {
         let pageWidth: CGFloat = 612
         let pageHeight: CGFloat = 792
         let margin: CGFloat = 50
         let contentWidth = pageWidth - margin * 2
+        let unit = UnitConverter.speedUnit(system)
 
         let renderer = UIGraphicsPDFRenderer(
             bounds: CGRect(x: 0, y: 0, width: pageWidth, height: pageHeight)
@@ -63,12 +65,12 @@ enum ReportExporter {
                 ]
                 let statLines = [
                     ("Total Entries:", "\(stats.count)"),
-                    ("V85 Speed:", String(format: "%.1f MPH", stats.v85)),
-                    ("Mean Speed:", String(format: "%.1f MPH", stats.mean)),
-                    ("Median Speed:", String(format: "%.1f MPH", stats.median)),
-                    ("Min / Max:", String(format: "%.1f / %.1f MPH", stats.min, stats.max)),
+                    ("V85 Speed:", String(format: "%.1f %@", UnitConverter.displaySpeed(stats.v85, system: system), unit)),
+                    ("Mean Speed:", String(format: "%.1f %@", UnitConverter.displaySpeed(stats.mean, system: system), unit)),
+                    ("Median Speed:", String(format: "%.1f %@", UnitConverter.displaySpeed(stats.median, system: system), unit)),
+                    ("Min / Max:", String(format: "%.1f / %.1f %@", UnitConverter.displaySpeed(stats.min, system: system), UnitConverter.displaySpeed(stats.max, system: system), unit)),
                     ("Over Limit:", String(format: "%d (%.0f%%)", stats.overLimitCount, stats.overLimitPercent)),
-                    ("Std Deviation:", String(format: "%.1f MPH", stats.standardDeviation)),
+                    ("Std Deviation:", String(format: "%.1f %@", UnitConverter.displaySpeed(stats.standardDeviation, system: system), unit)),
                 ]
                 for (label, value) in statLines {
                     label.draw(at: CGPoint(x: margin, y: y), withAttributes: boldAttrs)
@@ -116,8 +118,8 @@ enum ReportExporter {
                 }
                 let row: [(String, CGFloat)] = [
                     (dateFormatter.string(from: entry.timestamp), 0),
-                    (String(format: "%.1f", entry.speedMPH), 130),
-                    ("\(entry.speedLimit)", 190),
+                    (String(format: "%.1f", UnitConverter.displaySpeed(entry.speed, system: system)), 130),
+                    (String(format: "%.0f", UnitConverter.displaySpeed(entry.speedLimit, system: system)), 190),
                     (String(entry.streetName.prefix(20)), 240),
                     (entry.vehicleType.label, 380),
                     (entry.isOverLimit ? "YES" : "", 450),
@@ -130,8 +132,8 @@ enum ReportExporter {
         }
     }
 
-    static func csvFileURL(entries: [SpeedEntry]) -> URL? {
-        let csv = generateCSV(entries: entries)
+    static func csvFileURL(entries: [SpeedEntry], system: MeasurementSystem) -> URL? {
+        let csv = generateCSV(entries: entries, system: system)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("SlowThemDown_Report.csv")
         do {
             try csv.write(to: url, atomically: true, encoding: .utf8)
@@ -141,8 +143,8 @@ enum ReportExporter {
         }
     }
 
-    static func pdfFileURL(entries: [SpeedEntry], stats: TrafficStats?) -> URL? {
-        let data = generatePDF(entries: entries, stats: stats)
+    static func pdfFileURL(entries: [SpeedEntry], stats: TrafficStats?, system: MeasurementSystem) -> URL? {
+        let data = generatePDF(entries: entries, stats: stats, system: system)
         let url = FileManager.default.temporaryDirectory.appendingPathComponent("SlowThemDown_Report.pdf")
         do {
             try data.write(to: url)

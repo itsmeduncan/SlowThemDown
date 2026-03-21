@@ -8,7 +8,7 @@ struct SpeedEntryTests {
     // MARK: - Enum accessors
 
     @Test func vehicleType_getterAndSetter() {
-        let entry = SpeedEntry(speedMPH: 30, vehicleType: .truck)
+        let entry = SpeedEntry(speed: 13.41, vehicleType: .truck)
         #expect(entry.vehicleType == .truck)
         #expect(entry.vehicleTypeRaw == "truck")
 
@@ -17,13 +17,13 @@ struct SpeedEntryTests {
     }
 
     @Test func vehicleType_unknownRawDefaultsToCar() {
-        let entry = SpeedEntry(speedMPH: 30)
+        let entry = SpeedEntry(speed: 13.41)
         entry.vehicleTypeRaw = "segway"
         #expect(entry.vehicleType == .car)
     }
 
     @Test func direction_getterAndSetter() {
-        let entry = SpeedEntry(speedMPH: 30, direction: .toward)
+        let entry = SpeedEntry(speed: 13.41, direction: .toward)
         #expect(entry.direction == .toward)
         #expect(entry.directionRaw == "toward")
 
@@ -32,7 +32,7 @@ struct SpeedEntryTests {
     }
 
     @Test func calibrationMethod_getterAndSetter() {
-        let entry = SpeedEntry(speedMPH: 30, calibrationMethod: .vehicleReference)
+        let entry = SpeedEntry(speed: 13.41, calibrationMethod: .vehicleReference)
         #expect(entry.calibrationMethod == .vehicleReference)
         #expect(entry.calibrationMethodRaw == "vehicle_reference")
     }
@@ -40,39 +40,41 @@ struct SpeedEntryTests {
     // MARK: - isOverLimit
 
     @Test func isOverLimit_speedAboveLimit_returnsTrue() {
-        let entry = SpeedEntry(speedMPH: 30, speedLimit: 25)
+        let entry = SpeedEntry(speed: 13.41, speedLimit: 11.176)
         #expect(entry.isOverLimit == true)
     }
 
     @Test func isOverLimit_speedAtLimit_returnsFalse() {
-        let entry = SpeedEntry(speedMPH: 25, speedLimit: 25)
+        let entry = SpeedEntry(speed: 11.176, speedLimit: 11.176)
         #expect(entry.isOverLimit == false)
     }
 
     @Test func isOverLimit_speedBelowLimit_returnsFalse() {
-        let entry = SpeedEntry(speedMPH: 20, speedLimit: 25)
+        let entry = SpeedEntry(speed: 8.94, speedLimit: 11.176)
         #expect(entry.isOverLimit == false)
     }
 
     // MARK: - speedCategory
 
     @Test func speedCategory_underLimit() {
-        let entry = SpeedEntry(speedMPH: 20, speedLimit: 25)
+        let entry = SpeedEntry(speed: 8.94, speedLimit: 11.176)
         #expect(entry.speedCategory == .underLimit)
     }
 
     @Test func speedCategory_atLimit_isUnder() {
-        let entry = SpeedEntry(speedMPH: 25, speedLimit: 25)
+        let entry = SpeedEntry(speed: 11.176, speedLimit: 11.176)
         #expect(entry.speedCategory == .underLimit)
     }
 
     @Test func speedCategory_marginal() {
-        let entry = SpeedEntry(speedMPH: 28, speedLimit: 25)
+        // 12.52 / 11.176 = 1.12, which is <= 1.2 -> marginal
+        let entry = SpeedEntry(speed: 12.52, speedLimit: 11.176)
         #expect(entry.speedCategory == .marginal)
     }
 
     @Test func speedCategory_overLimit() {
-        let entry = SpeedEntry(speedMPH: 35, speedLimit: 25)
+        // 15.65 / 11.176 = 1.40 -> over limit
+        let entry = SpeedEntry(speed: 15.65, speedLimit: 11.176)
         #expect(entry.speedCategory == .overLimit)
     }
 
@@ -87,7 +89,7 @@ struct SpeedEntryTests {
     // MARK: - Default values
 
     @Test func init_defaultValues() {
-        let entry = SpeedEntry(speedMPH: 30)
+        let entry = SpeedEntry(speed: 13.41)
         #expect(entry.speedLimit == RoadStandards.defaultSpeedLimit)
         #expect(entry.streetName.isEmpty)
         #expect(entry.notes.isEmpty)

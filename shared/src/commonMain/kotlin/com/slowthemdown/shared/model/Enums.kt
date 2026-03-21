@@ -53,8 +53,10 @@ enum class SpeedCategory(val label: String) {
     OVER_LIMIT("Over Limit");
 
     companion object {
-        fun fromSpeed(speedMPH: Double, speedLimit: Int): SpeedCategory {
-            val ratio = speedMPH / speedLimit.toDouble()
+        /** Categorize speed relative to limit. Both values must be in the same unit (e.g. m/s). */
+        fun fromSpeed(speed: Double, speedLimit: Double): SpeedCategory {
+            if (speedLimit <= 0.0) return UNDER_LIMIT
+            val ratio = speed / speedLimit
             return when {
                 ratio <= 1.0 -> UNDER_LIMIT
                 ratio <= 1.2 -> MARGINAL

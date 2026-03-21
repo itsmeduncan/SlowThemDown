@@ -29,7 +29,9 @@ object AppModule {
             context,
             SlowThemDownDatabase::class.java,
             "slowthemdown.db"
-        ).build()
+        )
+            .addMigrations(SlowThemDownDatabase.MIGRATION_1_2)
+            .build()
     }
 
     @Provides
