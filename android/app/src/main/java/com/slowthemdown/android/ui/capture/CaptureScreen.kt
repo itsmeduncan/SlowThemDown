@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
@@ -166,20 +167,28 @@ private fun SelectSourceContent(viewModel: CaptureViewModel) {
                 ),
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Row(
-                    modifier = Modifier.padding(12.dp),
-                    verticalAlignment = Alignment.CenterVertically,
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Icon(
                         Icons.Default.Warning,
                         contentDescription = null,
                         tint = Color(0xFFFFC107),
+                        modifier = Modifier.size(36.dp),
                     )
-                    Spacer(modifier = Modifier.width(8.dp))
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "Not calibrated. Use a vehicle reference or calibrate first.",
+                        "Not Calibrated",
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Color(0xFFFFC107),
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        "Use a vehicle reference during capture, or calibrate in Settings for more accurate results.",
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFFFFC107),
+                        modifier = Modifier.fillMaxWidth(),
                     )
                 }
             }
@@ -614,13 +623,16 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
         Text("Estimated Speed", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            "%.1f".format(displaySpeed),
-            style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
+            "%.0f".format(displaySpeed),
+            style = MaterialTheme.typography.displayLarge.copy(
+                fontWeight = FontWeight.Bold,
+                fontSize = 72.sp,
+            ),
             color = speedColor,
         )
         Text(
             speedUnit,
-            style = MaterialTheme.typography.titleMedium,
+            style = MaterialTheme.typography.titleLarge,
             color = speedColor,
         )
 

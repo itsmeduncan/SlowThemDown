@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.ArrowUpward
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.DirectionsCar
+import androidx.compose.material.icons.automirrored.filled.FormatListBulleted
 import androidx.compose.material.icons.filled.FilterList
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
@@ -195,15 +196,29 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
         )
 
         if (entries.isEmpty()) {
-            Box(
+            Column(
                 modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center,
+                verticalArrangement = Arrangement.Center,
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                val hasFilters = searchText.isNotEmpty() || overLimitOnly || vehicleTypeFilter != null
+                Icon(
+                    if (hasFilters) Icons.Default.Search else Icons.AutoMirrored.Filled.FormatListBulleted,
+                    contentDescription = null,
+                    modifier = Modifier.size(64.dp),
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+                )
+                Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    if (searchText.isNotEmpty() || overLimitOnly || vehicleTypeFilter != null)
-                        "No matching entries"
-                    else "No entries yet. Capture some speed measurements!",
-                    style = MaterialTheme.typography.bodyLarge,
+                    if (hasFilters) "No Matching Entries" else "No Entries",
+                    style = MaterialTheme.typography.titleMedium,
+                )
+                Spacer(modifier = Modifier.height(4.dp))
+                Text(
+                    if (hasFilters) "Try adjusting your search or filters."
+                    else "Capture some speed measurements to build your log.",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
         } else {
