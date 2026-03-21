@@ -2,7 +2,13 @@
 
 A cross-platform app for estimating vehicle speeds on residential streets using video analysis. Available for **iOS** and **Android**.
 
+[![iOS CI](https://github.com/itsmeduncan/SlowThemDown/actions/workflows/ci.yml/badge.svg)](https://github.com/itsmeduncan/SlowThemDown/actions/workflows/ci.yml)
+[![Android CI](https://github.com/itsmeduncan/SlowThemDown/actions/workflows/android-ci.yml/badge.svg)](https://github.com/itsmeduncan/SlowThemDown/actions/workflows/android-ci.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
 SlowThemDown helps residents, neighborhood groups, and traffic safety advocates collect speed data on their streets. Record or import a video clip, mark a vehicle across two frames, and SlowThemDown calculates the estimated speed using pixel displacement and a calibrated reference distance.
+
+**[Download on the App Store](https://itsmeduncan.com/slowdown/)** | **[Get it on Google Play](https://itsmeduncan.com/slowdown/)**
 
 ## Features
 
@@ -10,6 +16,7 @@ SlowThemDown helps residents, neighborhood groups, and traffic safety advocates 
 - **Calibrate** — Establish a pixels-per-foot ratio using a known distance in your scene (e.g., lane width) or use a vehicle-as-reference method with a built-in lookup table of common vehicle lengths
 - **Log** — Browse all recorded speed entries with search, filtering by vehicle type, and over-limit highlighting
 - **Reports** — V85 speed analysis, speed distribution histogram, hourly averages, scatter plot over time, street-level filtering and breakdown, and PDF/CSV export for sharing with local officials
+- **Report to Agency** — Send speed data directly to your local traffic department. The app matches your location to a built-in directory of city, county, and state agencies, then composes an email with V85 stats and an attached PDF report
 - **Privacy** — Automatic face and license plate blurring on all captured frames using on-device detection (no data leaves the device)
 
 ## Requirements
@@ -148,9 +155,36 @@ The V85 (85th percentile speed) is a standard traffic engineering metric. It rep
 - `CoordinateMapper` — view-to-image coordinate transforms
 - All enums and reference data (vehicle lengths, road standards)
 
+## Agency Directory
+
+SlowThemDown includes a built-in directory of local agencies (`data/agencies.json`) that accept speeding concern reports. The directory is crowd-sourced — anyone can add their city, county, or state agency by opening a PR.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md#adding-an-agency) for instructions on adding an agency.
+
 ## Contributing
 
 Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+Key documents for contributors:
+
+- [CONTRIBUTING.md](CONTRIBUTING.md) — Setup, workflow, code guidelines, and how to add agencies
+- [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md) — Community standards
+- [AI_USAGE.md](AI_USAGE.md) — Policy on AI-assisted contributions
+- [AGENTS.md](AGENTS.md) — Guidelines for AI agents working on the codebase
+
+## AI Usage
+
+AI coding assistants are allowed and encouraged for contributions to this project. Every AI-assisted contribution must be reviewed by a human before merging. See [AI_USAGE.md](AI_USAGE.md) for the full policy, including what AI should and should not be used for.
+
+## Security
+
+SlowThemDown processes all data on-device. There are no user accounts, no cloud storage, and no telemetry beyond crash reporting (Firebase Crashlytics). The PII blurring pipeline detects and blurs faces and license plates before any sharing or export.
+
+If you discover a security vulnerability, please report it privately to itsmeduncan+security@gmail.com rather than opening a public issue.
+
+## Disclaimer
+
+SlowThemDown produces **speed estimates, not certified measurements**. Results should not be presented as legally admissible evidence. Users are responsible for their own safety while recording. See the [Terms of Service](https://itsmeduncan.com/slowdown/) for full details.
 
 ## License
 

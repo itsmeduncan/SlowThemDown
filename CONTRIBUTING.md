@@ -2,6 +2,8 @@
 
 Thanks for your interest in contributing to SlowThemDown! This project aims to help communities collect traffic speed data on residential streets. It runs on both iOS and Android with shared business logic via Kotlin Multiplatform.
 
+Please read our [Code of Conduct](CODE_OF_CONDUCT.md) before participating. If you're using AI tools, review [AI_USAGE.md](AI_USAGE.md) for guidelines on responsible AI-assisted contributions.
+
 ## Getting Started
 
 1. Fork the repository
@@ -104,10 +106,12 @@ Changes to shared business logic require updates in multiple places:
 
 ### Pull Requests
 
+- Use the [PR template](.github/PULL_REQUEST_TEMPLATE.md) — it includes a verification checklist
 - Describe what the change does and why
 - Specify which platform(s) the change affects
 - Include steps to test the change
 - Reference any related issues
+- If AI tools were used, note this in the AI disclosure section (see [AI_USAGE.md](AI_USAGE.md))
 
 ## CI/CD
 
@@ -170,6 +174,10 @@ The agency directory (`data/agencies.json`) is a crowd-sourced list of local age
 - Unit and UI tests (both platforms)
 - Documentation
 
+## Security
+
+If you discover a security vulnerability, please report it privately to itsmeduncan+security@gmail.com rather than opening a public issue.
+
 ## License
 
-By contributing, you agree that your contributions will be licensed under the MIT License.
+By contributing, you agree that your contributions will be licensed under the [MIT License](LICENSE).
