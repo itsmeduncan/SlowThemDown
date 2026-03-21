@@ -116,7 +116,7 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
                         scope.launch {
                             viewModel.onboardingStore.markCompleted()
                         }
-                        navController.navigate(Screen.Capture.route) {
+                        navController.navigate(Screen.Calibrate.route) {
                             popUpTo(ONBOARDING_ROUTE) { inclusive = true }
                         }
                     }
