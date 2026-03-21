@@ -100,10 +100,179 @@
     "website": "https://www.ocpublicworks.com"
   },
   {
+    "name": "San Francisco Municipal Transportation Agency",
+    "email": "sustainable.streets@sfmta.com",
+    "jurisdiction": "city",
+    "city": "San Francisco",
+    "county": "San Francisco",
+    "state": "CA",
+    "website": "https://www.sfmta.com"
+  },
+  {
+    "name": "Los Angeles Department of Transportation",
+    "email": "ladot@lacity.org",
+    "jurisdiction": "city",
+    "city": "Los Angeles",
+    "county": "Los Angeles",
+    "state": "CA",
+    "website": "https://ladot.lacity.gov"
+  },
+  {
+    "name": "San Diego Public Works",
+    "email": "tsdright-of-way@sandiego.gov",
+    "jurisdiction": "city",
+    "city": "San Diego",
+    "county": "San Diego",
+    "state": "CA",
+    "website": "https://www.sandiego.gov/publicworks"
+  },
+  {
+    "name": "Sacramento Department of Public Works",
+    "email": "311@cityofsacramento.org",
+    "jurisdiction": "city",
+    "city": "Sacramento",
+    "county": "Sacramento",
+    "state": "CA",
+    "website": "https://www.cityofsacramento.gov/public-works"
+  },
+  {
+    "name": "Oakland Department of Transportation",
+    "email": "oakdot@oaklandca.gov",
+    "jurisdiction": "city",
+    "city": "Oakland",
+    "county": "Alameda",
+    "state": "CA",
+    "website": "https://www.oaklandca.gov/departments/transportation"
+  },
+  {
+    "name": "San Jose Department of Transportation",
+    "email": "dot@sanjoseca.gov",
+    "jurisdiction": "city",
+    "city": "San Jose",
+    "county": "Santa Clara",
+    "state": "CA",
+    "website": "https://www.sanjoseca.gov/your-government/departments-offices/transportation"
+  },
+  {
     "name": "California Department of Transportation",
     "email": "info@dot.ca.gov",
     "jurisdiction": "state",
     "state": "CA",
     "website": "https://dot.ca.gov"
+  },
+  {
+    "name": "Chicago Department of Transportation",
+    "email": "cdotfeedback@cityofchicago.org",
+    "jurisdiction": "city",
+    "city": "Chicago",
+    "county": "Cook",
+    "state": "IL",
+    "website": "https://www.chicago.gov/city/en/depts/cdot.html"
+  },
+  {
+    "name": "New York City Department of Transportation",
+    "email": "dot@dot.nyc.gov",
+    "jurisdiction": "city",
+    "city": "New York",
+    "county": "New York",
+    "state": "NY",
+    "website": "https://www.nyc.gov/html/dot/html/home/home.shtml"
+  },
+  {
+    "name": "Philadelphia Streets Department",
+    "email": "streets@phila.gov",
+    "jurisdiction": "city",
+    "city": "Philadelphia",
+    "county": "Philadelphia",
+    "state": "PA",
+    "website": "https://www.phila.gov/departments/streets-department/"
+  },
+  {
+    "name": "Boston Transportation Department",
+    "email": "btd@boston.gov",
+    "jurisdiction": "city",
+    "city": "Boston",
+    "county": "Suffolk",
+    "state": "MA",
+    "website": "https://www.boston.gov/departments/transportation"
+  },
+  {
+    "name": "Washington DC District Department of Transportation",
+    "email": "ddot@dc.gov",
+    "jurisdiction": "city",
+    "city": "Washington",
+    "state": "DC",
+    "website": "https://ddot.dc.gov"
+  },
+  {
+    "name": "Miami-Dade Department of Transportation and Public Works",
+    "email": "transit@miamidade.gov",
+    "jurisdiction": "county",
+    "county": "Miami-Dade",
+    "state": "FL",
+    "website": "https://www.miamidade.gov/global/transportation/home.page"
+  },
+  {
+    "name": "Nashville Department of Transportation",
+    "email": "ndot@nashville.gov",
+    "jurisdiction": "city",
+    "city": "Nashville",
+    "county": "Davidson",
+    "state": "TN",
+    "website": "https://www.nashville.gov/departments/transportation"
+  },
+  {
+    "name": "Raleigh Transportation Department",
+    "email": "transportation@raleighnc.gov",
+    "jurisdiction": "city",
+    "city": "Raleigh",
+    "county": "Wake",
+    "state": "NC",
+    "website": "https://raleighnc.gov/transportation"
+  },
+  {
+    "name": "Pittsburgh Department of Mobility and Infrastructure",
+    "email": "domi@pittsburghpa.gov",
+    "jurisdiction": "city",
+    "city": "Pittsburgh",
+    "county": "Allegheny",
+    "state": "PA",
+    "website": "https://pittsburghpa.gov/domi/"
+  },
+  {
+    "name": "Houston Public Works",
+    "email": "311@houstontx.gov",
+    "jurisdiction": "city",
+    "city": "Houston",
+    "county": "Harris",
+    "state": "TX",
+    "website": "https://www.houstonpublicworks.org"
+  },
+  {
+    "name": "Phoenix Street Transportation Department",
+    "email": "streets@phoenix.gov",
+    "jurisdiction": "city",
+    "city": "Phoenix",
+    "county": "Maricopa",
+    "state": "AZ",
+    "website": "https://www.phoenix.gov/streets"
+  },
+  {
+    "name": "Salt Lake City Transportation Division",
+    "email": "transportation@slcgov.com",
+    "jurisdiction": "city",
+    "city": "Salt Lake City",
+    "county": "Salt Lake",
+    "state": "UT",
+    "website": "https://www.slc.gov/transportation/"
+  },
+  {
+    "name": "Atlanta Department of Transportation",
+    "email": "atldot@atlantaga.gov",
+    "jurisdiction": "city",
+    "city": "Atlanta",
+    "county": "Fulton",
+    "state": "GA",
+    "website": "https://www.atlantaga.gov/government/departments/transportation"
   }
 ]
