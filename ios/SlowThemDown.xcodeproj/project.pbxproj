@@ -533,6 +533,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Slow Them Down needs microphone access because video recording includes audio capture.";
@@ -682,6 +683,7 @@
 				DEVELOPMENT_TEAM = "$(DEVELOPMENT_TEAM_OVERRIDE)";
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_CFBundleDisplayName = "Slow Them Down";
+				INFOPLIST_KEY_ITSAppUsesNonExemptEncryption = NO;
 				INFOPLIST_KEY_NSCameraUsageDescription = "Slow Them Down needs camera access to record vehicles for speed estimation.";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Slow Them Down uses your location to tag speed measurements with street addresses.";
 				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Slow Them Down needs microphone access because video recording includes audio capture.";

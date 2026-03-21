@@ -52,6 +52,7 @@ targets:
         INFOPLIST_KEY_NSMicrophoneUsageDescription: "Slow Them Down needs microphone access because video recording includes audio capture."
         INFOPLIST_KEY_NSPhotoLibraryUsageDescription: "Slow Them Down needs photo library access to import video clips."
         INFOPLIST_KEY_NSLocationWhenInUseUsageDescription: "Slow Them Down uses your location to tag speed measurements with street addresses."
+        INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
         MARKETING_VERSION: "1.0.0"
         CURRENT_PROJECT_VERSION: "1"
         CODE_SIGN_STYLE: "Automatic"
