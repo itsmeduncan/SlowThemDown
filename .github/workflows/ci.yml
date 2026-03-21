@@ -16,7 +16,7 @@ concurrency:
 
 jobs:
   build-and-test:
-    runs-on: macos-15
+    runs-on: macos-26
     steps:
       - uses: actions/checkout@v5
 
@@ -28,7 +28,7 @@ jobs:
           xcodebuild build \
             -project ios/SlowThemDown.xcodeproj \
             -scheme SlowThemDown \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO | xcpretty
 
@@ -38,6 +38,6 @@ jobs:
           xcodebuild test \
             -project ios/SlowThemDown.xcodeproj \
             -scheme SlowThemDownTests \
-            -destination 'platform=iOS Simulator,name=iPhone 16 Pro' \
+            -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -skipPackagePluginValidation \
             CODE_SIGNING_ALLOWED=NO | xcpretty

@@ -105,7 +105,7 @@ jobs:
 
   ios-beta:
     needs: compute-version
-    runs-on: macos-15
+    runs-on: macos-26
     env:
       VERSION: ${{ needs.compute-version.outputs.version }}
       BUILD_NUMBER: ${{ needs.compute-version.outputs.build_number }}
