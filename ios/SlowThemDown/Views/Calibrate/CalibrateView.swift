@@ -5,6 +5,7 @@ struct CalibrateView: View {
     @State private var vm = CalibrationViewModel()
     @State private var showImagePicker = false
     @State private var selectedItem: PhotosPickerItem?
+    @State private var showSavedConfirmation = false
 
     @AppStorage("measurementSystem") private var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
 
@@ -15,18 +16,31 @@ struct CalibrateView: View {
 
     var body: some View {
         NavigationStack {
-            ScrollView {
-                VStack(spacing: 20) {
-                    unitToggle
-                    statusCard
-                    if vm.selectedImage != nil {
-                        imageSection
-                        distanceSection
-                    } else {
-                        pickImageSection
+            ScrollViewReader { proxy in
+                ScrollView {
+                    VStack(spacing: 20) {
+                        unitToggle
+                            .id("top")
+                        statusCard
+                        if showSavedConfirmation {
+                            savedBanner
+                        }
+                        if vm.selectedImage != nil {
+                            imageSection
+                            distanceSection
+                        } else if !showSavedConfirmation {
+                            pickImageSection
+                        }
+                    }
+                    .padding()
+                }
+                .onChange(of: showSavedConfirmation) { _, showing in
+                    if showing {
+                        withAnimation {
+                            proxy.scrollTo("top", anchor: .top)
+                        }
                     }
                 }
-                .padding()
             }
             .navigationTitle("Calibrate")
             .toolbar {
@@ -37,6 +51,29 @@ struct CalibrateView: View {
                 }
             }
         }
+    }
+
+    private var savedBanner: some View {
+        VStack(spacing: 8) {
+            Image(systemName: "checkmark.circle.fill")
+                .font(.largeTitle)
+                .foregroundStyle(.green)
+            Text("Calibration Saved")
+                .font(.headline)
+            Text("You're all set to start capturing speeds.")
+                .font(.caption)
+                .foregroundStyle(.secondary)
+            Button("Calibrate Again") {
+                showSavedConfirmation = false
+            }
+            .buttonStyle(.bordered)
+            .padding(.top, 4)
+        }
+        .frame(maxWidth: .infinity)
+        .padding()
+        .background(Color(.systemGray6).opacity(0.3))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .transition(.opacity)
     }
 
     private var unitToggle: some View {
@@ -174,6 +211,9 @@ struct CalibrateView: View {
 
             Button {
                 vm.saveCalibration()
+                withAnimation {
+                    showSavedConfirmation = true
+                }
             } label: {
                 Label("Save Calibration", systemImage: "checkmark.circle")
                     .frame(maxWidth: .infinity)

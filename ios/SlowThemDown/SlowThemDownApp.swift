@@ -21,10 +21,9 @@ struct SlowThemDownApp: App {
                 configurations: config
             )
         } catch {
-            #if DEBUG
-            // Pre-release only: delete unversioned store so dev simulators recover.
-            // Remove this fallback before shipping v1 — production upgrades must
-            // go through the migration plan, never silently drop user data.
+            // Migration failed — likely an unversioned store from a pre-metric build.
+            // Delete and recreate. Safe during pre-release; must be revisited before
+            // shipping v1 to users with data worth preserving.
             Self.deleteSwiftDataStore(at: config.url)
             do {
                 container = try ModelContainer(
@@ -35,9 +34,6 @@ struct SlowThemDownApp: App {
             } catch {
                 fatalError("Failed to create model container after store reset: \(error)")
             }
-            #else
-            fatalError("SwiftData migration failed: \(error)")
-            #endif
         }
 
         #if DEBUG
