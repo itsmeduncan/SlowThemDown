@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -42,6 +43,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -70,6 +72,7 @@ import com.slowthemdown.android.viewmodel.CalibrationViewModel
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
+import kotlinx.coroutines.launch
 import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.RoadStandards
 import com.slowthemdown.shared.model.UnitConverter
@@ -87,6 +90,9 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
     val context = LocalContext.current
 
     var distanceText by remember { mutableStateOf("") }
+    var showSavedConfirmation by remember { mutableStateOf(false) }
+    val scrollState = rememberScrollState()
+    val scope = rememberCoroutineScope()
     val distUnit = UnitConverter.distanceUnit(system)
     val calUnit = UnitConverter.calibrationUnit(system)
 
@@ -105,7 +111,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .verticalScroll(rememberScrollState())
+            .verticalScroll(scrollState)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
@@ -184,8 +190,40 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
             }
         }
 
+        // Saved confirmation
+        if (showSavedConfirmation) {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                ),
+            ) {
+                Column(
+                    modifier = Modifier.fillMaxWidth().padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    Icon(
+                        Icons.Default.Check,
+                        contentDescription = null,
+                        tint = Color(0xFF4CAF50),
+                        modifier = Modifier.size(48.dp),
+                    )
+                    Text("Calibration Saved", style = MaterialTheme.typography.titleMedium)
+                    Text(
+                        "You're all set to start capturing speeds.",
+                        style = MaterialTheme.typography.bodySmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                    OutlinedButton(onClick = { showSavedConfirmation = false }) {
+                        Text("Calibrate Again")
+                    }
+                }
+            }
+        }
+
         // Step 1: Pick image
-        if (bitmap == null) {
+        if (bitmap == null && !showSavedConfirmation) {
             Text("Step 1: Select a reference image", style = MaterialTheme.typography.titleMedium)
             Button(
                 onClick = {
@@ -275,7 +313,12 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
             }
 
             Button(
-                onClick = { viewModel.saveCalibration() },
+                onClick = {
+                    viewModel.saveCalibration()
+                    showSavedConfirmation = true
+                    viewModel.clearImage()
+                    scope.launch { scrollState.animateScrollTo(0) }
+                },
                 modifier = Modifier.fillMaxWidth(),
                 enabled = canSave,
             ) {

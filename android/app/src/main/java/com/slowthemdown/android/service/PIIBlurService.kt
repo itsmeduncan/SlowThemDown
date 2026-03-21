@@ -9,6 +9,7 @@ import com.google.mlkit.vision.text.TextRecognizer
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.tasks.await
+import kotlinx.coroutines.withTimeoutOrNull
 import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.math.max
@@ -21,6 +22,11 @@ class PIIBlurService @Inject constructor(
 ) {
 
     suspend fun blurPII(bitmap: Bitmap): Bitmap {
+        // Timeout after 5s — ML Kit model downloads can hang on emulators
+        return withTimeoutOrNull(5_000L) { blurPIIInternal(bitmap) } ?: bitmap
+    }
+
+    private suspend fun blurPIIInternal(bitmap: Bitmap): Bitmap {
         val inputImage = InputImage.fromBitmap(bitmap, 0)
 
         val blurRects = mutableListOf<Rect>()
