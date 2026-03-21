@@ -570,7 +570,6 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.app;
-				PRODUCT_NAME = "Slow Them Down";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -721,7 +720,6 @@
 				);
 				MARKETING_VERSION = 1.0.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.slowthemdown.app;
-				PRODUCT_NAME = "Slow Them Down";
 				PROVISIONING_PROFILE_SPECIFIER = "$(PROVISIONING_PROFILE_SPECIFIER_OVERRIDE)";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 1;
