@@ -69,8 +69,8 @@ If you modify shared business logic (speed formula, coordinate mapping, enums), 
 ### Code
 
 #### iOS
-- Swift 5.9+ with `@Observable` (not `@ObservableObject`)
-- No external dependencies — Apple frameworks only
+- Swift 6.1 toolchain with Swift 5 language mode, `@Observable` (not `@ObservableObject`)
+- Firebase Crashlytics via SPM is the only external dependency; otherwise Apple frameworks only
 - Keep SwiftUI view bodies small to avoid type-checker timeouts
 - Follow existing MVVM patterns
 

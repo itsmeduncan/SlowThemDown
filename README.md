@@ -9,14 +9,15 @@ SlowThemDown helps residents, neighborhood groups, and traffic safety advocates 
 - **Capture** — Record video or import from your library, select two frames, mark the same point on a vehicle in each frame, and get an instant speed estimate
 - **Calibrate** — Establish a pixels-per-foot ratio using a known distance in your scene (e.g., lane width) or use a vehicle-as-reference method with a built-in lookup table of common vehicle lengths
 - **Log** — Browse all recorded speed entries with search, filtering by vehicle type, and over-limit highlighting
-- **Reports** — V85 speed analysis, speed distribution histogram, hourly averages, scatter plot over time, and PDF/CSV export for sharing with local officials
+- **Reports** — V85 speed analysis, speed distribution histogram, hourly averages, scatter plot over time, street-level filtering and breakdown, and PDF/CSV export for sharing with local officials
+- **Privacy** — Automatic face and license plate blurring on all captured frames using on-device detection (no data leaves the device)
 
 ## Requirements
 
 ### iOS
 - iOS 17.0+
-- Xcode 15.0+
-- Swift 5.9+
+- Xcode 26+
+- Swift 6.1 toolchain (Swift 5 language mode)
 - [XcodeGen](https://github.com/yonaskolb/XcodeGen)
 
 ### Android
@@ -129,6 +130,7 @@ The V85 (85th percentile speed) is a standard traffic engineering metric. It rep
 - **AVFoundation** for video frame extraction
 - **Swift Charts** for visualizations
 - **CoreLocation** for street name geocoding
+- **Vision** framework for face and license plate detection (PII blurring)
 - **Firebase Crashlytics** via SPM for crash reporting
 
 ### Android
@@ -137,6 +139,7 @@ The V85 (85th percentile speed) is a standard traffic engineering metric. It rep
 - **MediaMetadataRetriever** for video frame extraction
 - **Hilt** for dependency injection
 - **DataStore** for calibration settings
+- **ML Kit** face detection + text recognition for PII blurring
 - **FusedLocationProviderClient** for location
 
 ### Shared (KMP)

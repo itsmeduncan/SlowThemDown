@@ -39,7 +39,7 @@ SlowThemDown/
 - Test shared module: `./gradlew :shared:allTests`
 - Test Android: `./gradlew :android:app:testDebugUnitTest`
 - Lint: `./gradlew :android:app:lintDebug`
-- Dependencies: Jetpack Compose, Room, Hilt, CameraX, DataStore
+- Dependencies: Jetpack Compose, Room, Hilt, CameraX, DataStore, ML Kit (face-detection, text-recognition)
 
 ### KMP Shared Module
 - Pure Kotlin, no platform dependencies
@@ -78,21 +78,23 @@ SlowThemDown/
 ## Code Style
 
 ### iOS
-- Swift 5.9+ with strict concurrency
+- Swift 6.1 toolchain with Swift 5 language mode (Xcode 26+)
 - Prefer `@Observable` over `@ObservableObject`/`@Published`
 - Firebase Crashlytics via SPM (only external dependency)
+- ML Kit–free PII blur pipeline (faces via Vision, plates via VNRecognizeTextRequest)
 
 ### Android/Shared
 - Kotlin 2.3+
 - Jetpack Compose for UI
 - `StateFlow` for observable state
 - Hilt `@Inject` for DI
+- ML Kit face detection + text recognition for PII blurring
 
 ## Testing
 
 ### iOS
 - Swift Testing (`@Test`) in `ios/SlowThemDownTests/`
-- Tests for `SpeedCalculator` and `CoordinateMapper`
+- Tests for `SpeedCalculator`, `CoordinateMapper`, `Calibration`, `SpeedEntry`, `PIIBlurService`, `LogViewModel`, `ReportViewModel`, `CaptureViewModel`, `CalibrationViewModel`
 
 ### KMP Shared
 - `kotlin.test` in `shared/src/commonTest/`

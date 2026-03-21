@@ -25,7 +25,7 @@ shared/        # KMP shared module — pure Kotlin, no platform deps
 
 ### iOS
 - iOS 17.0 minimum deployment target
-- Swift 5.9+, SwiftUI only (no UIKit views except UIViewControllerRepresentable wrappers)
+- Swift 6.1 toolchain with Swift 5 language mode, SwiftUI only (no UIKit views except UIViewControllerRepresentable wrappers)
 - Firebase Crashlytics via SPM (only external dependency)
 - XcodeGen manages the project — never hand-edit `.pbxproj`
 
