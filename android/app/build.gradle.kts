@@ -93,6 +93,10 @@ dependencies {
     // Coil for image loading
     implementation("io.coil-kt.coil3:coil-compose:3.4.0")
 
+    // ML Kit Face Detection
+    implementation("com.google.mlkit:face-detection:16.1.7")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.10.2")
+
     // Firebase Crashlytics
     implementation(platform("com.google.firebase:firebase-bom:34.10.0"))
     implementation("com.google.firebase:firebase-crashlytics")

@@ -2,6 +2,9 @@ package com.slowthemdown.android.di
 
 import android.content.Context
 import androidx.room.Room
+import com.google.mlkit.vision.face.FaceDetection
+import com.google.mlkit.vision.face.FaceDetector
+import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.slowthemdown.android.data.db.SlowThemDownDatabase
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import dagger.Module
@@ -27,4 +30,12 @@ object AppModule {
 
     @Provides
     fun provideSpeedEntryDao(db: SlowThemDownDatabase): SpeedEntryDao = db.speedEntryDao()
+
+    @Provides
+    @Singleton
+    fun provideFaceDetector(): FaceDetector = FaceDetection.getClient(
+        FaceDetectorOptions.Builder()
+            .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
+            .build()
+    )
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.slowthemdown.android.data.datastore.Calibration
 import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.service.HapticManager
+import com.slowthemdown.android.service.PIIBlurService
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
@@ -27,6 +28,7 @@ import javax.inject.Inject
 class CalibrationViewModel @Inject constructor(
     private val calibrationStore: CalibrationStore,
     private val hapticManager: HapticManager,
+    private val piiBlurService: PIIBlurService,
 ) : ViewModel() {
 
     val calibration: StateFlow<Calibration> = calibrationStore.calibration
@@ -63,9 +65,12 @@ class CalibrationViewModel @Inject constructor(
     fun setSelectedVehicleRef(ref: VehicleReference?) { _selectedVehicleRef.value = ref }
 
     fun setImage(bitmap: Bitmap) {
-        _selectedImageBitmap.value = bitmap
-        _imageSize.value = Size(bitmap.width.toDouble(), bitmap.height.toDouble())
-        resetMarkers()
+        viewModelScope.launch {
+            val blurred = piiBlurService.blurFaces(bitmap)
+            _selectedImageBitmap.value = blurred
+            _imageSize.value = Size(blurred.width.toDouble(), blurred.height.toDouble())
+            resetMarkers()
+        }
     }
 
     fun clearImage() {

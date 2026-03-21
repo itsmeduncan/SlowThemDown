@@ -5,6 +5,7 @@ import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.service.HapticManager
 import com.slowthemdown.android.service.LocationService
+import com.slowthemdown.android.service.PIIBlurService
 import com.slowthemdown.android.service.VideoFrameExtractor
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
@@ -38,6 +39,7 @@ class CaptureViewModelTest {
     private val calibrationStore = mockk<CalibrationStore>()
     private val speedEntryDao = mockk<SpeedEntryDao>(relaxed = true)
     private val hapticManager = mockk<HapticManager>(relaxed = true)
+    private val piiBlurService = mockk<PIIBlurService>(relaxed = true)
 
     private lateinit var vm: CaptureViewModel
 
@@ -47,7 +49,7 @@ class CaptureViewModelTest {
         every { calibrationStore.calibration } returns flowOf(
             Calibration(pixelsPerFoot = 10.0, referenceDistanceFeet = 20.0)
         )
-        vm = CaptureViewModel(frameExtractor, locationService, calibrationStore, speedEntryDao, hapticManager)
+        vm = CaptureViewModel(frameExtractor, locationService, calibrationStore, speedEntryDao, hapticManager, piiBlurService)
     }
 
     @After
