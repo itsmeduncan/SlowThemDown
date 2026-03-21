@@ -15,7 +15,7 @@ private let pages: [OnboardingPage] = [
     OnboardingPage(
         icon: "ruler",
         title: "Calibrate First",
-        description: "Before capturing speeds, calibrate by marking a known distance in a photo — like a lane width or parking space. This tells the app how to convert pixels to real-world feet."
+        description: "Before capturing speeds, calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start on the Calibrate tab where you can also choose imperial or metric units."
     ),
     OnboardingPage(
         icon: "video.fill",

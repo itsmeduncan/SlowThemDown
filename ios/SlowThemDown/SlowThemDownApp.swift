@@ -7,7 +7,9 @@ struct SlowThemDownApp: App {
     let container: ModelContainer
 
     init() {
+        #if !DEBUG
         FirebaseApp.configure()
+        #endif
 
         let schema = Schema(versionedSchema: SpeedEntrySchemaV2.self)
         let config = ModelConfiguration(schema: schema)
@@ -19,16 +21,11 @@ struct SlowThemDownApp: App {
                 configurations: config
             )
         } catch {
-            // Migration from unversioned schema failed — delete old store and start fresh
-            // This only affects development builds; no production users exist yet
-            let storeURL = config.url
-            try? FileManager.default.removeItem(at: storeURL)
-            // Also remove WAL and SHM files
-            let walURL = storeURL.appendingPathExtension("wal")
-            let shmURL = storeURL.appendingPathExtension("shm")
-            try? FileManager.default.removeItem(at: walURL)
-            try? FileManager.default.removeItem(at: shmURL)
-
+            #if DEBUG
+            // Pre-release only: delete unversioned store so dev simulators recover.
+            // Remove this fallback before shipping v1 — production upgrades must
+            // go through the migration plan, never silently drop user data.
+            Self.deleteSwiftDataStore(at: config.url)
             do {
                 container = try ModelContainer(
                     for: schema,
@@ -38,6 +35,9 @@ struct SlowThemDownApp: App {
             } catch {
                 fatalError("Failed to create model container after store reset: \(error)")
             }
+            #else
+            fatalError("SwiftData migration failed: \(error)")
+            #endif
         }
 
         #if DEBUG
@@ -54,6 +54,23 @@ struct SlowThemDownApp: App {
                 }
         }
         .modelContainer(container)
+    }
+
+    private static func deleteSwiftDataStore(at url: URL) {
+        let fm = FileManager.default
+        // Remove the store file and its SQLite companions
+        for ext in ["", "-wal", "-shm"] {
+            let fileURL = ext.isEmpty ? url : URL(fileURLWithPath: url.path + ext)
+            try? fm.removeItem(at: fileURL)
+        }
+        // Also try the default SwiftData location in Application Support
+        if let appSupport = fm.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
+            let defaultStore = appSupport.appendingPathComponent("default.store")
+            for ext in ["", "-wal", "-shm"] {
+                let fileURL = ext.isEmpty ? defaultStore : URL(fileURLWithPath: defaultStore.path + ext)
+                try? fm.removeItem(at: fileURL)
+            }
+        }
     }
 
     private func applyAppearance() {
