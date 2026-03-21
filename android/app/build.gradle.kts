@@ -71,8 +71,9 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.10.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.10.0")
 
-    // Activity
+    // Activity + Splash Screen
     implementation("androidx.activity:activity-compose:1.13.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
     implementation("androidx.core:core-ktx:1.18.0")
 
     // Room
