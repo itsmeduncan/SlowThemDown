@@ -38,7 +38,7 @@ fun SpeedBadge(
             .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Text(
-            text = "%.1f %s".format(displaySpeed, unit),
+            text = "%.0f %s".format(displaySpeed, unit),
             color = color,
             style = MaterialTheme.typography.labelLarge,
         )

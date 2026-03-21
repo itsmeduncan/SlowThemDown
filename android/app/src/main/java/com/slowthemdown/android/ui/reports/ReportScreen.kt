@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.PictureAsPdf
@@ -31,6 +32,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.FilterChip
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -97,13 +99,24 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
     }
 
     if (stats == null) {
-        Box(
+        Column(
             modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center,
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            Icon(
+                Icons.Default.BarChart,
+                contentDescription = null,
+                modifier = Modifier.size(64.dp),
+                tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text("No Data", style = MaterialTheme.typography.titleMedium)
+            Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "No data for reports. Capture some speed measurements!",
-                style = MaterialTheme.typography.bodyLarge,
+                "Capture some speed measurements to see reports.",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
         }
         return
@@ -137,6 +150,8 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
 
         // V85 Card
         V85Card(stats = s, speedLimit = mostCommonSpeedLimit, system = system)
+
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
 
         // Metrics Grid
         FlowRow(
@@ -185,24 +200,46 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
             )
         }
 
-        // Export buttons
-        Text("Export", style = MaterialTheme.typography.titleMedium)
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedButton(onClick = { viewModel.exportCsv() }) {
-                Icon(Icons.Default.Description, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text("CSV")
+        // Export & Actions
+        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        Text("Export & Actions", style = MaterialTheme.typography.titleMedium)
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
+            ),
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    OutlinedButton(
+                        onClick = { viewModel.exportCsv() },
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Icon(Icons.Default.Description, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("CSV")
+                    }
+                    OutlinedButton(
+                        onClick = { viewModel.exportPdf() },
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Icon(Icons.Default.PictureAsPdf, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text("PDF")
+                    }
+                }
+                OutlinedButton(
+                    onClick = { viewModel.showAgencyPicker() },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(Icons.Default.Business, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text("Report to Agency")
+                }
             }
-            OutlinedButton(onClick = { viewModel.exportPdf() }) {
-                Icon(Icons.Default.PictureAsPdf, contentDescription = null)
-                Spacer(modifier = Modifier.width(8.dp))
-                Text("PDF")
-            }
-        }
-        OutlinedButton(onClick = { viewModel.showAgencyPicker() }) {
-            Icon(Icons.Default.Business, contentDescription = null)
-            Spacer(modifier = Modifier.width(8.dp))
-            Text("Report to Agency")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -269,7 +306,7 @@ private fun V85Card(stats: TrafficStats, speedLimit: Double, system: Measurement
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 "%.1f".format(v85Display),
-                style = MaterialTheme.typography.displayMedium.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
                 color = v85Color,
             )
             Text(
