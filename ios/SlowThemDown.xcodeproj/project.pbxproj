@@ -29,6 +29,7 @@
 		481F235545802BDB2DEB7F04 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648AF0AEE6B09D68A2980382 /* CaptureView.swift */; };
 		5BD48B733A5B5C847CBF4FC9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = A67C08CFE7688D9903E5F52D /* FirebaseCrashlytics */; };
 		6993C91BBBD30C25397E2E97 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */; };
+		69EAD6B1B79E36CED6F3652C /* PIIBlurService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7783AC8A6FA43BC126891F38 /* PIIBlurService.swift */; };
 		7378C09EF250D91EA696F08C /* SpeedEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5635FD6EB01979D112340CC4 /* SpeedEntry.swift */; };
 		76381DFE4367C6DD04C49370 /* CalibrateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF9A07F59C639EAD454901F /* CalibrateView.swift */; };
 		8ABB751F1EBE1C3D120B297E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A0354163D2D08D093CD8AF19 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		648AF0AEE6B09D68A2980382 /* CaptureView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CaptureView.swift; sourceTree = "<group>"; };
 		6E5AA453EEBCA840B9F79DE8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		75C2CE2C5561A062D29A7891 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
+		7783AC8A6FA43BC126891F38 /* PIIBlurService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIIBlurService.swift; sourceTree = "<group>"; };
 		84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameMarkerView.swift; sourceTree = "<group>"; };
 		8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		89D55457E0849239FA74678F /* CalibrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationTests.swift; sourceTree = "<group>"; };
@@ -189,6 +191,7 @@
 				56B2B45F02AF33208619D5B5 /* CoordinateMapper.swift */,
 				FFF756416CD083546000330C /* HapticManager.swift */,
 				6E5AA453EEBCA840B9F79DE8 /* LocationManager.swift */,
+				7783AC8A6FA43BC126891F38 /* PIIBlurService.swift */,
 				D7984D2693C63DFAA8F164E2 /* VideoFrameExtractor.swift */,
 			);
 			path = Services;
@@ -440,6 +443,7 @@
 				963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */,
 				B768B8104C52646D07CCEF63 /* MetricCard.swift in Sources */,
 				F971C8DA4A433A2A1A5919DA /* OnboardingView.swift in Sources */,
+				69EAD6B1B79E36CED6F3652C /* PIIBlurService.swift in Sources */,
 				D64F47A1B351D661B181B412 /* ReportExporter.swift in Sources */,
 				0CE36F0352225E986F522204 /* ReportView.swift in Sources */,
 				D559C2833DAEA0A1A8E703A0 /* ReportViewModel.swift in Sources */,
