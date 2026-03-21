@@ -35,6 +35,7 @@ Pods/
 android/app/build/
 android/build/
 shared/build/
+android/app/src/main/assets/agencies.json
 local.properties
 *.apk
 *.aab
