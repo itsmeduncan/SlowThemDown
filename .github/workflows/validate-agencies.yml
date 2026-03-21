@@ -1,0 +1,47 @@
+name: Validate Agency Directory
+
+on:
+  pull_request:
+    paths:
+      - 'data/agencies.json'
+      - 'data/agencies.schema.json'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate agencies.json against schema
+        run: npx -y ajv-cli@5 validate -s data/agencies.schema.json -d data/agencies.json --spec=draft2020
+
+      - name: Check JSON formatting
+        run: |
+          node -e "
+            const fs = require('fs');
+            const raw = fs.readFileSync('data/agencies.json', 'utf8');
+            const parsed = JSON.parse(raw);
+            const formatted = JSON.stringify(parsed, null, 2) + '\n';
+            if (raw !== formatted) {
+              console.error('agencies.json is not properly formatted. Run: node -e \"process.stdout.write(JSON.stringify(JSON.parse(require(\\\"fs\\\").readFileSync(\\\"data/agencies.json\\\",\\\"utf8\\\")),null,2)+\\\"\\\\n\\\")\" > data/agencies.json');
+              process.exit(1);
+            }
+            console.log('agencies.json is properly formatted');
+          "
+
+      - name: Check for duplicate emails
+        run: |
+          node -e "
+            const agencies = JSON.parse(require('fs').readFileSync('data/agencies.json', 'utf8'));
+            const emails = agencies.map(a => a.email);
+            const dupes = emails.filter((e, i) => emails.indexOf(e) !== i);
+            if (dupes.length > 0) {
+              console.error('Duplicate emails found:', dupes);
+              process.exit(1);
+            }
+            console.log('No duplicate emails found (' + emails.length + ' agencies)');
+          "

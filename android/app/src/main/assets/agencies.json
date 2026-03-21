@@ -1,0 +1,85 @@
+[
+  {
+    "name": "City of Portland Bureau of Transportation",
+    "email": "speedconcerns@portlandoregon.gov",
+    "jurisdiction": "city",
+    "city": "Portland",
+    "county": "Multnomah",
+    "state": "OR",
+    "website": "https://www.portland.gov/transportation",
+    "notes": "Include intersection and time of day"
+  },
+  {
+    "name": "Seattle Department of Transportation",
+    "email": "sdot_trafficops@seattle.gov",
+    "jurisdiction": "city",
+    "city": "Seattle",
+    "county": "King",
+    "state": "WA",
+    "website": "https://www.seattle.gov/transportation"
+  },
+  {
+    "name": "Denver Public Works",
+    "email": "311@denvergov.org",
+    "jurisdiction": "city",
+    "city": "Denver",
+    "county": "Denver",
+    "state": "CO",
+    "website": "https://www.denvergov.org/Government/Agencies-Departments-Offices/Public-Works"
+  },
+  {
+    "name": "Austin Transportation and Public Works",
+    "email": "transportation@austintexas.gov",
+    "jurisdiction": "city",
+    "city": "Austin",
+    "county": "Travis",
+    "state": "TX",
+    "website": "https://www.austintexas.gov/department/transportation-public-works"
+  },
+  {
+    "name": "Minneapolis Public Works",
+    "email": "311@minneapolismn.gov",
+    "jurisdiction": "city",
+    "city": "Minneapolis",
+    "county": "Hennepin",
+    "state": "MN",
+    "website": "https://www.minneapolismn.gov/government/departments/public-works/"
+  },
+  {
+    "name": "Hennepin County Transportation",
+    "email": "hennepin.transportation@hennepin.us",
+    "jurisdiction": "county",
+    "county": "Hennepin",
+    "state": "MN",
+    "website": "https://www.hennepin.us/your-government/projects-initiatives/transportation"
+  },
+  {
+    "name": "Multnomah County Transportation",
+    "email": "mult.transportation@multco.us",
+    "jurisdiction": "county",
+    "county": "Multnomah",
+    "state": "OR",
+    "website": "https://www.multco.us/transportation-planning"
+  },
+  {
+    "name": "Oregon Department of Transportation",
+    "email": "ask.odot@odot.oregon.gov",
+    "jurisdiction": "state",
+    "state": "OR",
+    "website": "https://www.oregon.gov/odot"
+  },
+  {
+    "name": "Washington State Department of Transportation",
+    "email": "wsdotcomments@wsdot.wa.gov",
+    "jurisdiction": "state",
+    "state": "WA",
+    "website": "https://wsdot.wa.gov"
+  },
+  {
+    "name": "Colorado Department of Transportation",
+    "email": "dot_public.relations@state.co.us",
+    "jurisdiction": "state",
+    "state": "CO",
+    "website": "https://www.codot.gov"
+  }
+]

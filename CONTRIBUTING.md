@@ -136,10 +136,35 @@ Open an issue on GitHub with:
 - Steps to reproduce
 - Platform and version (iOS version + device, or Android version + device)
 
+## Adding an Agency
+
+The agency directory (`data/agencies.json`) is a crowd-sourced list of local agencies that accept speeding concern reports. To add your city, county, or state agency:
+
+1. Edit `data/agencies.json` and add an entry:
+   ```json
+   {
+     "name": "City of Example Department of Transportation",
+     "email": "traffic@example.gov",
+     "jurisdiction": "city",
+     "city": "Example",
+     "county": "Example County",
+     "state": "EX",
+     "website": "https://www.example.gov/transportation",
+     "notes": "Include intersection and time of day"
+   }
+   ```
+
+2. Required fields: `name`, `email`, `jurisdiction` (`city`, `county`, `state`, or `regional`), `state` (2-letter abbreviation)
+3. For `city` jurisdiction, include the `city` field. For `county` jurisdiction, include the `county` field.
+4. Optional fields: `website`, `notes`, and whichever of `city`/`county` aren't required by the jurisdiction level.
+5. Validate your change: `npx -y ajv-cli@5 validate -s data/agencies.schema.json -d data/agencies.json --spec=draft2020`
+6. Open a pull request — CI will validate the JSON automatically.
+
 ## Areas for Contribution
 
 - Improving speed estimation accuracy
 - Adding new calibration methods
+- Adding local agencies to the directory (see above)
 - Accessibility improvements
 - Localization
 - Unit and UI tests (both platforms)

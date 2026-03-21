@@ -24,6 +24,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
+import androidx.compose.material.icons.filled.Business
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material3.Card
@@ -81,6 +82,8 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
     val selectedStreet by viewModel.selectedStreet.collectAsState()
     val availableStreets by viewModel.availableStreets.collectAsState()
     val streetGroups by viewModel.streetGroups.collectAsState()
+    val showAgencyPicker by viewModel.showAgencyPicker.collectAsState()
+    val matchedAgencies by viewModel.matchedAgencies.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(exportedFile) {
@@ -191,6 +194,11 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                 Text("PDF")
             }
         }
+        OutlinedButton(onClick = { viewModel.showAgencyPicker() }) {
+            Icon(Icons.Default.Business, contentDescription = null)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Report to Agency")
+        }
 
         Spacer(modifier = Modifier.height(16.dp))
     }
@@ -218,6 +226,17 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
         }
     }
     } // Box
+
+    if (showAgencyPicker) {
+        AgencyPickerSheet(
+            agencies = matchedAgencies,
+            onSelect = { agency ->
+                viewModel.dismissAgencyPicker()
+                viewModel.composeAgencyEmail(context, agency)
+            },
+            onDismiss = { viewModel.dismissAgencyPicker() },
+        )
+    }
 }
 
 @Composable

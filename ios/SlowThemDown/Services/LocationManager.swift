@@ -8,6 +8,9 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
     var currentLocation: CLLocation?
     var streetName: String = ""
+    var city: String = ""
+    var county: String = ""
+    var administrativeState: String = ""
     var authorizationStatus: CLAuthorizationStatus = .notDetermined
 
     override init() {
@@ -37,6 +40,10 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
                 streetName = ""
                 return
             }
+
+            city = placemark.locality ?? ""
+            county = placemark.subAdministrativeArea ?? ""
+            administrativeState = placemark.administrativeArea ?? ""
 
             // Try offset points (~40m in each cardinal direction) to find a cross street
             let offsetDeg = 0.00036 // ~40m

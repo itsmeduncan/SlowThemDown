@@ -17,6 +17,13 @@ import javax.inject.Inject
 import javax.inject.Singleton
 import kotlin.coroutines.resume
 
+data class LocationInfo(
+    val street: String,
+    val city: String,
+    val county: String,
+    val state: String,
+)
+
 @Singleton
 class LocationService @Inject constructor(
     @ApplicationContext private val context: Context
@@ -60,6 +67,24 @@ class LocationService @Inject constructor(
             mainStreet
         } catch (_: Exception) {
             ""
+        }
+    }
+
+    suspend fun getLocationInfo(location: Location): LocationInfo? = withContext(Dispatchers.IO) {
+        try {
+            val geocoder = Geocoder(context, Locale.getDefault())
+            @Suppress("DEPRECATION")
+            val address = geocoder
+                .getFromLocation(location.latitude, location.longitude, 1)
+                ?.firstOrNull() ?: return@withContext null
+            LocationInfo(
+                street = address.thoroughfare ?: "",
+                city = address.locality ?: "",
+                county = address.subAdminArea ?: "",
+                state = address.adminArea ?: "",
+            )
+        } catch (_: Exception) {
+            null
         }
     }
 }

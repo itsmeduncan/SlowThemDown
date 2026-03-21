@@ -19,6 +19,8 @@ targets:
     platform: iOS
     sources:
       - SlowThemDown
+    resources:
+      - path: ../data/agencies.json
     dependencies:
       - package: FirebaseCrashlytics
         product: FirebaseCrashlytics
