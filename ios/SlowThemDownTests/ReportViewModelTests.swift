@@ -131,4 +131,124 @@ struct ReportViewModelTests {
         vm.update(with: entries)
         #expect(vm.dailyEntries.count == 5)
     }
+
+    // MARK: - Street Filtering
+
+    @Test func availableStreets_excludesEmpty() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 30, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 25, streetName: ""),
+            SpeedEntry(speedMPH: 35, streetName: "Elm Ave"),
+        ]
+        vm.update(with: entries)
+        #expect(vm.availableStreets.count == 2)
+        #expect(vm.availableStreets.contains("Oak St"))
+        #expect(vm.availableStreets.contains("Elm Ave"))
+    }
+
+    @Test func availableStreets_sorted() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 30, streetName: "Zephyr Rd"),
+            SpeedEntry(speedMPH: 25, streetName: "Ash Ln"),
+        ]
+        vm.update(with: entries)
+        #expect(vm.availableStreets == ["Ash Ln", "Zephyr Rd"])
+    }
+
+    @Test func availableStreets_deduplicates() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 30, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 25, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 35, streetName: "Elm Ave"),
+        ]
+        vm.update(with: entries)
+        #expect(vm.availableStreets.count == 2)
+    }
+
+    @Test func selectStreet_filtersStats() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 20, speedLimit: 25, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 30, speedLimit: 25, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 50, speedLimit: 25, streetName: "Elm Ave"),
+        ]
+        vm.update(with: entries)
+
+        vm.selectStreet("Oak St")
+        #expect(vm.stats!.count == 2)
+        #expect(abs(vm.stats!.mean - 25.0) < 0.001)
+    }
+
+    @Test func selectStreet_nil_showsAll() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 20, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 30, streetName: "Elm Ave"),
+        ]
+        vm.update(with: entries)
+
+        vm.selectStreet("Oak St")
+        #expect(vm.stats!.count == 1)
+
+        vm.selectStreet(nil)
+        #expect(vm.stats!.count == 2)
+    }
+
+    @Test func filteredEntries_matchesSelectedStreet() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 20, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 30, streetName: "Elm Ave"),
+            SpeedEntry(speedMPH: 40, streetName: "Oak St"),
+        ]
+        vm.update(with: entries)
+
+        vm.selectStreet("Oak St")
+        #expect(vm.filteredEntries.count == 2)
+        #expect(vm.filteredEntries.allSatisfy { $0.streetName == "Oak St" })
+    }
+
+    // MARK: - Street Groups
+
+    @Test func streetGroups_sortedByCount() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 20, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 30, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 40, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 25, streetName: "Elm Ave"),
+        ]
+        vm.update(with: entries)
+        #expect(vm.streetGroups.count == 2)
+        #expect(vm.streetGroups[0].name == "Oak St")
+        #expect(vm.streetGroups[0].count == 3)
+        #expect(vm.streetGroups[1].name == "Elm Ave")
+        #expect(vm.streetGroups[1].count == 1)
+    }
+
+    @Test func streetGroups_computesMeanAndOverLimit() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 20, speedLimit: 25, streetName: "Oak St"),
+            SpeedEntry(speedMPH: 30, speedLimit: 25, streetName: "Oak St"),
+        ]
+        vm.update(with: entries)
+        #expect(vm.streetGroups.count == 1)
+        #expect(abs(vm.streetGroups[0].meanSpeed - 25.0) < 0.001)
+        #expect(abs(vm.streetGroups[0].overLimitPercent - 50.0) < 0.001)
+    }
+
+    @Test func streetGroups_excludesEmptyStreetNames() {
+        let vm = ReportViewModel()
+        let entries = [
+            SpeedEntry(speedMPH: 20, streetName: ""),
+            SpeedEntry(speedMPH: 30, streetName: "Oak St"),
+        ]
+        vm.update(with: entries)
+        #expect(vm.streetGroups.count == 1)
+        #expect(vm.streetGroups[0].name == "Oak St")
+    }
 }

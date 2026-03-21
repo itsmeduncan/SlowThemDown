@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -32,6 +33,8 @@ data class HistogramBucket(val label: String, val count: Int, val rangeStart: In
 data class HourlyAverage(val hour: Int, val label: String, val averageSpeed: Double)
 
 data class ScatterPoint(val timestampMillis: Long, val speedMPH: Double)
+
+data class StreetGroup(val name: String, val count: Int, val meanSpeed: Double, val overLimitPercent: Double)
 
 @HiltViewModel
 class ReportViewModel @Inject constructor(
@@ -52,7 +55,25 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-    val stats: StateFlow<TrafficStats?> = dao.getAllEntries()
+    private val _selectedStreet = MutableStateFlow<String?>(null)
+    val selectedStreet: StateFlow<String?> = _selectedStreet.asStateFlow()
+
+    fun selectStreet(street: String?) {
+        _selectedStreet.value = street
+    }
+
+    val availableStreets: StateFlow<List<String>> = dao.getDistinctStreets()
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    private val filteredEntries: StateFlow<List<SpeedEntryEntity>> =
+        combine(dao.getAllEntries(), _selectedStreet) { entries, street ->
+            if (street == null) entries
+            else entries.filter { it.streetName == street }
+        }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+
+    val entries: StateFlow<List<SpeedEntryEntity>> = filteredEntries
+
+    val stats: StateFlow<TrafficStats?> = filteredEntries
         .map { entries ->
             if (entries.isEmpty()) null
             else SpeedCalculator.trafficStats(
@@ -61,10 +82,21 @@ class ReportViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
 
-    val entries: StateFlow<List<SpeedEntryEntity>> = dao.getAllEntries()
+    val streetGroups: StateFlow<List<StreetGroup>> = dao.getAllEntries()
+        .map { entries ->
+            entries.filter { it.streetName.isNotEmpty() }
+                .groupBy { it.streetName }
+                .map { (street, streetEntries) ->
+                    val mean = streetEntries.map { it.speedMPH }.average()
+                    val overCount = streetEntries.count { it.isOverLimit }
+                    val overPercent = overCount.toDouble() / streetEntries.size * 100
+                    StreetGroup(street, streetEntries.size, mean, overPercent)
+                }
+                .sortedByDescending { it.count }
+        }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val histogram: StateFlow<List<HistogramBucket>> = dao.getAllEntries()
+    val histogram: StateFlow<List<HistogramBucket>> = filteredEntries
         .map { entries ->
             if (entries.isEmpty()) return@map emptyList()
             val speeds = entries.map { it.speedMPH }
@@ -77,7 +109,7 @@ class ReportViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val hourlyAverages: StateFlow<List<HourlyAverage>> = dao.getAllEntries()
+    val hourlyAverages: StateFlow<List<HourlyAverage>> = filteredEntries
         .map { entries ->
             if (entries.isEmpty()) return@map emptyList()
             val cal = Calendar.getInstance()
@@ -100,13 +132,13 @@ class ReportViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val scatterPoints: StateFlow<List<ScatterPoint>> = dao.getAllEntries()
+    val scatterPoints: StateFlow<List<ScatterPoint>> = filteredEntries
         .map { entries ->
             entries.map { ScatterPoint(it.timestamp, it.speedMPH) }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val mostCommonSpeedLimit: StateFlow<Int> = dao.getAllEntries()
+    val mostCommonSpeedLimit: StateFlow<Int> = filteredEntries
         .map { entries ->
             if (entries.isEmpty()) RoadStandards.defaultSpeedLimit
             else entries.groupingBy { it.speedLimit }.eachCount()

@@ -30,11 +30,15 @@ struct ReportView: View {
                     )
                 } else {
                     VStack(spacing: 20) {
+                        streetFilterSection
                         v85Section
                         metricsGrid
                         histogramChart
                         hourlyChart
                         scatterChart
+                        if vm.selectedStreet == nil && vm.streetGroups.count > 1 {
+                            streetBreakdownSection
+                        }
                     }
                     .padding()
                 }
@@ -87,6 +91,76 @@ struct ReportView: View {
             }
             .onAppear {
                 vm.update(with: entries)
+            }
+        }
+    }
+
+    // MARK: - Street Filter
+
+    private var streetFilterSection: some View {
+        Group {
+            if vm.availableStreets.count > 1 {
+                ScrollView(.horizontal, showsIndicators: false) {
+                    HStack(spacing: 8) {
+                        streetFilterChip(label: "All Streets", street: nil)
+                        ForEach(vm.availableStreets, id: \.self) { street in
+                            streetFilterChip(label: street, street: street)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private func streetFilterChip(label: String, street: String?) -> some View {
+        let isSelected = vm.selectedStreet == street
+        return Button {
+            vm.selectStreet(street)
+        } label: {
+            Text(label)
+                .font(.subheadline)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 8)
+                .background(isSelected ? Color.accentColor : Color(.systemGray5))
+                .foregroundStyle(isSelected ? .black : .primary)
+                .clipShape(Capsule())
+        }
+    }
+
+    // MARK: - Street Breakdown
+
+    private var streetBreakdownSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("By Street")
+                .font(.headline)
+
+            ForEach(vm.streetGroups) { group in
+                Button {
+                    vm.selectStreet(group.name)
+                } label: {
+                    HStack {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(group.name)
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                            Text("\(group.count) entries · Avg \(String(format: "%.1f", group.meanSpeed)) MPH")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                        Text(String(format: "%.0f%%", group.overLimitPercent))
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(group.overLimitPercent > 50 ? .red : .green)
+                        Image(systemName: "chevron.right")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding()
+                    .background(Color(.systemGray6).opacity(0.3))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+                .buttonStyle(.plain)
             }
         }
     }
@@ -191,14 +265,15 @@ struct ReportView: View {
     // MARK: - Helpers
 
     private func mostCommonSpeedLimit() -> Int {
-        let limits = entries.map(\.speedLimit)
+        let active = vm.filteredEntries
+        let limits = active.map(\.speedLimit)
         let counts = Dictionary(grouping: limits, by: { $0 }).mapValues(\.count)
         return counts.max(by: { $0.value < $1.value })?.key ?? RoadStandards.defaultSpeedLimit
     }
 
     private func exportCSV() {
         isExporting = true
-        let capturedEntries = entries
+        let capturedEntries = vm.filteredEntries
         Task.detached {
             let url = ReportExporter.csvFileURL(entries: capturedEntries)
             await MainActor.run {
@@ -213,7 +288,7 @@ struct ReportView: View {
 
     private func exportPDF() {
         isExporting = true
-        let capturedEntries = entries
+        let capturedEntries = vm.filteredEntries
         let stats = vm.stats
         Task.detached {
             let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats)

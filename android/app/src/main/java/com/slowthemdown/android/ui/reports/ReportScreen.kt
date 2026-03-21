@@ -2,6 +2,8 @@ package com.slowthemdown.android.ui.reports
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -17,14 +19,17 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Description
 import androidx.compose.material.icons.filled.PictureAsPdf
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -36,6 +41,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
@@ -55,6 +61,7 @@ import com.slowthemdown.android.viewmodel.HistogramBucket
 import com.slowthemdown.android.viewmodel.HourlyAverage
 import com.slowthemdown.android.viewmodel.ReportViewModel
 import com.slowthemdown.android.viewmodel.ScatterPoint
+import com.slowthemdown.android.viewmodel.StreetGroup
 import com.slowthemdown.shared.model.TrafficStats
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -71,6 +78,9 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
     val isExporting by viewModel.isExporting.collectAsState()
     val mostCommonSpeedLimit by viewModel.mostCommonSpeedLimit.collectAsState()
     val showingDemoData by viewModel.showingDemoData.collectAsState()
+    val selectedStreet by viewModel.selectedStreet.collectAsState()
+    val availableStreets by viewModel.availableStreets.collectAsState()
+    val streetGroups by viewModel.streetGroups.collectAsState()
     val context = LocalContext.current
 
     LaunchedEffect(exportedFile) {
@@ -108,6 +118,15 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
         }
 
         Text("Traffic Report", style = MaterialTheme.typography.headlineMedium)
+
+        // Street Filter
+        if (availableStreets.size > 1) {
+            StreetFilterRow(
+                streets = availableStreets,
+                selectedStreet = selectedStreet,
+                onSelect = { viewModel.selectStreet(it) },
+            )
+        }
 
         // V85 Card
         V85Card(stats = s, speedLimit = mostCommonSpeedLimit)
@@ -148,6 +167,14 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
         if (scatterPoints.size >= 2) {
             Text("Speeds Over Time", style = MaterialTheme.typography.titleMedium)
             ScatterChart(points = scatterPoints)
+        }
+
+        // Street Breakdown
+        if (selectedStreet == null && streetGroups.size > 1) {
+            StreetBreakdownSection(
+                groups = streetGroups,
+                onSelectStreet = { viewModel.selectStreet(it) },
+            )
         }
 
         // Export buttons
@@ -433,6 +460,82 @@ private fun ScatterChart(points: List<ScatterPoint>) {
                     labelResult,
                     topLeft = Offset(x - labelResult.size.width / 2, chartHeight + 8f),
                 )
+            }
+        }
+    }
+}
+
+@Composable
+private fun StreetFilterRow(
+    streets: List<String>,
+    selectedStreet: String?,
+    onSelect: (String?) -> Unit,
+) {
+    Row(
+        modifier = Modifier.horizontalScroll(rememberScrollState()),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        FilterChip(
+            selected = selectedStreet == null,
+            onClick = { onSelect(null) },
+            label = { Text("All Streets") },
+        )
+        streets.forEach { street ->
+            FilterChip(
+                selected = selectedStreet == street,
+                onClick = { onSelect(street) },
+                label = { Text(street) },
+            )
+        }
+    }
+}
+
+@Composable
+private fun StreetBreakdownSection(
+    groups: List<StreetGroup>,
+    onSelectStreet: (String) -> Unit,
+) {
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text("By Street", style = MaterialTheme.typography.titleMedium)
+        groups.forEach { group ->
+            Card(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(12.dp))
+                    .clickable { onSelectStreet(group.name) },
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            group.name,
+                            style = MaterialTheme.typography.bodyMedium,
+                            fontWeight = FontWeight.Medium,
+                        )
+                        Text(
+                            "${group.count} entries · Avg ${"%.1f".format(group.meanSpeed)} MPH",
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        )
+                    }
+                    Text(
+                        "${"%.0f".format(group.overLimitPercent)}%",
+                        style = MaterialTheme.typography.bodyMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = if (group.overLimitPercent > 50) MaterialTheme.colorScheme.error
+                        else Color(0xFF4CAF50),
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Icon(
+                        Icons.AutoMirrored.Filled.KeyboardArrowRight,
+                        contentDescription = "View",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                    )
+                }
             }
         }
     }
