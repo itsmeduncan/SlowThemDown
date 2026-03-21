@@ -66,7 +66,7 @@ class CalibrationViewModel @Inject constructor(
 
     fun setImage(bitmap: Bitmap) {
         viewModelScope.launch {
-            val blurred = piiBlurService.blurFaces(bitmap)
+            val blurred = piiBlurService.blurPII(bitmap)
             _selectedImageBitmap.value = blurred
             _imageSize.value = Size(blurred.width.toDouble(), blurred.height.toDouble())
             resetMarkers()

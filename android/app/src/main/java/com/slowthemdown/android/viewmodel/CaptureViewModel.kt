@@ -148,8 +148,8 @@ class CaptureViewModel @Inject constructor(
         val uri = _videoUri.value ?: return
         viewModelScope.launch {
             try {
-                _frame1Image.value = frameExtractor.extractFrame(uri, _frame1Time.value)?.let { piiBlurService.blurFaces(it) }
-                _frame2Image.value = frameExtractor.extractFrame(uri, _frame2Time.value)?.let { piiBlurService.blurFaces(it) }
+                _frame1Image.value = frameExtractor.extractFrame(uri, _frame1Time.value)?.let { piiBlurService.blurPII(it) }
+                _frame2Image.value = frameExtractor.extractFrame(uri, _frame2Time.value)?.let { piiBlurService.blurPII(it) }
                 _frame1Marker.value = null
                 _frame2Marker.value = null
                 _vehicleRefMarkers.value = emptyList()

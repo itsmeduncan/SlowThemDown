@@ -5,6 +5,9 @@ import androidx.room.Room
 import com.google.mlkit.vision.face.FaceDetection
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.face.FaceDetectorOptions
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.TextRecognizer
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import com.slowthemdown.android.data.db.SlowThemDownDatabase
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import dagger.Module
@@ -38,4 +41,9 @@ object AppModule {
             .setPerformanceMode(FaceDetectorOptions.PERFORMANCE_MODE_FAST)
             .build()
     )
+
+    @Provides
+    @Singleton
+    fun provideTextRecognizer(): TextRecognizer =
+        TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
 }

@@ -73,8 +73,8 @@ final class CaptureViewModel {
         do {
             let t1 = CMTime(seconds: frame1Time, preferredTimescale: 600)
             let t2 = CMTime(seconds: frame2Time, preferredTimescale: 600)
-            frame1Image = await PIIBlurService.blurFaces(in: try await extractor.extractFrame(at: t1))
-            frame2Image = await PIIBlurService.blurFaces(in: try await extractor.extractFrame(at: t2))
+            frame1Image = await PIIBlurService.blurPII(in: try await extractor.extractFrame(at: t1))
+            frame2Image = await PIIBlurService.blurPII(in: try await extractor.extractFrame(at: t2))
             frame1Markers = []
             frame2Markers = []
             vehicleRefMarkers = []
