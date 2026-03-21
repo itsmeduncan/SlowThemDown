@@ -7,9 +7,12 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slowthemdown.android.BuildConfig
+import com.slowthemdown.android.data.Agency
+import com.slowthemdown.android.data.AgencyDirectory
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.data.db.SpeedEntryEntity
 import com.slowthemdown.android.debug.SeedData
+import com.slowthemdown.android.service.LocationService
 import com.slowthemdown.android.service.ReportExporter
 import com.slowthemdown.shared.calculator.SpeedCalculator
 import com.slowthemdown.shared.model.RoadStandards
@@ -25,7 +28,10 @@ import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import java.io.File
+import java.text.SimpleDateFormat
 import java.util.Calendar
+import java.util.Date
+import java.util.Locale
 import javax.inject.Inject
 
 data class HistogramBucket(val label: String, val count: Int, val rangeStart: Int)
@@ -40,6 +46,8 @@ data class StreetGroup(val name: String, val count: Int, val meanSpeed: Double, 
 class ReportViewModel @Inject constructor(
     private val dao: SpeedEntryDao,
     private val exporter: ReportExporter,
+    private val agencyDirectory: AgencyDirectory,
+    private val locationService: LocationService,
     private val application: Application,
 ) : ViewModel() {
 
@@ -176,6 +184,147 @@ class ReportViewModel @Inject constructor(
 
     fun clearExportedFile() {
         _exportedFile.value = null
+    }
+
+    // MARK: - Agency Reporting
+
+    private val _matchedAgencies = MutableStateFlow<List<Agency>>(emptyList())
+    val matchedAgencies: StateFlow<List<Agency>> = _matchedAgencies.asStateFlow()
+
+    private val _showAgencyPicker = MutableStateFlow(false)
+    val showAgencyPicker: StateFlow<Boolean> = _showAgencyPicker.asStateFlow()
+
+    fun showAgencyPicker() {
+        viewModelScope.launch {
+            val currentEntries = entries.value
+            val located = currentEntries.filter { it.latitude != null && it.longitude != null }
+
+            // Try to reverse geocode the most common coordinate
+            val coord = mostCommonCoordinate(located)
+            if (coord != null) {
+                val location = android.location.Location("").apply {
+                    latitude = coord.first
+                    longitude = coord.second
+                }
+                val info = locationService.getLocationInfo(location)
+                if (info != null) {
+                    _matchedAgencies.value = agencyDirectory.matching(
+                        city = info.city.ifEmpty { null },
+                        county = info.county.ifEmpty { null },
+                        state = info.state.ifEmpty { null },
+                    )
+                    _showAgencyPicker.value = true
+                    return@launch
+                }
+            }
+
+            // Fallback: try current location
+            val current = locationService.getCurrentLocation()
+            if (current != null) {
+                val info = locationService.getLocationInfo(current)
+                if (info != null) {
+                    _matchedAgencies.value = agencyDirectory.matching(
+                        city = info.city.ifEmpty { null },
+                        county = info.county.ifEmpty { null },
+                        state = info.state.ifEmpty { null },
+                    )
+                    _showAgencyPicker.value = true
+                    return@launch
+                }
+            }
+
+            // No location — show all agencies
+            _matchedAgencies.value = agencyDirectory.matching(null, null, null)
+            _showAgencyPicker.value = true
+        }
+    }
+
+    fun dismissAgencyPicker() {
+        _showAgencyPicker.value = false
+    }
+
+    fun composeAgencyEmail(context: Context, agency: Agency) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _isExporting.value = true
+            val s = stats.value ?: run {
+                _isExporting.value = false
+                return@launch
+            }
+            val currentEntries = entries.value
+            val pdfFile = exporter.generatePdfFile(currentEntries, s)
+            _isExporting.value = false
+
+            val subject = agencyEmailSubject(currentEntries, s)
+            val body = agencyEmailBody(agency, currentEntries, s)
+
+            val pdfUri = FileProvider.getUriForFile(
+                context, "${context.packageName}.fileprovider", pdfFile
+            )
+
+            val intent = Intent(Intent.ACTION_SEND).apply {
+                type = "message/rfc822"
+                putExtra(Intent.EXTRA_EMAIL, arrayOf(agency.email))
+                putExtra(Intent.EXTRA_SUBJECT, subject)
+                putExtra(Intent.EXTRA_TEXT, body)
+                putExtra(Intent.EXTRA_STREAM, pdfUri)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+            }
+            context.startActivity(Intent.createChooser(intent, "Send Report"))
+        }
+    }
+
+    private fun agencyEmailSubject(entries: List<SpeedEntryEntity>, stats: TrafficStats): String {
+        val street = mostCommonStreet(entries)
+        val limit = entries.groupingBy { it.speedLimit }.eachCount()
+            .maxByOrNull { it.value }?.key ?: RoadStandards.defaultSpeedLimit
+        return "Speeding Concern: $street — V85 ${"%.0f".format(stats.v85)} MPH in a $limit MPH Zone"
+    }
+
+    private fun agencyEmailBody(agency: Agency, entries: List<SpeedEntryEntity>, stats: TrafficStats): String {
+        val street = mostCommonStreet(entries)
+        val limit = entries.groupingBy { it.speedLimit }.eachCount()
+            .maxByOrNull { it.value }?.key ?: RoadStandards.defaultSpeedLimit
+        val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
+        val timestamps = entries.map { it.timestamp }.sorted()
+        val start = if (timestamps.isNotEmpty()) dateFormat.format(Date(timestamps.first())) else "N/A"
+        val end = if (timestamps.isNotEmpty()) dateFormat.format(Date(timestamps.last())) else "N/A"
+
+        return """
+            |Dear ${agency.name},
+            |
+            |I am writing to report a speeding concern on $street.
+            |
+            |Over ${stats.count} observations from $start to $end:
+            |
+            |• V85 Speed: ${"%.1f".format(stats.v85)} MPH (85th percentile)
+            |• Average Speed: ${"%.1f".format(stats.mean)} MPH
+            |• Speed Limit: $limit MPH
+            |• Vehicles Over Limit: ${stats.overLimitCount} (${"%.0f".format(stats.overLimitPercent)}%)
+            |
+            |A detailed report is attached.
+            |
+            |Data collected with SlowThemDown (https://github.com/itsmeduncan/SlowThemDown).
+        """.trimMargin()
+    }
+
+    private fun mostCommonStreet(entries: List<SpeedEntryEntity>): String {
+        return entries.map { it.streetName }.filter { it.isNotEmpty() }
+            .groupingBy { it }.eachCount()
+            .maxByOrNull { it.value }?.key ?: "Unknown Street"
+    }
+
+    private fun mostCommonCoordinate(entries: List<SpeedEntryEntity>): Pair<Double, Double>? {
+        val coords = entries.mapNotNull { entry ->
+            val lat = entry.latitude ?: return@mapNotNull null
+            val lon = entry.longitude ?: return@mapNotNull null
+            "%.3f,%.3f".format(lat, lon)
+        }
+        val mostCommon = coords.groupingBy { it }.eachCount().maxByOrNull { it.value }?.key
+            ?: return null
+        val parts = mostCommon.split(",")
+        return parts[0].toDoubleOrNull()?.let { lat ->
+            parts[1].toDoubleOrNull()?.let { lon -> lat to lon }
+        }
     }
 
     fun shareFile(context: Context, file: File) {

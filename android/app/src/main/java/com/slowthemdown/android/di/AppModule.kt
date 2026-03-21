@@ -8,6 +8,7 @@ import com.google.mlkit.vision.face.FaceDetectorOptions
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.TextRecognizer
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import com.slowthemdown.android.data.AgencyDirectory
 import com.slowthemdown.android.data.db.SlowThemDownDatabase
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import dagger.Module
@@ -33,6 +34,11 @@ object AppModule {
 
     @Provides
     fun provideSpeedEntryDao(db: SlowThemDownDatabase): SpeedEntryDao = db.speedEntryDao()
+
+    @Provides
+    @Singleton
+    fun provideAgencyDirectory(@ApplicationContext context: Context): AgencyDirectory =
+        AgencyDirectory(context)
 
     @Provides
     @Singleton

@@ -7,6 +7,15 @@ plugins {
     id("com.google.firebase.crashlytics")
 }
 
+val copyAgencies by tasks.registering(Copy::class) {
+    from("${rootProject.projectDir}/data/agencies.json")
+    into("src/main/assets")
+}
+
+tasks.named("preBuild") {
+    dependsOn(copyAgencies)
+}
+
 android {
     namespace = "com.slowthemdown.android"
     compileSdk = 36

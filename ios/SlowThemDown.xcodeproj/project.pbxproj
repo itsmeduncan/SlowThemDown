@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		02868A62977FC1F7E2CEE496 /* VideoFrameExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = D7984D2693C63DFAA8F164E2 /* VideoFrameExtractor.swift */; };
+		02D3FA7B3606711185937205 /* AgencyDirectoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004D94FFDF0DBE4DBFD253EE /* AgencyDirectoryTests.swift */; };
 		0527545F311F1FCB2DD677FF /* DirectionPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */; };
 		061A6B6DDB19F6A8E282EC99 /* V85CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B477DAEE5E2F153077812770 /* V85CardView.swift */; };
 		086E72CF0D34F8524ECF1DC8 /* VideoRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58765E1A93CF0342AD4F7BEC /* VideoRecorderView.swift */; };
@@ -17,6 +18,7 @@
 		29D27B345A29324C2E785C03 /* VehicleTypePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2A165BFE0AFFC3A212FF719 /* VehicleTypePicker.swift */; };
 		2AD2496ABDB5427565A066B6 /* PIIBlurServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BDAC6D76C333594495EEDCF /* PIIBlurServiceTests.swift */; };
 		2E17E8003FDC96F0AEB72B2F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 26BC4AB5E5A5710E42FEB072 /* GoogleService-Info.plist */; };
+		33CEF144C66231957112319E /* Agency.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C057B03AC41C899FC524466 /* Agency.swift */; };
 		35BA6F2EC5BC540DA4EB5211 /* ReportViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = ACE4C2586622FDE791DD7B6D /* ReportViewModelTests.swift */; };
 		380066D4220359B3E26E9135 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75C2CE2C5561A062D29A7891 /* LogView.swift */; };
 		396076A4A0AE55019A2330D8 /* SpeedCalculatorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */; };
@@ -37,6 +39,7 @@
 		963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685454CF76255109D5775A2 /* LogViewModel.swift */; };
 		9BB1E4BA5AA6B52E5BA674DF /* LogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8FD0467D2FCDBBC5D13B4 /* LogDetailView.swift */; };
 		9D90D07295F60731E756296B /* FrameMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */; };
+		A9AAD4C99849D9549E9ACDF7 /* AgencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D621DD09773984B1C17308C /* AgencyPickerView.swift */; };
 		AAF94F9C62F917053502B4FC /* CalibrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93F70E6B0E6E2BEAEB328 /* CalibrationViewModel.swift */; };
 		AB21F28C8685E981D80482F8 /* SlowThemDownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DC79F0CB2131404EA7C783 /* SlowThemDownApp.swift */; };
 		B237C60C5A10B288DE8C61D0 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0A1FC3D67AFD3A1E25499C9 /* SeedData.swift */; };
@@ -68,6 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		004D94FFDF0DBE4DBFD253EE /* AgencyDirectoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgencyDirectoryTests.swift; sourceTree = "<group>"; };
 		009BB3FDB97376EEF18FEE26 /* DemoBanner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoBanner.swift; sourceTree = "<group>"; };
 		00E79D8618F4F2D24D94D00D /* VehicleRefPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleRefPicker.swift; sourceTree = "<group>"; };
 		075B756386BB5863DA65FBDF /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
@@ -89,6 +93,8 @@
 		6E5AA453EEBCA840B9F79DE8 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		75C2CE2C5561A062D29A7891 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		7783AC8A6FA43BC126891F38 /* PIIBlurService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PIIBlurService.swift; sourceTree = "<group>"; };
+		7C057B03AC41C899FC524466 /* Agency.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Agency.swift; sourceTree = "<group>"; };
+		7D621DD09773984B1C17308C /* AgencyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AgencyPickerView.swift; sourceTree = "<group>"; };
 		84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameMarkerView.swift; sourceTree = "<group>"; };
 		8704C8C9AFD577AD5BF08856 /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
 		89D55457E0849239FA74678F /* CalibrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationTests.swift; sourceTree = "<group>"; };
@@ -180,6 +186,7 @@
 		460ED202E5392B634EA29AB5 /* Reports */ = {
 			isa = PBXGroup;
 			children = (
+				7D621DD09773984B1C17308C /* AgencyPickerView.swift */,
 				A37286E2564E752BBBE3E4FA /* ReportExporter.swift */,
 				075B756386BB5863DA65FBDF /* ReportView.swift */,
 				B477DAEE5E2F153077812770 /* V85CardView.swift */,
@@ -261,6 +268,7 @@
 		B19903CE1132D3A92AB60EDD /* SlowThemDownTests */ = {
 			isa = PBXGroup;
 			children = (
+				004D94FFDF0DBE4DBFD253EE /* AgencyDirectoryTests.swift */,
 				89D55457E0849239FA74678F /* CalibrationTests.swift */,
 				2FFEC0D54A19B8FCD5839E19 /* CalibrationViewModelTests.swift */,
 				8E125AFDE8BD433E2A22075D /* CaptureViewModelTests.swift */,
@@ -297,6 +305,7 @@
 		EE73B65ABAD8D47D630E6380 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				7C057B03AC41C899FC524466 /* Agency.swift */,
 				F816BD022D4B9A3ED5F51CEC /* Calibration.swift */,
 				12D98259EC568C5CE9165613 /* RoadStandards.swift */,
 				C9793B8022619CD4379AC089 /* SpeedCalculator.swift */,
@@ -427,6 +436,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				33CEF144C66231957112319E /* Agency.swift in Sources */,
+				A9AAD4C99849D9549E9ACDF7 /* AgencyPickerView.swift in Sources */,
 				76381DFE4367C6DD04C49370 /* CalibrateView.swift in Sources */,
 				EEC9E1AE25849A62B23422E2 /* Calibration.swift in Sources */,
 				AAF94F9C62F917053502B4FC /* CalibrationViewModel.swift in Sources */,
@@ -470,6 +481,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				02D3FA7B3606711185937205 /* AgencyDirectoryTests.swift in Sources */,
 				3ADFBEAAE7C9D44D7F7CD24B /* CalibrationTests.swift in Sources */,
 				1DC9D02E104D96DE0AB3B532 /* CalibrationViewModelTests.swift in Sources */,
 				C48C84D255084000E870C5C3 /* CaptureViewModelTests.swift in Sources */,

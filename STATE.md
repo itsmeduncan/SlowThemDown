@@ -19,6 +19,7 @@ Current project state for cross-session continuity. Updated each session.
 
 ## Recent Work
 
+- **Agency directory & email reporting (2026-03-21)**: Added `data/agencies.json` (crowd-sourced agency directory), agency matching by location, and "Report to Agency" email flow on both platforms. Includes AgencyPickerView (iOS) / AgencyPickerSheet (Android), email composition with PDF attachment and inline stats, JSON schema validation CI, and matching logic tests. Issues #6, #7.
 - **CI/CD fixes (2026-03-21)**: Fixed IPA artifact upload path in beta-release and release workflows (explicit find step). Bumped `gradle/actions/setup-gradle` v4 → v5 (Node.js 24) and `r0adkll/upload-google-play` v1 → v1.1 across all workflows.
 - **Xcode 26 / iOS 26 SDK (2026-03-21)**: Upgraded xcodeVersion to 26.0, CI runners to macos-26, Swift 6.1 toolchain with Swift 5 language mode. Added `ITSAppUsesNonExemptEncryption = NO` to skip App Store encryption prompt. Closes issue #22.
 - **Report street filtering (2026-03-21)**: Added street filter chip bar and per-street breakdown section to reports on both platforms. All stats, charts, and exports respect the selected street filter. PR #29 (merged).

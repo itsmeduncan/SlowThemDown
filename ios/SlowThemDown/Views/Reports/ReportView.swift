@@ -1,4 +1,6 @@
 import Charts
+import CoreLocation
+import MessageUI
 import SwiftData
 import SwiftUI
 
@@ -10,6 +12,11 @@ struct ReportView: View {
     @State private var shareURL: URL?
     @State private var isExporting = false
     @State private var showingDemoData = SeedData.isSeeded
+    @State private var showAgencyPicker = false
+    @State private var showMailComposer = false
+    @State private var selectedAgency: Agency?
+    @State private var agencyPdfURL: URL?
+    @State private var matchedAgencies: [Agency] = []
 
     var body: some View {
         NavigationStack {
@@ -58,6 +65,12 @@ struct ReportView: View {
                             } label: {
                                 Label("Export PDF", systemImage: "doc.richtext")
                             }
+                            Divider()
+                            Button {
+                                loadMatchedAgencies()
+                            } label: {
+                                Label("Report to Agency", systemImage: "building.2")
+                            }
                         } label: {
                             Image(systemName: "square.and.arrow.up")
                         }
@@ -84,6 +97,23 @@ struct ReportView: View {
             .sheet(isPresented: $showShareSheet) {
                 if let url = shareURL {
                     ShareSheet(items: [url])
+                }
+            }
+            .sheet(isPresented: $showAgencyPicker) {
+                AgencyPickerView(
+                    agencies: matchedAgencies
+                ) { agency in
+                    prepareAgencyEmail(agency: agency)
+                }
+            }
+            .sheet(isPresented: $showMailComposer) {
+                if let agency = selectedAgency {
+                    MailComposerView(
+                        recipient: agency.email,
+                        subject: agencyEmailSubject(),
+                        body: agencyEmailBody(agency: agency),
+                        attachmentURL: agencyPdfURL
+                    )
                 }
             }
             .onChange(of: entries.count) {
@@ -299,6 +329,123 @@ struct ReportView: View {
                     showShareSheet = true
                 }
             }
+        }
+    }
+
+    // MARK: - Agency Reporting
+
+    private func loadMatchedAgencies() {
+        let active = vm.filteredEntries
+        let located = active.filter { $0.latitude != nil && $0.longitude != nil }
+
+        if let coord = mostCommonCoordinate(from: located) {
+            Task {
+                let location = CLLocation(latitude: coord.0, longitude: coord.1)
+                let geocoder = CLGeocoder()
+                if let placemark = try? await geocoder.reverseGeocodeLocation(location).first {
+                    let city = placemark.locality
+                    let county = placemark.subAdministrativeArea
+                    let state = placemark.administrativeArea
+                    matchedAgencies = AgencyDirectory.matching(city: city, county: county, state: state)
+                } else {
+                    matchedAgencies = AgencyDirectory.load()
+                }
+                showAgencyPicker = true
+            }
+        } else {
+            // No coordinates on entries — show all agencies
+            matchedAgencies = AgencyDirectory.load()
+            showAgencyPicker = true
+        }
+    }
+
+    private func mostCommonCoordinate(from entries: [SpeedEntry]) -> (Double, Double)? {
+        let coords = entries.compactMap { entry -> String? in
+            guard let lat = entry.latitude, let lon = entry.longitude else { return nil }
+            return "\(String(format: "%.3f", lat)),\(String(format: "%.3f", lon))"
+        }
+        guard let mostCommon = Dictionary(grouping: coords, by: { $0 })
+            .max(by: { $0.value.count < $1.value.count })?.key else {
+            return nil
+        }
+        let parts = mostCommon.split(separator: ",")
+        guard parts.count == 2,
+              let lat = Double(parts[0]),
+              let lon = Double(parts[1]) else { return nil }
+        return (lat, lon)
+    }
+
+    private func prepareAgencyEmail(agency: Agency) {
+        selectedAgency = agency
+        let capturedEntries = vm.filteredEntries
+        let stats = vm.stats
+        isExporting = true
+        Task.detached {
+            let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats)
+            await MainActor.run {
+                agencyPdfURL = url
+                isExporting = false
+                if MFMailComposeViewController.canSendMail() {
+                    showMailComposer = true
+                } else {
+                    openMailtoFallback(agency: agency)
+                }
+            }
+        }
+    }
+
+    private func agencyEmailSubject() -> String {
+        let active = vm.filteredEntries
+        let street = mostCommonStreet(from: active)
+        let limit = mostCommonSpeedLimit()
+        if let stats = vm.stats {
+            return "Speeding Concern: \(street) — V85 \(String(format: "%.0f", stats.v85)) MPH in a \(limit) MPH Zone"
+        }
+        return "Speeding Concern: \(street)"
+    }
+
+    private func agencyEmailBody(agency: Agency) -> String {
+        let active = vm.filteredEntries
+        let street = mostCommonStreet(from: active)
+        let limit = mostCommonSpeedLimit()
+        guard let stats = vm.stats else { return "" }
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .medium
+
+        let timestamps = active.map(\.timestamp).sorted()
+        let start = timestamps.first.map { dateFormatter.string(from: $0) } ?? "N/A"
+        let end = timestamps.last.map { dateFormatter.string(from: $0) } ?? "N/A"
+
+        return """
+        Dear \(agency.name),
+
+        I am writing to report a speeding concern on \(street).
+
+        Over \(stats.count) observations from \(start) to \(end):
+
+        • V85 Speed: \(String(format: "%.1f", stats.v85)) MPH (85th percentile)
+        • Average Speed: \(String(format: "%.1f", stats.mean)) MPH
+        • Speed Limit: \(limit) MPH
+        • Vehicles Over Limit: \(stats.overLimitCount) (\(String(format: "%.0f", stats.overLimitPercent))%)
+
+        A detailed report is attached.
+
+        Data collected with SlowThemDown (https://github.com/itsmeduncan/SlowThemDown).
+        """
+    }
+
+    private func mostCommonStreet(from entries: [SpeedEntry]) -> String {
+        let streets = entries.map(\.streetName).filter { !$0.isEmpty }
+        let counts = Dictionary(grouping: streets, by: { $0 }).mapValues(\.count)
+        return counts.max(by: { $0.value < $1.value })?.key ?? "Unknown Street"
+    }
+
+    private func openMailtoFallback(agency: Agency) {
+        let subject = agencyEmailSubject().addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        let body = agencyEmailBody(agency: agency).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
+        if let url = URL(string: "mailto:\(agency.email)?subject=\(subject)&body=\(body)") {
+            UIApplication.shared.open(url)
         }
     }
 }
