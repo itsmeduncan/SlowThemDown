@@ -31,7 +31,8 @@ object SeedData {
 
     private val vehicleTypes = VehicleType.entries.toList()
     private val directions = TravelDirection.entries.toList()
-    private val speedLimits = listOf(25, 25, 25, 30, 30, 35)
+    // Speed limits in m/s (25, 25, 25, 30, 30, 35 MPH)
+    private val speedLimits = listOf(11.176, 11.176, 11.176, 13.4112, 13.4112, 15.6464)
 
     fun generate(count: Int = 50): List<SpeedEntryEntity> {
         val calendar = Calendar.getInstance()
@@ -49,16 +50,18 @@ object SeedData {
             val timestamp = calendar.timeInMillis
 
             val roll = Random.nextDouble()
-            val baseSpeed = when {
+            // Base speeds in MPH, then convert to m/s
+            val baseSpeedMph = when {
                 roll < 0.15 -> Random.nextDouble(15.0, 20.0)
                 roll < 0.70 -> Random.nextDouble(22.0, 30.0)
                 roll < 0.90 -> Random.nextDouble(30.0, 38.0)
                 else -> Random.nextDouble(38.0, 50.0)
             }
+            val speedMps = baseSpeedMph * 0.44704
 
             SpeedEntryEntity(
                 timestamp = timestamp,
-                speedMPH = Math.round(baseSpeed * 10.0) / 10.0,
+                speed = Math.round(speedMps * 100.0) / 100.0,
                 speedLimit = speedLimits.random(),
                 streetName = streets[i % streets.size],
                 notes = if (i % 7 == 0) "School zone" else "",
@@ -67,8 +70,8 @@ object SeedData {
                 calibrationMethodRaw = CalibrationMethod.MANUAL_DISTANCE.rawValue,
                 timeDeltaSeconds = Random.nextDouble(0.2, 1.5),
                 pixelDisplacement = Random.nextDouble(100.0, 500.0),
-                pixelsPerFoot = 30.0,
-                referenceDistanceFeet = 10.0,
+                pixelsPerMeter = 98.425, // ~30 px/ft * 3.28084
+                referenceDistanceMeters = 3.048, // 10 ft
                 latitude = 37.7749 + Random.nextDouble(-0.01, 0.01),
                 longitude = -122.4194 + Random.nextDouble(-0.01, 0.01),
             )

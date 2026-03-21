@@ -13,6 +13,7 @@ import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
 import com.slowthemdown.shared.calculator.SpeedCalculator
 import com.slowthemdown.shared.model.CalibrationMethod
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.VehicleReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,11 +35,15 @@ class CalibrationViewModel @Inject constructor(
     val calibration: StateFlow<Calibration> = calibrationStore.calibration
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Calibration())
 
+    val measurementSystem: StateFlow<MeasurementSystem> = calibrationStore.measurementSystem
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MeasurementSystem.IMPERIAL)
+
     private val _method = MutableStateFlow(CalibrationMethod.MANUAL_DISTANCE)
     val method: StateFlow<CalibrationMethod> = _method.asStateFlow()
 
-    private val _referenceDistanceFeet = MutableStateFlow(0.0)
-    val referenceDistanceFeet: StateFlow<Double> = _referenceDistanceFeet.asStateFlow()
+    /** Reference distance in meters (always stored as meters internally) */
+    private val _referenceDistance = MutableStateFlow(0.0)
+    val referenceDistance: StateFlow<Double> = _referenceDistance.asStateFlow()
 
     private val _markers = MutableStateFlow<List<Point>>(emptyList())
     val markers: StateFlow<List<Point>> = _markers.asStateFlow()
@@ -56,13 +61,22 @@ class CalibrationViewModel @Inject constructor(
         if (markers.size == 2) CoordinateMapper.pixelDistance(markers[0], markers[1]) else 0.0
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0.0)
 
-    val canSave: StateFlow<Boolean> = combine(_markers, _referenceDistanceFeet) { markers, dist ->
+    val canSave: StateFlow<Boolean> = combine(_markers, _referenceDistance) { markers, dist ->
         markers.size == 2 && dist > 0
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     fun setMethod(method: CalibrationMethod) { _method.value = method }
-    fun setReferenceDistance(feet: Double) { _referenceDistanceFeet.value = feet }
+
+    /** Set reference distance in meters */
+    fun setReferenceDistance(meters: Double) { _referenceDistance.value = meters }
+
     fun setSelectedVehicleRef(ref: VehicleReference?) { _selectedVehicleRef.value = ref }
+
+    fun setMeasurementSystem(system: MeasurementSystem) {
+        viewModelScope.launch {
+            calibrationStore.saveMeasurementSystem(system)
+        }
+    }
 
     fun setImage(bitmap: Bitmap) {
         viewModelScope.launch {
@@ -95,19 +109,19 @@ class CalibrationViewModel @Inject constructor(
         if (markers.size != 2) return
 
         val pixelDist = CoordinateMapper.pixelDistance(markers[0], markers[1])
-        val refFeet = when (_method.value) {
-            CalibrationMethod.MANUAL_DISTANCE -> _referenceDistanceFeet.value
-            CalibrationMethod.VEHICLE_REFERENCE -> _selectedVehicleRef.value?.lengthFeet ?: return
+        val refMeters = when (_method.value) {
+            CalibrationMethod.MANUAL_DISTANCE -> _referenceDistance.value
+            CalibrationMethod.VEHICLE_REFERENCE -> _selectedVehicleRef.value?.lengthMeters ?: return
         }
-        val ppf = SpeedCalculator.pixelsPerFoot(pixelDist, refFeet)
-        if (ppf <= 0) return
+        val ppm = SpeedCalculator.pixelsPerMeter(pixelDist, refMeters)
+        if (ppm <= 0) return
 
         viewModelScope.launch {
             calibrationStore.save(
                 Calibration(
                     method = _method.value,
-                    pixelsPerFoot = ppf,
-                    referenceDistanceFeet = refFeet,
+                    pixelsPerMeter = ppm,
+                    referenceDistanceMeters = refMeters,
                     pixelDistance = pixelDist,
                     vehicleReferenceName = _selectedVehicleRef.value?.name,
                 )
@@ -121,6 +135,6 @@ class CalibrationViewModel @Inject constructor(
             calibrationStore.save(Calibration())
         }
         clearImage()
-        _referenceDistanceFeet.value = 0.0
+        _referenceDistance.value = 0.0
     }
 }

@@ -10,16 +10,26 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.SpeedCategory
+import com.slowthemdown.shared.model.UnitConverter
 
 @Composable
-fun SpeedBadge(speedMPH: Double, speedLimit: Int, modifier: Modifier = Modifier) {
-    val category = SpeedCategory.fromSpeed(speedMPH, speedLimit)
+fun SpeedBadge(
+    speed: Double,
+    speedLimit: Double,
+    system: MeasurementSystem,
+    modifier: Modifier = Modifier,
+) {
+    val category = SpeedCategory.fromSpeed(speed, speedLimit)
     val color = when (category) {
         SpeedCategory.UNDER_LIMIT -> MaterialTheme.colorScheme.secondary
         SpeedCategory.MARGINAL -> MaterialTheme.colorScheme.tertiary
         SpeedCategory.OVER_LIMIT -> MaterialTheme.colorScheme.error
     }
+
+    val displaySpeed = UnitConverter.displaySpeed(speed, system)
+    val unit = UnitConverter.speedUnit(system)
 
     Box(
         modifier = modifier
@@ -28,7 +38,7 @@ fun SpeedBadge(speedMPH: Double, speedLimit: Int, modifier: Modifier = Modifier)
             .padding(horizontal = 12.dp, vertical = 6.dp)
     ) {
         Text(
-            text = "%.1f MPH".format(speedMPH),
+            text = "%.1f %s".format(displaySpeed, unit),
             color = color,
             style = MaterialTheme.typography.labelLarge,
         )

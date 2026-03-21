@@ -3,11 +3,17 @@ import SwiftUI
 struct LogDetailView: View {
     let entry: SpeedEntry
 
+    @AppStorage("measurementSystem") private var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
+
+    private var measurementSystem: MeasurementSystem {
+        MeasurementSystem(rawValue: measurementSystemRaw) ?? .imperial
+    }
+
     var body: some View {
         List {
             Section("Speed") {
-                row("Speed", "\(String(format: "%.1f", entry.speedMPH)) mph")
-                row("Speed Limit", "\(entry.speedLimit) mph")
+                row("Speed", "\(String(format: "%.1f", UnitConverter.displaySpeed(entry.speed, system: measurementSystem))) \(UnitConverter.speedUnit(measurementSystem).lowercased())")
+                row("Speed Limit", "\(Int(UnitConverter.displaySpeed(entry.speedLimit, system: measurementSystem))) \(UnitConverter.speedUnit(measurementSystem).lowercased())")
                 row("Status", entry.speedCategory.label)
             }
 
@@ -29,8 +35,8 @@ struct LogDetailView: View {
             Section("Measurement") {
                 row("Time Delta", String(format: "%.3f s", entry.timeDeltaSeconds))
                 row("Pixel Displacement", String(format: "%.1f px", entry.pixelDisplacement))
-                row("Pixels per Foot", String(format: "%.1f", entry.pixelsPerFoot))
-                row("Reference Distance", String(format: "%.1f ft", entry.referenceDistanceFeet))
+                row("Pixels per Meter", String(format: "%.1f", entry.pixelsPerMeter))
+                row("Reference Distance", "\(String(format: "%.1f", UnitConverter.displayDistance(entry.referenceDistanceMeters, system: measurementSystem))) \(UnitConverter.distanceUnit(measurementSystem))")
                 row("Calibration", entry.calibrationMethod.label)
             }
 

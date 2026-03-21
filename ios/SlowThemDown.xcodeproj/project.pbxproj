@@ -30,6 +30,7 @@
 		47679D062CCAEE688214451C /* ImageMarkerOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = C745F1C94A27793954831F63 /* ImageMarkerOverlay.swift */; };
 		480E39ACDCEE8D459D6585F7 /* SpeedEntryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A923CD6B2271D8D6B3E2CD5E /* SpeedEntryTests.swift */; };
 		481F235545802BDB2DEB7F04 /* CaptureView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 648AF0AEE6B09D68A2980382 /* CaptureView.swift */; };
+		565B7CEE5FBE64E27706E880 /* UnitConverterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA80B6B325F6630CF4F8F4F1 /* UnitConverterTests.swift */; };
 		5BD48B733A5B5C847CBF4FC9 /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = A67C08CFE7688D9903E5F52D /* FirebaseCrashlytics */; };
 		6993C91BBBD30C25397E2E97 /* CaptureViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AB6042166D292D2DCC2700D /* CaptureViewModel.swift */; };
 		69EAD6B1B79E36CED6F3652C /* PIIBlurService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7783AC8A6FA43BC126891F38 /* PIIBlurService.swift */; };
@@ -39,6 +40,7 @@
 		963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3685454CF76255109D5775A2 /* LogViewModel.swift */; };
 		9BB1E4BA5AA6B52E5BA674DF /* LogDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CA8FD0467D2FCDBBC5D13B4 /* LogDetailView.swift */; };
 		9D90D07295F60731E756296B /* FrameMarkerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84B3E981B6216D4DB292F99D /* FrameMarkerView.swift */; };
+		A5E4D95A50DC7125209A8D1B /* MeasurementSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CBBECEC395D49AEBA662EBE /* MeasurementSystem.swift */; };
 		A9AAD4C99849D9549E9ACDF7 /* AgencyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7D621DD09773984B1C17308C /* AgencyPickerView.swift */; };
 		AAF94F9C62F917053502B4FC /* CalibrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 28B93F70E6B0E6E2BEAEB328 /* CalibrationViewModel.swift */; };
 		AB21F28C8685E981D80482F8 /* SlowThemDownApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A8DC79F0CB2131404EA7C783 /* SlowThemDownApp.swift */; };
@@ -82,6 +84,7 @@
 		2FFEC0D54A19B8FCD5839E19 /* CalibrationViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationViewModelTests.swift; sourceTree = "<group>"; };
 		3685454CF76255109D5775A2 /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
 		38D16794431DFB880A87225B /* CoordinateMapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateMapperTests.swift; sourceTree = "<group>"; };
+		4CBBECEC395D49AEBA662EBE /* MeasurementSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MeasurementSystem.swift; sourceTree = "<group>"; };
 		4EA4B084E443D2CCD6037933 /* SpeedResultView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedResultView.swift; sourceTree = "<group>"; };
 		530C712C3EC796408BFB3CCA /* MetricCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MetricCard.swift; sourceTree = "<group>"; };
 		537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculatorTests.swift; sourceTree = "<group>"; };
@@ -118,6 +121,7 @@
 		C9793B8022619CD4379AC089 /* SpeedCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedCalculator.swift; sourceTree = "<group>"; };
 		D33AB3BCC6A6B2F9CBFFA803 /* DirectionPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DirectionPicker.swift; sourceTree = "<group>"; };
 		D7984D2693C63DFAA8F164E2 /* VideoFrameExtractor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VideoFrameExtractor.swift; sourceTree = "<group>"; };
+		DA80B6B325F6630CF4F8F4F1 /* UnitConverterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnitConverterTests.swift; sourceTree = "<group>"; };
 		DA91F0D74A259424327732A9 /* SlowThemDownTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SlowThemDownTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB195968CF9F81520F0CE434 /* SpeedBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedBadge.swift; sourceTree = "<group>"; };
 		F816BD022D4B9A3ED5F51CEC /* Calibration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calibration.swift; sourceTree = "<group>"; };
@@ -278,6 +282,7 @@
 				ACE4C2586622FDE791DD7B6D /* ReportViewModelTests.swift */,
 				537CCBAB5FAF54223F3A49AF /* SpeedCalculatorTests.swift */,
 				A923CD6B2271D8D6B3E2CD5E /* SpeedEntryTests.swift */,
+				DA80B6B325F6630CF4F8F4F1 /* UnitConverterTests.swift */,
 			);
 			path = SlowThemDownTests;
 			sourceTree = "<group>";
@@ -307,6 +312,7 @@
 			children = (
 				7C057B03AC41C899FC524466 /* Agency.swift */,
 				F816BD022D4B9A3ED5F51CEC /* Calibration.swift */,
+				4CBBECEC395D49AEBA662EBE /* MeasurementSystem.swift */,
 				12D98259EC568C5CE9165613 /* RoadStandards.swift */,
 				C9793B8022619CD4379AC089 /* SpeedCalculator.swift */,
 				5635FD6EB01979D112340CC4 /* SpeedEntry.swift */,
@@ -455,6 +461,7 @@
 				9BB1E4BA5AA6B52E5BA674DF /* LogDetailView.swift in Sources */,
 				380066D4220359B3E26E9135 /* LogView.swift in Sources */,
 				963A93C6109518ACCC08A5C3 /* LogViewModel.swift in Sources */,
+				A5E4D95A50DC7125209A8D1B /* MeasurementSystem.swift in Sources */,
 				B768B8104C52646D07CCEF63 /* MetricCard.swift in Sources */,
 				F971C8DA4A433A2A1A5919DA /* OnboardingView.swift in Sources */,
 				69EAD6B1B79E36CED6F3652C /* PIIBlurService.swift in Sources */,
@@ -491,6 +498,7 @@
 				35BA6F2EC5BC540DA4EB5211 /* ReportViewModelTests.swift in Sources */,
 				396076A4A0AE55019A2330D8 /* SpeedCalculatorTests.swift in Sources */,
 				480E39ACDCEE8D459D6585F7 /* SpeedEntryTests.swift in Sources */,
+				565B7CEE5FBE64E27706E880 /* UnitConverterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

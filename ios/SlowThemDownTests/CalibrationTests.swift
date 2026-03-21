@@ -7,12 +7,12 @@ struct CalibrationTests {
 
     // MARK: - isValid
 
-    @Test func isValid_positivePixelsPerFoot_returnsTrue() {
-        let cal = Calibration(pixelsPerFoot: 10.0)
+    @Test func isValid_positivePixelsPerMeter_returnsTrue() {
+        let cal = Calibration(pixelsPerMeter: 10.0)
         #expect(cal.isValid == true)
     }
 
-    @Test func isValid_zeroPixelsPerFoot_returnsFalse() {
+    @Test func isValid_zeroPixelsPerMeter_returnsFalse() {
         let cal = Calibration()
         #expect(cal.isValid == false)
     }
@@ -22,8 +22,8 @@ struct CalibrationTests {
     @Test func codableRoundtrip() throws {
         let original = Calibration(
             method: .vehicleReference,
-            pixelsPerFoot: 15.5,
-            referenceDistanceFeet: 16.0,
+            pixelsPerMeter: 50.853,
+            referenceDistanceMeters: 4.877,
             pixelDistance: 248.0,
             vehicleReferenceName: "Toyota Camry",
             timestamp: Date(timeIntervalSince1970: 1000)
@@ -42,8 +42,8 @@ struct CalibrationTests {
 
         let original = Calibration(
             method: .manualDistance,
-            pixelsPerFoot: 20.0,
-            referenceDistanceFeet: 10.0,
+            pixelsPerMeter: 65.617,
+            referenceDistanceMeters: 3.048,
             pixelDistance: 200.0
         )
         original.save()
@@ -52,8 +52,8 @@ struct CalibrationTests {
         let loaded = Calibration.load()
         #expect(loaded != nil)
         #expect(loaded?.method == .manualDistance)
-        #expect(loaded?.pixelsPerFoot == 20.0)
-        #expect(loaded?.referenceDistanceFeet == 10.0)
+        #expect(abs((loaded?.pixelsPerMeter ?? 0) - 65.617) < 0.001)
+        #expect(abs((loaded?.referenceDistanceMeters ?? 0) - 3.048) < 0.001)
 
         // Clean up
         UserDefaults.standard.removeObject(forKey: Calibration.storageKey)

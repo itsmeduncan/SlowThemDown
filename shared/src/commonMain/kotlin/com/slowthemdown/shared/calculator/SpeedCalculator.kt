@@ -5,27 +5,26 @@ import kotlin.math.sqrt
 
 object SpeedCalculator {
     /**
-     * Calculate speed in MPH from pixel displacement, pixels-per-foot, and time delta.
-     * Formula: (pixelDisplacement / pixelsPerFoot) feet / timeDeltaSeconds seconds -> MPH
+     * Calculate speed in m/s from pixel displacement, pixels-per-meter, and time delta.
+     * Formula: (pixelDisplacement / pixelsPerMeter) meters / timeDeltaSeconds seconds → m/s
      */
-    fun calculateSpeedMPH(
+    fun calculateSpeed(
         pixelDisplacement: Double,
-        pixelsPerFoot: Double,
+        pixelsPerMeter: Double,
         timeDeltaSeconds: Double
     ): Double {
-        if (pixelsPerFoot <= 0 || timeDeltaSeconds <= 0) return 0.0
-        val distanceFeet = pixelDisplacement / pixelsPerFoot
-        val feetPerSecond = distanceFeet / timeDeltaSeconds
-        return feetPerSecond * 0.681818 // ft/s to MPH
+        if (pixelsPerMeter <= 0 || timeDeltaSeconds <= 0) return 0.0
+        val distanceMeters = pixelDisplacement / pixelsPerMeter
+        return distanceMeters / timeDeltaSeconds
     }
 
-    /** Calculate pixels per foot from a known reference distance */
-    fun pixelsPerFoot(pixelDistance: Double, referenceFeet: Double): Double {
-        if (referenceFeet <= 0) return 0.0
-        return pixelDistance / referenceFeet
+    /** Calculate pixels per meter from a known reference distance in meters */
+    fun pixelsPerMeter(pixelDistance: Double, referenceMeters: Double): Double {
+        if (referenceMeters <= 0) return 0.0
+        return pixelDistance / referenceMeters
     }
 
-    /** Compute V85 - the interpolated 85th percentile speed */
+    /** Compute V85 — the interpolated 85th percentile speed */
     fun v85(speeds: List<Double>): Double? {
         if (speeds.isEmpty()) return null
         val sorted = speeds.sorted()
@@ -39,15 +38,15 @@ object SpeedCalculator {
 
     /**
      * Compute traffic statistics for a set of speed/limit pairs.
-     * Each pair is (speedMPH, speedLimit).
+     * Each pair is (speed in m/s, speedLimit in m/s).
      */
-    fun trafficStats(entries: List<Pair<Double, Int>>): TrafficStats? {
+    fun trafficStats(entries: List<Pair<Double, Double>>): TrafficStats? {
         if (entries.isEmpty()) return null
         val speeds = entries.map { it.first }
         val sorted = speeds.sorted()
         val mean = speeds.sum() / speeds.size
 
-        val overLimit = entries.count { it.first > it.second.toDouble() }
+        val overLimit = entries.count { it.first > it.second }
         val overPercent = overLimit.toDouble() / entries.size * 100
 
         return TrafficStats(

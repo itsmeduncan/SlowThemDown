@@ -41,27 +41,29 @@ enum SeedData {
             components.minute = minute
             let timestamp = calendar.date(from: components) ?? .now
 
-            // Realistic speed distribution: mostly 20-35, some outliers
-            let baseSpeed: Double
+            // Realistic speed distribution: mostly 20-35, some outliers (values in MPH, converted to m/s)
+            let baseSpeedMPH: Double
             let roll = Double.random(in: 0...1)
             if roll < 0.15 {
-                baseSpeed = Double.random(in: 15...20) // slow
+                baseSpeedMPH = Double.random(in: 15...20) // slow
             } else if roll < 0.70 {
-                baseSpeed = Double.random(in: 22...30) // normal
+                baseSpeedMPH = Double.random(in: 22...30) // normal
             } else if roll < 0.90 {
-                baseSpeed = Double.random(in: 30...38) // fast
+                baseSpeedMPH = Double.random(in: 30...38) // fast
             } else {
-                baseSpeed = Double.random(in: 38...50) // speeder
+                baseSpeedMPH = Double.random(in: 38...50) // speeder
             }
 
-            let speedLimit = [25, 25, 25, 30, 30, 35].randomElement()!
+            let speedMps = round(baseSpeedMPH * 0.44704 * 10) / 10
+            let speedLimitMPH = [25, 25, 25, 30, 30, 35].randomElement()!
+            let speedLimitMps = Double(speedLimitMPH) * 0.44704
             let vehicleType = VehicleType.allCases.randomElement()!
             let direction = TravelDirection.allCases.randomElement()!
             let street = streets[i % streets.count]
 
             let entry = SpeedEntry(
-                speedMPH: round(baseSpeed * 10) / 10,
-                speedLimit: speedLimit,
+                speed: speedMps,
+                speedLimit: speedLimitMps,
                 streetName: street,
                 notes: i % 7 == 0 ? "School zone" : "",
                 vehicleType: vehicleType,
@@ -69,8 +71,8 @@ enum SeedData {
                 calibrationMethod: .manualDistance,
                 timeDeltaSeconds: Double.random(in: 0.2...1.5),
                 pixelDisplacement: Double.random(in: 100...500),
-                pixelsPerFoot: 30.0,
-                referenceDistanceFeet: 10.0,
+                pixelsPerMeter: 98.425,
+                referenceDistanceMeters: 3.048,
                 latitude: 37.7749 + Double.random(in: -0.01...0.01),
                 longitude: -122.4194 + Double.random(in: -0.01...0.01),
                 timestamp: timestamp

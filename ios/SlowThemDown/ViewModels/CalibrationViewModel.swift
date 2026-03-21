@@ -10,6 +10,13 @@ final class CalibrationViewModel {
     var referenceDistanceText: String = ""
     var imageSize: CGSize = .zero
 
+    @ObservationIgnored
+    @AppStorage("measurementSystem") var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
+
+    var measurementSystem: MeasurementSystem {
+        MeasurementSystem(rawValue: measurementSystemRaw) ?? .imperial
+    }
+
     var isCalibrated: Bool { calibration.isValid }
 
     var pixelDistance: Double {
@@ -17,12 +24,13 @@ final class CalibrationViewModel {
         return CoordinateMapper.pixelDistance(from: markerPoints[0], to: markerPoints[1])
     }
 
-    var referenceDistanceFeet: Double {
-        Double(referenceDistanceText) ?? 0
+    var referenceDistanceMeters: Double {
+        guard let parsed = Double(referenceDistanceText) else { return 0 }
+        return UnitConverter.distanceToMeters(parsed, system: measurementSystem)
     }
 
     var canSave: Bool {
-        pixelDistance > 0 && referenceDistanceFeet > 0
+        pixelDistance > 0 && referenceDistanceMeters > 0
     }
 
     init() {
@@ -48,14 +56,14 @@ final class CalibrationViewModel {
     }
 
     func saveCalibration() {
-        let ppf = SpeedCalculator.pixelsPerFoot(
+        let ppm = SpeedCalculator.pixelsPerMeter(
             pixelDistance: pixelDistance,
-            referenceFeet: referenceDistanceFeet
+            referenceMeters: referenceDistanceMeters
         )
         calibration = Calibration(
             method: .manualDistance,
-            pixelsPerFoot: ppf,
-            referenceDistanceFeet: referenceDistanceFeet,
+            pixelsPerMeter: ppm,
+            referenceDistanceMeters: referenceDistanceMeters,
             pixelDistance: pixelDistance,
             timestamp: .now
         )

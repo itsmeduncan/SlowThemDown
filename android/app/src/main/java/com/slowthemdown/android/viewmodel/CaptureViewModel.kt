@@ -17,6 +17,7 @@ import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
 import com.slowthemdown.shared.calculator.SpeedCalculator
 import com.slowthemdown.shared.model.CalibrationMethod
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.RoadStandards
 import com.slowthemdown.shared.model.TravelDirection
 import com.slowthemdown.shared.model.VehicleReference
@@ -100,7 +101,7 @@ class CaptureViewModel @Inject constructor(
     val direction: StateFlow<TravelDirection> = _direction.asStateFlow()
 
     private val _speedLimit = MutableStateFlow(RoadStandards.defaultSpeedLimit)
-    val speedLimit: StateFlow<Int> = _speedLimit.asStateFlow()
+    val speedLimit: StateFlow<Double> = _speedLimit.asStateFlow()
 
     private val _streetName = MutableStateFlow("")
     val streetName: StateFlow<String> = _streetName.asStateFlow()
@@ -110,6 +111,9 @@ class CaptureViewModel @Inject constructor(
 
     val calibration: StateFlow<Calibration> = calibrationStore.calibration
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), Calibration())
+
+    val measurementSystem: StateFlow<MeasurementSystem> = calibrationStore.measurementSystem
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MeasurementSystem.IMPERIAL)
 
     private val videoSize: Size
         get() = Size(_videoWidth.value.toDouble(), _videoHeight.value.toDouble())
@@ -174,7 +178,7 @@ class CaptureViewModel @Inject constructor(
     fun setSelectedVehicleRef(ref: VehicleReference?) { _selectedVehicleRef.value = ref }
     fun setVehicleType(type: VehicleType) { _vehicleType.value = type }
     fun setDirection(dir: TravelDirection) { _direction.value = dir }
-    fun setSpeedLimit(limit: Int) { _speedLimit.value = limit }
+    fun setSpeedLimit(limit: Double) { _speedLimit.value = limit }
     fun setStreetName(name: String) { _streetName.value = name }
     fun setNotes(notes: String) { _notes.value = notes }
 
@@ -187,19 +191,19 @@ class CaptureViewModel @Inject constructor(
 
     fun calculateSpeed() {
         val cal = calibration.value
-        val ppf: Double = if (_useVehicleReference.value) {
+        val ppm: Double = if (_useVehicleReference.value) {
             val ref = _selectedVehicleRef.value ?: return
             val markers = _vehicleRefMarkers.value
             if (markers.size != 2) return
             val refPixels = CoordinateMapper.pixelDistance(markers[0], markers[1])
-            SpeedCalculator.pixelsPerFoot(refPixels, ref.lengthFeet)
+            SpeedCalculator.pixelsPerMeter(refPixels, ref.lengthMeters)
         } else {
-            cal.pixelsPerFoot
+            cal.pixelsPerMeter
         }
 
-        _calculatedSpeed.value = SpeedCalculator.calculateSpeedMPH(
+        _calculatedSpeed.value = SpeedCalculator.calculateSpeed(
             pixelDisplacement = pixelDisplacement,
-            pixelsPerFoot = ppf,
+            pixelsPerMeter = ppm,
             timeDeltaSeconds = timeDelta
         )
         _state.value = CaptureFlowState.RESULT
@@ -229,24 +233,24 @@ class CaptureViewModel @Inject constructor(
                 _streetName.value
             }
 
-            val ppf: Double
+            val ppm: Double
             val method: CalibrationMethod
             val refDist: Double
             if (_useVehicleReference.value && _selectedVehicleRef.value != null && _vehicleRefMarkers.value.size == 2) {
                 val ref = _selectedVehicleRef.value!!
                 val markers = _vehicleRefMarkers.value
                 val refPixels = CoordinateMapper.pixelDistance(markers[0], markers[1])
-                ppf = SpeedCalculator.pixelsPerFoot(refPixels, ref.lengthFeet)
+                ppm = SpeedCalculator.pixelsPerMeter(refPixels, ref.lengthMeters)
                 method = CalibrationMethod.VEHICLE_REFERENCE
-                refDist = ref.lengthFeet
+                refDist = ref.lengthMeters
             } else {
-                ppf = cal.pixelsPerFoot
+                ppm = cal.pixelsPerMeter
                 method = cal.method
-                refDist = cal.referenceDistanceFeet
+                refDist = cal.referenceDistanceMeters
             }
 
             val entry = SpeedEntryEntity(
-                speedMPH = _calculatedSpeed.value,
+                speed = _calculatedSpeed.value,
                 speedLimit = _speedLimit.value,
                 streetName = street,
                 notes = _notes.value,
@@ -255,8 +259,8 @@ class CaptureViewModel @Inject constructor(
                 calibrationMethodRaw = method.rawValue,
                 timeDeltaSeconds = timeDelta,
                 pixelDisplacement = pixelDisplacement,
-                pixelsPerFoot = ppf,
-                referenceDistanceFeet = refDist,
+                pixelsPerMeter = ppm,
+                referenceDistanceMeters = refDist,
                 latitude = location?.latitude,
                 longitude = location?.longitude,
             )

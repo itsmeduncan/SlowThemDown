@@ -85,30 +85,30 @@ enum VehicleType: String, CaseIterable, Codable {
 
 struct Calibration: Codable, Equatable {
     var method: CalibrationMethod
-    var pixelsPerFoot: Double
-    var referenceDistanceFeet: Double
+    var pixelsPerMeter: Double
+    var referenceDistanceMeters: Double
     var pixelDistance: Double
     var vehicleReferenceName: String?
     var timestamp: Date
 
     init(
         method: CalibrationMethod = .manualDistance,
-        pixelsPerFoot: Double = 0,
-        referenceDistanceFeet: Double = 0,
+        pixelsPerMeter: Double = 0,
+        referenceDistanceMeters: Double = 0,
         pixelDistance: Double = 0,
         vehicleReferenceName: String? = nil,
         timestamp: Date = .now
     ) {
         self.method = method
-        self.pixelsPerFoot = pixelsPerFoot
-        self.referenceDistanceFeet = referenceDistanceFeet
+        self.pixelsPerMeter = pixelsPerMeter
+        self.referenceDistanceMeters = referenceDistanceMeters
         self.pixelDistance = pixelDistance
         self.vehicleReferenceName = vehicleReferenceName
         self.timestamp = timestamp
     }
 
     var isValid: Bool {
-        pixelsPerFoot > 0
+        pixelsPerMeter > 0
     }
 
     static let storageKey = "com.slowthemdown.calibration"

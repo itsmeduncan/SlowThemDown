@@ -53,19 +53,21 @@ class SpeedEntryEntityTest {
 
     @Test
     fun isOverLimit_speedAboveLimit_returnsTrue() {
-        val entity = makeEntry(speedMPH = 30.0, speedLimit = 25)
+        // 30 MPH = 13.4112 m/s, 25 MPH = 11.176 m/s
+        val entity = makeEntry(speed = 13.4112, speedLimit = 11.176)
         assertTrue(entity.isOverLimit)
     }
 
     @Test
     fun isOverLimit_speedAtLimit_returnsFalse() {
-        val entity = makeEntry(speedMPH = 25.0, speedLimit = 25)
+        val entity = makeEntry(speed = 11.176, speedLimit = 11.176)
         assertFalse(entity.isOverLimit)
     }
 
     @Test
     fun isOverLimit_speedBelowLimit_returnsFalse() {
-        val entity = makeEntry(speedMPH = 20.0, speedLimit = 25)
+        // 20 MPH = 8.9408 m/s
+        val entity = makeEntry(speed = 8.9408, speedLimit = 11.176)
         assertFalse(entity.isOverLimit)
     }
 
@@ -73,32 +75,35 @@ class SpeedEntryEntityTest {
 
     @Test
     fun speedCategory_underLimit() {
-        val entity = makeEntry(speedMPH = 20.0, speedLimit = 25)
+        // 20 MPH / 25 MPH = 0.8 ratio → UNDER_LIMIT
+        val entity = makeEntry(speed = 8.9408, speedLimit = 11.176)
         assertEquals(SpeedCategory.UNDER_LIMIT, entity.speedCategory)
     }
 
     @Test
     fun speedCategory_marginal() {
-        val entity = makeEntry(speedMPH = 28.0, speedLimit = 25)
+        // 28 MPH = 12.51712 m/s, 25 MPH = 11.176 m/s → ratio ~1.12 → MARGINAL
+        val entity = makeEntry(speed = 12.51712, speedLimit = 11.176)
         assertEquals(SpeedCategory.MARGINAL, entity.speedCategory)
     }
 
     @Test
     fun speedCategory_overLimit() {
-        val entity = makeEntry(speedMPH = 35.0, speedLimit = 25)
+        // 35 MPH = 15.6464 m/s, 25 MPH = 11.176 m/s → ratio ~1.4 → OVER_LIMIT
+        val entity = makeEntry(speed = 15.6464, speedLimit = 11.176)
         assertEquals(SpeedCategory.OVER_LIMIT, entity.speedCategory)
     }
 
     // MARK: - Helpers
 
     private fun makeEntry(
-        speedMPH: Double = 30.0,
-        speedLimit: Int = 25,
+        speed: Double = 13.4112, // 30 MPH in m/s
+        speedLimit: Double = 11.176, // 25 MPH in m/s
         vehicleTypeRaw: String = VehicleType.CAR.rawValue,
         directionRaw: String = TravelDirection.LEFT_TO_RIGHT.rawValue,
         calibrationMethodRaw: String = CalibrationMethod.MANUAL_DISTANCE.rawValue,
     ) = SpeedEntryEntity(
-        speedMPH = speedMPH,
+        speed = speed,
         speedLimit = speedLimit,
         vehicleTypeRaw = vehicleTypeRaw,
         directionRaw = directionRaw,

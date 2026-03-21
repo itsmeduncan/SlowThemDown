@@ -18,6 +18,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.slowthemdown.android.data.db.SpeedEntryEntity
+import com.slowthemdown.shared.model.MeasurementSystem
+import com.slowthemdown.shared.model.UnitConverter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -26,10 +28,13 @@ import java.util.Locale
 @Composable
 fun LogDetailSheet(
     entry: SpeedEntryEntity,
+    system: MeasurementSystem,
     onDismiss: () -> Unit,
 ) {
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val dateFormat = SimpleDateFormat("MMM d, yyyy h:mm a", Locale.getDefault())
+    val speedUnit = UnitConverter.speedUnit(system)
+    val distUnit = UnitConverter.distanceUnit(system)
 
     ModalBottomSheet(
         onDismissRequest = onDismiss,
@@ -46,8 +51,8 @@ fun LogDetailSheet(
             Spacer(modifier = Modifier.height(16.dp))
 
             SectionHeader("Speed")
-            DetailRow("Speed", "%.1f mph".format(entry.speedMPH))
-            DetailRow("Speed Limit", "${entry.speedLimit} mph")
+            DetailRow("Speed", "%.1f %s".format(UnitConverter.displaySpeed(entry.speed, system), speedUnit))
+            DetailRow("Speed Limit", "%.0f %s".format(UnitConverter.displaySpeed(entry.speedLimit, system), speedUnit))
             DetailRow("Status", entry.speedCategory.label)
 
             Spacer(modifier = Modifier.height(12.dp))
@@ -73,8 +78,14 @@ fun LogDetailSheet(
             SectionHeader("Measurement")
             DetailRow("Time Delta", "%.3f s".format(entry.timeDeltaSeconds))
             DetailRow("Pixel Displacement", "%.1f px".format(entry.pixelDisplacement))
-            DetailRow("Pixels per Foot", "%.1f".format(entry.pixelsPerFoot))
-            DetailRow("Reference Distance", "%.1f ft".format(entry.referenceDistanceFeet))
+            DetailRow(
+                "Pixels per ${distUnit.replaceFirstChar { it.uppercase() }}",
+                "%.1f".format(UnitConverter.displayPixelsPerUnit(entry.pixelsPerMeter, system))
+            )
+            DetailRow(
+                "Reference Distance",
+                "%.1f %s".format(UnitConverter.displayDistance(entry.referenceDistanceMeters, system), distUnit)
+            )
             DetailRow("Calibration", entry.calibrationMethod.label)
 
             if (entry.latitude != null && entry.longitude != null) {

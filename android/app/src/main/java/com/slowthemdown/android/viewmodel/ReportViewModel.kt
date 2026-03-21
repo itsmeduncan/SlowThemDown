@@ -9,14 +9,17 @@ import androidx.lifecycle.viewModelScope
 import com.slowthemdown.android.BuildConfig
 import com.slowthemdown.android.data.Agency
 import com.slowthemdown.android.data.AgencyDirectory
+import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.data.db.SpeedEntryEntity
 import com.slowthemdown.android.debug.SeedData
 import com.slowthemdown.android.service.LocationService
 import com.slowthemdown.android.service.ReportExporter
 import com.slowthemdown.shared.calculator.SpeedCalculator
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.RoadStandards
 import com.slowthemdown.shared.model.TrafficStats
+import com.slowthemdown.shared.model.UnitConverter
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -34,11 +37,12 @@ import java.util.Date
 import java.util.Locale
 import javax.inject.Inject
 
-data class HistogramBucket(val label: String, val count: Int, val rangeStart: Int)
+data class HistogramBucket(val label: String, val count: Int, val rangeStart: Double)
 
 data class HourlyAverage(val hour: Int, val label: String, val averageSpeed: Double)
 
-data class ScatterPoint(val timestampMillis: Long, val speedMPH: Double)
+/** Speed stored in m/s */
+data class ScatterPoint(val timestampMillis: Long, val speed: Double)
 
 data class StreetGroup(val name: String, val count: Int, val meanSpeed: Double, val overLimitPercent: Double)
 
@@ -48,6 +52,7 @@ class ReportViewModel @Inject constructor(
     private val exporter: ReportExporter,
     private val agencyDirectory: AgencyDirectory,
     private val locationService: LocationService,
+    private val calibrationStore: CalibrationStore,
     private val application: Application,
 ) : ViewModel() {
 
@@ -62,6 +67,9 @@ class ReportViewModel @Inject constructor(
             _showingDemoData.value = false
         }
     }
+
+    val measurementSystem: StateFlow<MeasurementSystem> = calibrationStore.measurementSystem
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), MeasurementSystem.IMPERIAL)
 
     private val _selectedStreet = MutableStateFlow<String?>(null)
     val selectedStreet: StateFlow<String?> = _selectedStreet.asStateFlow()
@@ -85,7 +93,7 @@ class ReportViewModel @Inject constructor(
         .map { entries ->
             if (entries.isEmpty()) null
             else SpeedCalculator.trafficStats(
-                entries.map { it.speedMPH to it.speedLimit }
+                entries.map { it.speed to it.speedLimit }
             )
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), null)
@@ -95,7 +103,7 @@ class ReportViewModel @Inject constructor(
             entries.filter { it.streetName.isNotEmpty() }
                 .groupBy { it.streetName }
                 .map { (street, streetEntries) ->
-                    val mean = streetEntries.map { it.speedMPH }.average()
+                    val mean = streetEntries.map { it.speed }.average()
                     val overCount = streetEntries.count { it.isOverLimit }
                     val overPercent = overCount.toDouble() / streetEntries.size * 100
                     StreetGroup(street, streetEntries.size, mean, overPercent)
@@ -104,18 +112,22 @@ class ReportViewModel @Inject constructor(
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val histogram: StateFlow<List<HistogramBucket>> = filteredEntries
-        .map { entries ->
-            if (entries.isEmpty()) return@map emptyList()
-            val speeds = entries.map { it.speedMPH }
-            val minBucket = ((speeds.min().toInt()) / 5) * 5
-            val maxBucket = ((speeds.max().toInt()) / 5) * 5
-            (minBucket..maxBucket step 5).map { start ->
-                val count = speeds.count { it >= start && it < start + 5 }
-                HistogramBucket("$start-${start + 5}", count, start)
-            }
+    val histogram: StateFlow<List<HistogramBucket>> = combine(filteredEntries, measurementSystem) { entries, system ->
+        if (entries.isEmpty()) return@combine emptyList()
+        val displaySpeeds = entries.map { UnitConverter.displaySpeed(it.speed, system) }
+        val bucketSize = 5.0
+        val minBucket = (displaySpeeds.min() / bucketSize).toInt() * bucketSize
+        val maxBucket = (displaySpeeds.max() / bucketSize).toInt() * bucketSize
+        var start = minBucket
+        val buckets = mutableListOf<HistogramBucket>()
+        while (start <= maxBucket) {
+            val end = start + bucketSize
+            val count = displaySpeeds.count { it >= start && it < end }
+            buckets.add(HistogramBucket("${start.toInt()}-${end.toInt()}", count, start))
+            start += bucketSize
         }
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
+        buckets
+    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
     val hourlyAverages: StateFlow<List<HourlyAverage>> = filteredEntries
         .map { entries ->
@@ -128,7 +140,7 @@ class ReportViewModel @Inject constructor(
             byHour.entries
                 .sortedBy { it.key }
                 .map { (hour, hourEntries) ->
-                    val avg = hourEntries.map { it.speedMPH }.average()
+                    val avg = hourEntries.map { it.speed }.average()
                     val label = when {
                         hour == 0 -> "12am"
                         hour < 12 -> "${hour}am"
@@ -142,11 +154,11 @@ class ReportViewModel @Inject constructor(
 
     val scatterPoints: StateFlow<List<ScatterPoint>> = filteredEntries
         .map { entries ->
-            entries.map { ScatterPoint(it.timestamp, it.speedMPH) }
+            entries.map { ScatterPoint(it.timestamp, it.speed) }
         }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), emptyList())
 
-    val mostCommonSpeedLimit: StateFlow<Int> = filteredEntries
+    val mostCommonSpeedLimit: StateFlow<Double> = filteredEntries
         .map { entries ->
             if (entries.isEmpty()) RoadStandards.defaultSpeedLimit
             else entries.groupingBy { it.speedLimit }.eachCount()
@@ -163,7 +175,8 @@ class ReportViewModel @Inject constructor(
     fun exportCsv() {
         viewModelScope.launch(Dispatchers.IO) {
             _isExporting.value = true
-            val file = exporter.generateCsvFile(entries.value)
+            val system = measurementSystem.value
+            val file = exporter.generateCsvFile(entries.value, system)
             _exportedFile.value = file
             _isExporting.value = false
         }
@@ -176,7 +189,8 @@ class ReportViewModel @Inject constructor(
                 _isExporting.value = false
                 return@launch
             }
-            val file = exporter.generatePdfFile(entries.value, s)
+            val system = measurementSystem.value
+            val file = exporter.generatePdfFile(entries.value, s, system)
             _exportedFile.value = file
             _isExporting.value = false
         }
@@ -250,12 +264,13 @@ class ReportViewModel @Inject constructor(
                 _isExporting.value = false
                 return@launch
             }
+            val system = measurementSystem.value
             val currentEntries = entries.value
-            val pdfFile = exporter.generatePdfFile(currentEntries, s)
+            val pdfFile = exporter.generatePdfFile(currentEntries, s, system)
             _isExporting.value = false
 
-            val subject = agencyEmailSubject(currentEntries, s)
-            val body = agencyEmailBody(agency, currentEntries, s)
+            val subject = agencyEmailSubject(currentEntries, s, system)
+            val body = agencyEmailBody(agency, currentEntries, s, system)
 
             val pdfUri = FileProvider.getUriForFile(
                 context, "${context.packageName}.fileprovider", pdfFile
@@ -273,17 +288,33 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-    private fun agencyEmailSubject(entries: List<SpeedEntryEntity>, stats: TrafficStats): String {
+    private fun agencyEmailSubject(
+        entries: List<SpeedEntryEntity>,
+        stats: TrafficStats,
+        system: MeasurementSystem,
+    ): String {
         val street = mostCommonStreet(entries)
         val limit = entries.groupingBy { it.speedLimit }.eachCount()
             .maxByOrNull { it.value }?.key ?: RoadStandards.defaultSpeedLimit
-        return "Speeding Concern: $street — V85 ${"%.0f".format(stats.v85)} MPH in a $limit MPH Zone"
+        val unit = UnitConverter.speedUnit(system)
+        val v85Display = UnitConverter.displaySpeed(stats.v85, system)
+        val limitDisplay = UnitConverter.displaySpeed(limit, system).toInt()
+        return "Speeding Concern: $street — V85 ${"%.0f".format(v85Display)} $unit in a $limitDisplay $unit Zone"
     }
 
-    private fun agencyEmailBody(agency: Agency, entries: List<SpeedEntryEntity>, stats: TrafficStats): String {
+    private fun agencyEmailBody(
+        agency: Agency,
+        entries: List<SpeedEntryEntity>,
+        stats: TrafficStats,
+        system: MeasurementSystem,
+    ): String {
         val street = mostCommonStreet(entries)
         val limit = entries.groupingBy { it.speedLimit }.eachCount()
             .maxByOrNull { it.value }?.key ?: RoadStandards.defaultSpeedLimit
+        val unit = UnitConverter.speedUnit(system)
+        val limitDisplay = UnitConverter.displaySpeed(limit, system).toInt()
+        val v85Display = UnitConverter.displaySpeed(stats.v85, system)
+        val meanDisplay = UnitConverter.displaySpeed(stats.mean, system)
         val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
         val timestamps = entries.map { it.timestamp }.sorted()
         val start = if (timestamps.isNotEmpty()) dateFormat.format(Date(timestamps.first())) else "N/A"
@@ -296,10 +327,10 @@ class ReportViewModel @Inject constructor(
             |
             |Over ${stats.count} observations from $start to $end:
             |
-            |• V85 Speed: ${"%.1f".format(stats.v85)} MPH (85th percentile)
-            |• Average Speed: ${"%.1f".format(stats.mean)} MPH
-            |• Speed Limit: $limit MPH
-            |• Vehicles Over Limit: ${stats.overLimitCount} (${"%.0f".format(stats.overLimitPercent)}%)
+            |${"  "}• V85 Speed: ${"%.1f".format(v85Display)} $unit (85th percentile)
+            |${"  "}• Average Speed: ${"%.1f".format(meanDisplay)} $unit
+            |${"  "}• Speed Limit: $limitDisplay $unit
+            |${"  "}• Vehicles Over Limit: ${stats.overLimitCount} (${"%.0f".format(stats.overLimitPercent)}%)
             |
             |A detailed report is attached.
             |

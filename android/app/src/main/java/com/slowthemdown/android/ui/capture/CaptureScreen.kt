@@ -70,9 +70,11 @@ import com.slowthemdown.android.viewmodel.CaptureViewModel
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.RoadStandards
 import com.slowthemdown.shared.model.SpeedCategory
 import com.slowthemdown.shared.model.TravelDirection
+import com.slowthemdown.shared.model.UnitConverter
 import com.slowthemdown.shared.model.VehicleCategory
 import com.slowthemdown.shared.model.VehicleReferences
 import com.slowthemdown.shared.model.VehicleType
@@ -266,6 +268,7 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
     val useVehicleRef by viewModel.useVehicleReference.collectAsState()
     val selectedVehicleRef by viewModel.selectedVehicleRef.collectAsState()
     val vehicleRefMarkers by viewModel.vehicleRefMarkers.collectAsState()
+    val system by viewModel.measurementSystem.collectAsState()
 
     val bitmap = if (frameNumber == 1) frame1Image else frame2Image
     val marker = if (frameNumber == 1) frame1Marker else frame2Marker
@@ -313,7 +316,7 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
         // Vehicle reference section on Frame 2 (matching iOS)
         if (frameNumber == 2) {
             Spacer(modifier = Modifier.height(16.dp))
-            VehicleReferenceSection(viewModel)
+            VehicleReferenceSection(viewModel, system)
         }
 
         // Vehicle reference markers on frame 2
@@ -418,10 +421,12 @@ private fun FrameImageWithMarker(
 }
 
 @Composable
-private fun VehicleReferenceSection(viewModel: CaptureViewModel) {
+private fun VehicleReferenceSection(viewModel: CaptureViewModel, system: MeasurementSystem) {
     val useVehicleRef by viewModel.useVehicleReference.collectAsState()
     val selectedRef by viewModel.selectedVehicleRef.collectAsState()
     var showPicker by remember { mutableStateOf(false) }
+
+    val distUnit = UnitConverter.distanceUnit(system)
 
     Row(verticalAlignment = Alignment.CenterVertically) {
         androidx.compose.material3.Checkbox(
@@ -437,7 +442,9 @@ private fun VehicleReferenceSection(viewModel: CaptureViewModel) {
     if (useVehicleRef) {
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedButton(onClick = { showPicker = true }) {
-            Text(selectedRef?.let { "${it.name} (${it.lengthFeet} ft)" } ?: "Select Vehicle")
+            Text(selectedRef?.let {
+                "${it.name} (${"%.1f".format(UnitConverter.displayDistance(it.lengthMeters, system))} $distUnit)"
+            } ?: "Select Vehicle")
         }
 
         DropdownMenu(
@@ -459,7 +466,7 @@ private fun VehicleReferenceSection(viewModel: CaptureViewModel) {
                 vehicles.forEach { vehicle ->
                     DropdownMenuItem(
                         text = {
-                            Text("  ${vehicle.name} (${vehicle.lengthFeet} ft)")
+                            Text("  ${vehicle.name} (${"%.1f".format(UnitConverter.displayDistance(vehicle.lengthMeters, system))} $distUnit)")
                         },
                         onClick = {
                             viewModel.setSelectedVehicleRef(vehicle)
@@ -574,13 +581,16 @@ private fun VehicleRefMarkerOverlay(
 @Composable
 private fun SpeedResultContent(viewModel: CaptureViewModel) {
     val speed by viewModel.calculatedSpeed.collectAsState()
-    val speedLimit by viewModel.speedLimit.collectAsState()
+    val speedLimitMps by viewModel.speedLimit.collectAsState()
     val vehicleType by viewModel.vehicleType.collectAsState()
     val direction by viewModel.direction.collectAsState()
     val streetName by viewModel.streetName.collectAsState()
     val notes by viewModel.notes.collectAsState()
+    val system by viewModel.measurementSystem.collectAsState()
 
-    val category = SpeedCategory.fromSpeed(speed, speedLimit)
+    val displaySpeed = UnitConverter.displaySpeed(speed, system)
+    val speedUnit = UnitConverter.speedUnit(system)
+    val category = SpeedCategory.fromSpeed(speed, speedLimitMps)
     val speedColor = when (category) {
         SpeedCategory.UNDER_LIMIT -> Color(0xFF4CAF50)
         SpeedCategory.MARGINAL -> Color(0xFFFFC107)
@@ -590,6 +600,9 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
     var speedLimitExpanded by remember { mutableStateOf(false) }
     var vehicleTypeExpanded by remember { mutableStateOf(false) }
     var directionExpanded by remember { mutableStateOf(false) }
+
+    val speedLimits = RoadStandards.speedLimitsForSystem(system)
+    val displaySpeedLimit = UnitConverter.displaySpeed(speedLimitMps, system).toInt()
 
     Column(
         modifier = Modifier
@@ -601,12 +614,12 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
         Text("Estimated Speed", style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            "%.1f".format(speed),
+            "%.1f".format(displaySpeed),
             style = MaterialTheme.typography.displayLarge.copy(fontWeight = FontWeight.Bold),
             color = speedColor,
         )
         Text(
-            "MPH",
+            speedUnit,
             style = MaterialTheme.typography.titleMedium,
             color = speedColor,
         )
@@ -619,7 +632,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
             onExpandedChange = { speedLimitExpanded = it },
         ) {
             OutlinedTextField(
-                value = "$speedLimit mph",
+                value = "$displaySpeedLimit $speedUnit",
                 onValueChange = {},
                 readOnly = true,
                 label = { Text("Speed Limit") },
@@ -632,11 +645,12 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
                 expanded = speedLimitExpanded,
                 onDismissRequest = { speedLimitExpanded = false },
             ) {
-                RoadStandards.speedLimits.forEach { limit ->
+                speedLimits.forEach { limitMps ->
+                    val displayLimit = UnitConverter.displaySpeed(limitMps, system).toInt()
                     DropdownMenuItem(
-                        text = { Text("$limit mph") },
+                        text = { Text("$displayLimit $speedUnit") },
                         onClick = {
-                            viewModel.setSpeedLimit(limit)
+                            viewModel.setSpeedLimit(limitMps)
                             speedLimitExpanded = false
                         },
                     )

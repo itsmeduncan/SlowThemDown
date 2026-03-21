@@ -102,24 +102,24 @@ class EnumsTest {
         }
     }
 
-    // MARK: - SpeedCategory
+    // MARK: - SpeedCategory (uses Double for both speed and limit now)
 
     @Test
     fun speedCategory_underLimit() {
-        assertEquals(SpeedCategory.UNDER_LIMIT, SpeedCategory.fromSpeed(20.0, 25))
-        assertEquals(SpeedCategory.UNDER_LIMIT, SpeedCategory.fromSpeed(25.0, 25))
+        assertEquals(SpeedCategory.UNDER_LIMIT, SpeedCategory.fromSpeed(8.94, 11.176))
+        assertEquals(SpeedCategory.UNDER_LIMIT, SpeedCategory.fromSpeed(11.176, 11.176))
     }
 
     @Test
     fun speedCategory_marginal() {
-        assertEquals(SpeedCategory.MARGINAL, SpeedCategory.fromSpeed(26.0, 25))
-        assertEquals(SpeedCategory.MARGINAL, SpeedCategory.fromSpeed(30.0, 25)) // ratio = 1.2, still marginal
+        assertEquals(SpeedCategory.MARGINAL, SpeedCategory.fromSpeed(11.62, 11.176))
+        assertEquals(SpeedCategory.MARGINAL, SpeedCategory.fromSpeed(13.41, 11.176)) // ratio = 1.2
     }
 
     @Test
     fun speedCategory_overLimit() {
-        assertEquals(SpeedCategory.OVER_LIMIT, SpeedCategory.fromSpeed(31.0, 25)) // ratio > 1.2
-        assertEquals(SpeedCategory.OVER_LIMIT, SpeedCategory.fromSpeed(50.0, 25))
+        assertEquals(SpeedCategory.OVER_LIMIT, SpeedCategory.fromSpeed(13.87, 11.176)) // ratio > 1.2
+        assertEquals(SpeedCategory.OVER_LIMIT, SpeedCategory.fromSpeed(22.35, 11.176))
     }
 
     @Test

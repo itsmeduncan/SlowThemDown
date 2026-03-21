@@ -4,45 +4,45 @@ import Testing
 @Suite("SpeedCalculator")
 struct SpeedCalculatorTests {
 
-    // MARK: - calculateSpeedMPH
+    // MARK: - calculateSpeed
 
-    @Test func calculateSpeedMPH_knownInputs() {
-        // 100 pixels at 10 px/ft over 1 second = 10 ft/s ≈ 6.818 MPH
-        let result = SpeedCalculator.calculateSpeedMPH(
+    @Test func calculateSpeed_knownInputs() {
+        // 100 pixels at 10 px/m over 1 second = 10 m/s
+        let result = SpeedCalculator.calculateSpeed(
             pixelDisplacement: 100,
-            pixelsPerFoot: 10,
+            pixelsPerMeter: 10,
             timeDeltaSeconds: 1
         )
-        #expect(abs(result - 6.81818) < 0.001)
+        #expect(abs(result - 10.0) < 0.001)
     }
 
-    @Test func calculateSpeedMPH_zeroPixelsPerFoot_returnsZero() {
-        let result = SpeedCalculator.calculateSpeedMPH(
+    @Test func calculateSpeed_zeroPixelsPerMeter_returnsZero() {
+        let result = SpeedCalculator.calculateSpeed(
             pixelDisplacement: 100,
-            pixelsPerFoot: 0,
+            pixelsPerMeter: 0,
             timeDeltaSeconds: 1
         )
         #expect(result == 0)
     }
 
-    @Test func calculateSpeedMPH_zeroTimeDelta_returnsZero() {
-        let result = SpeedCalculator.calculateSpeedMPH(
+    @Test func calculateSpeed_zeroTimeDelta_returnsZero() {
+        let result = SpeedCalculator.calculateSpeed(
             pixelDisplacement: 100,
-            pixelsPerFoot: 10,
+            pixelsPerMeter: 10,
             timeDeltaSeconds: 0
         )
         #expect(result == 0)
     }
 
-    // MARK: - pixelsPerFoot
+    // MARK: - pixelsPerMeter
 
-    @Test func pixelsPerFoot_knownConversion() {
-        let result = SpeedCalculator.pixelsPerFoot(pixelDistance: 200, referenceFeet: 10)
+    @Test func pixelsPerMeter_knownConversion() {
+        let result = SpeedCalculator.pixelsPerMeter(pixelDistance: 200, referenceMeters: 10)
         #expect(result == 20)
     }
 
-    @Test func pixelsPerFoot_zeroReference_returnsZero() {
-        let result = SpeedCalculator.pixelsPerFoot(pixelDistance: 200, referenceFeet: 0)
+    @Test func pixelsPerMeter_zeroReference_returnsZero() {
+        let result = SpeedCalculator.pixelsPerMeter(pixelDistance: 200, referenceMeters: 0)
         #expect(result == 0)
     }
 
@@ -53,18 +53,18 @@ struct SpeedCalculatorTests {
     }
 
     @Test func v85_singleElement() {
-        let result = SpeedCalculator.v85(speeds: [30])
-        #expect(result == 30)
+        let result = SpeedCalculator.v85(speeds: [13.41])
+        #expect(result == 13.41)
     }
 
     @Test func v85_knownArray() {
-        // Sorted: [20, 22, 25, 28, 30, 32, 35, 38, 40, 45]
+        // Sorted: [8.94, 9.83, 11.18, 12.52, 13.41, 14.31, 15.65, 16.99, 17.88, 20.12]
         // rank = 0.85 * 9 = 7.65
-        // lower = 7 (value 38), upper = 8 (value 40), fraction = 0.65
-        // result = 38 + 0.65 * (40 - 38) = 39.3
-        let speeds = [30.0, 25, 35, 20, 40, 28, 45, 22, 32, 38]
+        // lower = 7 (value 16.99), upper = 8 (value 17.88), fraction = 0.65
+        // result = 16.99 + 0.65 * (17.88 - 16.99) = 17.5685
+        let speeds = [13.41, 11.18, 15.65, 8.94, 17.88, 12.52, 20.12, 9.83, 14.31, 16.99]
         let result = SpeedCalculator.v85(speeds: speeds)!
-        #expect(abs(result - 39.3) < 0.001)
+        #expect(abs(result - 17.5685) < 0.001)
     }
 
     // MARK: - trafficStats
@@ -74,19 +74,21 @@ struct SpeedCalculatorTests {
     }
 
     @Test func trafficStats_aggregation() {
+        // Speeds in m/s, limit in m/s (11.176 = 25 MPH)
+        let limit = 11.176
         let entries = [
-            SpeedEntry(speedMPH: 20, speedLimit: 25),
-            SpeedEntry(speedMPH: 30, speedLimit: 25),
-            SpeedEntry(speedMPH: 40, speedLimit: 25),
+            SpeedEntry(speed: 8.94, speedLimit: limit),   // ~20 MPH, under
+            SpeedEntry(speed: 13.41, speedLimit: limit),   // ~30 MPH, over
+            SpeedEntry(speed: 17.88, speedLimit: limit),   // ~40 MPH, over
         ]
         let stats = SpeedCalculator.trafficStats(entries: entries)!
 
         #expect(stats.count == 3)
-        #expect(abs(stats.mean - 30) < 0.001)
-        #expect(stats.median == 30)
-        #expect(stats.min == 20)
-        #expect(stats.max == 40)
-        #expect(stats.overLimitCount == 2)  // 30 and 40 are over 25
+        #expect(abs(stats.mean - 13.41) < 0.01)
+        #expect(stats.median == 13.41)
+        #expect(stats.min == 8.94)
+        #expect(stats.max == 17.88)
+        #expect(stats.overLimitCount == 2)  // 13.41 and 17.88 are over 11.176
         #expect(abs(stats.overLimitPercent - 66.666) < 0.1)
     }
 }

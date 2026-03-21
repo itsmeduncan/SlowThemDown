@@ -2,10 +2,11 @@ import SwiftUI
 
 struct V85CardView: View {
     let v85: Double
-    let speedLimit: Int
+    let speedLimit: Double
+    let system: MeasurementSystem
 
     private var isOverLimit: Bool {
-        v85 > Double(speedLimit)
+        v85 > speedLimit
     }
 
     var body: some View {
@@ -14,11 +15,11 @@ struct V85CardView: View {
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            Text("\(v85, specifier: "%.1f")")
+            Text("\(UnitConverter.displaySpeed(v85, system: system), specifier: "%.1f")")
                 .font(.system(size: 56, weight: .bold, design: .rounded))
                 .foregroundStyle(isOverLimit ? .red : .green)
 
-            Text("MPH")
+            Text(UnitConverter.speedUnit(system))
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
@@ -28,8 +29,8 @@ struct V85CardView: View {
                 .font(.caption2)
                 .foregroundStyle(.secondary)
             + Text(isOverLimit
-                ? "This exceeds the \(speedLimit) mph speed limit."
-                : "This is within the \(speedLimit) mph speed limit.")
+                ? "This exceeds the \(Int(UnitConverter.displaySpeed(speedLimit, system: system))) \(UnitConverter.speedUnit(system).lowercased()) speed limit."
+                : "This is within the \(Int(UnitConverter.displaySpeed(speedLimit, system: system))) \(UnitConverter.speedUnit(system).lowercased()) speed limit.")
                 .font(.caption2)
                 .foregroundStyle(isOverLimit ? .red : .green)
         }

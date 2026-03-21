@@ -54,7 +54,9 @@ import com.slowthemdown.android.ui.components.DemoBanner
 import com.slowthemdown.android.ui.components.SpeedBadge
 import com.slowthemdown.android.viewmodel.LogViewModel
 import com.slowthemdown.android.viewmodel.SortOrder
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.TravelDirection
+import com.slowthemdown.shared.model.UnitConverter
 import com.slowthemdown.shared.model.VehicleType
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -69,12 +71,14 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
     val vehicleTypeFilter by viewModel.vehicleTypeFilter.collectAsState()
     val sortOrder by viewModel.sortOrder.collectAsState()
     val showingDemoData by viewModel.showingDemoData.collectAsState()
+    val measurementSystem by viewModel.measurementSystem.collectAsState()
     var showFilterMenu by remember { mutableStateOf(false) }
     var selectedEntry by remember { mutableStateOf<SpeedEntryEntity?>(null) }
 
     selectedEntry?.let { entry ->
         LogDetailSheet(
             entry = entry,
+            system = measurementSystem,
             onDismiss = { selectedEntry = null },
         )
     }
@@ -244,7 +248,7 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                             }
                         },
                     ) {
-                        SpeedEntryCard(entry, onClick = { selectedEntry = entry })
+                        SpeedEntryCard(entry, measurementSystem, onClick = { selectedEntry = entry })
                     }
                 }
                 item { Spacer(modifier = Modifier.height(4.dp)) }
@@ -254,13 +258,19 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
 }
 
 @Composable
-private fun SpeedEntryCard(entry: SpeedEntryEntity, onClick: () -> Unit = {}) {
+private fun SpeedEntryCard(
+    entry: SpeedEntryEntity,
+    system: MeasurementSystem,
+    onClick: () -> Unit = {},
+) {
     val directionIcon = when (entry.direction) {
         TravelDirection.TOWARD -> "\u2B07\uFE0F"
         TravelDirection.AWAY -> "\u2B06\uFE0F"
         TravelDirection.LEFT_TO_RIGHT -> "\u27A1\uFE0F"
         TravelDirection.RIGHT_TO_LEFT -> "\u2B05\uFE0F"
     }
+    val speedUnit = UnitConverter.speedUnit(system)
+    val limitDisplay = UnitConverter.displaySpeed(entry.speedLimit, system).toInt()
 
     Card(modifier = Modifier.fillMaxWidth(), onClick = onClick) {
         Row(
@@ -270,8 +280,9 @@ private fun SpeedEntryCard(entry: SpeedEntryEntity, onClick: () -> Unit = {}) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             SpeedBadge(
-                speedMPH = entry.speedMPH,
+                speed = entry.speed,
                 speedLimit = entry.speedLimit,
+                system = system,
             )
             Spacer(modifier = Modifier.width(12.dp))
             Column(modifier = Modifier.weight(1f)) {
@@ -286,7 +297,7 @@ private fun SpeedEntryCard(entry: SpeedEntryEntity, onClick: () -> Unit = {}) {
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        "${entry.speedLimit} mph limit",
+                        "$limitDisplay $speedUnit limit",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -301,4 +312,3 @@ private fun SpeedEntryCard(entry: SpeedEntryEntity, onClick: () -> Unit = {}) {
         }
     }
 }
-

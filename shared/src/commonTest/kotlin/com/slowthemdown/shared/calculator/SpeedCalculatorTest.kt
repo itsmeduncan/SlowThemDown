@@ -10,45 +10,45 @@ import kotlin.test.assertTrue
 class SpeedCalculatorTest {
 
     @Test
-    fun calculateSpeedMPH_knownInputs() {
-        // 100 pixels at 10 px/ft over 1 second = 10 ft/s ~ 6.818 MPH
-        val result = SpeedCalculator.calculateSpeedMPH(
+    fun calculateSpeed_knownInputs() {
+        // 100 pixels at 10 px/m over 1 second = 10 m/s
+        val result = SpeedCalculator.calculateSpeed(
             pixelDisplacement = 100.0,
-            pixelsPerFoot = 10.0,
+            pixelsPerMeter = 10.0,
             timeDeltaSeconds = 1.0
         )
-        assertTrue(abs(result - 6.81818) < 0.001)
+        assertTrue(abs(result - 10.0) < 0.001)
     }
 
     @Test
-    fun calculateSpeedMPH_zeroPixelsPerFoot_returnsZero() {
-        val result = SpeedCalculator.calculateSpeedMPH(
+    fun calculateSpeed_zeroPixelsPerMeter_returnsZero() {
+        val result = SpeedCalculator.calculateSpeed(
             pixelDisplacement = 100.0,
-            pixelsPerFoot = 0.0,
+            pixelsPerMeter = 0.0,
             timeDeltaSeconds = 1.0
         )
         assertEquals(0.0, result)
     }
 
     @Test
-    fun calculateSpeedMPH_zeroTimeDelta_returnsZero() {
-        val result = SpeedCalculator.calculateSpeedMPH(
+    fun calculateSpeed_zeroTimeDelta_returnsZero() {
+        val result = SpeedCalculator.calculateSpeed(
             pixelDisplacement = 100.0,
-            pixelsPerFoot = 10.0,
+            pixelsPerMeter = 10.0,
             timeDeltaSeconds = 0.0
         )
         assertEquals(0.0, result)
     }
 
     @Test
-    fun pixelsPerFoot_knownConversion() {
-        val result = SpeedCalculator.pixelsPerFoot(pixelDistance = 200.0, referenceFeet = 10.0)
+    fun pixelsPerMeter_knownConversion() {
+        val result = SpeedCalculator.pixelsPerMeter(pixelDistance = 200.0, referenceMeters = 10.0)
         assertEquals(20.0, result)
     }
 
     @Test
-    fun pixelsPerFoot_zeroReference_returnsZero() {
-        val result = SpeedCalculator.pixelsPerFoot(pixelDistance = 200.0, referenceFeet = 0.0)
+    fun pixelsPerMeter_zeroReference_returnsZero() {
+        val result = SpeedCalculator.pixelsPerMeter(pixelDistance = 200.0, referenceMeters = 0.0)
         assertEquals(0.0, result)
     }
 
@@ -59,20 +59,20 @@ class SpeedCalculatorTest {
 
     @Test
     fun v85_singleElement() {
-        val result = SpeedCalculator.v85(listOf(30.0))
-        assertEquals(30.0, result)
+        val result = SpeedCalculator.v85(listOf(13.41))
+        assertEquals(13.41, result)
     }
 
     @Test
     fun v85_knownArray() {
-        // Sorted: [20, 22, 25, 28, 30, 32, 35, 38, 40, 45]
+        // Sorted: [8.94, 9.83, 11.18, 12.52, 13.41, 14.31, 15.65, 16.99, 17.88, 20.12]
         // rank = 0.85 * 9 = 7.65
-        // lower = 7 (value 38), upper = 8 (value 40), fraction = 0.65
-        // result = 38 + 0.65 * (40 - 38) = 39.3
-        val speeds = listOf(30.0, 25.0, 35.0, 20.0, 40.0, 28.0, 45.0, 22.0, 32.0, 38.0)
+        // lower = 7 (value 16.99), upper = 8 (value 17.88), fraction = 0.65
+        // result = 16.99 + 0.65 * (17.88 - 16.99) = 17.5685
+        val speeds = listOf(13.41, 11.18, 15.65, 8.94, 17.88, 12.52, 20.12, 9.83, 14.31, 16.99)
         val result = SpeedCalculator.v85(speeds)
         assertNotNull(result)
-        assertTrue(abs(result - 39.3) < 0.001)
+        assertTrue(abs(result - 17.5685) < 0.001)
     }
 
     @Test
@@ -82,19 +82,21 @@ class SpeedCalculatorTest {
 
     @Test
     fun trafficStats_aggregation() {
+        // Speeds in m/s, limit in m/s (11.176 = 25 MPH)
+        val limit = 11.176
         val entries = listOf(
-            20.0 to 25,
-            30.0 to 25,
-            40.0 to 25,
+            8.94 to limit,   // ~20 MPH, under
+            13.41 to limit,  // ~30 MPH, over
+            17.88 to limit,  // ~40 MPH, over
         )
         val stats = SpeedCalculator.trafficStats(entries)
         assertNotNull(stats)
         assertEquals(3, stats.count)
-        assertTrue(abs(stats.mean - 30.0) < 0.001)
-        assertEquals(30.0, stats.median)
-        assertEquals(20.0, stats.min)
-        assertEquals(40.0, stats.max)
-        assertEquals(2, stats.overLimitCount) // 30 and 40 are over 25
+        assertTrue(abs(stats.mean - 13.41) < 0.01)
+        assertEquals(13.41, stats.median)
+        assertEquals(8.94, stats.min)
+        assertEquals(17.88, stats.max)
+        assertEquals(2, stats.overLimitCount) // 13.41 and 17.88 are over 11.176
         assertTrue(abs(stats.overLimitPercent - 66.666) < 0.1)
     }
 }

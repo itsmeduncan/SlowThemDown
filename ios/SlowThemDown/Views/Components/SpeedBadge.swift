@@ -2,10 +2,12 @@ import SwiftUI
 
 struct SpeedBadge: View {
     let speed: Double
-    let speedLimit: Int
+    let speedLimit: Double
+    let system: MeasurementSystem
 
     private var category: SpeedCategory {
-        let ratio = speed / Double(speedLimit)
+        guard speedLimit > 0 else { return .underLimit }
+        let ratio = speed / speedLimit
         if ratio <= 1.0 { return .underLimit }
         if ratio <= 1.2 { return .marginal }
         return .overLimit
@@ -20,7 +22,7 @@ struct SpeedBadge: View {
     }
 
     var body: some View {
-        Text("\(speed, specifier: "%.0f")")
+        Text("\(UnitConverter.displaySpeed(speed, system: system), specifier: "%.0f")")
             .font(.system(.title3, design: .rounded, weight: .bold))
             .foregroundStyle(.white)
             .padding(.horizontal, 12)

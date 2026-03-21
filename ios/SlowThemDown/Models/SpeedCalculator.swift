@@ -1,23 +1,22 @@
 import Foundation
 
 enum SpeedCalculator {
-    /// Calculate speed in MPH from pixel displacement, pixels-per-foot, and time delta
-    /// Formula: (pixelDisplacement / pixelsPerFoot) feet / timeDelta seconds → MPH
-    static func calculateSpeedMPH(
+    /// Calculate speed in m/s from pixel displacement, pixels-per-meter, and time delta
+    /// Formula: (pixelDisplacement / pixelsPerMeter) meters / timeDeltaSeconds seconds -> m/s
+    static func calculateSpeed(
         pixelDisplacement: Double,
-        pixelsPerFoot: Double,
+        pixelsPerMeter: Double,
         timeDeltaSeconds: Double
     ) -> Double {
-        guard pixelsPerFoot > 0, timeDeltaSeconds > 0 else { return 0 }
-        let distanceFeet = pixelDisplacement / pixelsPerFoot
-        let feetPerSecond = distanceFeet / timeDeltaSeconds
-        return feetPerSecond * 0.681818 // ft/s to MPH
+        guard pixelsPerMeter > 0, timeDeltaSeconds > 0 else { return 0 }
+        let distanceMeters = pixelDisplacement / pixelsPerMeter
+        return distanceMeters / timeDeltaSeconds
     }
 
-    /// Calculate pixels per foot from a known reference distance
-    static func pixelsPerFoot(pixelDistance: Double, referenceFeet: Double) -> Double {
-        guard referenceFeet > 0 else { return 0 }
-        return pixelDistance / referenceFeet
+    /// Calculate pixels per meter from a known reference distance in meters
+    static func pixelsPerMeter(pixelDistance: Double, referenceMeters: Double) -> Double {
+        guard referenceMeters > 0 else { return 0 }
+        return pixelDistance / referenceMeters
     }
 
     /// Compute V85 — the interpolated 85th percentile speed
@@ -35,7 +34,7 @@ enum SpeedCalculator {
     /// Compute traffic statistics for a set of speed entries
     static func trafficStats(entries: [SpeedEntry]) -> TrafficStats? {
         guard !entries.isEmpty else { return nil }
-        let speeds = entries.map(\.speedMPH)
+        let speeds = entries.map(\.speed)
         let sorted = speeds.sorted()
         let mean = speeds.reduce(0, +) / Double(speeds.count)
 

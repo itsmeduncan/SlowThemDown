@@ -32,6 +32,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.SegmentedButton
+import androidx.compose.material3.SegmentedButtonDefaults
+import androidx.compose.material3.SingleChoiceSegmentedButtonRow
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -67,7 +70,9 @@ import com.slowthemdown.android.viewmodel.CalibrationViewModel
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
 import com.slowthemdown.shared.calculator.Size
+import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.RoadStandards
+import com.slowthemdown.shared.model.UnitConverter
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -78,9 +83,12 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
     val imageSize by viewModel.imageSize.collectAsState()
     val pixelDist by viewModel.pixelDistance.collectAsState()
     val canSave by viewModel.canSave.collectAsState()
+    val system by viewModel.measurementSystem.collectAsState()
     val context = LocalContext.current
 
     var distanceText by remember { mutableStateOf("") }
+    val distUnit = UnitConverter.distanceUnit(system)
+    val calUnit = UnitConverter.calibrationUnit(system)
 
     val photoPicker = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.PickVisualMedia()
@@ -101,6 +109,24 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
+        // Unit toggle
+        SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
+            SegmentedButton(
+                selected = system == MeasurementSystem.IMPERIAL,
+                onClick = { viewModel.setMeasurementSystem(MeasurementSystem.IMPERIAL) },
+                shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2),
+            ) {
+                Text("Imperial")
+            }
+            SegmentedButton(
+                selected = system == MeasurementSystem.METRIC,
+                onClick = { viewModel.setMeasurementSystem(MeasurementSystem.METRIC) },
+                shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2),
+            ) {
+                Text("Metric")
+            }
+        }
+
         // Status card
         Card(
             modifier = Modifier.fillMaxWidth(),
@@ -127,7 +153,10 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                 Spacer(modifier = Modifier.height(4.dp))
                 if (calibration.isValid) {
                     Text(
-                        "%.1f px/ft".format(calibration.pixelsPerFoot),
+                        "%.1f %s".format(
+                            UnitConverter.displayPixelsPerUnit(calibration.pixelsPerMeter, system),
+                            calUnit
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -213,14 +242,16 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                     value = distanceText,
                     onValueChange = {
                         distanceText = it
-                        it.toDoubleOrNull()?.let { d -> viewModel.setReferenceDistance(d) }
+                        it.toDoubleOrNull()?.let { d ->
+                            viewModel.setReferenceDistance(UnitConverter.distanceToMeters(d, system))
+                        }
                     },
-                    label = { Text("Distance in feet") },
+                    label = { Text("Distance in $distUnit") },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.weight(1f),
                     singleLine = true,
                 )
-                Text("feet", color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text(distUnit, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
 
             Text(
@@ -229,12 +260,16 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             FlowRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                RoadStandards.allWidths.forEach { (label, feet) ->
+                RoadStandards.allWidths.forEach { (key, meters) ->
                     TextButton(onClick = {
-                        distanceText = "%.0f".format(feet)
-                        viewModel.setReferenceDistance(feet)
+                        val displayValue = UnitConverter.displayDistance(meters, system)
+                        distanceText = "%.0f".format(displayValue)
+                        viewModel.setReferenceDistance(meters)
                     }) {
-                        Text(label, style = MaterialTheme.typography.bodySmall)
+                        Text(
+                            RoadStandards.laneLabel(key, meters, system),
+                            style = MaterialTheme.typography.bodySmall,
+                        )
                     }
                 }
             }

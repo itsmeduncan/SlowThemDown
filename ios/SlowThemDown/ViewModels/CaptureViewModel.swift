@@ -38,7 +38,7 @@ final class CaptureViewModel {
     var calculatedSpeed: Double = 0
     var vehicleType: VehicleType = .car
     var direction: TravelDirection = .leftToRight
-    var speedLimit: Int = RoadStandards.defaultSpeedLimit
+    var speedLimit: Double = RoadStandards.defaultSpeedLimit
     var streetName: String = ""
     var notes: String = ""
 
@@ -119,20 +119,20 @@ final class CaptureViewModel {
     }
 
     func calculateSpeed(calibration: Calibration) {
-        let ppf: Double
+        let ppm: Double
         if useVehicleReference, let ref = selectedVehicleRef, vehicleRefMarkers.count == 2 {
             let refPixels = CoordinateMapper.pixelDistance(
                 from: vehicleRefMarkers[0],
                 to: vehicleRefMarkers[1]
             )
-            ppf = SpeedCalculator.pixelsPerFoot(pixelDistance: refPixels, referenceFeet: ref.lengthFeet)
+            ppm = SpeedCalculator.pixelsPerMeter(pixelDistance: refPixels, referenceMeters: ref.lengthMeters)
         } else {
-            ppf = calibration.pixelsPerFoot
+            ppm = calibration.pixelsPerMeter
         }
 
-        calculatedSpeed = SpeedCalculator.calculateSpeedMPH(
+        calculatedSpeed = SpeedCalculator.calculateSpeed(
             pixelDisplacement: pixelDisplacement,
-            pixelsPerFoot: ppf,
+            pixelsPerMeter: ppm,
             timeDeltaSeconds: timeDelta
         )
         state = .result
@@ -140,7 +140,7 @@ final class CaptureViewModel {
     }
 
     func buildEntry(calibration: Calibration, location: LocationManager) -> SpeedEntry {
-        let ppf: Double
+        let ppm: Double
         let method: CalibrationMethod
         let refDist: Double
 
@@ -149,17 +149,17 @@ final class CaptureViewModel {
                 from: vehicleRefMarkers[0],
                 to: vehicleRefMarkers[1]
             )
-            ppf = SpeedCalculator.pixelsPerFoot(pixelDistance: refPixels, referenceFeet: ref.lengthFeet)
+            ppm = SpeedCalculator.pixelsPerMeter(pixelDistance: refPixels, referenceMeters: ref.lengthMeters)
             method = .vehicleReference
-            refDist = ref.lengthFeet
+            refDist = ref.lengthMeters
         } else {
-            ppf = calibration.pixelsPerFoot
+            ppm = calibration.pixelsPerMeter
             method = calibration.method
-            refDist = calibration.referenceDistanceFeet
+            refDist = calibration.referenceDistanceMeters
         }
 
         return SpeedEntry(
-            speedMPH: calculatedSpeed,
+            speed: calculatedSpeed,
             speedLimit: speedLimit,
             streetName: streetName.isEmpty ? location.streetName : streetName,
             notes: notes,
@@ -168,8 +168,8 @@ final class CaptureViewModel {
             calibrationMethod: method,
             timeDeltaSeconds: timeDelta,
             pixelDisplacement: pixelDisplacement,
-            pixelsPerFoot: ppf,
-            referenceDistanceFeet: refDist,
+            pixelsPerMeter: ppm,
+            referenceDistanceMeters: refDist,
             latitude: location.currentLocation?.coordinate.latitude,
             longitude: location.currentLocation?.coordinate.longitude
         )
