@@ -76,7 +76,7 @@ struct CalibrateView: View {
                 Task {
                     if let data = try? await newItem?.loadTransferable(type: Data.self),
                        let image = UIImage(data: data) {
-                        vm.selectedImage = await PIIBlurService.blurFaces(in: image)
+                        vm.selectedImage = await PIIBlurService.blurPII(in: image)
                         vm.imageSize = image.size
                         vm.resetMarkers()
                     }
