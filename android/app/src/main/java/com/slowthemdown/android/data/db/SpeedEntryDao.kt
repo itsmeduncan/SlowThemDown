@@ -26,4 +26,7 @@ interface SpeedEntryDao {
 
     @Query("SELECT COUNT(*) FROM speed_entries")
     fun getCount(): Flow<Int>
+
+    @Query("SELECT DISTINCT streetName FROM speed_entries WHERE streetName != '' ORDER BY streetName ASC")
+    fun getDistinctStreets(): Flow<List<String>>
 }
