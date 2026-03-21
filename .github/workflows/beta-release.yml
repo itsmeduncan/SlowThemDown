@@ -190,11 +190,22 @@ jobs:
             -authenticationKeyID ${{ secrets.APP_STORE_CONNECT_KEY_ID }} \
             -authenticationKeyIssuerID ${{ secrets.APP_STORE_CONNECT_ISSUER_ID }}
 
+      - name: Find exported IPA
+        id: find-ipa
+        run: |
+          IPA_PATH=$(find $RUNNER_TEMP/export -name '*.ipa' -type f | head -1)
+          if [ -z "$IPA_PATH" ]; then
+            echo "::error::No IPA found in $RUNNER_TEMP/export"
+            ls -laR $RUNNER_TEMP/export || true
+            exit 1
+          fi
+          echo "ipa_path=$IPA_PATH" >> "$GITHUB_OUTPUT"
+
       - name: Upload IPA artifact
         uses: actions/upload-artifact@v6
         with:
           name: ios-beta-ipa
-          path: ${{ runner.temp }}/export/*.ipa
+          path: ${{ steps.find-ipa.outputs.ipa_path }}
 
       - name: Clean up keychain
         if: always()
@@ -216,7 +227,7 @@ jobs:
           distribution: 'temurin'
 
       - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
+        uses: gradle/actions/setup-gradle@v5
 
       - name: Decode keystore
         env:
@@ -236,7 +247,7 @@ jobs:
             -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload to Google Play internal track
-        uses: r0adkll/upload-google-play@v1
+        uses: r0adkll/upload-google-play@v1.1
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
           packageName: com.slowdown.android
