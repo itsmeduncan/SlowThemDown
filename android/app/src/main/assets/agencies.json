@@ -81,5 +81,29 @@
     "jurisdiction": "state",
     "state": "CO",
     "website": "https://www.codot.gov"
+  },
+  {
+    "name": "City of San Clemente Public Works",
+    "email": "publicworks@san-clemente.org",
+    "jurisdiction": "city",
+    "city": "San Clemente",
+    "county": "Orange",
+    "state": "CA",
+    "website": "https://www.san-clemente.org/departments-services/public-works"
+  },
+  {
+    "name": "OC Public Works",
+    "email": "ocpublicworks@ocpw.ocgov.com",
+    "jurisdiction": "county",
+    "county": "Orange",
+    "state": "CA",
+    "website": "https://www.ocpublicworks.com"
+  },
+  {
+    "name": "California Department of Transportation",
+    "email": "info@dot.ca.gov",
+    "jurisdiction": "state",
+    "state": "CA",
+    "website": "https://dot.ca.gov"
   }
 ]
