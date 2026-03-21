@@ -3,7 +3,7 @@ package com.slowthemdown.android.ui
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.filled.List
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material3.Icon
@@ -42,7 +42,7 @@ import javax.inject.Inject
 
 enum class Screen(val route: String, val title: String, val icon: ImageVector) {
     Capture("capture", "Capture", Icons.Default.CameraAlt),
-    Log("log", "Log", Icons.Default.List),
+    Log("log", "Log", Icons.AutoMirrored.Filled.List),
     Reports("reports", "Reports", Icons.Default.BarChart),
     Calibrate("calibrate", "Calibrate", Icons.Default.Settings),
 }

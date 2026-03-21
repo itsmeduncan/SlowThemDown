@@ -32,7 +32,7 @@ import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MenuAnchorType
+import androidx.compose.material3.ExposedDropdownMenuAnchorType
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -293,7 +293,7 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
 
         if (bitmap != null) {
             FrameImageWithMarker(
-                bitmap = bitmap!!,
+                bitmap = bitmap,
                 marker = marker,
                 markerColor = markerColor,
                 frameNumber = frameNumber,
@@ -320,7 +320,7 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
         if (frameNumber == 2 && useVehicleRef && bitmap != null) {
             Spacer(modifier = Modifier.height(8.dp))
             VehicleRefMarkerOverlay(
-                bitmap = bitmap!!,
+                bitmap = bitmap,
                 markers = vehicleRefMarkers,
                 selectedRef = selectedVehicleRef,
                 onTap = { viewPoint, viewSize -> viewModel.addVehicleRefMarker(viewPoint, viewSize) },
@@ -626,7 +626,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = speedLimitExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
             )
             ExposedDropdownMenu(
                 expanded = speedLimitExpanded,
@@ -659,7 +659,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = vehicleTypeExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
             )
             ExposedDropdownMenu(
                 expanded = vehicleTypeExpanded,
@@ -692,7 +692,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = directionExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .menuAnchor(MenuAnchorType.PrimaryNotEditable),
+                    .menuAnchor(ExposedDropdownMenuAnchorType.PrimaryNotEditable),
             )
             ExposedDropdownMenu(
                 expanded = directionExpanded,
