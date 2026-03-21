@@ -25,13 +25,20 @@ object AppModule {
     @Provides
     @Singleton
     fun provideDatabase(@ApplicationContext context: Context): SlowThemDownDatabase {
-        return Room.databaseBuilder(
+        val builder = Room.databaseBuilder(
             context,
             SlowThemDownDatabase::class.java,
             "slowthemdown.db"
         )
             .addMigrations(SlowThemDownDatabase.MIGRATION_1_2)
-            .build()
+
+        if (com.slowthemdown.android.BuildConfig.DEBUG) {
+            // Pre-release only: wipe DB if migration fails on dev devices.
+            // Remove before shipping v1 — production must never silently drop data.
+            builder.fallbackToDestructiveMigration()
+        }
+
+        return builder.build()
     }
 
     @Provides
