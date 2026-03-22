@@ -16,7 +16,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.slowthemdown.android.R
 import com.slowthemdown.android.data.db.SpeedEntryEntity
 import com.slowthemdown.shared.model.MeasurementSystem
 import com.slowthemdown.shared.model.UnitConverter
@@ -47,26 +49,26 @@ fun LogDetailSheet(
                 .padding(horizontal = 24.dp)
                 .padding(bottom = 32.dp),
         ) {
-            Text("Entry Details", style = MaterialTheme.typography.titleLarge)
+            Text(stringResource(R.string.log_detail_title), style = MaterialTheme.typography.titleLarge)
             Spacer(modifier = Modifier.height(16.dp))
 
-            SectionHeader("Speed")
-            DetailRow("Speed", "%.1f %s".format(UnitConverter.displaySpeed(entry.speed, system), speedUnit))
-            DetailRow("Speed Limit", "%.0f %s".format(UnitConverter.displaySpeed(entry.speedLimit, system), speedUnit))
-            DetailRow("Status", entry.speedCategory.label)
+            SectionHeader(stringResource(R.string.log_detail_section_speed))
+            DetailRow(stringResource(R.string.log_detail_speed), stringResource(R.string.log_detail_speed_value, UnitConverter.displaySpeed(entry.speed, system), speedUnit))
+            DetailRow(stringResource(R.string.log_detail_speed_limit), stringResource(R.string.log_detail_speed_limit_value, UnitConverter.displaySpeed(entry.speedLimit, system), speedUnit))
+            DetailRow(stringResource(R.string.log_detail_status), entry.speedCategory.label)
 
             Spacer(modifier = Modifier.height(12.dp))
-            SectionHeader("Details")
+            SectionHeader(stringResource(R.string.log_detail_section_details))
             if (entry.streetName.isNotEmpty()) {
-                DetailRow("Street", entry.streetName)
+                DetailRow(stringResource(R.string.log_detail_street), entry.streetName)
             }
-            DetailRow("Vehicle", entry.vehicleType.label)
-            DetailRow("Direction", entry.direction.label)
-            DetailRow("Date", dateFormat.format(Date(entry.timestamp)))
+            DetailRow(stringResource(R.string.log_detail_vehicle), entry.vehicleType.label)
+            DetailRow(stringResource(R.string.log_detail_direction), entry.direction.label)
+            DetailRow(stringResource(R.string.log_detail_date), dateFormat.format(Date(entry.timestamp)))
 
             if (entry.notes.isNotEmpty()) {
                 Spacer(modifier = Modifier.height(12.dp))
-                SectionHeader("Notes")
+                SectionHeader(stringResource(R.string.log_detail_section_notes))
                 Text(
                     entry.notes,
                     style = MaterialTheme.typography.bodyMedium,
@@ -75,24 +77,26 @@ fun LogDetailSheet(
             }
 
             Spacer(modifier = Modifier.height(12.dp))
-            SectionHeader("Measurement")
-            DetailRow("Time Delta", "%.3f s".format(entry.timeDeltaSeconds))
-            DetailRow("Pixel Displacement", "%.1f px".format(entry.pixelDisplacement))
+            SectionHeader(stringResource(R.string.log_detail_section_measurement))
+            DetailRow(stringResource(R.string.log_detail_time_delta), stringResource(R.string.log_detail_time_delta_value, entry.timeDeltaSeconds))
+            DetailRow(stringResource(R.string.log_detail_pixel_displacement), stringResource(R.string.log_detail_pixel_displacement_value, entry.pixelDisplacement))
             DetailRow(
-                "Pixels per ${distUnit.replaceFirstChar { it.uppercase() }}",
-                "%.1f".format(UnitConverter.displayPixelsPerUnit(entry.pixelsPerMeter, system))
+                stringResource(R.string.log_detail_pixels_per_unit, distUnit.replaceFirstChar { it.uppercase() }),
+                stringResource(R.string.log_detail_pixels_per_unit_value, UnitConverter.displayPixelsPerUnit(entry.pixelsPerMeter, system))
             )
             DetailRow(
-                "Reference Distance",
-                "%.1f %s".format(UnitConverter.displayDistance(entry.referenceDistanceMeters, system), distUnit)
+                stringResource(R.string.log_detail_reference_distance),
+                stringResource(R.string.log_detail_reference_distance_value, UnitConverter.displayDistance(entry.referenceDistanceMeters, system), distUnit)
             )
-            DetailRow("Calibration", entry.calibrationMethod.label)
+            DetailRow(stringResource(R.string.log_detail_calibration), entry.calibrationMethod.label)
 
-            if (entry.latitude != null && entry.longitude != null) {
+            val lat = entry.latitude
+            val lon = entry.longitude
+            if (lat != null && lon != null) {
                 Spacer(modifier = Modifier.height(12.dp))
-                SectionHeader("Location")
-                DetailRow("Latitude", "%.6f".format(entry.latitude))
-                DetailRow("Longitude", "%.6f".format(entry.longitude))
+                SectionHeader(stringResource(R.string.log_detail_section_location))
+                DetailRow(stringResource(R.string.log_detail_latitude), stringResource(R.string.log_detail_latitude_value, lat))
+                DetailRow(stringResource(R.string.log_detail_longitude), stringResource(R.string.log_detail_longitude_value, lon))
             }
         }
     }

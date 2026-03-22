@@ -38,40 +38,42 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.slowthemdown.android.R
 
 private data class OnboardingPage(
     val icon: ImageVector,
-    val title: String,
-    val description: String,
+    val titleRes: Int,
+    val descriptionRes: Int,
 )
 
 private val pages = listOf(
     OnboardingPage(
         icon = Icons.Default.Speed,
-        title = "Measure Traffic Speeds",
-        description = "Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed — just point, record, and mark."
+        titleRes = R.string.onboarding_page1_title,
+        descriptionRes = R.string.onboarding_page1_description,
     ),
     OnboardingPage(
         icon = Icons.Default.Settings,
-        title = "Calibrate First",
-        description = "Before capturing speeds, calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start on the Calibrate tab where you can also choose imperial or metric units."
+        titleRes = R.string.onboarding_page2_title,
+        descriptionRes = R.string.onboarding_page2_description,
     ),
     OnboardingPage(
         icon = Icons.Default.CameraAlt,
-        title = "Record & Mark",
-        description = "Record a short video of passing traffic. Pick two frames, then tap the same point on the vehicle in each frame. Slow Them Down calculates the speed from the displacement."
+        titleRes = R.string.onboarding_page3_title,
+        descriptionRes = R.string.onboarding_page3_description,
     ),
     OnboardingPage(
         icon = Icons.Default.PlayArrow,
-        title = "Or Use Vehicle Reference",
-        description = "No calibration needed — select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and Slow Them Down uses the known vehicle length."
+        titleRes = R.string.onboarding_page4_title,
+        descriptionRes = R.string.onboarding_page4_description,
     ),
     OnboardingPage(
         icon = Icons.Default.BarChart,
-        title = "Build Your Case",
-        description = "Track observations over time, calculate V85 speeds (the metric traffic engineers use), and export reports to share with local officials."
+        titleRes = R.string.onboarding_page5_title,
+        descriptionRes = R.string.onboarding_page5_description,
     ),
 )
 
@@ -92,7 +94,7 @@ fun OnboardingScreen(onComplete: () -> Unit) {
         ) {
             if (currentPage < pages.lastIndex) {
                 TextButton(onClick = onComplete) {
-                    Text("Skip")
+                    Text(stringResource(R.string.onboarding_skip))
                 }
             }
         }
@@ -146,7 +148,7 @@ fun OnboardingScreen(onComplete: () -> Unit) {
                 .height(56.dp),
         ) {
             Text(
-                text = if (currentPage < pages.lastIndex) "Next" else "Get Started",
+                text = if (currentPage < pages.lastIndex) stringResource(R.string.onboarding_next) else stringResource(R.string.onboarding_get_started),
                 style = MaterialTheme.typography.titleMedium,
             )
         }
@@ -172,7 +174,7 @@ private fun PageContent(page: OnboardingPage) {
         Spacer(modifier = Modifier.height(32.dp))
 
         Text(
-            text = page.title,
+            text = stringResource(page.titleRes),
             style = MaterialTheme.typography.headlineMedium,
             textAlign = TextAlign.Center,
         )
@@ -180,7 +182,7 @@ private fun PageContent(page: OnboardingPage) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Text(
-            text = page.description,
+            text = stringResource(page.descriptionRes),
             style = MaterialTheme.typography.bodyLarge,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.7f),

@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slow Them Down</string>
+
+    <!-- Capture: Select Source -->
+    <string name="capture_title">Capture Speed</string>
+    <string name="capture_not_calibrated">Not Calibrated</string>
+    <string name="capture_not_calibrated_hint">Use a vehicle reference during capture, or calibrate in Settings for more accurate results.</string>
+    <string name="capture_import_library">Import from Library</string>
+    <string name="capture_record_video">Record Video</string>
+
+    <!-- Capture: Frame Selector -->
+    <string name="capture_select_frames">Select Frames</string>
+    <string name="capture_frame_time">Frame %1$d: %2$.2fs</string>
+    <string name="capture_time_delta">Time delta: %1$.3fs</string>
+    <string name="capture_frames_min_apart">Frames must be at least 10ms apart</string>
+    <string name="capture_extract_frames">Extract Frames</string>
+    <string name="capture_cancel">Cancel</string>
+
+    <!-- Capture: Frame Marker -->
+    <string name="capture_mark_frame">Mark Frame %1$d</string>
+    <string name="capture_tap_vehicle_position">Tap the vehicle position on Frame %1$d</string>
+    <string name="capture_frame_not_available">(Frame not available)</string>
+    <string name="capture_next_mark_frame2">Next: Mark Frame 2</string>
+    <string name="capture_calculate_speed">Calculate Speed</string>
+    <string name="capture_use_vehicle_reference">Use vehicle reference instead of calibration</string>
+    <string name="capture_select_vehicle">Select Vehicle</string>
+    <string name="capture_vehicle_ref_label">%1$s (%2$.1f %3$s)</string>
+    <string name="capture_vehicle_ref_item">\u0020\u0020%1$s (%2$.1f %3$s)</string>
+    <string name="capture_tap_front_back">Tap the front and back of the vehicle on the frame above to mark its length</string>
+    <string name="capture_mark_vehicle_ends">Mark vehicle ends (%1$s)</string>
+
+    <!-- Capture: Speed Result -->
+    <string name="capture_estimated_speed">Estimated Speed</string>
+    <string name="capture_speed_limit_label">Speed Limit</string>
+    <string name="capture_vehicle_type_label">Vehicle Type</string>
+    <string name="capture_direction_label">Direction</string>
+    <string name="capture_nearest_intersection">Nearest Intersection</string>
+    <string name="capture_notes_label">Notes (optional)</string>
+    <string name="capture_measurement_details">Measurement Details</string>
+    <string name="capture_pixel_displacement">Pixel displacement: %1$.1f px</string>
+    <string name="capture_save_to_log">Save to Log</string>
+    <string name="capture_discard">Discard</string>
+    <string name="capture_speed_limit_value">%1$d %2$s</string>
+
+    <!-- Capture: Recording -->
+    <string name="capture_recording">Recording\u2026</string>
+    <string name="capture_stop_recording">Stop Recording</string>
+
+    <!-- Calibrate -->
+    <string name="calibrate_imperial">Imperial</string>
+    <string name="calibrate_metric">Metric</string>
+    <string name="calibrate_calibrated">Calibrated</string>
+    <string name="calibrate_not_calibrated">Not Calibrated</string>
+    <string name="calibrate_pixels_per_unit">%1$.1f %2$s</string>
+    <string name="calibrate_last_calibrated">Last calibrated: %1$s</string>
+    <string name="calibrate_instructions">Take a photo of a scene with a known distance, then mark two points.</string>
+    <string name="calibrate_reset">Reset Calibration</string>
+    <string name="calibrate_saved">Calibration Saved</string>
+    <string name="calibrate_saved_hint">You\'re all set to start capturing speeds.</string>
+    <string name="calibrate_again">Calibrate Again</string>
+    <string name="calibrate_step1_title">Step 1: Select a reference image</string>
+    <string name="calibrate_choose_photo">Choose Photo</string>
+    <string name="calibrate_step2_title">Step 2: Tap two points with a known distance apart</string>
+    <string name="calibrate_pixel_distance">Pixel distance: %1$.1f px</string>
+    <string name="calibrate_clear_markers">Clear Markers</string>
+    <string name="calibrate_change_photo">Change Photo</string>
+    <string name="calibrate_step3_title">Step 3: Enter the real-world distance</string>
+    <string name="calibrate_distance_in">Distance in %1$s</string>
+    <string name="calibrate_lane_width_hint">Or use a standard lane width:</string>
+    <string name="calibrate_save">Save Calibration</string>
+
+    <!-- Log -->
+    <string name="log_search_placeholder">Search streets and notes</string>
+    <string name="log_clear_search">Clear search</string>
+    <string name="log_filters">Filters</string>
+    <string name="log_newest_first">Newest First</string>
+    <string name="log_oldest_first">Oldest First</string>
+    <string name="log_over_limit_only">Over Limit Only</string>
+    <string name="log_all_vehicles">All Vehicles</string>
+    <string name="log_delete">Delete</string>
+    <string name="log_no_matching_entries">No Matching Entries</string>
+    <string name="log_no_entries">No Entries</string>
+    <string name="log_no_matching_hint">Try adjusting your search or filters.</string>
+    <string name="log_no_entries_hint">Capture some speed measurements to build your log.</string>
+    <string name="log_speed_limit">%1$d %2$s limit</string>
+
+    <!-- Log Detail Sheet -->
+    <string name="log_detail_title">Entry Details</string>
+    <string name="log_detail_section_speed">Speed</string>
+    <string name="log_detail_speed">Speed</string>
+    <string name="log_detail_speed_limit">Speed Limit</string>
+    <string name="log_detail_status">Status</string>
+    <string name="log_detail_section_details">Details</string>
+    <string name="log_detail_street">Street</string>
+    <string name="log_detail_vehicle">Vehicle</string>
+    <string name="log_detail_direction">Direction</string>
+    <string name="log_detail_date">Date</string>
+    <string name="log_detail_section_notes">Notes</string>
+    <string name="log_detail_section_measurement">Measurement</string>
+    <string name="log_detail_time_delta">Time Delta</string>
+    <string name="log_detail_time_delta_value">%1$.3f s</string>
+    <string name="log_detail_pixel_displacement">Pixel Displacement</string>
+    <string name="log_detail_pixel_displacement_value">%1$.1f px</string>
+    <string name="log_detail_pixels_per_unit">Pixels per %1$s</string>
+    <string name="log_detail_reference_distance">Reference Distance</string>
+    <string name="log_detail_reference_distance_value">%1$.1f %2$s</string>
+    <string name="log_detail_calibration">Calibration</string>
+    <string name="log_detail_section_location">Location</string>
+    <string name="log_detail_latitude">Latitude</string>
+    <string name="log_detail_latitude_value">%1$.6f</string>
+    <string name="log_detail_longitude">Longitude</string>
+    <string name="log_detail_longitude_value">%1$.6f</string>
+    <string name="log_detail_speed_value">%1$.1f %2$s</string>
+    <string name="log_detail_speed_limit_value">%1$.0f %2$s</string>
+    <string name="log_detail_pixels_per_unit_value">%1$.1f</string>
+
+    <!-- Reports -->
+    <string name="reports_title">Traffic Report</string>
+    <string name="reports_no_data">No Data</string>
+    <string name="reports_no_data_hint">Capture some speed measurements to see reports.</string>
+    <string name="reports_v85_speed">V85 Speed</string>
+    <string name="reports_v85_within_limit">85%% of vehicles travel at or below this speed. This is within the %1$d %2$s speed limit.</string>
+    <string name="reports_v85_exceeds_limit">85%% of vehicles travel at or below this speed. This exceeds the %1$d %2$s speed limit.</string>
+    <string name="reports_mean_speed">Mean Speed</string>
+    <string name="reports_median_speed">Median Speed</string>
+    <string name="reports_total_entries">Total Entries</string>
+    <string name="reports_over_limit">Over Limit</string>
+    <string name="reports_speed_distribution">Speed Distribution</string>
+    <string name="reports_avg_speed_by_hour">Average Speed by Hour</string>
+    <string name="reports_speeds_over_time">Speeds Over Time</string>
+    <string name="reports_by_street">By Street</string>
+    <string name="reports_street_summary">%1$d entries \u00B7 Avg %2$.1f %3$s</string>
+    <string name="reports_over_limit_percent">%1$.0f%%</string>
+    <string name="reports_view">View</string>
+    <string name="reports_export_actions">Export &amp; Actions</string>
+    <string name="reports_csv">CSV</string>
+    <string name="reports_pdf">PDF</string>
+    <string name="reports_report_to_agency">Report to Agency</string>
+    <string name="reports_generating">Generating report\u2026</string>
+    <string name="reports_all_streets">All Streets</string>
+
+    <!-- Agency Picker -->
+    <string name="agency_picker_title">Report to Agency</string>
+    <string name="agency_no_agencies">No Agencies Found</string>
+    <string name="agency_no_agencies_hint">No agencies match this location yet. You can contribute one at github.com/itsmeduncan/SlowThemDown.</string>
+
+    <!-- Demo Banner -->
+    <string name="demo_banner_text">Showing demo data</string>
+    <string name="demo_banner_clear">Clear</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+    <string name="onboarding_page1_title">Measure Traffic Speeds</string>
+    <string name="onboarding_page1_description">Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed \u2014 just point, record, and mark.</string>
+    <string name="onboarding_page2_title">Calibrate First</string>
+    <string name="onboarding_page2_description">Before capturing speeds, calibrate by marking a known distance in a photo \u2014 like a lane width or parking space. You\'ll start on the Calibrate tab where you can also choose imperial or metric units.</string>
+    <string name="onboarding_page3_title">Record &amp; Mark</string>
+    <string name="onboarding_page3_description">Record a short video of passing traffic. Pick two frames, then tap the same point on the vehicle in each frame. Slow Them Down calculates the speed from the displacement.</string>
+    <string name="onboarding_page4_title">Or Use Vehicle Reference</string>
+    <string name="onboarding_page4_description">No calibration needed \u2014 select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and Slow Them Down uses the known vehicle length.</string>
+    <string name="onboarding_page5_title">Build Your Case</string>
+    <string name="onboarding_page5_description">Track observations over time, calculate V85 speeds (the metric traffic engineers use), and export reports to share with local officials.</string>
+
+    <!-- Navigation -->
+    <string name="nav_capture">Capture</string>
+    <string name="nav_log">Log</string>
+    <string name="nav_reports">Reports</string>
+    <string name="nav_calibrate">Calibrate</string>
+
+    <!-- Common -->
+    <string name="common_speed_format">%1$.0f</string>
+    <string name="common_speed_value_format">%1$.1f</string>
+</resources>

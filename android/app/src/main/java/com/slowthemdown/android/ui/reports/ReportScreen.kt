@@ -52,6 +52,7 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -59,6 +60,7 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.slowthemdown.android.R
 import com.slowthemdown.android.ui.components.DemoBanner
 import com.slowthemdown.android.viewmodel.HistogramBucket
 import com.slowthemdown.android.viewmodel.HourlyAverage
@@ -111,10 +113,10 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                 tint = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.5f),
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text("No Data", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.reports_no_data), style = MaterialTheme.typography.titleMedium)
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "Capture some speed measurements to see reports.",
+                stringResource(R.string.reports_no_data_hint),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -137,7 +139,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
             DemoBanner(onClear = { viewModel.clearDemoData() })
         }
 
-        Text("Traffic Report", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.reports_title), style = MaterialTheme.typography.headlineMedium)
 
         // Street Filter
         if (availableStreets.size > 1) {
@@ -160,11 +162,11 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
             verticalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             val halfWidth = Modifier.weight(1f)
-            MetricCard("Mean Speed", "%.1f".format(UnitConverter.displaySpeed(s.mean, system)), speedUnit, modifier = halfWidth)
-            MetricCard("Median Speed", "%.1f".format(UnitConverter.displaySpeed(s.median, system)), speedUnit, modifier = halfWidth)
-            MetricCard("Total Entries", "${s.count}", "", modifier = halfWidth)
+            MetricCard(stringResource(R.string.reports_mean_speed), "%.1f".format(UnitConverter.displaySpeed(s.mean, system)), speedUnit, modifier = halfWidth)
+            MetricCard(stringResource(R.string.reports_median_speed), "%.1f".format(UnitConverter.displaySpeed(s.median, system)), speedUnit, modifier = halfWidth)
+            MetricCard(stringResource(R.string.reports_total_entries), "${s.count}", "", modifier = halfWidth)
             MetricCard(
-                "Over Limit",
+                stringResource(R.string.reports_over_limit),
                 "${s.overLimitCount} (%.0f%%)".format(s.overLimitPercent),
                 "",
                 color = if (s.overLimitPercent > 50) MaterialTheme.colorScheme.error
@@ -175,19 +177,19 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
 
         // Speed Distribution Histogram
         if (histogram.isNotEmpty()) {
-            Text("Speed Distribution", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.reports_speed_distribution), style = MaterialTheme.typography.titleMedium)
             SpeedHistogramChart(buckets = histogram)
         }
 
         // Average Speed by Hour
         if (hourlyAverages.size >= 2) {
-            Text("Average Speed by Hour", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.reports_avg_speed_by_hour), style = MaterialTheme.typography.titleMedium)
             HourlyAverageChart(data = hourlyAverages, system = system)
         }
 
         // Speeds Over Time
         if (scatterPoints.size >= 2) {
-            Text("Speeds Over Time", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.reports_speeds_over_time), style = MaterialTheme.typography.titleMedium)
             ScatterChart(points = scatterPoints, system = system)
         }
 
@@ -202,7 +204,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
 
         // Export & Actions
         HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-        Text("Export & Actions", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.reports_export_actions), style = MaterialTheme.typography.titleMedium)
         Card(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(
@@ -220,7 +222,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                     ) {
                         Icon(Icons.Default.Description, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("CSV")
+                        Text(stringResource(R.string.reports_csv))
                     }
                     OutlinedButton(
                         onClick = { viewModel.exportPdf() },
@@ -228,7 +230,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                     ) {
                         Icon(Icons.Default.PictureAsPdf, contentDescription = null)
                         Spacer(modifier = Modifier.width(8.dp))
-                        Text("PDF")
+                        Text(stringResource(R.string.reports_pdf))
                     }
                 }
                 OutlinedButton(
@@ -237,7 +239,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                 ) {
                     Icon(Icons.Default.Business, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
-                    Text("Report to Agency")
+                    Text(stringResource(R.string.reports_report_to_agency))
                 }
             }
         }
@@ -262,7 +264,7 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                 ) {
                     CircularProgressIndicator(modifier = Modifier.size(48.dp))
                     Spacer(modifier = Modifier.height(12.dp))
-                    Text("Generating report...", style = MaterialTheme.typography.bodyMedium)
+                    Text(stringResource(R.string.reports_generating), style = MaterialTheme.typography.bodyMedium)
                 }
             }
         }
@@ -301,7 +303,7 @@ private fun V85Card(stats: TrafficStats, speedLimit: Double, system: Measurement
                 .padding(24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Text("V85 Speed", style = MaterialTheme.typography.bodySmall,
+            Text(stringResource(R.string.reports_v85_speed), style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant)
             Spacer(modifier = Modifier.height(8.dp))
             Text(
@@ -316,9 +318,8 @@ private fun V85Card(stats: TrafficStats, speedLimit: Double, system: Measurement
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "85% of vehicles travel at or below this speed. " +
-                    if (isOverLimit) "This exceeds the $limitDisplay $speedUnit speed limit."
-                    else "This is within the $limitDisplay $speedUnit speed limit.",
+                if (isOverLimit) stringResource(R.string.reports_v85_exceeds_limit, limitDisplay, speedUnit)
+                else stringResource(R.string.reports_v85_within_limit, limitDisplay, speedUnit),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -544,7 +545,7 @@ private fun StreetFilterRow(
         FilterChip(
             selected = selectedStreet == null,
             onClick = { onSelect(null) },
-            label = { Text("All Streets") },
+            label = { Text(stringResource(R.string.reports_all_streets)) },
         )
         streets.forEach { street ->
             FilterChip(
@@ -565,7 +566,7 @@ private fun StreetBreakdownSection(
     val speedUnit = UnitConverter.speedUnit(system)
 
     Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        Text("By Street", style = MaterialTheme.typography.titleMedium)
+        Text(stringResource(R.string.reports_by_street), style = MaterialTheme.typography.titleMedium)
         groups.forEach { group ->
             Card(
                 modifier = Modifier
@@ -586,13 +587,13 @@ private fun StreetBreakdownSection(
                             fontWeight = FontWeight.Medium,
                         )
                         Text(
-                            "${group.count} entries · Avg ${"%.1f".format(UnitConverter.displaySpeed(group.meanSpeed, system))} $speedUnit",
+                            stringResource(R.string.reports_street_summary, group.count, UnitConverter.displaySpeed(group.meanSpeed, system), speedUnit),
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                         )
                     }
                     Text(
-                        "${"%.0f".format(group.overLimitPercent)}%",
+                        stringResource(R.string.reports_over_limit_percent, group.overLimitPercent),
                         style = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
                         color = if (group.overLimitPercent > 50) MaterialTheme.colorScheme.error
@@ -601,7 +602,7 @@ private fun StreetBreakdownSection(
                     Spacer(modifier = Modifier.width(8.dp))
                     Icon(
                         Icons.AutoMirrored.Filled.KeyboardArrowRight,
-                        contentDescription = "View",
+                        contentDescription = stringResource(R.string.reports_view),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 }
