@@ -23,7 +23,8 @@ struct CaptureView: View {
                     FrameSelectorView(
                         frame1Time: $vm.frame1Time,
                         frame2Time: $vm.frame2Time,
-                        duration: vm.videoDuration
+                        duration: vm.videoDuration,
+                        isExtracting: vm.isExtractingFrames
                     ) {
                         Task { await vm.extractFrames() }
                     }

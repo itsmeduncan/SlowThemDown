@@ -645,6 +645,22 @@
         }
       }
     },
+    "Extracting Frames…" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extracting Frames…"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extrayendo Cuadros…"
+          }
+        }
+      }
+    },
     "Filter and sort options" : {
       "extractionState" : "stale",
       "localizations" : {

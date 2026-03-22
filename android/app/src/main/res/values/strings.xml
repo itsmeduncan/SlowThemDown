@@ -17,6 +17,7 @@
     <string name="capture_time_delta">Time delta: %1$.3fs</string>
     <string name="capture_frames_min_apart">Frames must be at least 10ms apart</string>
     <string name="capture_extract_frames">Extract Frames</string>
+    <string name="capture_extracting_frames">Extracting Frames\u2026</string>
     <string name="capture_cancel">Cancel</string>
 
     <!-- Capture: Frame Marker -->

@@ -17,6 +17,7 @@
     <string name="capture_time_delta">Diferencia de tiempo: %1$.3fs</string>
     <string name="capture_frames_min_apart">Los cuadros deben tener al menos 10ms de diferencia</string>
     <string name="capture_extract_frames">Extraer Cuadros</string>
+    <string name="capture_extracting_frames">Extrayendo Cuadros\u2026</string>
     <string name="capture_cancel">Cancelar</string>
 
     <!-- Capture: Frame Marker -->
