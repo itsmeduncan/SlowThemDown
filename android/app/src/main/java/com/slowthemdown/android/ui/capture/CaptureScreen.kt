@@ -386,9 +386,9 @@ private fun FrameImageWithMarker(
             .fillMaxWidth()
             .aspectRatio(aspectRatio, matchHeightConstraintsFirst = false)
             .onSizeChanged { canvasSize = it }
-            .pointerInput(Unit) {
+            .pointerInput(canvasSize) {
                 detectTapGestures { offset ->
-                    val viewSize = Size(canvasSize.width.toDouble(), canvasSize.height.toDouble())
+                    val viewSize = Size(size.width.toDouble(), size.height.toDouble())
                     onTap(Point(offset.x.toDouble(), offset.y.toDouble()), viewSize)
                 }
             },
@@ -529,9 +529,9 @@ private fun VehicleRefMarkerOverlay(
                 .fillMaxWidth()
                 .aspectRatio(aspectRatio, matchHeightConstraintsFirst = false)
                 .onSizeChanged { canvasSize = it }
-                .pointerInput(Unit) {
+                .pointerInput(canvasSize) {
                     detectTapGestures { offset ->
-                        val viewSize = Size(canvasSize.width.toDouble(), canvasSize.height.toDouble())
+                        val viewSize = Size(size.width.toDouble(), size.height.toDouble())
                         onTap(Point(offset.x.toDouble(), offset.y.toDouble()), viewSize)
                     }
                 },
