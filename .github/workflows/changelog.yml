@@ -37,7 +37,7 @@ jobs:
             exit 0
           fi
 
-          BRANCH="auto/changelog-${TAG}"
+          BRANCH="auto/changelog-${TAG}-$(date +%s)"
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
