@@ -58,6 +58,7 @@ struct LogView: View {
                         }
                     } label: {
                         Image(systemName: "line.3.horizontal.decrease.circle")
+                            .accessibilityLabel("Filter and sort options")
                     }
                 }
             }
@@ -98,6 +99,7 @@ struct LogView: View {
             Image(systemName: entry.direction.icon)
                 .font(.caption)
                 .foregroundStyle(.secondary)
+                .accessibilityLabel("Direction: \(entry.direction.label)")
         }
     }
 

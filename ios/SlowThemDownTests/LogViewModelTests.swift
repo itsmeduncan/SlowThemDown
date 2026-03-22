@@ -3,6 +3,7 @@ import Testing
 @testable import SlowThemDown
 
 @Suite("LogViewModel")
+@MainActor
 struct LogViewModelTests {
 
     // MARK: - Filtering by search text

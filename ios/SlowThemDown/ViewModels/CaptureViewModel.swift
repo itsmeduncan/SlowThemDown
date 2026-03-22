@@ -1,5 +1,6 @@
 import AVFoundation
 import CoreGraphics
+import FirebaseCrashlytics
 import Foundation
 import UIKit
 
@@ -12,12 +13,14 @@ enum CaptureFlowState: Equatable {
     case result
 }
 
+@MainActor
 @Observable
 final class CaptureViewModel {
     var state: CaptureFlowState = .selectSource
     var videoURL: URL?
     var videoDuration: Double = 0
     var videoSize: CGSize = .zero
+    var errorMessage: String?
 
     // Frame selection
     var frame1Time: Double = 0
@@ -55,15 +58,19 @@ final class CaptureViewModel {
 
     func loadVideo(url: URL) async {
         videoURL = url
-        extractor = VideoFrameExtractor(url: url)
+        errorMessage = nil
+        let ext = VideoFrameExtractor(url: url)
+        extractor = ext
         do {
-            let dur = try await extractor!.duration
+            let dur = try await ext.duration
             videoDuration = CMTimeGetSeconds(dur)
-            videoSize = try await extractor!.naturalSize
+            videoSize = try await ext.naturalSize
             frame1Time = 0
             frame2Time = min(0.5, videoDuration)
             state = .selectFrames
         } catch {
+            Crashlytics.crashlytics().record(error: error)
+            errorMessage = "Failed to load video. Try a different file."
             state = .selectSource
         }
     }
@@ -80,7 +87,8 @@ final class CaptureViewModel {
             vehicleRefMarkers = []
             state = .markFrame1
         } catch {
-            // Stay on frame selection
+            Crashlytics.crashlytics().record(error: error)
+            errorMessage = "Failed to extract frames. Try different timestamps."
         }
     }
 
@@ -178,6 +186,7 @@ final class CaptureViewModel {
     func reset() {
         state = .selectSource
         videoURL = nil
+        errorMessage = nil
         frame1Image = nil
         frame2Image = nil
         frame1Markers = []

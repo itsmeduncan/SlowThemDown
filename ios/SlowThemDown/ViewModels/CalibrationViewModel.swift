@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import UIKit
 
+@MainActor
 @Observable
 final class CalibrationViewModel {
     var calibration: Calibration

@@ -2,8 +2,13 @@ package com.slowthemdown.android.ui.capture
 
 import android.Manifest
 import android.net.Uri
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.camera.core.CameraSelector
+import androidx.camera.core.Preview
+import androidx.camera.lifecycle.ProcessCameraProvider
+import androidx.camera.view.PreviewView
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
@@ -39,6 +44,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -55,6 +61,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -63,6 +70,8 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.slowthemdown.android.service.HapticManager
@@ -804,14 +813,68 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
 
 @Composable
 private fun RecordingContent(viewModel: CaptureViewModel) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
-    ) {
-        Text("Recording...", style = MaterialTheme.typography.headlineLarge)
-        // TODO: CameraX preview
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+
+    val previewView = remember {
+        PreviewView(context).apply {
+            scaleType = PreviewView.ScaleType.FILL_CENTER
+        }
+    }
+
+    var cameraProvider by remember { mutableStateOf<ProcessCameraProvider?>(null) }
+
+    DisposableEffect(Unit) {
+        val future = ProcessCameraProvider.getInstance(context)
+        future.addListener(
+            {
+                val provider = future.get()
+                cameraProvider = provider
+
+                val preview = Preview.Builder().build().also {
+                    it.surfaceProvider = previewView.surfaceProvider
+                }
+
+                try {
+                    provider.unbindAll()
+                    provider.bindToLifecycle(
+                        lifecycleOwner,
+                        CameraSelector.DEFAULT_BACK_CAMERA,
+                        preview,
+                    )
+                } catch (e: Exception) {
+                    Log.e("CaptureScreen", "Camera bind failed", e)
+                }
+            },
+            ContextCompat.getMainExecutor(context),
+        )
+
+        onDispose {
+            cameraProvider?.unbindAll()
+        }
+    }
+
+    Box(modifier = Modifier.fillMaxSize()) {
+        AndroidView(
+            factory = { previewView },
+            modifier = Modifier.fillMaxSize(),
+        )
+
+        Column(
+            modifier = Modifier
+                .align(Alignment.BottomCenter)
+                .padding(24.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                "Recording...",
+                style = MaterialTheme.typography.headlineMedium,
+                color = Color.White,
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = { viewModel.reset() }) {
+                Text("Stop Recording")
+            }
+        }
     }
 }

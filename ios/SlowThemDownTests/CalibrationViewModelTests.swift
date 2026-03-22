@@ -4,6 +4,7 @@ import Testing
 @testable import SlowThemDown
 
 @Suite("CalibrationViewModel", .serialized)
+@MainActor
 struct CalibrationViewModelTests {
 
     // MARK: - Initial State

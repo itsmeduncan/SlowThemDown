@@ -14,6 +14,7 @@ struct ImageMarkerOverlay: View {
                     .resizable()
                     .aspectRatio(contentMode: .fit)
                     .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    .accessibilityLabel("Reference image with \(markers.count) marker\(markers.count == 1 ? "" : "s") placed")
 
                 // Draw markers
                 ForEach(Array(markers.enumerated()), id: \.offset) { index, imagePoint in
@@ -33,6 +34,7 @@ struct ImageMarkerOverlay: View {
                             .font(.caption2.bold())
                             .foregroundStyle(.white)
                     }
+                    .accessibilityLabel("Marker \(index + 1)")
                     .position(viewPoint)
                 }
 

@@ -1,4 +1,5 @@
 import CoreImage
+import FirebaseCrashlytics
 import UIKit
 import Vision
 
@@ -20,6 +21,7 @@ enum PIIBlurService {
         do {
             try handler.perform([faceRequest, textRequest])
         } catch {
+            Crashlytics.crashlytics().record(error: error)
             return image
         }
 

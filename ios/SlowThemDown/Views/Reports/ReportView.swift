@@ -79,6 +79,7 @@ struct ReportView: View {
                             }
                         } label: {
                             Image(systemName: "square.and.arrow.up")
+                                .accessibilityLabel("Export and share options")
                         }
                     }
                 }
@@ -250,6 +251,7 @@ struct ReportView: View {
                 .foregroundStyle(Color.accentColor.gradient)
             }
             .frame(height: 200)
+            .accessibilityLabel("Speed distribution histogram")
         }
         .padding()
         .background(Color(.systemGray6).opacity(0.3))
@@ -275,6 +277,7 @@ struct ReportView: View {
                 .foregroundStyle(Color.orange)
             }
             .frame(height: 200)
+            .accessibilityLabel("Average speed by hour of day chart")
         }
         .padding()
         .background(Color(.systemGray6).opacity(0.3))
@@ -293,6 +296,7 @@ struct ReportView: View {
                 .foregroundStyle(Color.blue)
             }
             .frame(height: 200)
+            .accessibilityLabel("Speeds over time scatter chart")
         }
         .padding()
         .background(Color(.systemGray6).opacity(0.3))

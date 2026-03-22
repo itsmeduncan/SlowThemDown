@@ -1,4 +1,5 @@
 import CoreLocation
+import FirebaseCrashlytics
 import Foundation
 
 @Observable
@@ -66,6 +67,7 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
 
             streetName = mainStreet
         } catch {
+            Crashlytics.crashlytics().record(error: error)
             streetName = ""
         }
     }
@@ -84,6 +86,6 @@ final class LocationManager: NSObject, CLLocationManagerDelegate {
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        // Location failures are non-fatal; street name will be empty
+        Crashlytics.crashlytics().record(error: error)
     }
 }

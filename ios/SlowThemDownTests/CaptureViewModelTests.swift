@@ -4,6 +4,7 @@ import Testing
 @testable import SlowThemDown
 
 @Suite("CaptureViewModel")
+@MainActor
 struct CaptureViewModelTests {
 
     // MARK: - Initial State

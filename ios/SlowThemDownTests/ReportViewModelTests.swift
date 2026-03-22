@@ -3,6 +3,7 @@ import Testing
 @testable import SlowThemDown
 
 @Suite("ReportViewModel")
+@MainActor
 struct ReportViewModelTests {
 
     // MARK: - update(with:)
