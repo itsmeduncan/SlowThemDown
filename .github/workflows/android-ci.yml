@@ -54,9 +54,37 @@ jobs:
       - name: Test and lint
         run: ./gradlew :shared:allTests :android:app:testDebugUnitTest :android:app:lintDebug --no-daemon
 
+      - name: Generate coverage report
+        if: success()
+        run: ./gradlew :android:app:koverXmlReport :android:app:koverHtmlReport --no-daemon
+
+      - name: Coverage summary
+        if: success()
+        run: |
+          echo "### Android Coverage Summary" >> "$GITHUB_STEP_SUMMARY"
+          # Extract line coverage from Kover XML
+          LINE_COVERED=$(grep -o 'type="LINE"[^/]*covered="[0-9]*"' android/app/build/reports/kover/report.xml | head -1 | grep -o 'covered="[0-9]*"' | grep -o '[0-9]*')
+          LINE_MISSED=$(grep -o 'type="LINE"[^/]*missed="[0-9]*"' android/app/build/reports/kover/report.xml | head -1 | grep -o 'missed="[0-9]*"' | grep -o '[0-9]*')
+          if [ -n "$LINE_COVERED" ] && [ -n "$LINE_MISSED" ]; then
+            TOTAL=$((LINE_COVERED + LINE_MISSED))
+            if [ "$TOTAL" -gt 0 ]; then
+              PCT=$((LINE_COVERED * 100 / TOTAL))
+              echo "Line coverage: **${PCT}%** (${LINE_COVERED}/${TOTAL})" >> "$GITHUB_STEP_SUMMARY"
+            fi
+          fi
+
       - name: Upload lint results
         if: always()
         uses: actions/upload-artifact@v6
         with:
           name: lint-results
           path: android/app/build/reports/lint-results-debug.html
+
+      - name: Upload coverage report
+        if: success()
+        uses: actions/upload-artifact@v6
+        with:
+          name: android-coverage
+          path: |
+            android/app/build/reports/kover/report.xml
+            android/app/build/reports/kover/html/

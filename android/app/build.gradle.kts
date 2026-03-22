@@ -5,6 +5,23 @@ plugins {
     id("com.google.devtools.ksp")
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
+    id("org.jetbrains.kotlinx.kover")
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                packages(
+                    "dagger.hilt.*",
+                    "hilt_aggregated_deps",
+                    "*.di",
+                    "*.BuildConfig",
+                )
+                annotatedBy("dagger.Module", "dagger.internal.DaggerGenerated", "androidx.compose.runtime.Composable")
+            }
+        }
+    }
 }
 
 val copyAgencies by tasks.registering(Copy::class) {
