@@ -4,6 +4,52 @@ All notable changes to Slow Them Down are documented here.
 
 This changelog is automatically generated from the git history.
 
+## [1.0.0](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0) — 2026-03-22
+
+### Bug Fixes
+
+- Fix changelog branch name collision with timestamp suffix
+- Fix changelog workflow: create PR instead of pushing to protected main
+- Fix changelog workflow: add pull-requests permission and pass token
+
+### Other
+
+- Revert changelog to PR approach now that Actions can create PRs
+- Changelog workflow: use Contents API instead of PR creation
+## [1.0.0-beta.18](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.18) — 2026-03-22
+
+### Bug Fixes
+
+- Fix agency matching when geocoder returns county/city suffixes
+- Fix beta tag push rejected by workflow file protection
+- Fix release workflow: add Play Store upload and signing
+
+### Features
+
+- Add workflows permission to beta-release for tag push
+
+### Other
+
+- Sync documentation with current codebase state
+- Replace fragile sed patterns in sync-version workflow
+
+### Refactoring
+
+- Refactor large files: split CaptureScreen.kt and ReportView.swift
+## [1.0.0-beta.17](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.17) — 2026-03-22
+
+### Other
+
+- Extract hardcoded strings for i18n on both platforms
+## [1.0.0-beta.16](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.16) — 2026-03-22
+
+### Changes
+
+- Pre-launch audit remediation: store blockers, crash prevention, polish
+
+### Features
+
+- Add auto-generated CHANGELOG.md from git history
 ## [1.0.0-beta.15](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.15) — 2026-03-22
 
 ### Bug Fixes
