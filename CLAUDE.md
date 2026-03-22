@@ -39,7 +39,8 @@ SlowThemDown/
 - Test shared module: `./gradlew :shared:allTests`
 - Test Android: `./gradlew :android:app:testDebugUnitTest`
 - Lint: `./gradlew :android:app:lintDebug`
-- Dependencies: Jetpack Compose, Room, Hilt, CameraX, DataStore, ML Kit (face-detection, text-recognition)
+- Coverage: `./gradlew :android:app:koverXmlReport` (requires tests to have run first)
+- Dependencies: Jetpack Compose, Room, Hilt, CameraX, DataStore, ML Kit (face-detection, text-recognition), Kover (coverage)
 
 ### KMP Shared Module
 - Pure Kotlin, no platform dependencies
@@ -112,11 +113,12 @@ SlowThemDown/
 
 ## CI/CD
 
-- **iOS CI** (`.github/workflows/ci.yml`) — Runs on `ios/` changes: XcodeGen generate, build, test
-- **Android CI** (`.github/workflows/android-ci.yml`) — Runs on `android/`, `shared/`, or Gradle file changes: shared tests, build, unit tests, lint
+- **iOS CI** (`.github/workflows/ci.yml`) — Runs on `ios/` changes: XcodeGen generate, build, test, coverage report (xccov JSON)
+- **Android CI** (`.github/workflows/android-ci.yml`) — Runs on `android/`, `shared/`, or Gradle file changes: shared tests, unit tests, lint, Kover coverage report (XML + HTML)
 - **Beta Release** (`.github/workflows/beta-release.yml`) — Triggers when both CIs pass on `main`: builds signed IPA + AAB, uploads to TestFlight and Google Play internal track, creates `vX.Y.Z-beta.N` tag and GitHub pre-release
 - **Release** (`.github/workflows/release.yml`) — Triggered by `vX.Y.Z` tags (no pre-release suffix): builds both platforms in parallel, uploads to App Store Connect (iOS) and Google Play production track as draft (Android), creates GitHub Release with artifacts
 - **Changelog** (`.github/workflows/changelog.yml`) — Triggered by `vX.Y.Z` tags: regenerates `CHANGELOG.md` from git history using `git-cliff` and commits to `main`
+- **Validate Agencies** (`.github/workflows/validate-agencies.yml`) — Runs on `data/` changes: validates `agencies.json` against the JSON schema
 
 ### Versioning
 

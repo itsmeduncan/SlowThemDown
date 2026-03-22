@@ -56,6 +56,7 @@ xcodebuild test -project SlowThemDown.xcodeproj -scheme SlowThemDownTests \
 ./gradlew :android:app:assembleDebug
 ./gradlew :android:app:testDebugUnitTest
 ./gradlew :android:app:lintDebug
+./gradlew :android:app:koverHtmlReport   # coverage report in android/app/build/reports/kover/html/
 ```
 
 ### Verifying Shared Module Changes
@@ -117,8 +118,8 @@ Changes to shared business logic require updates in multiple places:
 
 GitHub Actions runs automatically on every push and pull request to `main`:
 
-- **iOS CI** — Triggers on `ios/` changes: XcodeGen generate, build, test
-- **Android CI** — Triggers on `android/`, `shared/`, or Gradle file changes: shared tests, build, unit tests, lint
+- **iOS CI** — Triggers on `ios/` changes: XcodeGen generate, build, test, coverage report
+- **Android CI** — Triggers on `android/`, `shared/`, or Gradle file changes: shared tests, unit tests, lint, coverage report
 
 When both CI workflows pass on `main`, a **Beta Release** workflow automatically:
 1. Computes the next version from the `VERSION` file and existing git tags

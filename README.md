@@ -93,8 +93,8 @@ SlowThemDown uses GitHub Actions for continuous integration and automated beta r
 
 | Workflow | Trigger | What it does |
 |---|---|---|
-| **iOS CI** | Push/PR to `main` (ios/ changes) | Build + test on iOS Simulator |
-| **Android CI** | Push/PR to `main` (android/, shared/, gradle changes) | Shared tests, build, unit tests, lint |
+| **iOS CI** | Push/PR to `main` (ios/ changes) | Build, test, coverage report (xccov) |
+| **Android CI** | Push/PR to `main` (android/, shared/, gradle changes) | Shared tests, unit tests, lint, coverage report (Kover) |
 | **Beta Release** | Both CIs pass on `main` | Builds signed IPA + AAB, uploads to TestFlight and Google Play internal track, tags `vX.Y.Z-beta.N` |
 | **Release** | Push `vX.Y.Z` tag (no pre-release suffix) | Builds both platforms, uploads to App Store Connect + Google Play (draft), creates GitHub Release |
 | **Changelog** | Push `vX.Y.Z` tag | Regenerates `CHANGELOG.md` from git history via `git-cliff` |
