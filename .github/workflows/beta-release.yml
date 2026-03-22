@@ -13,7 +13,6 @@ concurrency:
 permissions:
   actions: read
   contents: write
-  workflows: write
 
 jobs:
   gate:
@@ -265,8 +264,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
           TAG: ${{ needs.compute-version.outputs.tag }}
         run: |
-          git tag "$TAG"
-          git push origin "$TAG"
+          # Create tag via API to avoid GITHUB_TOKEN restriction on
+          # commits that contain workflow file changes
+          SHA=$(git rev-parse HEAD)
+          gh api repos/${{ github.repository }}/git/refs \
+            -f ref="refs/tags/$TAG" \
+            -f sha="$SHA"
 
           gh release create "$TAG" \
             --title "$TAG" \
