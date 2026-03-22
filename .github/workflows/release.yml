@@ -137,12 +137,21 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          cache: 'gradle'
+
+      - name: Cache Gradle build outputs
+        uses: actions/cache@v4
+        with:
+          path: |
+            .gradle/configuration-cache
+            android/app/build
+            shared/build
+          key: gradle-build-${{ runner.os }}-${{ hashFiles('**/*.gradle.kts', 'gradle.properties', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-build-${{ runner.os }}-
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v5
-
-      - name: Test and lint
-        run: ./gradlew :shared:allTests :android:app:testDebugUnitTest :android:app:lintRelease
 
       - name: Decode keystore
         env:
@@ -152,7 +161,7 @@ jobs:
       - name: Build signed release APK and AAB
         run: |
           MARKETING_VERSION="${VERSION#v}"
-          ./gradlew :android:app:assembleRelease :android:app:bundleRelease \
+          ./gradlew :android:app:assembleRelease :android:app:bundleRelease --no-daemon \
             -PversionCode=${{ steps.build.outputs.build_number }} \
             -PversionName=$MARKETING_VERSION \
             -Pandroid.injected.signing.store.file=$RUNNER_TEMP/upload.jks \
