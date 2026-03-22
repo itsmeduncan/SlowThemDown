@@ -65,6 +65,9 @@ import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.IntSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.hilt.navigation.compose.hiltViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -95,6 +98,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
     var showSavedConfirmation by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     val scope = rememberCoroutineScope()
+    val focusManager = LocalFocusManager.current
     val distUnit = UnitConverter.distanceUnit(system)
     val calUnit = UnitConverter.calibrationUnit(system)
 
@@ -113,6 +117,10 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
     Column(
         modifier = Modifier
             .fillMaxSize()
+            .clickable(
+                interactionSource = remember { MutableInteractionSource() },
+                indication = null,
+            ) { focusManager.clearFocus() }
             .verticalScroll(scrollState)
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
@@ -321,6 +329,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
 
             Button(
                 onClick = {
+                    focusManager.clearFocus()
                     viewModel.saveCalibration()
                     showSavedConfirmation = true
                     viewModel.clearImage()

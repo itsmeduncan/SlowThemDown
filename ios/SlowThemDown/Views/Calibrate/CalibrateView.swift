@@ -34,6 +34,8 @@ struct CalibrateView: View {
                     }
                     .padding()
                 }
+                .scrollDismissesKeyboard(.interactively)
+                .onTapGesture { UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil) }
                 .onChange(of: showSavedConfirmation) { _, showing in
                     if showing {
                         withAnimation {
@@ -219,6 +221,7 @@ struct CalibrateView: View {
             }
 
             Button {
+                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
                 vm.saveCalibration()
                 withAnimation {
                     showSavedConfirmation = true
