@@ -162,6 +162,8 @@ jobs:
             -Pandroid.injected.signing.key.password=${{ secrets.ANDROID_KEY_PASSWORD }}
 
       - name: Upload to Google Play production track
+        continue-on-error: true
+        id: play-upload
         uses: r0adkll/upload-google-play@v1.1.3
         with:
           serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
@@ -170,6 +172,10 @@ jobs:
           track: production
           status: draft
           releaseName: ${{ github.ref_name }}
+
+      - name: Warn if Play Store upload failed
+        if: steps.play-upload.outcome == 'failure'
+        run: echo "::warning::Google Play upload failed. Upload the AAB manually from the GitHub Release artifacts."
 
       - name: Upload Android artifacts
         uses: actions/upload-artifact@v6
