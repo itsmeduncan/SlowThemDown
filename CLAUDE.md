@@ -49,9 +49,10 @@ SlowThemDown/
 ## Architecture
 
 ### iOS
-- **MVVM** with `@Observable` macro (not ObservableObject)
+- **MVVM** with `@Observable` macro (not ObservableObject), `@MainActor` on all ViewModels
 - **SwiftData** for persistence (`SpeedEntry` is the sole `@Model`)
 - **UserDefaults** for calibration data (`Calibration` struct with Codable)
+- **String Catalog** (`Localizable.xcstrings`) for i18n — SwiftUI views use `LocalizedStringKey` automatically
 
 ### Android
 - **MVVM** with `ViewModel` + `StateFlow`
@@ -59,6 +60,7 @@ SlowThemDown/
 - **DataStore** for calibration settings
 - **Hilt** for dependency injection
 - **Coroutines** for async operations
+- **String resources** (`strings.xml`) for i18n — all composables use `stringResource()`
 
 ### Shared (KMP)
 - `SpeedCalculator` — speed formula, V85, traffic stats
@@ -69,7 +71,7 @@ SlowThemDown/
 ## Key Patterns
 
 - All coordinate mapping goes through `CoordinateMapper` (shared KMP on Android, Swift original on iOS)
-- Speed formula: `(pixelDisplacement / pixelsPerFoot) / timeDelta * 0.681818` -> MPH
+- Speed formula: `(pixelDisplacement / pixelsPerMeter) / timeDeltaSeconds` → m/s (display conversion to MPH/km/h at the view layer via `UnitConverter`)
 - V85 uses interpolated 85th percentile over sorted speed array
 - `CaptureViewModel` is a state machine: `selectSource -> recording -> selectFrames -> markFrame1 -> markFrame2 -> result`
 - Dark theme enforced on both platforms
@@ -94,7 +96,7 @@ SlowThemDown/
 
 ### iOS
 - Swift Testing (`@Test`) in `ios/SlowThemDownTests/`
-- Tests for `SpeedCalculator`, `CoordinateMapper`, `Calibration`, `SpeedEntry`, `PIIBlurService`, `LogViewModel`, `ReportViewModel`, `CaptureViewModel`, `CalibrationViewModel`
+- Tests for `SpeedCalculator`, `CoordinateMapper`, `Calibration`, `SpeedEntry`, `PIIBlurService`, `LogViewModel`, `ReportViewModel`, `CaptureViewModel`, `CalibrationViewModel`, `UnitConverter`, `AgencyDirectory`
 
 ### KMP Shared
 - `kotlin.test` in `shared/src/commonTest/`
@@ -113,11 +115,12 @@ SlowThemDown/
 - **iOS CI** (`.github/workflows/ci.yml`) — Runs on `ios/` changes: XcodeGen generate, build, test
 - **Android CI** (`.github/workflows/android-ci.yml`) — Runs on `android/`, `shared/`, or Gradle file changes: shared tests, build, unit tests, lint
 - **Beta Release** (`.github/workflows/beta-release.yml`) — Triggers when both CIs pass on `main`: builds signed IPA + AAB, uploads to TestFlight and Google Play internal track, creates `vX.Y.Z-beta.N` tag and GitHub pre-release
-- **Release** (`.github/workflows/release.yml`) — Triggered by `vX.Y.Z` tags (no pre-release suffix): builds both platforms in parallel, creates GitHub Release with iOS archive + Android APK/AAB
+- **Release** (`.github/workflows/release.yml`) — Triggered by `vX.Y.Z` tags (no pre-release suffix): builds both platforms in parallel, uploads to App Store Connect (iOS) and Google Play production track as draft (Android), creates GitHub Release with artifacts
+- **Changelog** (`.github/workflows/changelog.yml`) — Triggered by `vX.Y.Z` tags: regenerates `CHANGELOG.md` from git history using `git-cliff` and commits to `main`
 
 ### Versioning
 
 - `VERSION` file at repo root is the marketing version (e.g., `1.0.0`)
-- Build numbers derived from total `v*` tag count — no commits needed to bump
+- Build numbers derived from total commit count (`git rev-list --count HEAD`) — monotonically increasing, no manual bumping needed
 - Beta numbers derived from `v{version}-beta.*` tag count for current version
 - To bump version: edit the `VERSION` file only. The `sync-version` workflow auto-updates `gradle.properties`, `ios/project.yml`, and `android/app/build.gradle.kts` on push to main

@@ -13,7 +13,7 @@ SlowThemDown helps residents, neighborhood groups, and traffic safety advocates 
 ## Features
 
 - **Capture** — Record video or import from your library, select two frames, mark the same point on a vehicle in each frame, and get an instant speed estimate
-- **Calibrate** — Establish a pixels-per-foot ratio using a known distance in your scene (e.g., lane width) or use a vehicle-as-reference method with a built-in lookup table of common vehicle lengths
+- **Calibrate** — Establish a pixels-per-meter ratio using a known distance in your scene (e.g., lane width) or use a vehicle-as-reference method with a built-in lookup table of common vehicle lengths. Supports both imperial and metric units
 - **Log** — Browse all recorded speed entries with search, filtering by vehicle type, and over-limit highlighting
 - **Reports** — V85 speed analysis, speed distribution histogram, hourly averages, scatter plot over time, street-level filtering and breakdown, and PDF/CSV export for sharing with local officials
 - **Report to Agency** — Send speed data directly to your local traffic department. The app matches your location to a built-in directory of city, county, and state agencies, then composes an email with V85 stats and an attached PDF report
@@ -96,12 +96,13 @@ SlowThemDown uses GitHub Actions for continuous integration and automated beta r
 | **iOS CI** | Push/PR to `main` (ios/ changes) | Build + test on iOS Simulator |
 | **Android CI** | Push/PR to `main` (android/, shared/, gradle changes) | Shared tests, build, unit tests, lint |
 | **Beta Release** | Both CIs pass on `main` | Builds signed IPA + AAB, uploads to TestFlight and Google Play internal track, tags `vX.Y.Z-beta.N` |
-| **Release** | Push `vX.Y.Z` tag (no pre-release suffix) | Builds both platforms, creates GitHub Release with artifacts |
+| **Release** | Push `vX.Y.Z` tag (no pre-release suffix) | Builds both platforms, uploads to App Store Connect + Google Play (draft), creates GitHub Release |
+| **Changelog** | Push `vX.Y.Z` tag | Regenerates `CHANGELOG.md` from git history via `git-cliff` |
 
 ### Versioning
 
 - The `VERSION` file at repo root is the single source of truth for the marketing version
-- **Build numbers** are derived from the total count of `v*` git tags (monotonically increasing)
+- **Build numbers** are derived from total commit count (`git rev-list --count HEAD`), monotonically increasing
 - **Beta numbers** are derived from the count of `v{version}-beta.*` tags for the current version
 - To bump the version: update the `VERSION` file in a PR — the next merge to `main` auto-generates `vX.Y.Z-beta.1`
 
@@ -112,11 +113,13 @@ SlowThemDown uses GitHub Actions for continuous integration and automated beta r
 SlowThemDown estimates speed by measuring how far a vehicle moves (in pixels) between two video frames with a known time delta:
 
 ```
-distance_feet = pixel_displacement / pixels_per_foot
-speed_mph = (distance_feet / time_delta_seconds) * 0.681818
+distance_meters = pixel_displacement / pixels_per_meter
+speed_mps = distance_meters / time_delta_seconds
 ```
 
-The `pixels_per_foot` ratio comes from calibration — either by marking a known distance in the scene or by using a vehicle's known length as a reference.
+All internal values are stored in SI units (meters, m/s). Display conversion to MPH or km/h happens at the view layer based on the user's measurement system preference.
+
+The `pixels_per_meter` ratio comes from calibration — either by marking a known distance in the scene or by using a vehicle's known length as a reference.
 
 ### V85
 
@@ -126,8 +129,8 @@ The V85 (85th percentile speed) is a standard traffic engineering metric. It rep
 
 | Method | How It Works |
 |--------|-------------|
-| **Manual Distance** | Mark two points in a reference image with a known real-world distance (e.g., a 10-ft lane width). SlowThemDown computes pixels-per-foot. |
-| **Vehicle Reference** | Select a vehicle make/model from the built-in lookup table. Mark the vehicle's front and rear in a frame. SlowThemDown uses the known vehicle length to derive pixels-per-foot per-capture. |
+| **Manual Distance** | Mark two points in a reference image with a known real-world distance (e.g., a 10-ft lane width or 3m parking space). SlowThemDown computes pixels-per-meter. |
+| **Vehicle Reference** | Select a vehicle make/model from the built-in lookup table. Mark the vehicle's front and rear in a frame. SlowThemDown uses the known vehicle length to derive pixels-per-meter per-capture. |
 
 ## Tech Stack
 

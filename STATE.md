@@ -7,7 +7,7 @@ Current project state for cross-session continuity. Updated each session.
 ## Version
 
 - Marketing version: `1.0.0` (from `VERSION` file)
-- Build numbers derived from `v*` tag count
+- Build numbers derived from total commit count (`git rev-list --count HEAD`)
 
 ## Platform Status
 
@@ -19,6 +19,7 @@ Current project state for cross-session continuity. Updated each session.
 
 ## Recent Work
 
+- **Docs sync, release workflow fix, refactoring, i18n (2026-03-21)**: Extracted hardcoded strings for i18n (iOS Localizable.xcstrings + Android strings.xml with stringResource). Refactored CaptureScreen.kt (880→38 lines, 5 extracted files) and ReportView.swift (481→~180 lines, 4 extracted views). Fixed release.yml to sign Android builds and upload to Google Play production (draft). Replaced fragile sed in sync-version.yml with yq + verification step. Added auto-generated CHANGELOG.md via git-cliff. Synced all docs to reflect metric units, @MainActor, new workflows, and refactored file structure.
 - **Pre-launch audit remediation (2026-03-21)**: Fixed 2 store-submission blockers + stability/polish issues. Phase 1: Added `PrivacyInfo.xcprivacy` (Apple privacy manifest) and expanded ProGuard rules for R8 minification. Phase 2: Fixed force unwraps in iOS CaptureViewModel, added Crashlytics error logging to all silent catch blocks (8 iOS + 8 Android), added `@MainActor` to all 4 iOS ViewModels with test updates. Phase 3: Added `network_security_config.xml` (cleartext traffic blocked), replaced deprecated Android Geocoder API with async overload on API 33+, accessibility labels on iOS views (6 files) and Android screens, replaced CameraX TODO placeholder with real preview implementation. All 142 iOS tests pass, Android unit tests pass, release build succeeds.
 - **Metric measurement support — Android (2026-03-21)**: Implemented metric/imperial unit support on Android to achieve full parity with iOS. All internal values now stored in SI units (m/s, meters). Room DB migration V1→V2 converts existing imperial data. CalibrationStore migrated to metric keys with legacy fallback. Added measurement system preference (auto-detected from locale). Updated all ViewModels, UI screens, ReportExporter, SeedData, and tests. Imperial/metric toggle on calibration screen.
 - **Metric measurement support — iOS (2026-03-21)**: Implemented metric/imperial unit support on iOS to mirror the shared KMP module changes. All internal values are now stored in SI units (m/s, meters). Added `MeasurementSystem` enum, `UnitConverter` utility, unit toggle in calibration, and display conversion throughout all views. Includes SwiftData schema migration (V1→V2) with fallback for unversioned stores, updated all 140 tests.
