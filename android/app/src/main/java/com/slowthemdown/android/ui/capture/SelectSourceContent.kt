@@ -122,6 +122,39 @@ internal fun SelectSourceContent(viewModel: CaptureViewModel) {
                 }
             }
             Spacer(modifier = Modifier.height(16.dp))
+        } else if (calibration.needsRecalibration) {
+            Card(
+                colors = CardDefaults.cardColors(
+                    containerColor = Color(0xFFFF9800).copy(alpha = 0.15f)
+                ),
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Column(
+                    modifier = Modifier.padding(16.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Icon(
+                        Icons.Default.Warning,
+                        contentDescription = null,
+                        tint = Color(0xFFFF9800),
+                        modifier = Modifier.size(36.dp),
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        stringResource(R.string.capture_needs_recalibration),
+                        style = MaterialTheme.typography.titleSmall,
+                        color = Color(0xFFFF9800),
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        stringResource(R.string.capture_needs_recalibration_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                        color = Color(0xFFFF9800),
+                        modifier = Modifier.fillMaxWidth(),
+                    )
+                }
+            }
+            Spacer(modifier = Modifier.height(16.dp))
         }
 
         Spacer(modifier = Modifier.height(16.dp))

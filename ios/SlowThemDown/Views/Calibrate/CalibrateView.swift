@@ -90,10 +90,17 @@ struct CalibrateView: View {
     private var statusCard: some View {
         VStack(spacing: 8) {
             HStack {
-                Image(systemName: vm.isCalibrated ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
-                    .foregroundStyle(vm.isCalibrated ? .green : .yellow)
-                Text(vm.isCalibrated ? "Calibrated" : "Not Calibrated")
-                    .font(.headline)
+                if vm.calibration.needsRecalibration {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .foregroundStyle(.orange)
+                    Text("Re-calibration Recommended")
+                        .font(.headline)
+                } else {
+                    Image(systemName: vm.isCalibrated ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                        .foregroundStyle(vm.isCalibrated ? .green : .yellow)
+                    Text(vm.isCalibrated ? "Calibrated" : "Not Calibrated")
+                        .font(.headline)
+                }
             }
             if vm.isCalibrated {
                 Text("\(UnitConverter.displayPixelsPerUnit(vm.calibration.pixelsPerMeter, system: measurementSystem), specifier: "%.1f") \(UnitConverter.calibrationUnit(measurementSystem))")

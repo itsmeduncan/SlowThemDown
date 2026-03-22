@@ -149,6 +149,19 @@ struct CaptureView: View {
                         .multilineTextAlignment(.center)
                 }
                 .padding()
+            } else if calibrationVM.calibration.needsRecalibration {
+                VStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.largeTitle)
+                        .foregroundStyle(.orange)
+                    Text("Re-calibration Recommended")
+                        .font(.headline)
+                    Text("Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding()
             }
 
             VStack(spacing: 16) {

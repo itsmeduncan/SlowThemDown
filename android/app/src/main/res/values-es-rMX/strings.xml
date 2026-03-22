@@ -6,6 +6,8 @@
     <string name="capture_title">Capturar Velocidad</string>
     <string name="capture_not_calibrated">Sin Calibrar</string>
     <string name="capture_not_calibrated_hint">Usa una referencia de vehículo durante la captura, o calibra en Ajustes para obtener resultados más precisos.</string>
+    <string name="capture_needs_recalibration">Re-calibración Recomendada</string>
+    <string name="capture_needs_recalibration_hint">Tu calibración se guardó sin datos de resolución de imagen. Re-calibra para obtener estimaciones de velocidad precisas.</string>
     <string name="capture_import_library">Importar de la Galería</string>
     <string name="capture_record_video">Grabar Video</string>
 
@@ -53,6 +55,7 @@
     <string name="calibrate_metric">Métrico</string>
     <string name="calibrate_calibrated">Calibrado</string>
     <string name="calibrate_not_calibrated">Sin Calibrar</string>
+    <string name="calibrate_needs_recalibration">Re-calibración Recomendada</string>
     <string name="calibrate_pixels_per_unit">%1$.1f %2$s</string>
     <string name="calibrate_last_calibrated">Última calibración: %1$s</string>
     <string name="calibrate_instructions">Toma una foto de una escena con una distancia conocida, luego marca dos puntos.</string>

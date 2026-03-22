@@ -66,6 +66,7 @@ final class CalibrationViewModel {
             pixelsPerMeter: ppm,
             referenceDistanceMeters: referenceDistanceMeters,
             pixelDistance: pixelDistance,
+            calibrationImageWidth: imageSize.width,
             timestamp: .now
         )
         calibration.save()

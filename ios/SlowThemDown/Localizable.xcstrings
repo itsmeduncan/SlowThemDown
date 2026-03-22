@@ -1367,6 +1367,38 @@
         }
       }
     },
+    "Re-calibration Recommended" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Re-calibration Recommended"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Re-calibración Recomendada"
+          }
+        }
+      }
+    },
+    "Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu calibración se guardó sin datos de resolución de imagen. Re-calibra para obtener estimaciones de velocidad precisas."
+          }
+        }
+      }
+    },
     "Record Video" : {
       "extractionState" : "stale",
       "localizations" : {

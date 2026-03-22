@@ -26,6 +26,7 @@ struct CalibrationTests {
             referenceDistanceMeters: 4.877,
             pixelDistance: 248.0,
             vehicleReferenceName: "Toyota Camry",
+            calibrationImageWidth: 4032,
             timestamp: Date(timeIntervalSince1970: 1000)
         )
         let data = try JSONEncoder().encode(original)
@@ -64,6 +65,51 @@ struct CalibrationTests {
         UserDefaults.standard.removeObject(forKey: Calibration.storageKey)
         UserDefaults.standard.synchronize()
         #expect(Calibration.load() == nil)
+    }
+
+    // MARK: - scaledPixelsPerMeter
+
+    @Test func scaledPixelsPerMeter_scalesCorrectly() {
+        let cal = Calibration(pixelsPerMeter: 200, calibrationImageWidth: 4032)
+        let scaled = cal.scaledPixelsPerMeter(forVideoWidth: 1920)
+        // 200 * (1920 / 4032) ≈ 95.238
+        #expect(abs(scaled - 95.238) < 0.01)
+    }
+
+    @Test func scaledPixelsPerMeter_noWidth_returnsUnscaled() {
+        let cal = Calibration(pixelsPerMeter: 200)
+        let scaled = cal.scaledPixelsPerMeter(forVideoWidth: 1920)
+        #expect(scaled == 200)
+    }
+
+    // MARK: - needsRecalibration
+
+    @Test func needsRecalibration_trueWhenNoWidth() {
+        let cal = Calibration(pixelsPerMeter: 50)
+        #expect(cal.needsRecalibration == true)
+    }
+
+    @Test func needsRecalibration_falseWhenWidthPresent() {
+        let cal = Calibration(pixelsPerMeter: 50, calibrationImageWidth: 4032)
+        #expect(cal.needsRecalibration == false)
+    }
+
+    @Test func needsRecalibration_falseWhenInvalid() {
+        let cal = Calibration()
+        #expect(cal.needsRecalibration == false)
+    }
+
+    // MARK: - Codable legacy compatibility
+
+    @Test func codableRoundtrip_legacyWithoutImageWidth() throws {
+        // Simulate JSON from before calibrationImageWidth existed
+        let json = """
+        {"method":"manual_distance","pixelsPerMeter":65.0,"referenceDistanceMeters":3.0,"pixelDistance":200.0,"timestamp":1000}
+        """.data(using: .utf8)!
+        let decoded = try JSONDecoder().decode(Calibration.self, from: json)
+        #expect(decoded.calibrationImageWidth == nil)
+        #expect(decoded.pixelsPerMeter == 65.0)
+        #expect(decoded.needsRecalibration == true)
     }
 
     // MARK: - Enum labels

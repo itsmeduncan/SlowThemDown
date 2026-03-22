@@ -150,7 +150,10 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(8.dp),
                 ) {
-                    if (calibration.isValid) {
+                    if (calibration.needsRecalibration) {
+                        Icon(Icons.Default.Warning, contentDescription = null, tint = Color(0xFFFF9800))
+                        Text(stringResource(R.string.calibrate_needs_recalibration), style = MaterialTheme.typography.titleMedium)
+                    } else if (calibration.isValid) {
                         Icon(Icons.Default.Check, contentDescription = null, tint = Color(0xFF4CAF50))
                         Text(stringResource(R.string.calibrate_calibrated), style = MaterialTheme.typography.titleMedium)
                     } else {

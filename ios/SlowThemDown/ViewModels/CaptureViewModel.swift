@@ -135,7 +135,7 @@ final class CaptureViewModel {
             )
             ppm = SpeedCalculator.pixelsPerMeter(pixelDistance: refPixels, referenceMeters: ref.lengthMeters)
         } else {
-            ppm = calibration.pixelsPerMeter
+            ppm = calibration.scaledPixelsPerMeter(forVideoWidth: videoSize.width)
         }
 
         calculatedSpeed = SpeedCalculator.calculateSpeed(
@@ -161,7 +161,7 @@ final class CaptureViewModel {
             method = .vehicleReference
             refDist = ref.lengthMeters
         } else {
-            ppm = calibration.pixelsPerMeter
+            ppm = calibration.scaledPixelsPerMeter(forVideoWidth: videoSize.width)
             method = calibration.method
             refDist = calibration.referenceDistanceMeters
         }

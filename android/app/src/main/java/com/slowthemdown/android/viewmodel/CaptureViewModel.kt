@@ -205,7 +205,7 @@ class CaptureViewModel @Inject constructor(
             val refPixels = CoordinateMapper.pixelDistance(markers[0], markers[1])
             SpeedCalculator.pixelsPerMeter(refPixels, ref.lengthMeters)
         } else {
-            cal.pixelsPerMeter
+            cal.scaledPixelsPerMeter(videoSize.width)
         }
 
         _calculatedSpeed.value = SpeedCalculator.calculateSpeed(
@@ -251,7 +251,7 @@ class CaptureViewModel @Inject constructor(
                 method = CalibrationMethod.VEHICLE_REFERENCE
                 refDist = ref.lengthMeters
             } else {
-                ppm = cal.pixelsPerMeter
+                ppm = cal.scaledPixelsPerMeter(videoSize.width)
                 method = cal.method
                 refDist = cal.referenceDistanceMeters
             }

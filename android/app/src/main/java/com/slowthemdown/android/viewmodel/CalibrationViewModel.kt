@@ -124,6 +124,7 @@ class CalibrationViewModel @Inject constructor(
                     referenceDistanceMeters = refMeters,
                     pixelDistance = pixelDist,
                     vehicleReferenceName = _selectedVehicleRef.value?.name,
+                    calibrationImageWidth = _imageSize.value.width,
                 )
             )
             hapticManager.notification(HapticManager.NotificationType.SUCCESS)
