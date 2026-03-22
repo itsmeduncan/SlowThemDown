@@ -37,6 +37,12 @@
             "state" : "new",
             "value" : "%1$@ %2$@ limit"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ %2$@ límite"
+          }
         }
       }
     },
@@ -46,6 +52,12 @@
           "stringUnit" : {
             "state" : "new",
             "value" : "%1$@ entries · Avg %2$@ %3$@"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ registros · Prom %2$@ %3$@"
           }
         }
       }
@@ -60,6 +72,12 @@
             "state" : "translated",
             "value" : "85% of vehicles travel at or below this speed. "
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "El 85% de los vehículos viajan a esta velocidad o menos. "
+          }
         }
       }
     },
@@ -70,6 +88,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "All"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todos"
           }
         }
       }
@@ -82,6 +106,12 @@
             "state" : "translated",
             "value" : "All Streets"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Todas las Calles"
+          }
         }
       }
     },
@@ -91,6 +121,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Average Speed by Hour"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad Promedio por Hora"
           }
         }
       }
@@ -103,6 +139,12 @@
             "state" : "translated",
             "value" : "Average speed by hour of day chart"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gráfica de velocidad promedio por hora del día"
+          }
         }
       }
     },
@@ -113,6 +155,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Before capturing speeds, calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start on the Calibrate tab where you can also choose imperial or metric units."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Antes de capturar velocidades, calibra marcando una distancia conocida en una foto — como el ancho de un carril o un cajón de estacionamiento. Empezarás en la pestaña Calibrar donde también puedes elegir unidades imperiales o métricas."
           }
         }
       }
@@ -125,6 +173,12 @@
             "state" : "translated",
             "value" : "Build Your Case"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Construye tu Caso"
+          }
         }
       }
     },
@@ -134,6 +188,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "By Street"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Por Calle"
           }
         }
       }
@@ -146,6 +206,12 @@
             "state" : "translated",
             "value" : "Calibrate"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calibrar"
+          }
         }
       }
     },
@@ -156,6 +222,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calibrate Again"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calibrar de Nuevo"
           }
         }
       }
@@ -168,6 +240,12 @@
             "state" : "translated",
             "value" : "Calibrate First"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calibra Primero"
+          }
         }
       }
     },
@@ -179,6 +257,12 @@
             "state" : "translated",
             "value" : "Calibrated"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calibrado"
+          }
         }
       }
     },
@@ -188,6 +272,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calibration Saved"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calibración Guardada"
           }
         }
       }
@@ -200,6 +290,12 @@
             "state" : "translated",
             "value" : "Cancel"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cancelar"
+          }
         }
       }
     },
@@ -211,11 +307,24 @@
             "state" : "translated",
             "value" : "Capture"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Capturar"
+          }
         }
       }
     },
     "Capture Logged" : {
-
+      "localizations" : {
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Captura Registrada"
+          }
+        }
+      }
     },
     "Capture some speed measurements to see reports." : {
       "localizations" : {
@@ -223,6 +332,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Capture some speed measurements to see reports."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Captura algunas mediciones de velocidad para ver reportes."
           }
         }
       }
@@ -233,6 +348,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Capture some speed measurements to see them here."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Captura algunas mediciones de velocidad para verlas aquí."
           }
         }
       }
@@ -245,6 +366,12 @@
             "state" : "translated",
             "value" : "Change Photo"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cambiar Foto"
+          }
         }
       }
     },
@@ -256,6 +383,12 @@
             "state" : "translated",
             "value" : "Choose Photo"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elegir Foto"
+          }
         }
       }
     },
@@ -265,6 +398,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Choose the start and end points when the vehicle is visible"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Elige los puntos de inicio y fin cuando el vehículo sea visible"
           }
         }
       }
@@ -277,6 +416,12 @@
             "state" : "translated",
             "value" : "Clear"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar"
+          }
         }
       }
     },
@@ -287,6 +432,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Clear Markers"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Borrar Marcadores"
           }
         }
       }
@@ -299,6 +450,12 @@
             "state" : "translated",
             "value" : "Confirm Marker"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Confirmar Marcador"
+          }
         }
       }
     },
@@ -309,6 +466,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Details"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalles"
           }
         }
       }
@@ -321,6 +484,12 @@
             "state" : "translated",
             "value" : "Direction"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Dirección"
+          }
         }
       }
     },
@@ -331,6 +500,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Discard"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Descartar"
           }
         }
       }
@@ -343,6 +518,12 @@
             "state" : "translated",
             "value" : "Done"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Listo"
+          }
         }
       }
     },
@@ -353,6 +534,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "entries"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "registros"
           }
         }
       }
@@ -365,6 +552,12 @@
             "state" : "translated",
             "value" : "Entry Details"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalles del Registro"
+          }
         }
       }
     },
@@ -374,6 +567,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Estimated Speed"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad Estimada"
           }
         }
       }
@@ -386,6 +585,12 @@
             "state" : "translated",
             "value" : "Export and share options"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones de exportación y compartir"
+          }
         }
       }
     },
@@ -396,6 +601,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Export CSV"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar CSV"
           }
         }
       }
@@ -408,6 +619,12 @@
             "state" : "translated",
             "value" : "Export PDF"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Exportar PDF"
+          }
         }
       }
     },
@@ -418,6 +635,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Extract Frames"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Extraer Cuadros"
           }
         }
       }
@@ -430,14 +653,34 @@
             "state" : "translated",
             "value" : "Filter and sort options"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opciones de filtro y orden"
+          }
         }
       }
     },
     "Frame 1: %.3fs" : {
-
+      "localizations" : {
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuadro 1: %.3fs"
+          }
+        }
+      }
     },
     "Frame 2: %.3fs" : {
-
+      "localizations" : {
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Cuadro 2: %.3fs"
+          }
+        }
+      }
     },
     "Frames are too close together. Select frames further apart." : {
       "localizations" : {
@@ -445,6 +688,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Frames are too close together. Select frames further apart."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Los cuadros están muy juntos. Selecciona cuadros más separados."
           }
         }
       }
@@ -455,6 +704,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Generating report..."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Generando reporte..."
           }
         }
       }
@@ -467,6 +722,12 @@
             "state" : "translated",
             "value" : "Get Started"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Comenzar"
+          }
         }
       }
     },
@@ -477,12 +738,24 @@
             "state" : "translated",
             "value" : "Go to Calibrate tab first, or use vehicle-as-reference during capture."
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ve a la pestaña Calibrar primero, o usa un vehículo como referencia durante la captura."
+          }
         }
       }
     },
     "Imperial" : {
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Imperial"
+          }
+        },
+        "es-MX" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Imperial"
@@ -498,11 +771,24 @@
             "state" : "translated",
             "value" : "Import from Library"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Importar de la Biblioteca"
+          }
         }
       }
     },
     "Last calibrated: %@" : {
-
+      "localizations" : {
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Última calibración: %@"
+          }
+        }
+      }
     },
     "Limit" : {
       "extractionState" : "stale",
@@ -511,6 +797,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Limit"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite"
           }
         }
       }
@@ -523,6 +815,12 @@
             "state" : "translated",
             "value" : "Location"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ubicación"
+          }
         }
       }
     },
@@ -533,6 +831,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Log"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registro"
           }
         }
       }
@@ -545,6 +849,12 @@
             "state" : "translated",
             "value" : "Mark Vehicle — Frame 1"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcar Vehículo — Cuadro 1"
+          }
         }
       }
     },
@@ -555,6 +865,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mark Vehicle — Frame 2"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Marcar Vehículo — Cuadro 2"
           }
         }
       }
@@ -567,6 +883,12 @@
             "state" : "translated",
             "value" : "Mean"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Promedio"
+          }
         }
       }
     },
@@ -577,6 +899,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mean Speed:"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad Promedio:"
           }
         }
       }
@@ -589,6 +917,12 @@
             "state" : "translated",
             "value" : "Measure Traffic Speeds"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mide Velocidades de Tráfico"
+          }
         }
       }
     },
@@ -600,6 +934,12 @@
             "state" : "translated",
             "value" : "Measurement"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Medición"
+          }
         }
       }
     },
@@ -609,6 +949,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Measurement Details"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Detalles de Medición"
           }
         }
       }
@@ -621,6 +967,12 @@
             "state" : "translated",
             "value" : "Median"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mediana"
+          }
         }
       }
     },
@@ -632,6 +984,12 @@
             "state" : "translated",
             "value" : "Median Speed:"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad Mediana:"
+          }
         }
       }
     },
@@ -641,6 +999,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Metric"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Métrico"
           }
         }
       }
@@ -653,6 +1017,12 @@
             "state" : "translated",
             "value" : "Min / Max:"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mín / Máx:"
+          }
         }
       }
     },
@@ -663,6 +1033,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Nearest Intersection"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Intersección más Cercana"
           }
         }
       }
@@ -675,6 +1051,12 @@
             "state" : "translated",
             "value" : "Next"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Siguiente"
+          }
         }
       }
     },
@@ -682,6 +1064,12 @@
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No"
+          }
+        },
+        "es-MX" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "No"
@@ -697,6 +1085,12 @@
             "state" : "translated",
             "value" : "No Agencies Found"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No se Encontraron Agencias"
+          }
         }
       }
     },
@@ -707,6 +1101,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No agencies match this location yet. You can contribute one at github.com/itsmeduncan/SlowThemDown."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Aún no hay agencias para esta ubicación. Puedes contribuir una en github.com/itsmeduncan/SlowThemDown."
           }
         }
       }
@@ -719,6 +1119,12 @@
             "state" : "translated",
             "value" : "No calibration needed — select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and Slow Them Down uses the known vehicle length."
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "No necesitas calibrar — selecciona una marca de vehículo de la tabla incluida durante la captura. Marca el defensa delantero y trasero, y Slow Them Down usa la longitud conocida del vehículo."
+          }
         }
       }
     },
@@ -729,6 +1135,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No Data"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin Datos"
           }
         }
       }
@@ -741,6 +1153,12 @@
             "state" : "translated",
             "value" : "No Entries"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin Registros"
+          }
         }
       }
     },
@@ -750,6 +1168,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Not Calibrated"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sin Calibrar"
           }
         }
       }
@@ -762,6 +1186,12 @@
             "state" : "translated",
             "value" : "Notes"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notas"
+          }
         }
       }
     },
@@ -773,6 +1203,12 @@
             "state" : "translated",
             "value" : "Notes (optional)"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Notas (opcional)"
+          }
         }
       }
     },
@@ -782,6 +1218,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Or use a standard lane width:"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O usa un ancho de carril estándar:"
           }
         }
       }
@@ -794,6 +1236,12 @@
             "state" : "translated",
             "value" : "Or Use Vehicle Reference"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "O Usa Referencia de Vehículo"
+          }
         }
       }
     },
@@ -804,6 +1252,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Over Limit"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobre el Límite"
           }
         }
       }
@@ -816,6 +1270,12 @@
             "state" : "translated",
             "value" : "Over Limit Only"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Solo Sobre el Límite"
+          }
         }
       }
     },
@@ -826,6 +1286,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Over Limit:"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sobre el Límite:"
           }
         }
       }
@@ -838,14 +1304,34 @@
             "state" : "translated",
             "value" : "Over?"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "¿Excede?"
+          }
         }
       }
     },
     "Pixel displacement: %.1f px" : {
-
+      "localizations" : {
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desplazamiento en píxeles: %.1f px"
+          }
+        }
+      }
     },
     "Pixel distance: %.1f px" : {
-
+      "localizations" : {
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distancia en píxeles: %.1f px"
+          }
+        }
+      }
     },
     "Record & Mark" : {
       "extractionState" : "stale",
@@ -854,6 +1340,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Record & Mark"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graba y Marca"
           }
         }
       }
@@ -866,6 +1358,12 @@
             "state" : "translated",
             "value" : "Record a short video of passing traffic. Pick two frames, then tap the same point on the vehicle in each frame. Slow Them Down calculates the speed from the displacement."
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Graba un video corto del tráfico. Elige dos cuadros, luego toca el mismo punto del vehículo en cada cuadro. Slow Them Down calcula la velocidad a partir del desplazamiento."
+          }
         }
       }
     },
@@ -876,6 +1374,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Record Video"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Grabar Video"
           }
         }
       }
@@ -888,6 +1392,12 @@
             "state" : "translated",
             "value" : "Report to Agency"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reportar a Agencia"
+          }
         }
       }
     },
@@ -898,6 +1408,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reports"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reportes"
           }
         }
       }
@@ -910,6 +1426,12 @@
             "state" : "translated",
             "value" : "Reset"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Restablecer"
+          }
         }
       }
     },
@@ -920,6 +1442,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Save Calibration"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar Calibración"
           }
         }
       }
@@ -932,6 +1460,12 @@
             "state" : "translated",
             "value" : "Save to Log"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Guardar en Registro"
+          }
         }
       }
     },
@@ -943,6 +1477,12 @@
             "state" : "translated",
             "value" : "Search streets or notes"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Buscar calles o notas"
+          }
         }
       }
     },
@@ -952,6 +1492,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Select Two Frames"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Selecciona Dos Cuadros"
           }
         }
       }
@@ -964,6 +1510,12 @@
             "state" : "translated",
             "value" : "Select Vehicle"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Seleccionar Vehículo"
+          }
         }
       }
     },
@@ -973,6 +1525,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Showing demo data"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Mostrando datos de demostración"
           }
         }
       }
@@ -985,6 +1543,12 @@
             "state" : "translated",
             "value" : "Skip"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Omitir"
+          }
         }
       }
     },
@@ -995,6 +1559,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed — just point, record, and mark."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Them Down estima la velocidad de los vehículos en tu calle usando video de tu teléfono. No necesitas pistola de radar — solo apunta, graba y marca."
           }
         }
       }
@@ -1007,6 +1577,12 @@
             "state" : "translated",
             "value" : "Slow Them Down Speed Report"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Reporte de Velocidad de Slow Them Down"
+          }
         }
       }
     },
@@ -1018,6 +1594,12 @@
             "state" : "translated",
             "value" : "Speed"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad"
+          }
         }
       }
     },
@@ -1027,6 +1609,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Speed Distribution"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Distribución de Velocidad"
           }
         }
       }
@@ -1039,6 +1627,12 @@
             "state" : "translated",
             "value" : "Speed distribution histogram"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Histograma de distribución de velocidad"
+          }
         }
       }
     },
@@ -1049,6 +1643,12 @@
             "state" : "translated",
             "value" : "Speed Limit"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Límite de Velocidad"
+          }
         }
       }
     },
@@ -1058,6 +1658,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Speeds Over Time"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidades a lo Largo del Tiempo"
           }
         }
       }
@@ -1070,6 +1676,12 @@
             "state" : "translated",
             "value" : "Speeds over time scatter chart"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Gráfica de dispersión de velocidades a lo largo del tiempo"
+          }
         }
       }
     },
@@ -1080,6 +1692,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Start Over"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Empezar de Nuevo"
           }
         }
       }
@@ -1092,6 +1710,12 @@
             "state" : "translated",
             "value" : "Std Deviation:"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Desviación Estándar:"
+          }
         }
       }
     },
@@ -1101,6 +1725,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Step 1: Select a reference image"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paso 1: Selecciona una imagen de referencia"
           }
         }
       }
@@ -1112,6 +1742,12 @@
             "state" : "translated",
             "value" : "Step 2: Tap two points with a known distance apart"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paso 2: Toca dos puntos con una distancia conocida entre ellos"
+          }
         }
       }
     },
@@ -1121,6 +1757,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Step 3: Enter the real-world distance"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Paso 3: Ingresa la distancia real"
           }
         }
       }
@@ -1133,6 +1775,12 @@
             "state" : "translated",
             "value" : "Street"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Calle"
+          }
         }
       }
     },
@@ -1142,6 +1790,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Take a photo of a scene with a known distance, then mark two points."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toma una foto de una escena con una distancia conocida, luego marca dos puntos."
           }
         }
       }
@@ -1153,6 +1807,12 @@
             "state" : "translated",
             "value" : "Tap on the vehicle to place a marker"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca el vehículo para colocar un marcador"
+          }
         }
       }
     },
@@ -1162,6 +1822,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tap the same point on the vehicle (e.g. front bumper)"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Toca el mismo punto del vehículo (ej. defensa delantera)"
           }
         }
       }
@@ -1174,16 +1840,35 @@
             "state" : "translated",
             "value" : "Time"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Hora"
+          }
         }
       }
     },
     "Time delta: %.3fs" : {
-
+      "localizations" : {
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Delta de tiempo: %.3fs"
+          }
+        }
+      }
     },
     "Total" : {
       "extractionState" : "stale",
       "localizations" : {
         "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total"
+          }
+        },
+        "es-MX" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total"
@@ -1199,6 +1884,12 @@
             "state" : "translated",
             "value" : "Total Entries:"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Total de Registros:"
+          }
         }
       }
     },
@@ -1209,6 +1900,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Track observations over time, calculate V85 speeds (the metric traffic engineers use), and export reports to share with local officials."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Registra observaciones a lo largo del tiempo, calcula velocidades V85 (la métrica que usan los ingenieros de tránsito) y exporta reportes para compartir con las autoridades locales."
           }
         }
       }
@@ -1221,6 +1918,12 @@
             "state" : "translated",
             "value" : "Units"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Unidades"
+          }
         }
       }
     },
@@ -1232,6 +1935,12 @@
             "state" : "translated",
             "value" : "Use vehicle as reference"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Usar vehículo como referencia"
+          }
         }
       }
     },
@@ -1241,6 +1950,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "V85 Speed"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad V85"
           }
         }
       }
@@ -1253,6 +1968,12 @@
             "state" : "translated",
             "value" : "V85 Speed:"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Velocidad V85:"
+          }
         }
       }
     },
@@ -1263,6 +1984,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vehicle"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vehículo"
           }
         }
       }
@@ -1275,6 +2002,12 @@
             "state" : "translated",
             "value" : "Vehicle Type"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tipo de Vehículo"
+          }
         }
       }
     },
@@ -1286,6 +2019,12 @@
             "state" : "translated",
             "value" : "Yes"
           }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sí"
+          }
         }
       }
     },
@@ -1295,6 +2034,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "You're all set to start capturing speeds."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ya estás listo para empezar a capturar velocidades."
           }
         }
       }
