@@ -228,7 +228,6 @@ jobs:
       - name: Build release AAB
         run: |
           ./gradlew :android:app:bundleRelease \
-            --no-configuration-cache \
             -PversionCode=$BUILD_NUMBER \
             -PversionName=$VERSION \
             -Pandroid.injected.signing.store.file=$RUNNER_TEMP/upload.jks \

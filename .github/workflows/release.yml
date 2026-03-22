@@ -142,7 +142,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Test and lint
-        run: ./gradlew :shared:allTests :android:app:testDebugUnitTest :android:app:lintRelease --no-configuration-cache
+        run: ./gradlew :shared:allTests :android:app:testDebugUnitTest :android:app:lintRelease
 
       - name: Decode keystore
         env:
@@ -153,7 +153,6 @@ jobs:
         run: |
           MARKETING_VERSION="${VERSION#v}"
           ./gradlew :android:app:assembleRelease :android:app:bundleRelease \
-            --no-configuration-cache \
             -PversionCode=${{ steps.build.outputs.build_number }} \
             -PversionName=$MARKETING_VERSION \
             -Pandroid.injected.signing.store.file=$RUNNER_TEMP/upload.jks \

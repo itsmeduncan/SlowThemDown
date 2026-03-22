@@ -40,7 +40,7 @@ jobs:
         uses: gradle/actions/setup-gradle@v5
 
       - name: Build, test, and lint
-        run: ./gradlew :shared:allTests :android:app:assembleDebug :android:app:testDebugUnitTest :android:app:lintDebug --no-configuration-cache
+        run: ./gradlew :shared:allTests :android:app:assembleDebug :android:app:testDebugUnitTest :android:app:lintDebug
 
       - name: Upload lint results
         if: always()
