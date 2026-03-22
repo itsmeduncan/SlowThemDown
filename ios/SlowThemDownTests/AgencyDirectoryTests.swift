@@ -117,6 +117,50 @@ struct AgencyDirectoryTests {
         #expect(result.count == 1)
     }
 
+    // MARK: - County normalization
+
+    @Test func matching_countyWithSuffix_matchesWithoutSuffix() {
+        let agencies = [
+            makeAgency(jurisdiction: .county, county: "Orange", state: "CA"),
+        ]
+        let result = filter(agencies, city: nil, county: "Orange County", state: "CA")
+        #expect(result.count == 1)
+    }
+
+    @Test func matching_countyWithoutSuffix_matchesWithSuffix() {
+        let agencies = [
+            makeAgency(jurisdiction: .county, county: "Orange County", state: "CA"),
+        ]
+        let result = filter(agencies, city: nil, county: "Orange", state: "CA")
+        #expect(result.count == 1)
+    }
+
+    @Test func matching_countyParish_matchesWithoutSuffix() {
+        let agencies = [
+            makeAgency(jurisdiction: .county, county: "Orleans", state: "LA"),
+        ]
+        let result = filter(agencies, city: nil, county: "Orleans Parish", state: "LA")
+        #expect(result.count == 1)
+    }
+
+    // MARK: - City normalization
+
+    @Test func matching_cityWithPrefix_matchesWithoutPrefix() {
+        let agencies = [
+            makeAgency(jurisdiction: .city, city: "San Clemente", state: "CA"),
+        ]
+        let result = filter(agencies, city: "City of San Clemente", county: nil, state: "CA")
+        #expect(result.count == 1)
+    }
+
+    @Test func matching_cityWithoutPrefix_matchesWithPrefix() {
+        let agencies = [
+            makeAgency(jurisdiction: .city, city: "City of San Clemente", state: "CA"),
+        ]
+        let result = filter(agencies, city: "San Clemente", county: nil, state: "CA")
+        #expect(result.count == 1)
+    }
+
     // MARK: - Helpers
 
     private func makeAgency(

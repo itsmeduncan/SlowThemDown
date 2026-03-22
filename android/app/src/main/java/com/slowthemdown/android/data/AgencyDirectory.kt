@@ -65,12 +65,30 @@ class AgencyDirectory @Inject constructor(
                         || agency.state.equals(state, ignoreCase = true)
                 if (!stateMatch) return@filter false
                 when (agency.jurisdiction) {
-                    "city" -> city != null && agency.city.equals(city, ignoreCase = true)
-                    "county" -> county != null && agency.county.equals(county, ignoreCase = true)
+                    "city" -> city != null && normalizeCity(agency.city ?: "") == normalizeCity(city)
+                    "county" -> county != null && normalizeCounty(agency.county ?: "") == normalizeCounty(county)
                     "state", "regional" -> true
                     else -> false
                 }
             }
+        }
+
+        /** Strip "City of" prefix geocoders sometimes add */
+        private fun normalizeCity(input: String): String {
+            var result = input
+            if (result.startsWith("City of ", ignoreCase = true)) {
+                result = result.drop(8)
+            }
+            return result.trim().lowercase()
+        }
+
+        /** Strip "County"/"Parish" suffix geocoders add (e.g., "Orange County" → "Orange") */
+        private fun normalizeCounty(input: String): String {
+            return input
+                .replace(Regex("\\s+County$", RegexOption.IGNORE_CASE), "")
+                .replace(Regex("\\s+Parish$", RegexOption.IGNORE_CASE), "")
+                .trim()
+                .lowercase()
         }
 
         private fun stateAbbreviation(input: String): String? {
