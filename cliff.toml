@@ -1,0 +1,63 @@
+# git-cliff configuration
+# https://git-cliff.org/docs/configuration
+
+[changelog]
+header = """
+# Changelog
+
+All notable changes to Slow Them Down are documented here.\n
+This changelog is automatically generated from the git history.\n
+"""
+body = """
+{% if version -%}
+## [{{ version | trim_start_matches(pat="v") }}](https://github.com/itsmeduncan/SlowThemDown/releases/tag/{{ version }}) — {{ timestamp | date(format="%Y-%m-%d") }}
+{% else -%}
+## Unreleased
+{% endif -%}
+
+{% for group, commits in commits | group_by(attribute="group") %}
+### {{ group | striptags | trim | upper_first }}
+{% for commit in commits %}
+- {{ commit.message | split(pat="\n") | first | trim }}
+{%- endfor %}
+{% endfor %}
+"""
+footer = ""
+trim = true
+
+[git]
+conventional_commits = false
+filter_unconventional = false
+split_commits = false
+protect_breaking_commits = false
+filter_commits = true
+tag_pattern = "v[0-9].*"
+sort_commits = "newest"
+
+commit_preprocessors = [
+  # Strip trailing periods
+  { pattern = '\.+$', replace = "" },
+  # Remove Co-Authored-By lines
+  { pattern = '\n\nCo-Authored-By:.*', replace = "" },
+]
+
+commit_parsers = [
+  { message = "^[Ff]ix", group = "Bug Fixes" },
+  { message = "^[Aa]dd", group = "Features" },
+  { message = "^[Ii]mplement", group = "Features" },
+  { message = "^[Ss]upport", group = "Features" },
+  { message = "^[Rr]efactor", group = "Refactoring" },
+  { message = "^[Uu]pdate", group = "Changes" },
+  { message = "^[Bb]ump", group = "Changes" },
+  { message = "^[Uu]pgrade", group = "Changes" },
+  { message = "^[Pp]olish", group = "Changes" },
+  { message = "^[Oo]ptimize", group = "Performance" },
+  { message = "^[Rr]emove", group = "Removed" },
+  { message = "^[Rr]estrict", group = "Changes" },
+  { message = "^[Mm]igrate", group = "Changes" },
+  { message = "^[Rr]ename", group = "Changes" },
+  { message = "^[Ss]eed", group = "Changes" },
+  { message = "^[Cc]alibration", group = "Changes" },
+  { message = "^[Pp]re-launch", group = "Changes" },
+  { message = ".*", group = "Other" },
+]
