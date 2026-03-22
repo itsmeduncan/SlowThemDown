@@ -1,4 +1,3 @@
-import Charts
 import CoreLocation
 import MessageUI
 import SwiftData
@@ -167,39 +166,11 @@ struct ReportView: View {
     // MARK: - Street Breakdown
 
     private var streetBreakdownSection: some View {
-        VStack(alignment: .leading, spacing: 12) {
-            Text("By Street")
-                .font(.headline)
-
-            ForEach(vm.streetGroups) { group in
-                Button {
-                    vm.selectStreet(group.name)
-                } label: {
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(group.name)
-                                .font(.subheadline)
-                                .fontWeight(.medium)
-                            Text("\(group.count) entries \u{00B7} Avg \(String(format: "%.1f", UnitConverter.displaySpeed(group.meanSpeed, system: measurementSystem))) \(UnitConverter.speedUnit(measurementSystem))")
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                        Spacer()
-                        Text(String(format: "%.0f%%", group.overLimitPercent))
-                            .font(.subheadline)
-                            .fontWeight(.semibold)
-                            .foregroundStyle(group.overLimitPercent > 50 ? .red : .green)
-                        Image(systemName: "chevron.right")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    }
-                    .padding()
-                    .background(Color(.systemGray6).opacity(0.3))
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                }
-                .buttonStyle(.plain)
-            }
-        }
+        StreetBreakdownView(
+            streetGroups: vm.streetGroups,
+            measurementSystem: measurementSystem,
+            onSelectStreet: { vm.selectStreet($0) }
+        )
     }
 
     // MARK: - V85 Section
@@ -240,67 +211,15 @@ struct ReportView: View {
     // MARK: - Charts
 
     private var histogramChart: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Speed Distribution")
-                .font(.headline)
-            Chart(vm.histogram) { bucket in
-                BarMark(
-                    x: .value("Speed Range", bucket.range),
-                    y: .value("Count", bucket.count)
-                )
-                .foregroundStyle(Color.accentColor.gradient)
-            }
-            .frame(height: 200)
-            .accessibilityLabel("Speed distribution histogram")
-        }
-        .padding()
-        .background(Color(.systemGray6).opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        HistogramChartView(histogram: vm.histogram)
     }
 
     private var hourlyChart: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Average Speed by Hour")
-                .font(.headline)
-            Chart(vm.hourlyAverages) { item in
-                LineMark(
-                    x: .value("Hour", item.hourLabel),
-                    y: .value("Avg Speed", UnitConverter.displaySpeed(item.averageSpeed, system: measurementSystem))
-                )
-                .foregroundStyle(Color.orange)
-                .interpolationMethod(.catmullRom)
-
-                PointMark(
-                    x: .value("Hour", item.hourLabel),
-                    y: .value("Avg Speed", UnitConverter.displaySpeed(item.averageSpeed, system: measurementSystem))
-                )
-                .foregroundStyle(Color.orange)
-            }
-            .frame(height: 200)
-            .accessibilityLabel("Average speed by hour of day chart")
-        }
-        .padding()
-        .background(Color(.systemGray6).opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        HourlyChartView(hourlyAverages: vm.hourlyAverages, measurementSystem: measurementSystem)
     }
 
     private var scatterChart: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Speeds Over Time")
-                .font(.headline)
-            Chart(vm.dailyEntries) { item in
-                PointMark(
-                    x: .value("Date", item.date),
-                    y: .value("Speed", UnitConverter.displaySpeed(item.speed, system: measurementSystem))
-                )
-                .foregroundStyle(Color.blue)
-            }
-            .frame(height: 200)
-            .accessibilityLabel("Speeds over time scatter chart")
-        }
-        .padding()
-        .background(Color(.systemGray6).opacity(0.3))
-        .clipShape(RoundedRectangle(cornerRadius: 12))
+        ScatterChartView(dailyEntries: vm.dailyEntries, measurementSystem: measurementSystem)
     }
 
     // MARK: - Helpers
