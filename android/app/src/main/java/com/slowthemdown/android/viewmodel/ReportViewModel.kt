@@ -284,10 +284,12 @@ class ReportViewModel @Inject constructor(
                 putExtra(Intent.EXTRA_STREAM, pdfUri)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
+            // TODO: Extract "Send Report" to strings.xml
             context.startActivity(Intent.createChooser(intent, "Send Report"))
         }
     }
 
+    // TODO: Extract email subject/body strings to strings.xml using application.getString(R.string.xxx)
     private fun agencyEmailSubject(
         entries: List<SpeedEntryEntity>,
         stats: TrafficStats,
@@ -374,6 +376,7 @@ class ReportViewModel @Inject constructor(
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
+        // TODO: Extract "Share Report" to strings.xml
         context.startActivity(Intent.createChooser(intent, "Share Report"))
     }
 }

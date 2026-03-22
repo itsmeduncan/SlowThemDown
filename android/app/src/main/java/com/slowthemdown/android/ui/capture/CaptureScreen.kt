@@ -61,6 +61,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
@@ -74,6 +75,7 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.slowthemdown.android.R
 import com.slowthemdown.android.service.HapticManager
 import com.slowthemdown.android.viewmodel.CaptureFlowState
 import com.slowthemdown.android.viewmodel.CaptureViewModel
@@ -163,7 +165,7 @@ private fun SelectSourceContent(viewModel: CaptureViewModel) {
         verticalArrangement = Arrangement.Center,
     ) {
         Text(
-            text = "Capture Speed",
+            text = stringResource(R.string.capture_title),
             style = MaterialTheme.typography.headlineLarge,
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -188,13 +190,13 @@ private fun SelectSourceContent(viewModel: CaptureViewModel) {
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "Not Calibrated",
+                        stringResource(R.string.capture_not_calibrated),
                         style = MaterialTheme.typography.titleSmall,
                         color = Color(0xFFFFC107),
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        "Use a vehicle reference during capture, or calibrate in Settings for more accurate results.",
+                        stringResource(R.string.capture_not_calibrated_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = Color(0xFFFFC107),
                         modifier = Modifier.fillMaxWidth(),
@@ -209,14 +211,14 @@ private fun SelectSourceContent(viewModel: CaptureViewModel) {
             onClick = { videoPickerLauncher.launch("video/*") },
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Import from Library")
+            Text(stringResource(R.string.capture_import_library))
         }
         Spacer(modifier = Modifier.height(16.dp))
         OutlinedButton(
             onClick = { cameraPermissionLauncher.launch(Manifest.permission.CAMERA) },
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Record Video")
+            Text(stringResource(R.string.capture_record_video))
         }
     }
 }
@@ -235,15 +237,15 @@ private fun FrameSelectorContent(viewModel: CaptureViewModel) {
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Select Frames", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.capture_select_frames), style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
-        Text("Frame 1: %.2fs".format(t1))
+        Text(stringResource(R.string.capture_frame_time, 1, t1))
         androidx.compose.material3.Slider(
             value = t1.toFloat(),
             onValueChange = { viewModel.setFrame1Time(it.toDouble()) },
             valueRange = 0f..duration.toFloat(),
         )
-        Text("Frame 2: %.2fs".format(t2))
+        Text(stringResource(R.string.capture_frame_time, 2, t2))
         androidx.compose.material3.Slider(
             value = t2.toFloat(),
             onValueChange = { viewModel.setFrame2Time(it.toDouble()) },
@@ -251,14 +253,14 @@ private fun FrameSelectorContent(viewModel: CaptureViewModel) {
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            "Time delta: %.3fs".format(timeDelta),
+            stringResource(R.string.capture_time_delta, timeDelta),
             style = MaterialTheme.typography.bodySmall,
             color = if (canExtract) MaterialTheme.colorScheme.onSurfaceVariant
             else MaterialTheme.colorScheme.error,
         )
         if (!canExtract) {
             Text(
-                "Frames must be at least 10ms apart",
+                stringResource(R.string.capture_frames_min_apart),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.error,
             )
@@ -268,11 +270,11 @@ private fun FrameSelectorContent(viewModel: CaptureViewModel) {
             onClick = { viewModel.extractFrames() },
             enabled = canExtract,
         ) {
-            Text("Extract Frames")
+            Text(stringResource(R.string.capture_extract_frames))
         }
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(onClick = { viewModel.reset() }) {
-            Text("Cancel")
+            Text(stringResource(R.string.capture_cancel))
         }
     }
 }
@@ -301,12 +303,12 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Text(
-            "Mark Frame $frameNumber",
+            stringResource(R.string.capture_mark_frame, frameNumber),
             style = MaterialTheme.typography.headlineMedium,
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
-            "Tap the vehicle position on Frame $frameNumber",
+            stringResource(R.string.capture_tap_vehicle_position, frameNumber),
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -325,7 +327,7 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
             )
         } else {
             Text(
-                "(Frame not available)",
+                stringResource(R.string.capture_frame_not_available),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -354,19 +356,19 @@ private fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
                 onClick = { viewModel.advanceToMarkFrame2() },
                 enabled = hasMarker,
             ) {
-                Text("Next: Mark Frame 2")
+                Text(stringResource(R.string.capture_next_mark_frame2))
             }
         } else {
             Button(
                 onClick = { viewModel.calculateSpeed() },
                 enabled = hasMarker,
             ) {
-                Text("Calculate Speed")
+                Text(stringResource(R.string.capture_calculate_speed))
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(onClick = { viewModel.reset() }) {
-            Text("Cancel")
+            Text(stringResource(R.string.capture_cancel))
         }
     }
 }
@@ -452,7 +454,7 @@ private fun VehicleReferenceSection(viewModel: CaptureViewModel, system: Measure
             onCheckedChange = { viewModel.setUseVehicleReference(it) },
         )
         Text(
-            "Use vehicle reference instead of calibration",
+            stringResource(R.string.capture_use_vehicle_reference),
             style = MaterialTheme.typography.bodyMedium,
         )
     }
@@ -461,8 +463,8 @@ private fun VehicleReferenceSection(viewModel: CaptureViewModel, system: Measure
         Spacer(modifier = Modifier.height(8.dp))
         OutlinedButton(onClick = { showPicker = true }) {
             Text(selectedRef?.let {
-                "${it.name} (${"%.1f".format(UnitConverter.displayDistance(it.lengthMeters, system))} $distUnit)"
-            } ?: "Select Vehicle")
+                stringResource(R.string.capture_vehicle_ref_label, it.name, UnitConverter.displayDistance(it.lengthMeters, system), distUnit)
+            } ?: stringResource(R.string.capture_select_vehicle))
         }
 
         DropdownMenu(
@@ -484,7 +486,7 @@ private fun VehicleReferenceSection(viewModel: CaptureViewModel, system: Measure
                 vehicles.forEach { vehicle ->
                     DropdownMenuItem(
                         text = {
-                            Text("  ${vehicle.name} (${"%.1f".format(UnitConverter.displayDistance(vehicle.lengthMeters, system))} $distUnit)")
+                            Text(stringResource(R.string.capture_vehicle_ref_item, vehicle.name, UnitConverter.displayDistance(vehicle.lengthMeters, system), distUnit))
                         },
                         onClick = {
                             viewModel.setSelectedVehicleRef(vehicle)
@@ -498,7 +500,7 @@ private fun VehicleReferenceSection(viewModel: CaptureViewModel, system: Measure
         if (selectedRef != null) {
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                "Tap the front and back of the vehicle on the frame above to mark its length",
+                stringResource(R.string.capture_tap_front_back),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -527,7 +529,7 @@ private fun VehicleRefMarkerOverlay(
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
-            "Mark vehicle ends (${selectedRef?.name ?: "vehicle"})",
+            stringResource(R.string.capture_mark_vehicle_ends, selectedRef?.name ?: "vehicle"),
             style = MaterialTheme.typography.bodySmall,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
         )
@@ -629,10 +631,10 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
             .padding(24.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Text("Estimated Speed", style = MaterialTheme.typography.headlineMedium)
+        Text(stringResource(R.string.capture_estimated_speed), style = MaterialTheme.typography.headlineMedium)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            "%.0f".format(displaySpeed),
+            stringResource(R.string.common_speed_format, displaySpeed),
             style = MaterialTheme.typography.displayLarge.copy(
                 fontWeight = FontWeight.Bold,
                 fontSize = 72.sp,
@@ -653,10 +655,10 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
             onExpandedChange = { speedLimitExpanded = it },
         ) {
             OutlinedTextField(
-                value = "$displaySpeedLimit $speedUnit",
+                value = stringResource(R.string.capture_speed_limit_value, displaySpeedLimit, speedUnit),
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Speed Limit") },
+                label = { Text(stringResource(R.string.capture_speed_limit_label)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = speedLimitExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -669,7 +671,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
                 speedLimits.forEach { limitMps ->
                     val displayLimit = UnitConverter.displaySpeed(limitMps, system).toInt()
                     DropdownMenuItem(
-                        text = { Text("$displayLimit $speedUnit") },
+                        text = { Text(stringResource(R.string.capture_speed_limit_value, displayLimit, speedUnit)) },
                         onClick = {
                             viewModel.setSpeedLimit(limitMps)
                             speedLimitExpanded = false
@@ -690,7 +692,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
                 value = vehicleType.label,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Vehicle Type") },
+                label = { Text(stringResource(R.string.capture_vehicle_type_label)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = vehicleTypeExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -723,7 +725,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
                 value = direction.label,
                 onValueChange = {},
                 readOnly = true,
-                label = { Text("Direction") },
+                label = { Text(stringResource(R.string.capture_direction_label)) },
                 trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = directionExpanded) },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -751,7 +753,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
         OutlinedTextField(
             value = streetName,
             onValueChange = { viewModel.setStreetName(it) },
-            label = { Text("Nearest Intersection") },
+            label = { Text(stringResource(R.string.capture_nearest_intersection)) },
             modifier = Modifier.fillMaxWidth(),
             singleLine = true,
         )
@@ -762,7 +764,7 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
         OutlinedTextField(
             value = notes,
             onValueChange = { viewModel.setNotes(it) },
-            label = { Text("Notes (optional)") },
+            label = { Text(stringResource(R.string.capture_notes_label)) },
             modifier = Modifier.fillMaxWidth(),
             minLines = 2,
             maxLines = 4,
@@ -776,18 +778,18 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
             horizontalAlignment = Alignment.Start,
         ) {
             Text(
-                "Measurement Details",
+                stringResource(R.string.capture_measurement_details),
                 style = MaterialTheme.typography.labelMedium.copy(fontWeight = FontWeight.Bold),
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Spacer(modifier = Modifier.height(4.dp))
             Text(
-                "Time delta: %.3fs".format(viewModel.timeDelta),
+                stringResource(R.string.capture_time_delta, viewModel.timeDelta),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
             Text(
-                "Pixel displacement: %.1f px".format(viewModel.pixelDisplacement),
+                stringResource(R.string.capture_pixel_displacement, viewModel.pixelDisplacement),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -799,14 +801,14 @@ private fun SpeedResultContent(viewModel: CaptureViewModel) {
             onClick = { viewModel.saveEntry() },
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Save to Log")
+            Text(stringResource(R.string.capture_save_to_log))
         }
         Spacer(modifier = Modifier.height(12.dp))
         OutlinedButton(
             onClick = { viewModel.reset() },
             modifier = Modifier.fillMaxWidth(),
         ) {
-            Text("Discard")
+            Text(stringResource(R.string.capture_discard))
         }
     }
 }
@@ -867,13 +869,13 @@ private fun RecordingContent(viewModel: CaptureViewModel) {
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Text(
-                "Recording...",
+                stringResource(R.string.capture_recording),
                 style = MaterialTheme.typography.headlineMedium,
                 color = Color.White,
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = { viewModel.reset() }) {
-                Text("Stop Recording")
+                Text(stringResource(R.string.capture_stop_recording))
             }
         }
     }

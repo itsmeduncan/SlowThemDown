@@ -19,7 +19,9 @@ import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.slowthemdown.android.R
 import com.slowthemdown.android.data.Agency
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -42,7 +44,7 @@ fun AgencyPickerSheet(
                 .navigationBarsPadding(),
         ) {
             Text(
-                "Report to Agency",
+                stringResource(R.string.agency_picker_title),
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 12.dp),
             )
@@ -56,12 +58,12 @@ fun AgencyPickerSheet(
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        "No Agencies Found",
+                        stringResource(R.string.agency_no_agencies),
                         style = MaterialTheme.typography.bodyLarge,
                     )
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
-                        "No agencies match this location yet. You can contribute one at github.com/itsmeduncan/SlowThemDown.",
+                        stringResource(R.string.agency_no_agencies_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

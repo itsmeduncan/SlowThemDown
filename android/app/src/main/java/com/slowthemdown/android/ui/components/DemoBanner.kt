@@ -14,7 +14,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import com.slowthemdown.android.R
 
 @Composable
 fun DemoBanner(onClear: () -> Unit) {
@@ -31,7 +33,7 @@ fun DemoBanner(onClear: () -> Unit) {
         )
         Spacer(modifier = Modifier.width(8.dp))
         Text(
-            "Showing demo data",
+            stringResource(R.string.demo_banner_text),
             style = MaterialTheme.typography.bodyMedium,
             color = Color(0xFF6D4C00),
             modifier = Modifier.weight(1f),
@@ -42,7 +44,7 @@ fun DemoBanner(onClear: () -> Unit) {
                 contentColor = MaterialTheme.colorScheme.error,
             ),
         ) {
-            Text("Clear")
+            Text(stringResource(R.string.demo_banner_clear))
         }
     }
 }

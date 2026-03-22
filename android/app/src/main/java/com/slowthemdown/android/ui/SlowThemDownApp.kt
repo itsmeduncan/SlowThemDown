@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -26,6 +27,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.slowthemdown.android.R
 import com.slowthemdown.android.ui.calibrate.CalibrateScreen
 import com.slowthemdown.android.ui.capture.CaptureScreen
 import com.slowthemdown.android.ui.log.LogScreen
@@ -40,11 +42,11 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-enum class Screen(val route: String, val title: String, val icon: ImageVector) {
-    Capture("capture", "Capture", Icons.Default.CameraAlt),
-    Log("log", "Log", Icons.AutoMirrored.Filled.List),
-    Reports("reports", "Reports", Icons.Default.BarChart),
-    Calibrate("calibrate", "Calibrate", Icons.Default.Settings),
+enum class Screen(val route: String, val titleRes: Int, val icon: ImageVector) {
+    Capture("capture", R.string.nav_capture, Icons.Default.CameraAlt),
+    Log("log", R.string.nav_log, Icons.AutoMirrored.Filled.List),
+    Reports("reports", R.string.nav_reports, Icons.Default.BarChart),
+    Calibrate("calibrate", R.string.nav_calibrate, Icons.Default.Settings),
 }
 
 private const val ONBOARDING_ROUTE = "onboarding"
@@ -87,8 +89,8 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
                 NavigationBar {
                     Screen.entries.forEach { screen ->
                         NavigationBarItem(
-                            icon = { Icon(screen.icon, contentDescription = screen.title) },
-                            label = { Text(screen.title) },
+                            icon = { Icon(screen.icon, contentDescription = stringResource(screen.titleRes)) },
+                            label = { Text(stringResource(screen.titleRes)) },
                             selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                             onClick = {
                                 navController.navigate(screen.route) {

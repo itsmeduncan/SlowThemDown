@@ -48,8 +48,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.slowthemdown.android.R
 import com.slowthemdown.android.data.db.SpeedEntryEntity
 import com.slowthemdown.android.ui.components.DemoBanner
 import com.slowthemdown.android.ui.components.SpeedBadge
@@ -95,18 +97,18 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 8.dp),
-            placeholder = { Text("Search streets and notes") },
+            placeholder = { Text(stringResource(R.string.log_search_placeholder)) },
             leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
             trailingIcon = {
                 Row {
                     if (searchText.isNotEmpty()) {
                         IconButton(onClick = { viewModel.setSearchText("") }) {
-                            Icon(Icons.Default.Close, contentDescription = "Clear search")
+                            Icon(Icons.Default.Close, contentDescription = stringResource(R.string.log_clear_search))
                         }
                     }
                     Box {
                         IconButton(onClick = { showFilterMenu = true }) {
-                            Icon(Icons.Default.FilterList, contentDescription = "Filters")
+                            Icon(Icons.Default.FilterList, contentDescription = stringResource(R.string.log_filters))
                         }
                         DropdownMenu(
                             expanded = showFilterMenu,
@@ -126,8 +128,8 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                                         Spacer(modifier = Modifier.width(8.dp))
                                         Text(
                                             if (sortOrder == SortOrder.NEWEST_FIRST)
-                                                "Newest First"
-                                            else "Oldest First"
+                                                stringResource(R.string.log_newest_first)
+                                            else stringResource(R.string.log_oldest_first)
                                         )
                                     }
                                 },
@@ -144,7 +146,7 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                                         FilterChip(
                                             selected = overLimitOnly,
                                             onClick = { viewModel.setOverLimitOnly(!overLimitOnly) },
-                                            label = { Text("Over Limit Only") },
+                                            label = { Text(stringResource(R.string.log_over_limit_only)) },
                                         )
                                     }
                                 },
@@ -160,7 +162,7 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         Icon(Icons.Default.DirectionsCar, contentDescription = null, modifier = Modifier.size(18.dp))
                                         Spacer(modifier = Modifier.width(8.dp))
-                                        Text(vehicleTypeFilter?.label ?: "All Vehicles")
+                                        Text(vehicleTypeFilter?.label ?: stringResource(R.string.log_all_vehicles))
                                     }
                                 },
                                 onClick = {},
@@ -168,7 +170,7 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                             // Show "All" option
                             if (vehicleTypeFilter != null) {
                                 DropdownMenuItem(
-                                    text = { Text("  All Vehicles") },
+                                    text = { Text("  ${stringResource(R.string.log_all_vehicles)}") },
                                     onClick = {
                                         viewModel.setVehicleTypeFilter(null)
                                         showFilterMenu = false
@@ -210,13 +212,13 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
-                    if (hasFilters) "No Matching Entries" else "No Entries",
+                    if (hasFilters) stringResource(R.string.log_no_matching_entries) else stringResource(R.string.log_no_entries),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    if (hasFilters) "Try adjusting your search or filters."
-                    else "Capture some speed measurements to build your log.",
+                    if (hasFilters) stringResource(R.string.log_no_matching_hint)
+                    else stringResource(R.string.log_no_entries_hint),
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -257,7 +259,7 @@ fun LogScreen(viewModel: LogViewModel = hiltViewModel()) {
                             ) {
                                 Icon(
                                     Icons.Default.Delete,
-                                    contentDescription = "Delete",
+                                    contentDescription = stringResource(R.string.log_delete),
                                     tint = Color.White,
                                 )
                             }
@@ -312,7 +314,7 @@ private fun SpeedEntryCard(
                     )
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        "$limitDisplay $speedUnit limit",
+                        stringResource(R.string.log_speed_limit, limitDisplay, speedUnit),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )

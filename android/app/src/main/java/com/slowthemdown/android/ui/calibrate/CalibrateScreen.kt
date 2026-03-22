@@ -56,6 +56,7 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.drawText
 import androidx.compose.ui.text.font.FontWeight
@@ -68,6 +69,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
+import com.slowthemdown.android.R
 import com.slowthemdown.android.viewmodel.CalibrationViewModel
 import com.slowthemdown.shared.calculator.CoordinateMapper
 import com.slowthemdown.shared.calculator.Point
@@ -122,14 +124,14 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                 onClick = { viewModel.setMeasurementSystem(MeasurementSystem.IMPERIAL) },
                 shape = SegmentedButtonDefaults.itemShape(index = 0, count = 2),
             ) {
-                Text("Imperial")
+                Text(stringResource(R.string.calibrate_imperial))
             }
             SegmentedButton(
                 selected = system == MeasurementSystem.METRIC,
                 onClick = { viewModel.setMeasurementSystem(MeasurementSystem.METRIC) },
                 shape = SegmentedButtonDefaults.itemShape(index = 1, count = 2),
             ) {
-                Text("Metric")
+                Text(stringResource(R.string.calibrate_metric))
             }
         }
 
@@ -150,16 +152,16 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                 ) {
                     if (calibration.isValid) {
                         Icon(Icons.Default.Check, contentDescription = null, tint = Color(0xFF4CAF50))
-                        Text("Calibrated", style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.calibrate_calibrated), style = MaterialTheme.typography.titleMedium)
                     } else {
                         Icon(Icons.Default.Warning, contentDescription = null, tint = Color(0xFFFFC107))
-                        Text("Not Calibrated", style = MaterialTheme.typography.titleMedium)
+                        Text(stringResource(R.string.calibrate_not_calibrated), style = MaterialTheme.typography.titleMedium)
                     }
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 if (calibration.isValid) {
                     Text(
-                        "%.1f %s".format(
+                        stringResource(R.string.calibrate_pixels_per_unit,
                             UnitConverter.displayPixelsPerUnit(calibration.pixelsPerMeter, system),
                             calUnit
                         ),
@@ -167,13 +169,15 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     Text(
-                        "Last calibrated: ${SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(calibration.timestampMillis))}",
+                        stringResource(R.string.calibrate_last_calibrated,
+                            SimpleDateFormat("MMM d, h:mm a", Locale.getDefault()).format(Date(calibration.timestampMillis))
+                        ),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                 } else {
                     Text(
-                        "Take a photo of a scene with a known distance, then mark two points.",
+                        stringResource(R.string.calibrate_instructions),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
@@ -186,7 +190,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                 onClick = { viewModel.clearCalibration() },
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Reset Calibration")
+                Text(stringResource(R.string.calibrate_reset))
             }
         }
 
@@ -209,14 +213,14 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                         tint = Color(0xFF4CAF50),
                         modifier = Modifier.size(48.dp),
                     )
-                    Text("Calibration Saved", style = MaterialTheme.typography.titleMedium)
+                    Text(stringResource(R.string.calibrate_saved), style = MaterialTheme.typography.titleMedium)
                     Text(
-                        "You're all set to start capturing speeds.",
+                        stringResource(R.string.calibrate_saved_hint),
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                     )
                     OutlinedButton(onClick = { showSavedConfirmation = false }) {
-                        Text("Calibrate Again")
+                        Text(stringResource(R.string.calibrate_again))
                     }
                 }
             }
@@ -224,21 +228,21 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
 
         // Step 1: Pick image
         if (bitmap == null && !showSavedConfirmation) {
-            Text("Step 1: Select a reference image", style = MaterialTheme.typography.titleMedium)
+            Text(stringResource(R.string.calibrate_step1_title), style = MaterialTheme.typography.titleMedium)
             Button(
                 onClick = {
                     photoPicker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
                 },
                 modifier = Modifier.fillMaxWidth(),
             ) {
-                Text("Choose Photo")
+                Text(stringResource(R.string.calibrate_choose_photo))
             }
         }
 
         // Step 2: Mark points on image
         if (bitmap != null) {
             Text(
-                "Step 2: Tap two points with a known distance apart",
+                stringResource(R.string.calibrate_step2_title),
                 style = MaterialTheme.typography.titleMedium,
             )
 
@@ -251,7 +255,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
 
             if (markers.size == 2) {
                 Text(
-                    "Pixel distance: %.1f px".format(pixelDist),
+                    stringResource(R.string.calibrate_pixel_distance, pixelDist),
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
@@ -259,16 +263,16 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 OutlinedButton(onClick = { viewModel.resetMarkers() }) {
-                    Text("Clear Markers")
+                    Text(stringResource(R.string.calibrate_clear_markers))
                 }
                 OutlinedButton(onClick = { viewModel.clearImage() }) {
-                    Text("Change Photo")
+                    Text(stringResource(R.string.calibrate_change_photo))
                 }
             }
 
             // Step 3: Enter distance
             Text(
-                "Step 3: Enter the real-world distance",
+                stringResource(R.string.calibrate_step3_title),
                 style = MaterialTheme.typography.titleMedium,
             )
 
@@ -284,7 +288,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                             viewModel.setReferenceDistance(UnitConverter.distanceToMeters(d, system))
                         }
                     },
-                    label = { Text("Distance in $distUnit") },
+                    label = { Text(stringResource(R.string.calibrate_distance_in, distUnit)) },
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Decimal),
                     modifier = Modifier.weight(1f),
                     singleLine = true,
@@ -293,7 +297,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
             }
 
             Text(
-                "Or use a standard lane width:",
+                stringResource(R.string.calibrate_lane_width_hint),
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
             )
@@ -322,7 +326,7 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
                 modifier = Modifier.fillMaxWidth(),
                 enabled = canSave,
             ) {
-                Text("Save Calibration")
+                Text(stringResource(R.string.calibrate_save))
             }
         }
     }
