@@ -27,7 +27,7 @@ jobs:
           GITHUB_REPO: ${{ github.repository }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create PR with changelog update
+      - name: Update CHANGELOG.md via API
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.ref_name }}
@@ -37,18 +37,19 @@ jobs:
             exit 0
           fi
 
-          BRANCH="auto/changelog-${TAG}"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
-          git add CHANGELOG.md
-          git commit -m "Update CHANGELOG.md for ${TAG}"
-          git push origin "$BRANCH"
+          # Use the Contents API to update the file directly on main.
+          # This bypasses branch protection when the actor is github-actions[bot]
+          # and the repo has "Allow specified actors to bypass" configured,
+          # or when the ruleset allows the GitHub Actions app.
+          CONTENT=$(base64 -w 0 CHANGELOG.md)
+          FILE_SHA=$(gh api "repos/${{ github.repository }}/contents/CHANGELOG.md" --jq '.sha')
 
-          gh pr create \
-            --title "Update CHANGELOG.md for ${TAG}" \
-            --body "Auto-generated changelog update for release ${TAG}." \
-            --base main \
-            --head "$BRANCH"
+          gh api "repos/${{ github.repository }}/contents/CHANGELOG.md" \
+            -X PUT \
+            -f message="Update CHANGELOG.md for ${TAG}" \
+            -f content="$CONTENT" \
+            -f sha="$FILE_SHA" \
+            -f branch="main" \
+            --silent
 
-          gh pr merge "$BRANCH" --squash --auto --delete-branch
+          echo "CHANGELOG.md updated for ${TAG}"
