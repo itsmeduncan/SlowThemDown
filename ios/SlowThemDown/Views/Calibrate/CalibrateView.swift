@@ -142,6 +142,7 @@ struct CalibrateView: View {
                         vm.selectedImage = await PIIBlurService.blurPII(in: image)
                         vm.imageSize = image.size
                         vm.resetMarkers()
+                        selectedItem = nil
                     }
                 }
             }
@@ -179,6 +180,7 @@ struct CalibrateView: View {
                 .buttonStyle(.bordered)
 
                 Button("Change Photo") {
+                    selectedItem = nil
                     vm.selectedImage = nil
                     vm.resetMarkers()
                 }
