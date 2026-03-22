@@ -1,11 +1,18 @@
 package com.slowthemdown.android.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
 import androidx.compose.material.icons.automirrored.filled.List
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.BarChart
+import androidx.compose.material.icons.filled.Warning
+import androidx.compose.material3.BadgedBox
 import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
@@ -17,10 +24,14 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
@@ -36,9 +47,14 @@ import com.slowthemdown.android.ui.onboarding.OnboardingStore
 import com.slowthemdown.android.ui.reports.ReportScreen
 import android.app.Application
 import com.slowthemdown.android.BuildConfig
+import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.data.db.SpeedEntryDao
 import com.slowthemdown.android.debug.SeedData
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -54,9 +70,14 @@ private const val ONBOARDING_ROUTE = "onboarding"
 @HiltViewModel
 class AppViewModel @Inject constructor(
     val onboardingStore: OnboardingStore,
+    calibrationStore: CalibrationStore,
     private val speedEntryDao: SpeedEntryDao,
     private val application: Application,
 ) : ViewModel() {
+    val isCalibrated: StateFlow<Boolean> = calibrationStore.calibration
+        .map { it.isValid }
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
+
     suspend fun seedDemoDataIfDebug() {
         if (BuildConfig.DEBUG) {
             SeedData.seedIfEmpty(speedEntryDao, application)
@@ -72,6 +93,7 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
     val scope = rememberCoroutineScope()
 
     val onboardingCompleted by viewModel.onboardingStore.isCompleted.collectAsState(initial = null)
+    val isCalibrated by viewModel.isCalibrated.collectAsState()
 
     // Seed demo data on first launch (debug builds only)
     LaunchedEffect(Unit) {
@@ -89,7 +111,33 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
                 NavigationBar {
                     Screen.entries.forEach { screen ->
                         NavigationBarItem(
-                            icon = { Icon(screen.icon, contentDescription = stringResource(screen.titleRes)) },
+                            icon = {
+                                if (screen == Screen.Calibrate) {
+                                    BadgedBox(
+                                        badge = {
+                                            Box(
+                                                modifier = Modifier
+                                                    .size(8.dp)
+                                                    .clip(CircleShape)
+                                                    .background(
+                                                        if (isCalibrated) Color(0xFF4CAF50)
+                                                        else Color(0xFFFF9800)
+                                                    )
+                                            )
+                                        }
+                                    ) {
+                                        Icon(
+                                            if (isCalibrated) Icons.Default.CheckCircle
+                                            else Icons.Default.Warning,
+                                            contentDescription = stringResource(screen.titleRes),
+                                            tint = if (isCalibrated) Color(0xFF4CAF50)
+                                                else Color(0xFFFF9800)
+                                        )
+                                    }
+                                } else {
+                                    Icon(screen.icon, contentDescription = stringResource(screen.titleRes))
+                                }
+                            },
                             label = { Text(stringResource(screen.titleRes)) },
                             selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                             onClick = {
