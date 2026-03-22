@@ -108,6 +108,45 @@ class AgencyDirectoryTest {
         assertEquals(1, result.size)
     }
 
+    // County normalization
+
+    @Test
+    fun matching_countyWithSuffix_matchesWithoutSuffix() {
+        val agencies = listOf(makeAgency(jurisdiction = "county", county = "Orange", state = "CA"))
+        val result = filterAgencies(agencies, city = null, county = "Orange County", state = "CA")
+        assertEquals(1, result.size)
+    }
+
+    @Test
+    fun matching_countyWithoutSuffix_matchesWithSuffix() {
+        val agencies = listOf(makeAgency(jurisdiction = "county", county = "Orange County", state = "CA"))
+        val result = filterAgencies(agencies, city = null, county = "Orange", state = "CA")
+        assertEquals(1, result.size)
+    }
+
+    @Test
+    fun matching_countyParish_matchesWithoutSuffix() {
+        val agencies = listOf(makeAgency(jurisdiction = "county", county = "Orleans", state = "LA"))
+        val result = filterAgencies(agencies, city = null, county = "Orleans Parish", state = "LA")
+        assertEquals(1, result.size)
+    }
+
+    // City normalization
+
+    @Test
+    fun matching_cityWithPrefix_matchesWithoutPrefix() {
+        val agencies = listOf(makeAgency(jurisdiction = "city", city = "San Clemente", state = "CA"))
+        val result = filterAgencies(agencies, city = "City of San Clemente", county = null, state = "CA")
+        assertEquals(1, result.size)
+    }
+
+    @Test
+    fun matching_cityWithoutPrefix_matchesWithPrefix() {
+        val agencies = listOf(makeAgency(jurisdiction = "city", city = "City of San Clemente", state = "CA"))
+        val result = filterAgencies(agencies, city = "San Clemente", county = null, state = "CA")
+        assertEquals(1, result.size)
+    }
+
     private fun filterAgencies(
         agencies: List<Agency>,
         city: String?,

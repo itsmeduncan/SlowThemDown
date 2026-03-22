@@ -41,14 +41,34 @@ enum AgencyDirectory {
             switch agency.jurisdiction {
             case .city:
                 guard let city else { return false }
-                return agency.city?.localizedCaseInsensitiveCompare(city) == .orderedSame
+                let normalizedCity = normalizeCity(city)
+                return agency.city.map { normalizeCity($0) == normalizedCity } ?? false
             case .county:
                 guard let county else { return false }
-                return agency.county?.localizedCaseInsensitiveCompare(county) == .orderedSame
+                let normalizedCounty = normalizeCounty(county)
+                return agency.county.map { normalizeCounty($0) == normalizedCounty } ?? false
             case .state, .regional:
                 return true
             }
         }
+    }
+
+    /// Strip "City of" prefix geocoders sometimes add
+    private static func normalizeCity(_ input: String) -> String {
+        var result = input
+        if result.lowercased().hasPrefix("city of ") {
+            result = String(result.dropFirst(8))
+        }
+        return result.trimmingCharacters(in: .whitespaces).lowercased()
+    }
+
+    /// Strip common suffixes geocoders add (e.g., "Orange County" → "Orange")
+    private static func normalizeCounty(_ input: String) -> String {
+        input
+            .replacingOccurrences(of: " County", with: "", options: .caseInsensitive)
+            .replacingOccurrences(of: " Parish", with: "", options: .caseInsensitive)
+            .trimmingCharacters(in: .whitespaces)
+            .lowercased()
     }
 
     private static func stateAbbreviation(_ input: String) -> String? {
