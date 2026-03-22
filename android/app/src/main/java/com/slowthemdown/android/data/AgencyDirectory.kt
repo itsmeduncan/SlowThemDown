@@ -1,6 +1,7 @@
 package com.slowthemdown.android.data
 
 import android.content.Context
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import dagger.hilt.android.qualifiers.ApplicationContext
 import org.json.JSONArray
 import javax.inject.Inject
@@ -40,7 +41,8 @@ class AgencyDirectory @Inject constructor(
                     notes = obj.optString("notes").ifEmpty { null },
                 )
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
+            FirebaseCrashlytics.getInstance().recordException(e)
             emptyList()
         }
     }

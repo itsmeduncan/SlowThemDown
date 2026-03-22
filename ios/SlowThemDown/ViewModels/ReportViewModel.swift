@@ -36,6 +36,7 @@ struct StreetGroup: Identifiable {
     let overLimitPercent: Double
 }
 
+@MainActor
 @Observable
 final class ReportViewModel {
     var entries: [SpeedEntry] = []

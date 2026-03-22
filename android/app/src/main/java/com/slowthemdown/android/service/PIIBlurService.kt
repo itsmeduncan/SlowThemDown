@@ -3,6 +3,7 @@ package com.slowthemdown.android.service
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Rect
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.face.FaceDetector
 import com.google.mlkit.vision.text.TextRecognizer
@@ -35,14 +36,16 @@ class PIIBlurService @Inject constructor(
             val facesDeferred = async {
                 try {
                     faceDetector.process(inputImage).await()
-                } catch (_: Exception) {
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                     emptyList()
                 }
             }
             val textDeferred = async {
                 try {
                     textRecognizer.process(inputImage).await()
-                } catch (_: Exception) {
+                } catch (e: Exception) {
+                    FirebaseCrashlytics.getInstance().recordException(e)
                     null
                 }
             }

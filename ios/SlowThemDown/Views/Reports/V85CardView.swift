@@ -38,5 +38,7 @@ struct V85CardView: View {
         .frame(maxWidth: .infinity)
         .background(Color(.systemGray6).opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 16))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("V85 speed: \(Int(UnitConverter.displaySpeed(v85, system: system))) \(UnitConverter.speedUnit(system)), \(isOverLimit ? "exceeds" : "within") the speed limit")
     }
 }

@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.slowthemdown.android.data.datastore.Calibration
 import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.data.db.SpeedEntryDao
@@ -139,7 +140,8 @@ class CaptureViewModel @Inject constructor(
                 _frame1Time.value = 0.0
                 _frame2Time.value = min(0.5, _videoDurationSeconds.value)
                 _state.value = CaptureFlowState.SELECT_FRAMES
-            } catch (_: Exception) {
+            } catch (e: Exception) {
+                FirebaseCrashlytics.getInstance().recordException(e)
                 _state.value = CaptureFlowState.SELECT_SOURCE
             }
         }
@@ -158,7 +160,9 @@ class CaptureViewModel @Inject constructor(
                 _frame2Marker.value = null
                 _vehicleRefMarkers.value = emptyList()
                 _state.value = CaptureFlowState.MARK_FRAME1
-            } catch (_: Exception) { /* stay on frame selection */ }
+            } catch (e: Exception) {
+                FirebaseCrashlytics.getInstance().recordException(e)
+            }
         }
     }
 

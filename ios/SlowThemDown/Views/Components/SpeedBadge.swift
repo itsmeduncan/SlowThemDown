@@ -28,5 +28,7 @@ struct SpeedBadge: View {
             .padding(.horizontal, 12)
             .padding(.vertical, 6)
             .background(color, in: RoundedRectangle(cornerRadius: 8))
+            .accessibilityElement(children: .combine)
+            .accessibilityLabel("\(Int(UnitConverter.displaySpeed(speed, system: system))) \(UnitConverter.speedUnit(system)), \(category.label)")
     }
 }

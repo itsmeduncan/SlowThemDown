@@ -22,5 +22,7 @@ struct MetricCard: View {
         .padding()
         .background(Color(.systemGray6).opacity(0.3))
         .clipShape(RoundedRectangle(cornerRadius: 12))
+        .accessibilityElement(children: .combine)
+        .accessibilityLabel("\(title): \(value) \(unit)")
     }
 }
