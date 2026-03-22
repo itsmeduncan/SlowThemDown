@@ -8,14 +8,15 @@ struct ReportView: View {
     @Query(sort: \SpeedEntry.timestamp, order: .reverse) private var entries: [SpeedEntry]
     @State private var vm = ReportViewModel()
     @State private var showShareSheet = false
-    @State private var shareURL: URL?
+    @State private var shareItems: [Any] = []
     @State private var isExporting = false
     @State private var showingDemoData = SeedData.isSeeded
-    @State private var showAgencyPicker = false
+    @State private var agencyPickerItem: AgencyPickerItem?
     @State private var showMailComposer = false
     @State private var selectedAgency: Agency?
     @State private var agencyPdfURL: URL?
-    @State private var matchedAgencies: [Agency] = []
+    @State private var agencyCsvURL: URL?
+    @State private var locationManager = LocationManager()
 
     @AppStorage("measurementSystem") private var measurementSystemRaw: String = MeasurementSystem.deviceDefault.rawValue
 
@@ -101,13 +102,11 @@ struct ReportView: View {
                 }
             }
             .sheet(isPresented: $showShareSheet) {
-                if let url = shareURL {
-                    ShareSheet(items: [url])
-                }
+                ShareSheet(items: shareItems)
             }
-            .sheet(isPresented: $showAgencyPicker) {
+            .sheet(item: $agencyPickerItem) { item in
                 AgencyPickerView(
-                    agencies: matchedAgencies
+                    agencies: item.agencies
                 ) { agency in
                     prepareAgencyEmail(agency: agency)
                 }
@@ -118,7 +117,7 @@ struct ReportView: View {
                         recipient: agency.email,
                         subject: agencyEmailSubject(),
                         body: agencyEmailBody(agency: agency),
-                        attachmentURL: agencyPdfURL
+                        attachmentURLs: [agencyPdfURL, agencyCsvURL].compactMap { $0 }
                     )
                 }
             }
@@ -127,6 +126,7 @@ struct ReportView: View {
             }
             .onAppear {
                 vm.update(with: entries)
+                locationManager.requestPermission()
             }
         }
     }
@@ -240,7 +240,7 @@ struct ReportView: View {
             await MainActor.run {
                 isExporting = false
                 if let url {
-                    shareURL = url
+                    shareItems = [url]
                     showShareSheet = true
                 }
             }
@@ -257,7 +257,7 @@ struct ReportView: View {
             await MainActor.run {
                 isExporting = false
                 if let url {
-                    shareURL = url
+                    shareItems = [url]
                     showShareSheet = true
                 }
             }
@@ -270,25 +270,45 @@ struct ReportView: View {
         let active = vm.filteredEntries
         let located = active.filter { $0.latitude != nil && $0.longitude != nil }
 
-        if let coord = mostCommonCoordinate(from: located) {
-            Task {
-                let location = CLLocation(latitude: coord.0, longitude: coord.1)
-                let geocoder = CLGeocoder()
-                if let placemark = try? await geocoder.reverseGeocodeLocation(location).first {
-                    let city = placemark.locality
-                    let county = placemark.subAdministrativeArea
-                    let state = placemark.administrativeArea
-                    matchedAgencies = AgencyDirectory.matching(city: city, county: county, state: state)
-                } else {
-                    matchedAgencies = AgencyDirectory.load()
-                }
-                showAgencyPicker = true
-            }
-        } else {
-            // No coordinates on entries — show all agencies
-            matchedAgencies = AgencyDirectory.load()
-            showAgencyPicker = true
+        Task {
+            let agencies = await resolveAgencies(located: located)
+            agencyPickerItem = AgencyPickerItem(agencies: agencies)
         }
+    }
+
+    private func resolveAgencies(located: [SpeedEntry]) async -> [Agency] {
+        let geocoder = CLGeocoder()
+
+        // First: try entry coordinates
+        if let coord = mostCommonCoordinate(from: located) {
+            let location = CLLocation(latitude: coord.0, longitude: coord.1)
+            if let agencies = await matchAgencies(geocoder: geocoder, location: location),
+               !agencies.isEmpty {
+                return agencies
+            }
+        }
+
+        // Fallback: try current GPS location
+        if let current = locationManager.currentLocation {
+            if let agencies = await matchAgencies(geocoder: geocoder, location: current),
+               !agencies.isEmpty {
+                return agencies
+            }
+        }
+
+        // No matches from either source — show all agencies
+        return AgencyDirectory.load()
+    }
+
+    private func matchAgencies(geocoder: CLGeocoder, location: CLLocation) async -> [Agency]? {
+        guard let placemark = try? await geocoder.reverseGeocodeLocation(location).first else {
+            return nil
+        }
+        return AgencyDirectory.matching(
+            city: placemark.locality,
+            county: placemark.subAdministrativeArea,
+            state: placemark.administrativeArea
+        )
     }
 
     private func mostCommonCoordinate(from entries: [SpeedEntry]) -> (Double, Double)? {
@@ -314,14 +334,20 @@ struct ReportView: View {
         let system = measurementSystem
         isExporting = true
         Task.detached {
-            let url = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats, system: system)
+            let pdfURL = ReportExporter.pdfFileURL(entries: capturedEntries, stats: stats, system: system)
+            let csvURL = ReportExporter.csvFileURL(entries: capturedEntries, system: system)
             await MainActor.run {
-                agencyPdfURL = url
+                agencyPdfURL = pdfURL
+                agencyCsvURL = csvURL
                 isExporting = false
                 if MFMailComposeViewController.canSendMail() {
                     showMailComposer = true
                 } else {
-                    openMailtoFallback(agency: agency)
+                    var items: [Any] = [agencyEmailBody(agency: agency)]
+                    if let pdf = pdfURL { items.append(pdf) }
+                    if let csv = csvURL { items.append(csv) }
+                    shareItems = items
+                    showShareSheet = true
                 }
             }
         }
@@ -382,13 +408,6 @@ struct ReportView: View {
         return counts.max(by: { $0.value < $1.value })?.key ?? "Unknown Street"
     }
 
-    private func openMailtoFallback(agency: Agency) {
-        let subject = agencyEmailSubject().addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        let body = agencyEmailBody(agency: agency).addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed) ?? ""
-        if let url = URL(string: "mailto:\(agency.email)?subject=\(subject)&body=\(body)") {
-            UIApplication.shared.open(url)
-        }
-    }
 }
 
 // MARK: - ShareSheet

@@ -1,6 +1,11 @@
 import MessageUI
 import SwiftUI
 
+struct AgencyPickerItem: Identifiable {
+    let id = UUID()
+    let agencies: [Agency]
+}
+
 struct AgencyPickerView: View {
     let agencies: [Agency]
     let onSelect: (Agency) -> Void
@@ -58,7 +63,7 @@ struct MailComposerView: UIViewControllerRepresentable {
     let recipient: String
     let subject: String
     let body: String
-    let attachmentURL: URL?
+    let attachmentURLs: [URL]
     @Environment(\.dismiss) private var dismiss
 
     func makeCoordinator() -> Coordinator {
@@ -71,9 +76,10 @@ struct MailComposerView: UIViewControllerRepresentable {
         vc.setToRecipients([recipient])
         vc.setSubject(subject)
         vc.setMessageBody(body, isHTML: false)
-        if let url = attachmentURL,
-           let data = try? Data(contentsOf: url) {
-            vc.addAttachmentData(data, mimeType: "application/pdf", fileName: url.lastPathComponent)
+        for url in attachmentURLs {
+            guard let data = try? Data(contentsOf: url) else { continue }
+            let mimeType = url.pathExtension == "csv" ? "text/csv" : "application/pdf"
+            vc.addAttachmentData(data, mimeType: mimeType, fileName: url.lastPathComponent)
         }
         return vc
     }

@@ -9,6 +9,7 @@ struct CaptureView: View {
     @State private var showVideoPicker = false
     @State private var showCamera = false
     @State private var showVehicleRefPicker = false
+    @State private var showSavedConfirmation = false
 
     var body: some View {
         NavigationStack {
@@ -78,8 +79,7 @@ struct CaptureView: View {
                 }
             }
             .sheet(isPresented: $showVideoPicker) {
-                VideoRecorderView(
-                    sourceType: .photoLibrary,
+                VideoLibraryPicker(
                     onVideoSelected: { url in
                         showVideoPicker = false
                         Task { await vm.loadVideo(url: url) }
@@ -89,7 +89,6 @@ struct CaptureView: View {
             }
             .sheet(isPresented: $showCamera) {
                 VideoRecorderView(
-                    sourceType: .camera,
                     onVideoSelected: { url in
                         showCamera = false
                         Task { await vm.loadVideo(url: url) }
@@ -112,6 +111,20 @@ struct CaptureView: View {
                                 .disabled(vm.selectedVehicleRef == nil)
                             }
                         }
+                }
+            }
+            .overlay {
+                if showSavedConfirmation {
+                    VStack(spacing: 8) {
+                        Image(systemName: "checkmark.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundStyle(.green)
+                        Text("Capture Logged")
+                            .font(.headline)
+                    }
+                    .padding(24)
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                    .transition(.opacity)
                 }
             }
             .onAppear {
@@ -178,5 +191,10 @@ struct CaptureView: View {
         modelContext.insert(entry)
         HapticManager.notification(.success)
         vm.reset()
+        withAnimation { showSavedConfirmation = true }
+        Task {
+            try? await Task.sleep(for: .seconds(1.5))
+            withAnimation { showSavedConfirmation = false }
+        }
     }
 }

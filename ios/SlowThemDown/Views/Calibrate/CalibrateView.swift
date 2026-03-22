@@ -120,7 +120,7 @@ struct CalibrateView: View {
             Text("Step 1: Select a reference image")
                 .font(.headline)
 
-            PhotosPicker(selection: $selectedItem, matching: .images) {
+            PhotosPicker(selection: $selectedItem, matching: .all(of: [.images, .not(.livePhotos)])) {
                 Label("Choose Photo", systemImage: "photo.on.rectangle")
                     .frame(maxWidth: .infinity)
                     .padding()

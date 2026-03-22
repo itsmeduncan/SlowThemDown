@@ -147,6 +147,92 @@ class AgencyDirectoryTest {
         assertEquals(1, result.size)
     }
 
+    // Realistic geocoder scenarios
+
+    @Test
+    fun matching_sanClemente_returnsAllThreeTiers() {
+        val agencies = listOf(
+            makeAgency(name = "City PW", jurisdiction = "city", city = "San Clemente", county = "Orange", state = "CA"),
+            makeAgency(name = "County PW", jurisdiction = "county", county = "Orange", state = "CA"),
+            makeAgency(name = "State DOT", jurisdiction = "state", state = "CA"),
+            makeAgency(name = "Other City", jurisdiction = "city", city = "Dana Point", state = "CA"),
+        )
+        val result = filterAgencies(agencies, city = "San Clemente", county = "Orange County", state = "California")
+        assertEquals(3, result.size)
+        assertTrue(result.any { it.name == "City PW" })
+        assertTrue(result.any { it.name == "County PW" })
+        assertTrue(result.any { it.name == "State DOT" })
+    }
+
+    @Test
+    fun matching_stateAbbreviationInput_matchesAbbreviation() {
+        val agencies = listOf(makeAgency(jurisdiction = "state", state = "CA"))
+        val result = filterAgencies(agencies, city = null, county = null, state = "CA")
+        assertEquals(1, result.size)
+    }
+
+    @Test
+    fun matching_cupertino_returnsOnlyStateLevel() {
+        val agencies = listOf(
+            makeAgency(name = "San Clemente PW", jurisdiction = "city", city = "San Clemente", state = "CA"),
+            makeAgency(name = "OC PW", jurisdiction = "county", county = "Orange", state = "CA"),
+            makeAgency(name = "Caltrans", jurisdiction = "state", state = "CA"),
+        )
+        val result = filterAgencies(agencies, city = "Cupertino", county = "Santa Clara County", state = "California")
+        assertEquals(1, result.size)
+        assertEquals("Caltrans", result.first().name)
+    }
+
+    // Empty and malformed inputs
+
+    @Test
+    fun matching_emptyStringCity_doesNotMatchCityAgency() {
+        val agencies = listOf(makeAgency(jurisdiction = "city", city = "Portland", state = "OR"))
+        val result = filterAgencies(agencies, city = "", county = null, state = "OR")
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun matching_emptyStringCounty_doesNotMatchCountyAgency() {
+        val agencies = listOf(makeAgency(jurisdiction = "county", county = "Multnomah", state = "OR"))
+        val result = filterAgencies(agencies, city = null, county = "", state = "OR")
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun matching_emptyAgencyList_returnsEmpty() {
+        val result = filterAgencies(emptyList(), city = "Portland", county = "Multnomah", state = "OR")
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun matching_cityAgencyWithNullCity_doesNotMatch() {
+        val agencies = listOf(makeAgency(jurisdiction = "city", city = null, state = "OR"))
+        val result = filterAgencies(agencies, city = "Portland", county = null, state = "OR")
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun matching_countyAgencyWithNullCounty_doesNotMatch() {
+        val agencies = listOf(makeAgency(jurisdiction = "county", county = null, state = "OR"))
+        val result = filterAgencies(agencies, city = null, county = "Multnomah", state = "OR")
+        assertTrue(result.isEmpty())
+    }
+
+    @Test
+    fun matching_whitespaceInCity_stillMatches() {
+        val agencies = listOf(makeAgency(jurisdiction = "city", city = "San Clemente", state = "CA"))
+        val result = filterAgencies(agencies, city = " San Clemente ", county = null, state = "CA")
+        assertEquals(1, result.size)
+    }
+
+    @Test
+    fun matching_whitespaceInCounty_stillMatches() {
+        val agencies = listOf(makeAgency(jurisdiction = "county", county = "Orange", state = "CA"))
+        val result = filterAgencies(agencies, city = null, county = " Orange County ", state = "CA")
+        assertEquals(1, result.size)
+    }
+
     private fun filterAgencies(
         agencies: List<Agency>,
         city: String?,

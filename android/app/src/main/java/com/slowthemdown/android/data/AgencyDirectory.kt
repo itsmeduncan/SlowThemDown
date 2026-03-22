@@ -50,6 +50,8 @@ class AgencyDirectory @Inject constructor(
     fun matching(city: String?, county: String?, state: String?): List<Agency> =
         matchAgencies(agencies, city, county, state)
 
+    fun all(): List<Agency> = agencies
+
     companion object {
         /** Testable matching logic that works on any agency list */
         fun matchAgencies(
@@ -84,7 +86,7 @@ class AgencyDirectory @Inject constructor(
 
         /** Strip "County"/"Parish" suffix geocoders add (e.g., "Orange County" → "Orange") */
         private fun normalizeCounty(input: String): String {
-            return input
+            return input.trim()
                 .replace(Regex("\\s+County$", RegexOption.IGNORE_CASE), "")
                 .replace(Regex("\\s+Parish$", RegexOption.IGNORE_CASE), "")
                 .trim()

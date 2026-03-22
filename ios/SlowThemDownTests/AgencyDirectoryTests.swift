@@ -1,5 +1,8 @@
+import Foundation
 import Testing
 @testable import SlowThemDown
+
+private class BundleToken {}
 
 @Suite("AgencyDirectory")
 struct AgencyDirectoryTests {
@@ -159,6 +162,130 @@ struct AgencyDirectoryTests {
         ]
         let result = filter(agencies, city: "San Clemente", county: nil, state: "CA")
         #expect(result.count == 1)
+    }
+
+    // MARK: - Realistic geocoder scenarios
+
+    @Test func matching_sanClemente_returnsAllThreeTiers() {
+        // Simulates CLGeocoder output for San Clemente, CA
+        let agencies = [
+            makeAgency(name: "City PW", jurisdiction: .city, city: "San Clemente", county: "Orange", state: "CA"),
+            makeAgency(name: "County PW", jurisdiction: .county, county: "Orange", state: "CA"),
+            makeAgency(name: "State DOT", jurisdiction: .state, state: "CA"),
+            makeAgency(name: "Other City", jurisdiction: .city, city: "Dana Point", state: "CA"),
+        ]
+        let result = filter(agencies, city: "San Clemente", county: "Orange County", state: "California")
+        #expect(result.count == 3)
+        #expect(result.contains { $0.name == "City PW" })
+        #expect(result.contains { $0.name == "County PW" })
+        #expect(result.contains { $0.name == "State DOT" })
+    }
+
+    @Test func matching_stateAbbreviationInput_matchesAbbreviation() {
+        // Geocoder may return "CA" instead of "California"
+        let agencies = [
+            makeAgency(jurisdiction: .state, state: "CA"),
+        ]
+        let result = filter(agencies, city: nil, county: nil, state: "CA")
+        #expect(result.count == 1)
+    }
+
+    @Test func matching_cupertino_returnsOnlyStateLevel() {
+        // Simulates the simulator default location — no city/county agency for Cupertino
+        let agencies = [
+            makeAgency(name: "San Clemente PW", jurisdiction: .city, city: "San Clemente", state: "CA"),
+            makeAgency(name: "OC PW", jurisdiction: .county, county: "Orange", state: "CA"),
+            makeAgency(name: "Caltrans", jurisdiction: .state, state: "CA"),
+        ]
+        let result = filter(agencies, city: "Cupertino", county: "Santa Clara County", state: "California")
+        #expect(result.count == 1)
+        #expect(result.first?.name == "Caltrans")
+    }
+
+    // MARK: - Empty and malformed inputs
+
+    @Test func matching_emptyStringCity_doesNotMatchCityAgency() {
+        let agencies = [
+            makeAgency(jurisdiction: .city, city: "Portland", state: "OR"),
+        ]
+        let result = filter(agencies, city: "", county: nil, state: "OR")
+        #expect(result.isEmpty)
+    }
+
+    @Test func matching_emptyStringCounty_doesNotMatchCountyAgency() {
+        let agencies = [
+            makeAgency(jurisdiction: .county, county: "Multnomah", state: "OR"),
+        ]
+        let result = filter(agencies, city: nil, county: "", state: "OR")
+        #expect(result.isEmpty)
+    }
+
+    @Test func matching_emptyAgencyList_returnsEmpty() {
+        let result = filter([], city: "Portland", county: "Multnomah", state: "OR")
+        #expect(result.isEmpty)
+    }
+
+    @Test func matching_cityAgencyWithNilCity_doesNotMatch() {
+        let agencies = [
+            makeAgency(jurisdiction: .city, city: nil, state: "OR"),
+        ]
+        let result = filter(agencies, city: "Portland", county: nil, state: "OR")
+        #expect(result.isEmpty)
+    }
+
+    @Test func matching_countyAgencyWithNilCounty_doesNotMatch() {
+        let agencies = [
+            makeAgency(jurisdiction: .county, county: nil, state: "OR"),
+        ]
+        let result = filter(agencies, city: nil, county: "Multnomah", state: "OR")
+        #expect(result.isEmpty)
+    }
+
+    @Test func matching_whitespaceInCity_stillMatches() {
+        let agencies = [
+            makeAgency(jurisdiction: .city, city: "San Clemente", state: "CA"),
+        ]
+        let result = filter(agencies, city: " San Clemente ", county: nil, state: "CA")
+        #expect(result.count == 1)
+    }
+
+    @Test func matching_whitespaceInCounty_stillMatches() {
+        let agencies = [
+            makeAgency(jurisdiction: .county, county: "Orange", state: "CA"),
+        ]
+        let result = filter(agencies, city: nil, county: " Orange County ", state: "CA")
+        #expect(result.count == 1)
+    }
+
+    // MARK: - JSON parsing
+
+    @Test func load_parsesAgenciesFromJSON() throws {
+        let url = try #require(Bundle(for: BundleToken.self).url(forResource: "agencies", withExtension: "json")
+            ?? Bundle.main.url(forResource: "agencies", withExtension: "json"))
+        let data = try Data(contentsOf: url)
+        let agencies = try JSONDecoder().decode([Agency].self, from: data)
+        #expect(!agencies.isEmpty)
+        #expect(agencies.contains { $0.name == "California Department of Transportation" })
+    }
+
+    @Test func load_sanClementeAgencyExists() throws {
+        let url = try #require(Bundle(for: BundleToken.self).url(forResource: "agencies", withExtension: "json")
+            ?? Bundle.main.url(forResource: "agencies", withExtension: "json"))
+        let data = try Data(contentsOf: url)
+        let agencies = try JSONDecoder().decode([Agency].self, from: data)
+        #expect(agencies.contains { $0.city == "San Clemente" && $0.state == "CA" })
+    }
+
+    @Test func load_allAgenciesHaveRequiredFields() throws {
+        let url = try #require(Bundle(for: BundleToken.self).url(forResource: "agencies", withExtension: "json")
+            ?? Bundle.main.url(forResource: "agencies", withExtension: "json"))
+        let data = try Data(contentsOf: url)
+        let agencies = try JSONDecoder().decode([Agency].self, from: data)
+        for agency in agencies {
+            #expect(!agency.name.isEmpty)
+            #expect(!agency.email.isEmpty)
+            #expect(!agency.state.isEmpty)
+        }
     }
 
     // MARK: - Helpers

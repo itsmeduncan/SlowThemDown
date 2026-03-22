@@ -222,13 +222,16 @@ class ReportViewModel @Inject constructor(
                 }
                 val info = locationService.getLocationInfo(location)
                 if (info != null) {
-                    _matchedAgencies.value = agencyDirectory.matching(
+                    val agencies = agencyDirectory.matching(
                         city = info.city.ifEmpty { null },
                         county = info.county.ifEmpty { null },
                         state = info.state.ifEmpty { null },
                     )
-                    _showAgencyPicker.value = true
-                    return@launch
+                    if (agencies.isNotEmpty()) {
+                        _matchedAgencies.value = agencies
+                        _showAgencyPicker.value = true
+                        return@launch
+                    }
                 }
             }
 
@@ -237,18 +240,21 @@ class ReportViewModel @Inject constructor(
             if (current != null) {
                 val info = locationService.getLocationInfo(current)
                 if (info != null) {
-                    _matchedAgencies.value = agencyDirectory.matching(
+                    val agencies = agencyDirectory.matching(
                         city = info.city.ifEmpty { null },
                         county = info.county.ifEmpty { null },
                         state = info.state.ifEmpty { null },
                     )
-                    _showAgencyPicker.value = true
-                    return@launch
+                    if (agencies.isNotEmpty()) {
+                        _matchedAgencies.value = agencies
+                        _showAgencyPicker.value = true
+                        return@launch
+                    }
                 }
             }
 
             // No location — show all agencies
-            _matchedAgencies.value = agencyDirectory.matching(null, null, null)
+            _matchedAgencies.value = agencyDirectory.all()
             _showAgencyPicker.value = true
         }
     }
@@ -267,21 +273,23 @@ class ReportViewModel @Inject constructor(
             val system = measurementSystem.value
             val currentEntries = entries.value
             val pdfFile = exporter.generatePdfFile(currentEntries, s, system)
+            val csvFile = exporter.generateCsvFile(currentEntries, system)
             _isExporting.value = false
 
             val subject = agencyEmailSubject(currentEntries, s, system)
             val body = agencyEmailBody(agency, currentEntries, s, system)
 
-            val pdfUri = FileProvider.getUriForFile(
-                context, "${context.packageName}.fileprovider", pdfFile
-            )
+            val provider = "${context.packageName}.fileprovider"
+            val attachments = ArrayList<android.net.Uri>()
+            attachments.add(FileProvider.getUriForFile(context, provider, pdfFile))
+            attachments.add(FileProvider.getUriForFile(context, provider, csvFile))
 
-            val intent = Intent(Intent.ACTION_SEND).apply {
+            val intent = Intent(Intent.ACTION_SEND_MULTIPLE).apply {
                 type = "message/rfc822"
                 putExtra(Intent.EXTRA_EMAIL, arrayOf(agency.email))
                 putExtra(Intent.EXTRA_SUBJECT, subject)
                 putExtra(Intent.EXTRA_TEXT, body)
-                putExtra(Intent.EXTRA_STREAM, pdfUri)
+                putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachments)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
             // TODO: Extract "Send Report" to strings.xml

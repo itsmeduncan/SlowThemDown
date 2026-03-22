@@ -56,6 +56,9 @@ class CaptureViewModel @Inject constructor(
     private val _state = MutableStateFlow(CaptureFlowState.SELECT_SOURCE)
     val state: StateFlow<CaptureFlowState> = _state.asStateFlow()
 
+    private val _showSavedConfirmation = MutableStateFlow(false)
+    val showSavedConfirmation: StateFlow<Boolean> = _showSavedConfirmation.asStateFlow()
+
     private val _videoUri = MutableStateFlow<Uri?>(null)
     val videoUri: StateFlow<Uri?> = _videoUri.asStateFlow()
 
@@ -271,6 +274,9 @@ class CaptureViewModel @Inject constructor(
             speedEntryDao.insert(entry)
             hapticManager.notification(HapticManager.NotificationType.SUCCESS)
             reset()
+            _showSavedConfirmation.value = true
+            kotlinx.coroutines.delay(1500)
+            _showSavedConfirmation.value = false
         }
     }
 
