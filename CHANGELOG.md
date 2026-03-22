@@ -12,8 +12,13 @@ This changelog is automatically generated from the git history.
 - Fix changelog workflow: create PR instead of pushing to protected main
 - Fix changelog workflow: add pull-requests permission and pass token
 
+### Changes
+
+- Update CHANGELOG.md for v1.0.0 (#49)
+
 ### Other
 
+- Make changelog auto-merge optional, fall back to notice
 - Revert changelog to PR approach now that Actions can create PRs
 - Changelog workflow: use Contents API instead of PR creation
 ## [1.0.0-beta.18](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.18) — 2026-03-22
