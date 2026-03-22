@@ -18,14 +18,60 @@ jobs:
         id: version
         run: echo "version=$(cat VERSION | tr -d '[:space:]')" >> "$GITHUB_OUTPUT"
 
-      - name: Sync version to dependent files
+      - name: Install yq
+        uses: mikefarah/yq@v4
+
+      - name: Sync gradle.properties
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: sed -i "s/^version=.*/version=$VERSION/" gradle.properties
+
+      - name: Sync ios/project.yml
         env:
           VERSION: ${{ steps.version.outputs.version }}
         run: |
-          sed -i "s/^version=.*/version=$VERSION/" gradle.properties
-          sed -i "s/MARKETING_VERSION: \".*\"/MARKETING_VERSION: \"$VERSION\"/" ios/project.yml
-          sed -i "s/?: \".*\"/?: \"$VERSION\"/" android/app/build.gradle.kts
+          yq -i ".targets.SlowThemDown.settings.base.MARKETING_VERSION = \"$VERSION\"" \
+            ios/project.yml
 
+      - name: Sync android/app/build.gradle.kts
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          sed -i "s/\(versionName = findProperty(\"versionName\") as? String ?: \"\)[^\"]*\"/\1$VERSION\"/" \
+            android/app/build.gradle.kts
+
+      - name: Verify version sync
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          errors=0
+
+          if ! grep -q "^version=$VERSION$" gradle.properties; then
+            echo "::error::gradle.properties does not contain version=$VERSION"
+            errors=$((errors + 1))
+          fi
+
+          if ! grep -q "MARKETING_VERSION: \"$VERSION\"" ios/project.yml; then
+            echo "::error::ios/project.yml does not contain MARKETING_VERSION: \"$VERSION\""
+            errors=$((errors + 1))
+          fi
+
+          if ! grep -q "?: \"$VERSION\"" android/app/build.gradle.kts; then
+            echo "::error::android/app/build.gradle.kts does not contain versionName fallback \"$VERSION\""
+            errors=$((errors + 1))
+          fi
+
+          if [ "$errors" -gt 0 ]; then
+            echo "::error::Version sync verification failed with $errors error(s)"
+            exit 1
+          fi
+
+          echo "All files verified with version $VERSION"
+
+      - name: Commit and push
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
           git diff --quiet && exit 0
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
