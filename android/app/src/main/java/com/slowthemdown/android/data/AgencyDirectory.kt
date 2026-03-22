@@ -45,16 +45,51 @@ class AgencyDirectory @Inject constructor(
         }
     }
 
-    fun matching(city: String?, county: String?, state: String?): List<Agency> {
-        if (state == null) return emptyList()
-        return agencies.filter { agency ->
-            if (!agency.state.equals(state, ignoreCase = true)) return@filter false
-            when (agency.jurisdiction) {
-                "city" -> city != null && agency.city.equals(city, ignoreCase = true)
-                "county" -> county != null && agency.county.equals(county, ignoreCase = true)
-                "state", "regional" -> true
-                else -> false
+    fun matching(city: String?, county: String?, state: String?): List<Agency> =
+        matchAgencies(agencies, city, county, state)
+
+    companion object {
+        /** Testable matching logic that works on any agency list */
+        fun matchAgencies(
+            agencies: List<Agency>,
+            city: String?,
+            county: String?,
+            state: String?,
+        ): List<Agency> {
+            if (state == null) return emptyList()
+            val normalizedState = stateAbbreviation(state) ?: state
+            return agencies.filter { agency ->
+                val stateMatch = agency.state.equals(normalizedState, ignoreCase = true)
+                        || agency.state.equals(state, ignoreCase = true)
+                if (!stateMatch) return@filter false
+                when (agency.jurisdiction) {
+                    "city" -> city != null && agency.city.equals(city, ignoreCase = true)
+                    "county" -> county != null && agency.county.equals(county, ignoreCase = true)
+                    "state", "regional" -> true
+                    else -> false
+                }
             }
         }
+
+        private fun stateAbbreviation(input: String): String? {
+            if (input.length == 2) return input.uppercase()
+            return STATE_NAME_TO_ABBR[input.lowercase()]
+        }
+
+        private val STATE_NAME_TO_ABBR = mapOf(
+            "alabama" to "AL", "alaska" to "AK", "arizona" to "AZ", "arkansas" to "AR",
+            "california" to "CA", "colorado" to "CO", "connecticut" to "CT", "delaware" to "DE",
+            "florida" to "FL", "georgia" to "GA", "hawaii" to "HI", "idaho" to "ID",
+            "illinois" to "IL", "indiana" to "IN", "iowa" to "IA", "kansas" to "KS",
+            "kentucky" to "KY", "louisiana" to "LA", "maine" to "ME", "maryland" to "MD",
+            "massachusetts" to "MA", "michigan" to "MI", "minnesota" to "MN", "mississippi" to "MS",
+            "missouri" to "MO", "montana" to "MT", "nebraska" to "NE", "nevada" to "NV",
+            "new hampshire" to "NH", "new jersey" to "NJ", "new mexico" to "NM", "new york" to "NY",
+            "north carolina" to "NC", "north dakota" to "ND", "ohio" to "OH", "oklahoma" to "OK",
+            "oregon" to "OR", "pennsylvania" to "PA", "rhode island" to "RI", "south carolina" to "SC",
+            "south dakota" to "SD", "tennessee" to "TN", "texas" to "TX", "utah" to "UT",
+            "vermont" to "VT", "virginia" to "VA", "washington" to "WA", "west virginia" to "WV",
+            "wisconsin" to "WI", "wyoming" to "WY", "district of columbia" to "DC",
+        )
     }
 }

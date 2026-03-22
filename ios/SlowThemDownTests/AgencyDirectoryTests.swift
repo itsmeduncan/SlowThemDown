@@ -100,6 +100,23 @@ struct AgencyDirectoryTests {
         #expect(result.contains { $0.name == "State DOT" })
     }
 
+    @Test func matching_fullStateName_matchesAbbreviation() {
+        let agencies = [
+            makeAgency(jurisdiction: .city, city: "San Clemente", state: "CA"),
+            makeAgency(jurisdiction: .state, state: "CA"),
+        ]
+        let result = filter(agencies, city: "San Clemente", county: "Orange", state: "California")
+        #expect(result.count == 2)
+    }
+
+    @Test func matching_fullStateName_stateAgency() {
+        let agencies = [
+            makeAgency(jurisdiction: .state, state: "OR"),
+        ]
+        let result = filter(agencies, city: nil, county: nil, state: "Oregon")
+        #expect(result.count == 1)
+    }
+
     // MARK: - Helpers
 
     private func makeAgency(
@@ -127,19 +144,7 @@ struct AgencyDirectoryTests {
         county: String?,
         state: String?
     ) -> [Agency] {
-        guard let state else { return [] }
-        return agencies.filter { agency in
-            guard agency.state == state else { return false }
-            switch agency.jurisdiction {
-            case .city:
-                guard let city else { return false }
-                return agency.city?.localizedCaseInsensitiveCompare(city) == .orderedSame
-            case .county:
-                guard let county else { return false }
-                return agency.county?.localizedCaseInsensitiveCompare(county) == .orderedSame
-            case .state, .regional:
-                return true
-            }
-        }
+        // Mirror AgencyDirectory.matching logic
+        AgencyDirectory.matching(city: city, county: county, state: state, from: agencies)
     }
 }

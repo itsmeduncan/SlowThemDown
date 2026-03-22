@@ -29,11 +29,15 @@ enum AgencyDirectory {
         return agencies
     }
 
-    static func matching(city: String?, county: String?, state: String?) -> [Agency] {
+    static func matching(city: String?, county: String?, state: String?, from agencies: [Agency]? = nil) -> [Agency] {
         guard let state else { return [] }
-        let all = load()
+        let normalizedState = stateAbbreviation(state) ?? state
+        let all = agencies ?? load()
         return all.filter { agency in
-            guard agency.state == state else { return false }
+            guard agency.state.caseInsensitiveCompare(normalizedState) == .orderedSame
+                    || agency.state.caseInsensitiveCompare(state) == .orderedSame else {
+                return false
+            }
             switch agency.jurisdiction {
             case .city:
                 guard let city else { return false }
@@ -46,4 +50,26 @@ enum AgencyDirectory {
             }
         }
     }
+
+    private static func stateAbbreviation(_ input: String) -> String? {
+        // If already a 2-letter code, return as-is
+        if input.count == 2 { return input.uppercased() }
+        return stateNameToAbbr[input.lowercased()]
+    }
+
+    private static let stateNameToAbbr: [String: String] = [
+        "alabama": "AL", "alaska": "AK", "arizona": "AZ", "arkansas": "AR",
+        "california": "CA", "colorado": "CO", "connecticut": "CT", "delaware": "DE",
+        "florida": "FL", "georgia": "GA", "hawaii": "HI", "idaho": "ID",
+        "illinois": "IL", "indiana": "IN", "iowa": "IA", "kansas": "KS",
+        "kentucky": "KY", "louisiana": "LA", "maine": "ME", "maryland": "MD",
+        "massachusetts": "MA", "michigan": "MI", "minnesota": "MN", "mississippi": "MS",
+        "missouri": "MO", "montana": "MT", "nebraska": "NE", "nevada": "NV",
+        "new hampshire": "NH", "new jersey": "NJ", "new mexico": "NM", "new york": "NY",
+        "north carolina": "NC", "north dakota": "ND", "ohio": "OH", "oklahoma": "OK",
+        "oregon": "OR", "pennsylvania": "PA", "rhode island": "RI", "south carolina": "SC",
+        "south dakota": "SD", "tennessee": "TN", "texas": "TX", "utah": "UT",
+        "vermont": "VT", "virginia": "VA", "washington": "WA", "west virginia": "WV",
+        "wisconsin": "WI", "wyoming": "WY", "district of columbia": "DC",
+    ]
 }

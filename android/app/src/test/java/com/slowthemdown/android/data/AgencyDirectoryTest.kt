@@ -91,24 +91,29 @@ class AgencyDirectoryTest {
         assertTrue(result.any { it.name == "State DOT" })
     }
 
-    // Test the same matching logic used by AgencyDirectory
+    @Test
+    fun matching_fullStateName_matchesAbbreviation() {
+        val agencies = listOf(
+            makeAgency(jurisdiction = "city", city = "San Clemente", state = "CA"),
+            makeAgency(jurisdiction = "state", state = "CA"),
+        )
+        val result = filterAgencies(agencies, city = "San Clemente", county = "Orange", state = "California")
+        assertEquals(2, result.size)
+    }
+
+    @Test
+    fun matching_fullStateName_stateAgency() {
+        val agencies = listOf(makeAgency(jurisdiction = "state", state = "OR"))
+        val result = filterAgencies(agencies, city = null, county = null, state = "Oregon")
+        assertEquals(1, result.size)
+    }
+
     private fun filterAgencies(
         agencies: List<Agency>,
         city: String?,
         county: String?,
         state: String?,
-    ): List<Agency> {
-        if (state == null) return emptyList()
-        return agencies.filter { agency ->
-            if (!agency.state.equals(state, ignoreCase = true)) return@filter false
-            when (agency.jurisdiction) {
-                "city" -> city != null && agency.city.equals(city, ignoreCase = true)
-                "county" -> county != null && agency.county.equals(county, ignoreCase = true)
-                "state", "regional" -> true
-                else -> false
-            }
-        }
-    }
+    ): List<Agency> = AgencyDirectory.matchAgencies(agencies, city, county, state)
 
     private fun makeAgency(
         name: String = "Test Agency",
