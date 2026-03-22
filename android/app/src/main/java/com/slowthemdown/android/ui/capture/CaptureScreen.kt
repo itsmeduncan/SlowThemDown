@@ -71,7 +71,7 @@ fun CaptureScreen(viewModel: CaptureViewModel = hiltViewModel()) {
                     .padding(16.dp),
                 action = {
                     TextButton(onClick = { viewModel.clearError() }) {
-                        Text("Dismiss")
+                        Text(stringResource(R.string.common_dismiss))
                     }
                 },
             ) {

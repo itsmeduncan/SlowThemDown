@@ -26,6 +26,19 @@ SlowThemDown processes all data on-device. There is no backend server, no user a
 - **Agency directory** — static JSON bundled with the app
 - **Crash reporting** — Firebase Crashlytics (the only network dependency)
 
+## Firebase Configuration Files
+
+The `GoogleService-Info.plist` (iOS) and `google-services.json` (Android) files are **intentionally committed** to this repository. These contain public Firebase project configuration (API keys, project IDs) that are restricted to Firebase services. They are not secrets — this is standard practice per [Firebase documentation](https://firebase.google.com/docs/projects/api-keys).
+
+## Data at Rest
+
+SlowThemDown stores speed measurements (including GPS coordinates) on-device only:
+
+- **iOS**: SwiftData with default file protection (`NSFileProtectionComplete` when device is locked)
+- **Android**: Room with standard SQLite (unencrypted)
+
+Speed and location data collected by this app is the user's own measurements of public traffic — it is not considered highly sensitive personal data. GPS coordinates identify the street being measured, not the user's private location. No encryption beyond platform defaults is applied. If stronger protection is needed in the future, SQLCipher can be added for Android.
+
 ## Supported Versions
 
 | Platform | Supported |

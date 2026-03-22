@@ -31,6 +31,23 @@ struct CalibrateView: View {
                         } else if !showSavedConfirmation {
                             pickImageSection
                         }
+
+                        Divider()
+                            .padding(.top, 8)
+
+                        NavigationLink {
+                            LicensesView()
+                        } label: {
+                            HStack {
+                                Image(systemName: "doc.text")
+                                Text("Open Source Licenses")
+                                Spacer()
+                                Image(systemName: "chevron.right")
+                                    .font(.caption)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .foregroundStyle(.primary)
+                        }
                     }
                     .padding()
                 }

@@ -44,6 +44,7 @@ import com.slowthemdown.android.ui.capture.CaptureScreen
 import com.slowthemdown.android.ui.log.LogScreen
 import com.slowthemdown.android.ui.onboarding.OnboardingScreen
 import com.slowthemdown.android.ui.onboarding.OnboardingStore
+import com.slowthemdown.android.ui.calibrate.LicensesScreen
 import com.slowthemdown.android.ui.reports.ReportScreen
 import android.app.Application
 import com.slowthemdown.android.BuildConfig
@@ -66,6 +67,7 @@ enum class Screen(val route: String, val titleRes: Int, val icon: ImageVector) {
 }
 
 private const val ONBOARDING_ROUTE = "onboarding"
+private const val LICENSES_ROUTE = "licenses"
 
 @HiltViewModel
 class AppViewModel @Inject constructor(
@@ -107,7 +109,7 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
 
     Scaffold(
         bottomBar = {
-            if (currentDestination?.route != ONBOARDING_ROUTE) {
+            if (currentDestination?.route != ONBOARDING_ROUTE && currentDestination?.route != LICENSES_ROUTE) {
                 NavigationBar {
                     Screen.entries.forEach { screen ->
                         NavigationBarItem(
@@ -175,7 +177,12 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
             composable(Screen.Capture.route) { CaptureScreen() }
             composable(Screen.Log.route) { LogScreen() }
             composable(Screen.Reports.route) { ReportScreen() }
-            composable(Screen.Calibrate.route) { CalibrateScreen() }
+            composable(Screen.Calibrate.route) {
+                CalibrateScreen(
+                    onNavigateToLicenses = { navController.navigate(LICENSES_ROUTE) },
+                )
+            }
+            composable(LICENSES_ROUTE) { LicensesScreen() }
         }
     }
 }

@@ -175,7 +175,19 @@
     <string name="nav_reports">Reportes</string>
     <string name="nav_calibrate">Calibrar</string>
 
+    <!-- Licenses -->
+    <string name="licenses_title">Licencias de Código Abierto</string>
+    <string name="licenses_header">Slow Them Down está construido con el siguiente software de código abierto.</string>
+    <string name="licenses_dependencies">Dependencias</string>
+    <string name="licenses_this_app">Esta Aplicación</string>
+    <string name="licenses_mit">Licencia MIT</string>
+    <string name="licenses_copyright">Copyright (c) 2026 Duncan Grazier</string>
+    <string name="licenses_open_source">Licencias de Código Abierto</string>
+
     <!-- Common -->
+    <string name="common_dismiss">Descartar</string>
+    <string name="common_send_report">Enviar Reporte</string>
+    <string name="common_share_report">Compartir Reporte</string>
     <string name="common_speed_format">%1$.0f</string>
     <string name="common_speed_value_format">%1$.1f</string>
 </resources>

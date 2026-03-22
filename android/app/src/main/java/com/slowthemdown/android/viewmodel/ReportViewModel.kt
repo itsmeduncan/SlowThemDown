@@ -7,6 +7,7 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.slowthemdown.android.BuildConfig
+import com.slowthemdown.android.R
 import com.slowthemdown.android.data.Agency
 import com.slowthemdown.android.data.AgencyDirectory
 import com.slowthemdown.android.data.datastore.CalibrationStore
@@ -292,8 +293,7 @@ class ReportViewModel @Inject constructor(
                 putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachments)
                 addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
             }
-            // TODO: Extract "Send Report" to strings.xml
-            context.startActivity(Intent.createChooser(intent, "Send Report"))
+            context.startActivity(Intent.createChooser(intent, application.getString(R.string.common_send_report)))
         }
     }
 
@@ -384,7 +384,6 @@ class ReportViewModel @Inject constructor(
             putExtra(Intent.EXTRA_STREAM, uri)
             addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
         }
-        // TODO: Extract "Share Report" to strings.xml
-        context.startActivity(Intent.createChooser(intent, "Share Report"))
+        context.startActivity(Intent.createChooser(intent, application.getString(R.string.common_share_report)))
     }
 }

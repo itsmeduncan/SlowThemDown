@@ -29,6 +29,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -84,7 +85,10 @@ import com.slowthemdown.shared.model.UnitConverter
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
+fun CalibrateScreen(
+    onNavigateToLicenses: () -> Unit = {},
+    viewModel: CalibrationViewModel = hiltViewModel(),
+) {
     val calibration by viewModel.calibration.collectAsState()
     val bitmap by viewModel.selectedImageBitmap.collectAsState()
     val markers by viewModel.markers.collectAsState()
@@ -340,6 +344,15 @@ fun CalibrateScreen(viewModel: CalibrationViewModel = hiltViewModel()) {
             ) {
                 Text(stringResource(R.string.calibrate_save))
             }
+        }
+
+        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+
+        TextButton(
+            onClick = onNavigateToLicenses,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.licenses_open_source))
         }
     }
 }
