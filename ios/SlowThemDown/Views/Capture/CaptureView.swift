@@ -23,7 +23,8 @@ struct CaptureView: View {
                     FrameSelectorView(
                         frame1Time: $vm.frame1Time,
                         frame2Time: $vm.frame2Time,
-                        duration: vm.videoDuration
+                        duration: vm.videoDuration,
+                        isExtracting: vm.isExtractingFrames
                     ) {
                         Task { await vm.extractFrames() }
                     }
@@ -144,6 +145,19 @@ struct CaptureView: View {
                     Text("Not Calibrated")
                         .font(.headline)
                     Text("Go to Calibrate tab first, or use vehicle-as-reference during capture.")
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+                }
+                .padding()
+            } else if calibrationVM.calibration.needsRecalibration {
+                VStack(spacing: 8) {
+                    Image(systemName: "exclamationmark.triangle.fill")
+                        .font(.largeTitle)
+                        .foregroundStyle(.orange)
+                    Text("Re-calibration Recommended")
+                        .font(.headline)
+                    Text("Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates.")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)

@@ -20,9 +20,17 @@ data class Calibration(
     val referenceDistanceMeters: Double = 0.0,
     val pixelDistance: Double = 0.0,
     val vehicleReferenceName: String? = null,
+    val calibrationImageWidth: Double? = null,
     val timestampMillis: Long = System.currentTimeMillis(),
 ) {
     val isValid: Boolean get() = pixelsPerMeter > 0
+    val needsRecalibration: Boolean get() = isValid && calibrationImageWidth == null
+
+    fun scaledPixelsPerMeter(videoWidth: Double): Double {
+        val calWidth = calibrationImageWidth ?: return pixelsPerMeter
+        if (calWidth <= 0) return pixelsPerMeter
+        return pixelsPerMeter * (videoWidth / calWidth)
+    }
 }
 
 private val Context.dataStore by preferencesDataStore(name = "calibration")
@@ -38,6 +46,7 @@ class CalibrationStore @Inject constructor(
         val PIXEL_DISTANCE = doublePreferencesKey("pixel_distance")
         val VEHICLE_REF_NAME = stringPreferencesKey("vehicle_ref_name")
         val TIMESTAMP = longPreferencesKey("timestamp")
+        val CALIBRATION_IMAGE_WIDTH = doublePreferencesKey("calibration_image_width")
         val MEASUREMENT_SYSTEM = stringPreferencesKey("measurement_system")
 
         // Legacy keys for migration
@@ -61,6 +70,7 @@ class CalibrationStore @Inject constructor(
             referenceDistanceMeters = refMeters,
             pixelDistance = prefs[Keys.PIXEL_DISTANCE] ?: 0.0,
             vehicleReferenceName = prefs[Keys.VEHICLE_REF_NAME],
+            calibrationImageWidth = prefs[Keys.CALIBRATION_IMAGE_WIDTH],
             timestampMillis = prefs[Keys.TIMESTAMP] ?: System.currentTimeMillis(),
         )
     }
@@ -72,6 +82,7 @@ class CalibrationStore @Inject constructor(
             prefs[Keys.REFERENCE_DISTANCE_METERS] = calibration.referenceDistanceMeters
             prefs[Keys.PIXEL_DISTANCE] = calibration.pixelDistance
             calibration.vehicleReferenceName?.let { prefs[Keys.VEHICLE_REF_NAME] = it }
+            calibration.calibrationImageWidth?.let { prefs[Keys.CALIBRATION_IMAGE_WIDTH] = it }
             prefs[Keys.TIMESTAMP] = calibration.timestampMillis
         }
     }

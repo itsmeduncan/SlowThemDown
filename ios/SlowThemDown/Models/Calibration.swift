@@ -89,6 +89,7 @@ struct Calibration: Codable, Equatable {
     var referenceDistanceMeters: Double
     var pixelDistance: Double
     var vehicleReferenceName: String?
+    var calibrationImageWidth: Double?
     var timestamp: Date
 
     init(
@@ -97,6 +98,7 @@ struct Calibration: Codable, Equatable {
         referenceDistanceMeters: Double = 0,
         pixelDistance: Double = 0,
         vehicleReferenceName: String? = nil,
+        calibrationImageWidth: Double? = nil,
         timestamp: Date = .now
     ) {
         self.method = method
@@ -104,11 +106,21 @@ struct Calibration: Codable, Equatable {
         self.referenceDistanceMeters = referenceDistanceMeters
         self.pixelDistance = pixelDistance
         self.vehicleReferenceName = vehicleReferenceName
+        self.calibrationImageWidth = calibrationImageWidth
         self.timestamp = timestamp
     }
 
     var isValid: Bool {
         pixelsPerMeter > 0
+    }
+
+    var needsRecalibration: Bool {
+        isValid && calibrationImageWidth == nil
+    }
+
+    func scaledPixelsPerMeter(forVideoWidth videoWidth: Double) -> Double {
+        guard let calWidth = calibrationImageWidth, calWidth > 0 else { return pixelsPerMeter }
+        return pixelsPerMeter * (videoWidth / calWidth)
     }
 
     static let storageKey = "com.slowthemdown.calibration"

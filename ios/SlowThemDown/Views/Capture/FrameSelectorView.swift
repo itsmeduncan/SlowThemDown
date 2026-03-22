@@ -4,6 +4,7 @@ struct FrameSelectorView: View {
     @Binding var frame1Time: Double
     @Binding var frame2Time: Double
     let duration: Double
+    var isExtracting: Bool = false
     let onConfirm: () -> Void
 
     private var timeDelta: Double {
@@ -54,14 +55,22 @@ struct FrameSelectorView: View {
             Button {
                 onConfirm()
             } label: {
-                Label("Extract Frames", systemImage: "photo.on.rectangle.angled")
-                    .frame(maxWidth: .infinity)
-                    .padding()
-                    .background(timeDelta >= 0.01 ? Color.accentColor : Color.gray)
-                    .foregroundStyle(.black)
-                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                HStack(spacing: 8) {
+                    if isExtracting {
+                        ProgressView()
+                            .tint(.black)
+                        Text("Extracting Frames…")
+                    } else {
+                        Label("Extract Frames", systemImage: "photo.on.rectangle.angled")
+                    }
+                }
+                .frame(maxWidth: .infinity)
+                .padding()
+                .background(timeDelta >= 0.01 && !isExtracting ? Color.accentColor : Color.gray)
+                .foregroundStyle(.black)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
             }
-            .disabled(timeDelta < 0.01)
+            .disabled(timeDelta < 0.01 || isExtracting)
         }
         .padding()
     }

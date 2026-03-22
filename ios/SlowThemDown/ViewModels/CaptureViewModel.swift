@@ -21,6 +21,7 @@ final class CaptureViewModel {
     var videoDuration: Double = 0
     var videoSize: CGSize = .zero
     var errorMessage: String?
+    var isExtractingFrames: Bool = false
 
     // Frame selection
     var frame1Time: Double = 0
@@ -77,6 +78,8 @@ final class CaptureViewModel {
 
     func extractFrames() async {
         guard let extractor else { return }
+        isExtractingFrames = true
+        defer { isExtractingFrames = false }
         do {
             let t1 = CMTime(seconds: frame1Time, preferredTimescale: 600)
             let t2 = CMTime(seconds: frame2Time, preferredTimescale: 600)
@@ -135,7 +138,7 @@ final class CaptureViewModel {
             )
             ppm = SpeedCalculator.pixelsPerMeter(pixelDistance: refPixels, referenceMeters: ref.lengthMeters)
         } else {
-            ppm = calibration.pixelsPerMeter
+            ppm = calibration.scaledPixelsPerMeter(forVideoWidth: videoSize.width)
         }
 
         calculatedSpeed = SpeedCalculator.calculateSpeed(
@@ -161,7 +164,7 @@ final class CaptureViewModel {
             method = .vehicleReference
             refDist = ref.lengthMeters
         } else {
-            ppm = calibration.pixelsPerMeter
+            ppm = calibration.scaledPixelsPerMeter(forVideoWidth: videoSize.width)
             method = calibration.method
             refDist = calibration.referenceDistanceMeters
         }

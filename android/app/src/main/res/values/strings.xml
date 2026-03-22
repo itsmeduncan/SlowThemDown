@@ -6,6 +6,8 @@
     <string name="capture_title">Capture Speed</string>
     <string name="capture_not_calibrated">Not Calibrated</string>
     <string name="capture_not_calibrated_hint">Use a vehicle reference during capture, or calibrate in Settings for more accurate results.</string>
+    <string name="capture_needs_recalibration">Re-calibration Recommended</string>
+    <string name="capture_needs_recalibration_hint">Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates.</string>
     <string name="capture_import_library">Import from Library</string>
     <string name="capture_record_video">Record Video</string>
 
@@ -15,6 +17,7 @@
     <string name="capture_time_delta">Time delta: %1$.3fs</string>
     <string name="capture_frames_min_apart">Frames must be at least 10ms apart</string>
     <string name="capture_extract_frames">Extract Frames</string>
+    <string name="capture_extracting_frames">Extracting Frames\u2026</string>
     <string name="capture_cancel">Cancel</string>
 
     <!-- Capture: Frame Marker -->
@@ -53,6 +56,7 @@
     <string name="calibrate_metric">Metric</string>
     <string name="calibrate_calibrated">Calibrated</string>
     <string name="calibrate_not_calibrated">Not Calibrated</string>
+    <string name="calibrate_needs_recalibration">Re-calibration Recommended</string>
     <string name="calibrate_pixels_per_unit">%1$.1f %2$s</string>
     <string name="calibrate_last_calibrated">Last calibrated: %1$s</string>
     <string name="calibrate_instructions">Take a photo of a scene with a known distance, then mark two points.</string>

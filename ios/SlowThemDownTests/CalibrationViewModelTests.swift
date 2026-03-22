@@ -106,6 +106,7 @@ struct CalibrationViewModelTests {
         UserDefaults.standard.removeObject(forKey: Calibration.storageKey)
         let vm = CalibrationViewModel()
         vm.measurementSystemRaw = MeasurementSystem.imperial.rawValue
+        vm.imageSize = CGSize(width: 4032, height: 3024)
         vm.markerPoints = [CGPoint(x: 0, y: 0), CGPoint(x: 200, y: 0)]
         vm.referenceDistanceText = "10" // 10 feet = 3.048 meters
 
@@ -116,6 +117,8 @@ struct CalibrationViewModelTests {
         #expect(abs(vm.calibration.pixelsPerMeter - 65.617) < 0.1)
         #expect(abs(vm.calibration.referenceDistanceMeters - 3.048) < 0.01)
         #expect(vm.calibration.method == .manualDistance)
+        #expect(vm.calibration.calibrationImageWidth == 4032)
+        #expect(vm.calibration.needsRecalibration == false)
 
         // Clean up
         UserDefaults.standard.removeObject(forKey: Calibration.storageKey)

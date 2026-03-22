@@ -106,18 +106,38 @@ struct CaptureViewModelTests {
 
     // MARK: - calculateSpeed
 
-    @Test func calculateSpeed_withCalibration_transitionsToResult() {
+    @Test func calculateSpeed_withCalibration_scalesForVideoWidth() {
         let vm = CaptureViewModel()
+        vm.videoSize = CGSize(width: 1920, height: 1080)
         vm.frame1Markers = [CGPoint(x: 0, y: 0)]
         vm.frame2Markers = [CGPoint(x: 100, y: 0)]
         vm.frame1Time = 0
         vm.frame2Time = 1.0
 
+        // ppm=200 at calWidth=4032, video=1920 → scaled ppm ≈ 95.238
+        let cal = Calibration(pixelsPerMeter: 200, referenceDistanceMeters: 6.096, calibrationImageWidth: 4032)
+        vm.calculateSpeed(calibration: cal)
+
+        #expect(vm.state == .result)
+        // speed = 100 / 95.238 / 1.0 ≈ 1.05 m/s
+        #expect(abs(vm.calculatedSpeed - 1.05) < 0.01)
+    }
+
+    @Test func calculateSpeed_withLegacyCalibration_usesUnscaledPPM() {
+        let vm = CaptureViewModel()
+        vm.videoSize = CGSize(width: 1920, height: 1080)
+        vm.frame1Markers = [CGPoint(x: 0, y: 0)]
+        vm.frame2Markers = [CGPoint(x: 100, y: 0)]
+        vm.frame1Time = 0
+        vm.frame2Time = 1.0
+
+        // Legacy calibration without calibrationImageWidth
         let cal = Calibration(pixelsPerMeter: 32.808, referenceDistanceMeters: 6.096)
         vm.calculateSpeed(calibration: cal)
 
         #expect(vm.state == .result)
-        #expect(vm.calculatedSpeed > 0)
+        // speed = 100 / 32.808 / 1.0 ≈ 3.048 m/s (unscaled)
+        #expect(abs(vm.calculatedSpeed - 3.048) < 0.01)
     }
 
     @Test func calculateSpeed_withVehicleRef_usesRefCalibration() {
@@ -151,6 +171,7 @@ struct CaptureViewModelTests {
 
     @Test func buildEntry_usesCalibrationValues() {
         let vm = CaptureViewModel()
+        vm.videoSize = CGSize(width: 1920, height: 1080)
         vm.calculatedSpeed = 15.65  // ~35 MPH in m/s
         vm.speedLimit = 11.176      // ~25 MPH in m/s
         vm.streetName = "Oak Ave"
@@ -160,7 +181,8 @@ struct CaptureViewModelTests {
         let cal = Calibration(
             method: .manualDistance,
             pixelsPerMeter: 32.808,
-            referenceDistanceMeters: 6.096
+            referenceDistanceMeters: 6.096,
+            calibrationImageWidth: 1920 // same as video width, no scaling
         )
         let loc = LocationManager()
         let entry = vm.buildEntry(calibration: cal, location: loc)

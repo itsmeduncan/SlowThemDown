@@ -1,11 +1,15 @@
 package com.slowthemdown.android.ui.capture
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
@@ -24,8 +28,9 @@ internal fun FrameSelectorContent(viewModel: CaptureViewModel) {
     val duration by viewModel.videoDurationSeconds.collectAsState()
     val t1 by viewModel.frame1Time.collectAsState()
     val t2 by viewModel.frame2Time.collectAsState()
+    val isExtracting by viewModel.isExtractingFrames.collectAsState()
     val timeDelta = kotlin.math.abs(t2 - t1)
-    val canExtract = timeDelta >= 0.01
+    val canExtract = timeDelta >= 0.01 && !isExtracting
 
     Column(
         modifier = Modifier
@@ -66,7 +71,19 @@ internal fun FrameSelectorContent(viewModel: CaptureViewModel) {
             onClick = { viewModel.extractFrames() },
             enabled = canExtract,
         ) {
-            Text(stringResource(R.string.capture_extract_frames))
+            if (isExtracting) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(18.dp),
+                        strokeWidth = 2.dp,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(stringResource(R.string.capture_extracting_frames))
+                }
+            } else {
+                Text(stringResource(R.string.capture_extract_frames))
+            }
         }
         Spacer(modifier = Modifier.height(8.dp))
         TextButton(onClick = { viewModel.reset() }) {

@@ -59,6 +59,12 @@ class CaptureViewModel @Inject constructor(
     private val _showSavedConfirmation = MutableStateFlow(false)
     val showSavedConfirmation: StateFlow<Boolean> = _showSavedConfirmation.asStateFlow()
 
+    private val _errorMessage = MutableStateFlow<String?>(null)
+    val errorMessage: StateFlow<String?> = _errorMessage.asStateFlow()
+
+    private val _isExtractingFrames = MutableStateFlow(false)
+    val isExtractingFrames: StateFlow<Boolean> = _isExtractingFrames.asStateFlow()
+
     private val _videoUri = MutableStateFlow<Uri?>(null)
     val videoUri: StateFlow<Uri?> = _videoUri.asStateFlow()
 
@@ -156,15 +162,25 @@ class CaptureViewModel @Inject constructor(
     fun extractFrames() {
         val uri = _videoUri.value ?: return
         viewModelScope.launch {
+            _isExtractingFrames.value = true
             try {
-                _frame1Image.value = frameExtractor.extractFrame(uri, _frame1Time.value)?.let { piiBlurService.blurPII(it) }
-                _frame2Image.value = frameExtractor.extractFrame(uri, _frame2Time.value)?.let { piiBlurService.blurPII(it) }
+                val f1 = frameExtractor.extractFrame(uri, _frame1Time.value)?.let { piiBlurService.blurPII(it) }
+                val f2 = frameExtractor.extractFrame(uri, _frame2Time.value)?.let { piiBlurService.blurPII(it) }
+                if (f1 == null || f2 == null) {
+                    _errorMessage.value = "Could not extract frames. Try different timestamps or a different video."
+                    return@launch
+                }
+                _frame1Image.value = f1
+                _frame2Image.value = f2
                 _frame1Marker.value = null
                 _frame2Marker.value = null
                 _vehicleRefMarkers.value = emptyList()
                 _state.value = CaptureFlowState.MARK_FRAME1
             } catch (e: Exception) {
                 FirebaseCrashlytics.getInstance().recordException(e)
+                _errorMessage.value = "Failed to extract frames. Try different timestamps."
+            } finally {
+                _isExtractingFrames.value = false
             }
         }
     }
@@ -205,7 +221,7 @@ class CaptureViewModel @Inject constructor(
             val refPixels = CoordinateMapper.pixelDistance(markers[0], markers[1])
             SpeedCalculator.pixelsPerMeter(refPixels, ref.lengthMeters)
         } else {
-            cal.pixelsPerMeter
+            cal.scaledPixelsPerMeter(videoSize.width)
         }
 
         _calculatedSpeed.value = SpeedCalculator.calculateSpeed(
@@ -251,7 +267,7 @@ class CaptureViewModel @Inject constructor(
                 method = CalibrationMethod.VEHICLE_REFERENCE
                 refDist = ref.lengthMeters
             } else {
-                ppm = cal.pixelsPerMeter
+                ppm = cal.scaledPixelsPerMeter(videoSize.width)
                 method = cal.method
                 refDist = cal.referenceDistanceMeters
             }
@@ -280,9 +296,12 @@ class CaptureViewModel @Inject constructor(
         }
     }
 
+    fun clearError() { _errorMessage.value = null }
+
     fun reset() {
         _state.value = CaptureFlowState.SELECT_SOURCE
         _videoUri.value = null
+        _errorMessage.value = null
         _frame1Image.value = null
         _frame2Image.value = null
         _frame1Marker.value = null

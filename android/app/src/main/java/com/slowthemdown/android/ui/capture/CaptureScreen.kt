@@ -17,7 +17,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Snackbar
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -36,6 +38,7 @@ import com.slowthemdown.android.viewmodel.CaptureViewModel
 fun CaptureScreen(viewModel: CaptureViewModel = hiltViewModel()) {
     val state by viewModel.state.collectAsState()
     val showSaved by viewModel.showSavedConfirmation.collectAsState()
+    val errorMessage by viewModel.errorMessage.collectAsState()
 
     // Request location permission on first appear (matching iOS)
     val locationPermissionLauncher = rememberLauncherForActivityResult(
@@ -59,6 +62,21 @@ fun CaptureScreen(viewModel: CaptureViewModel = hiltViewModel()) {
             CaptureFlowState.MARK_FRAME2 -> FrameMarkerContent(viewModel, frameNumber = 2)
             CaptureFlowState.RESULT -> SpeedResultContent(viewModel)
             CaptureFlowState.RECORDING -> RecordingContent(viewModel)
+        }
+
+        errorMessage?.let { msg ->
+            Snackbar(
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .padding(16.dp),
+                action = {
+                    TextButton(onClick = { viewModel.clearError() }) {
+                        Text("Dismiss")
+                    }
+                },
+            ) {
+                Text(msg)
+            }
         }
 
         AnimatedVisibility(
