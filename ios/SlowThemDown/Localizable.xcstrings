@@ -269,6 +269,9 @@
         }
       }
     },
+    "Calibration" : {
+
+    },
     "Calibration Saved" : {
       "localizations" : {
         "en" : {
@@ -828,6 +831,9 @@
           }
         }
       }
+    },
+    "Loading video…" : {
+
     },
     "Location" : {
       "extractionState" : "stale",
@@ -1512,6 +1518,9 @@
           }
         }
       }
+    },
+    "Saving…" : {
+
     },
     "Search streets or notes" : {
       "extractionState" : "stale",

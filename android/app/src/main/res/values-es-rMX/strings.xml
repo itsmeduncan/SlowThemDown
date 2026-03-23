@@ -43,6 +43,8 @@
     <string name="capture_measurement_details">Detalles de Medición</string>
     <string name="capture_pixel_displacement">Desplazamiento en píxeles: %1$.1f px</string>
     <string name="capture_save_to_log">Guardar en Registro</string>
+    <string name="capture_saving">Guardando\u2026</string>
+    <string name="capture_loading_video">Cargando video\u2026</string>
     <string name="capture_discard">Descartar</string>
     <string name="capture_logged">Captura Registrada</string>
     <string name="capture_speed_limit_value">%1$d %2$s</string>
