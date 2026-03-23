@@ -81,6 +81,9 @@
         }
       }
     },
+    "About" : {
+
+    },
     "All" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -265,6 +268,9 @@
           }
         }
       }
+    },
+    "Calibration" : {
+
     },
     "Calibration Saved" : {
       "localizations" : {
@@ -825,6 +831,9 @@
           }
         }
       }
+    },
+    "Loading video…" : {
+
     },
     "Location" : {
       "extractionState" : "stale",
@@ -1510,6 +1519,9 @@
         }
       }
     },
+    "Saving…" : {
+
+    },
     "Search streets or notes" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1958,7 +1970,6 @@
       }
     },
     "Units" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {

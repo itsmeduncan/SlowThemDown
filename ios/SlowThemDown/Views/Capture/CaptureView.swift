@@ -62,7 +62,7 @@ struct CaptureView: View {
                         }
                     }
                 case .result:
-                    SpeedResultView(vm: vm, onSave: saveEntry, onDiscard: { vm.reset() })
+                    SpeedResultView(vm: vm, isSaving: vm.isSaving, onSave: saveEntry, onDiscard: { vm.reset() })
                         .task {
                             await locationManager.reverseGeocode()
                             if vm.streetName.isEmpty {
@@ -165,30 +165,40 @@ struct CaptureView: View {
                 .padding()
             }
 
-            VStack(spacing: 16) {
-                Button {
-                    showCamera = true
-                } label: {
-                    Label("Record Video", systemImage: "video.fill")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.accentColor)
-                        .foregroundStyle(.black)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+            if vm.isLoadingVideo {
+                VStack(spacing: 12) {
+                    ProgressView()
+                    Text("Loading video…")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
                 }
+                .padding()
+            } else {
+                VStack(spacing: 16) {
+                    Button {
+                        showCamera = true
+                    } label: {
+                        Label("Record Video", systemImage: "video.fill")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.accentColor)
+                            .foregroundStyle(.black)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
 
-                Button {
-                    showVideoPicker = true
-                } label: {
-                    Label("Import from Library", systemImage: "photo.on.rectangle")
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color(.systemGray5))
-                        .foregroundStyle(.primary)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                    Button {
+                        showVideoPicker = true
+                    } label: {
+                        Label("Import from Library", systemImage: "photo.on.rectangle")
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color(.systemGray5))
+                            .foregroundStyle(.primary)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
                 }
+                .padding()
             }
-            .padding()
         }
     }
 
@@ -201,9 +211,11 @@ struct CaptureView: View {
     }
 
     private func saveEntry() {
+        vm.isSaving = true
         let entry = vm.buildEntry(calibration: calibrationVM.calibration, location: locationManager)
         modelContext.insert(entry)
         HapticManager.notification(.success)
+        vm.isSaving = false
         vm.reset()
         withAnimation { showSavedConfirmation = true }
         Task {

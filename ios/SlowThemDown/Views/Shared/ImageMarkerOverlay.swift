@@ -59,6 +59,9 @@ struct ImageMarkerOverlay: View {
             }
             .contentShape(Rectangle())
             .onTapGesture { location in
+                guard CoordinateMapper.isWithinImageBounds(
+                    viewPoint: location, viewSize: geo.size, imageSize: imageSize
+                ) else { return }
                 onTap?(location, geo.size)
             }
         }

@@ -27,6 +27,9 @@ struct CaptureViewModelTests {
         #expect(vm.vehicleRefMarkers.isEmpty)
         #expect(vm.useVehicleReference == false)
         #expect(vm.selectedVehicleRef == nil)
+        #expect(vm.isSaving == false)
+        #expect(vm.isLoadingVideo == false)
+        #expect(vm.isExtractingFrames == false)
     }
 
     // MARK: - Computed Properties
@@ -231,6 +234,8 @@ struct CaptureViewModelTests {
         vm.frame1Markers = [CGPoint(x: 1, y: 1)]
         vm.frame2Markers = [CGPoint(x: 2, y: 2)]
         vm.vehicleRefMarkers = [CGPoint(x: 3, y: 3)]
+        vm.isSaving = true
+        vm.isLoadingVideo = true
 
         vm.reset()
 

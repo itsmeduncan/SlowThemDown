@@ -98,6 +98,8 @@ SlowThemDown uses GitHub Actions for continuous integration and automated beta r
 | **Beta Release** | Both CIs pass on `main` | Builds signed IPA + AAB, uploads to TestFlight and Google Play internal track, tags `vX.Y.Z-beta.N` |
 | **Release** | Push `vX.Y.Z` tag (no pre-release suffix) | Builds both platforms, uploads to App Store Connect + Google Play (draft), creates GitHub Release |
 | **Changelog** | Push `vX.Y.Z` tag | Regenerates `CHANGELOG.md` from git history via `git-cliff` |
+| **Validate Agencies** | Push/PR with `data/` changes | Validates `agencies.json` against JSON schema |
+| **Sync Version** | Push to `main` with `VERSION` change | Updates version in `gradle.properties`, `project.yml`, `build.gradle.kts` |
 
 ### Versioning
 
@@ -146,7 +148,7 @@ The V85 (85th percentile speed) is a standard traffic engineering metric. It rep
 ### Android
 - **Jetpack Compose** with `ViewModel` + `StateFlow` (MVVM)
 - **Room** for persistent storage
-- **MediaMetadataRetriever** for video frame extraction
+- **MediaCodec** + **MediaMetadataRetriever** for precise video frame extraction with rotation correction
 - **Hilt** for dependency injection
 - **DataStore** for calibration settings
 - **ML Kit** face detection + text recognition for PII blurring

@@ -114,6 +114,46 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
 
         Text(stringResource(R.string.reports_title), style = MaterialTheme.typography.headlineMedium)
 
+        // Export & Actions
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
+            ),
+        ) {
+            Column(
+                modifier = Modifier.padding(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                    OutlinedButton(
+                        onClick = { viewModel.exportCsv() },
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Icon(Icons.Default.Description, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(stringResource(R.string.reports_csv))
+                    }
+                    OutlinedButton(
+                        onClick = { viewModel.exportPdf() },
+                        modifier = Modifier.weight(1f),
+                    ) {
+                        Icon(Icons.Default.PictureAsPdf, contentDescription = null)
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(stringResource(R.string.reports_pdf))
+                    }
+                }
+                OutlinedButton(
+                    onClick = { viewModel.showAgencyPicker() },
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
+                    Icon(Icons.Default.Business, contentDescription = null)
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(stringResource(R.string.reports_report_to_agency))
+                }
+            }
+        }
+
         // Street Filter
         if (availableStreets.size > 1) {
             StreetFilterRow(
@@ -173,48 +213,6 @@ fun ReportScreen(viewModel: ReportViewModel = hiltViewModel()) {
                 system = system,
                 onSelectStreet = { viewModel.selectStreet(it) },
             )
-        }
-
-        // Export & Actions
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-        Text(stringResource(R.string.reports_export_actions), style = MaterialTheme.typography.titleMedium)
-        Card(
-            modifier = Modifier.fillMaxWidth(),
-            colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.3f),
-            ),
-        ) {
-            Column(
-                modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(12.dp),
-            ) {
-                Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                    OutlinedButton(
-                        onClick = { viewModel.exportCsv() },
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Icon(Icons.Default.Description, contentDescription = null)
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(stringResource(R.string.reports_csv))
-                    }
-                    OutlinedButton(
-                        onClick = { viewModel.exportPdf() },
-                        modifier = Modifier.weight(1f),
-                    ) {
-                        Icon(Icons.Default.PictureAsPdf, contentDescription = null)
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Text(stringResource(R.string.reports_pdf))
-                    }
-                }
-                OutlinedButton(
-                    onClick = { viewModel.showAgencyPicker() },
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Icon(Icons.Default.Business, contentDescription = null)
-                    Spacer(modifier = Modifier.width(8.dp))
-                    Text(stringResource(R.string.reports_report_to_agency))
-                }
-            }
         }
 
         Spacer(modifier = Modifier.height(16.dp))

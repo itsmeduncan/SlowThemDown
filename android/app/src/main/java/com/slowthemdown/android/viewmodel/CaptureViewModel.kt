@@ -65,6 +65,15 @@ class CaptureViewModel @Inject constructor(
     private val _isExtractingFrames = MutableStateFlow(false)
     val isExtractingFrames: StateFlow<Boolean> = _isExtractingFrames.asStateFlow()
 
+    private val _isSaving = MutableStateFlow(false)
+    val isSaving: StateFlow<Boolean> = _isSaving.asStateFlow()
+
+    private val _isLoadingVideo = MutableStateFlow(false)
+    val isLoadingVideo: StateFlow<Boolean> = _isLoadingVideo.asStateFlow()
+
+    private val _isCalculating = MutableStateFlow(false)
+    val isCalculating: StateFlow<Boolean> = _isCalculating.asStateFlow()
+
     private val _videoUri = MutableStateFlow<Uri?>(null)
     val videoUri: StateFlow<Uri?> = _videoUri.asStateFlow()
 
@@ -141,6 +150,7 @@ class CaptureViewModel @Inject constructor(
     fun loadVideo(uri: Uri) {
         _videoUri.value = uri
         viewModelScope.launch {
+            _isLoadingVideo.value = true
             try {
                 val info = frameExtractor.getVideoInfo(uri)
                 _videoDurationSeconds.value = info.durationMs / 1000.0
@@ -152,6 +162,8 @@ class CaptureViewModel @Inject constructor(
             } catch (e: Exception) {
                 FirebaseCrashlytics.getInstance().recordException(e)
                 _state.value = CaptureFlowState.SELECT_SOURCE
+            } finally {
+                _isLoadingVideo.value = false
             }
         }
     }
@@ -213,11 +225,12 @@ class CaptureViewModel @Inject constructor(
     }
 
     fun calculateSpeed() {
+        _isCalculating.value = true
         val cal = calibration.value
         val ppm: Double = if (_useVehicleReference.value) {
-            val ref = _selectedVehicleRef.value ?: return
+            val ref = _selectedVehicleRef.value ?: run { _isCalculating.value = false; return }
             val markers = _vehicleRefMarkers.value
-            if (markers.size != 2) return
+            if (markers.size != 2) { _isCalculating.value = false; return }
             val refPixels = CoordinateMapper.pixelDistance(markers[0], markers[1])
             SpeedCalculator.pixelsPerMeter(refPixels, ref.lengthMeters)
         } else {
@@ -230,6 +243,7 @@ class CaptureViewModel @Inject constructor(
             timeDeltaSeconds = timeDelta
         )
         _state.value = CaptureFlowState.RESULT
+        _isCalculating.value = false
         hapticManager.notification(HapticManager.NotificationType.SUCCESS)
 
         // Auto-fill street name from GPS
@@ -248,6 +262,7 @@ class CaptureViewModel @Inject constructor(
 
     fun saveEntry() {
         viewModelScope.launch {
+            _isSaving.value = true
             val cal = calibration.value
             val location = locationService.getCurrentLocation()
             val street = if (_streetName.value.isEmpty() && location != null) {
@@ -289,6 +304,7 @@ class CaptureViewModel @Inject constructor(
             )
             speedEntryDao.insert(entry)
             hapticManager.notification(HapticManager.NotificationType.SUCCESS)
+            _isSaving.value = false
             reset()
             _showSavedConfirmation.value = true
             kotlinx.coroutines.delay(1500)

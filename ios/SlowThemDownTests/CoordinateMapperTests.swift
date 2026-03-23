@@ -43,6 +43,76 @@ struct CoordinateMapperTests {
 
     // MARK: - pixelDistance
 
+    // MARK: - isWithinImageBounds
+
+    @Test func isWithinImageBounds_centerOfImage_returnsTrue() {
+        let viewSize = CGSize(width: 390, height: 844)
+        let imageSize = CGSize(width: 1920, height: 1080)
+        let center = CGPoint(x: 195, y: 422)
+
+        #expect(CoordinateMapper.isWithinImageBounds(
+            viewPoint: center, viewSize: viewSize, imageSize: imageSize
+        ))
+    }
+
+    @Test func isWithinImageBounds_outsideLetterbox_returnsFalse() {
+        // Wide image in tall view → letterboxed top/bottom
+        let viewSize = CGSize(width: 390, height: 844)
+        let imageSize = CGSize(width: 1920, height: 1080)
+
+        // Tap in the top letterbox area (y near 0)
+        #expect(!CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 195, y: 5), viewSize: viewSize, imageSize: imageSize
+        ))
+
+        // Tap in the bottom letterbox area (y near max)
+        #expect(!CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 195, y: 840), viewSize: viewSize, imageSize: imageSize
+        ))
+    }
+
+    @Test func isWithinImageBounds_outsidePillarbox_returnsFalse() {
+        // Tall image in wide view → pillarboxed left/right
+        let viewSize = CGSize(width: 844, height: 390)
+        let imageSize = CGSize(width: 1080, height: 1920)
+
+        // Tap in left pillarbox
+        #expect(!CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 5, y: 195), viewSize: viewSize, imageSize: imageSize
+        ))
+
+        // Tap in right pillarbox
+        #expect(!CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 840, y: 195), viewSize: viewSize, imageSize: imageSize
+        ))
+    }
+
+    @Test func isWithinImageBounds_exactFit_allPointsValid() {
+        // Image aspect ratio matches view exactly → no letterbox/pillarbox
+        let viewSize = CGSize(width: 400, height: 300)
+        let imageSize = CGSize(width: 800, height: 600)
+
+        // Origin corner
+        #expect(CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 0, y: 0), viewSize: viewSize, imageSize: imageSize
+        ))
+        // Just inside the far corner (CGRect.contains excludes the max edge)
+        #expect(CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 399, y: 299), viewSize: viewSize, imageSize: imageSize
+        ))
+    }
+
+    @Test func isWithinImageBounds_zeroSizes_returnsFalse() {
+        #expect(!CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 10, y: 10), viewSize: .zero, imageSize: CGSize(width: 100, height: 100)
+        ))
+        #expect(!CoordinateMapper.isWithinImageBounds(
+            viewPoint: CGPoint(x: 10, y: 10), viewSize: CGSize(width: 100, height: 100), imageSize: .zero
+        ))
+    }
+
+    // MARK: - pixelDistance
+
     @Test func pixelDistance_knownValues() {
         let d = CoordinateMapper.pixelDistance(
             from: CGPoint(x: 0, y: 0),

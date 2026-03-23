@@ -2,6 +2,7 @@ import SwiftUI
 
 struct SpeedResultView: View {
     @Bindable var vm: CaptureViewModel
+    var isSaving: Bool = false
     let onSave: () -> Void
     let onDiscard: () -> Void
 
@@ -85,13 +86,22 @@ struct SpeedResultView: View {
                     Button {
                         onSave()
                     } label: {
-                        Label("Save to Log", systemImage: "square.and.arrow.down")
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(Color.accentColor)
-                            .foregroundStyle(.black)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                        HStack(spacing: 8) {
+                            if isSaving {
+                                ProgressView()
+                                    .tint(.black)
+                                Text("Saving…")
+                            } else {
+                                Label("Save to Log", systemImage: "square.and.arrow.down")
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(isSaving ? Color.gray : Color.accentColor)
+                        .foregroundStyle(.black)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
                     }
+                    .disabled(isSaving)
                 }
             }
             .padding()

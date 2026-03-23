@@ -30,7 +30,9 @@ struct CalibrateView: View {
                         Divider()
 
                         // MARK: - Calibration
-                        VStack(spacing: 16) {
+                        VStack(alignment: .leading, spacing: 16) {
+                            Text("Calibration")
+                                .font(.headline)
                             statusCard
                             if showSavedConfirmation {
                                 savedBanner

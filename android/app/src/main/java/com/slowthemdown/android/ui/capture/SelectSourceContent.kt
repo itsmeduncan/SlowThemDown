@@ -6,17 +6,20 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -42,6 +45,7 @@ import java.io.File
 internal fun SelectSourceContent(viewModel: CaptureViewModel) {
     val context = LocalContext.current
     val calibration by viewModel.calibration.collectAsState()
+    val isLoadingVideo by viewModel.isLoadingVideo.collectAsState()
 
     val videoPickerLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.GetContent()
@@ -158,18 +162,32 @@ internal fun SelectSourceContent(viewModel: CaptureViewModel) {
         }
 
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            onClick = { videoPickerLauncher.launch("video/*") },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(stringResource(R.string.capture_import_library))
-        }
-        Spacer(modifier = Modifier.height(16.dp))
-        OutlinedButton(
-            onClick = { cameraPermissionLauncher.launch(Manifest.permission.CAMERA) },
-            modifier = Modifier.fillMaxWidth(),
-        ) {
-            Text(stringResource(R.string.capture_record_video))
+        if (isLoadingVideo) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                CircularProgressIndicator(
+                    modifier = Modifier.size(24.dp),
+                    strokeWidth = 2.dp,
+                )
+                Spacer(modifier = Modifier.width(12.dp))
+                Text(
+                    stringResource(R.string.capture_loading_video),
+                    style = MaterialTheme.typography.bodyMedium,
+                )
+            }
+        } else {
+            Button(
+                onClick = { videoPickerLauncher.launch("video/*") },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(R.string.capture_import_library))
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            OutlinedButton(
+                onClick = { cameraPermissionLauncher.launch(Manifest.permission.CAMERA) },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(R.string.capture_record_video))
+            }
         }
     }
 }

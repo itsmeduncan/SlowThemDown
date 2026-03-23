@@ -1,14 +1,18 @@
 package com.slowthemdown.android.ui.capture
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExposedDropdownMenuAnchorType
@@ -49,6 +53,7 @@ internal fun SpeedResultContent(viewModel: CaptureViewModel) {
     val streetName by viewModel.streetName.collectAsState()
     val notes by viewModel.notes.collectAsState()
     val system by viewModel.measurementSystem.collectAsState()
+    val isSaving by viewModel.isSaving.collectAsState()
 
     val displaySpeed = UnitConverter.displaySpeed(speed, system)
     val speedUnit = UnitConverter.speedUnit(system)
@@ -242,8 +247,21 @@ internal fun SpeedResultContent(viewModel: CaptureViewModel) {
         Button(
             onClick = { viewModel.saveEntry() },
             modifier = Modifier.fillMaxWidth(),
+            enabled = !isSaving,
         ) {
-            Text(stringResource(R.string.capture_save_to_log))
+            if (isSaving) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(18.dp),
+                        strokeWidth = 2.dp,
+                        color = MaterialTheme.colorScheme.onPrimary,
+                    )
+                    Spacer(modifier = Modifier.width(8.dp))
+                    Text(stringResource(R.string.capture_saving))
+                }
+            } else {
+                Text(stringResource(R.string.capture_save_to_log))
+            }
         }
         Spacer(modifier = Modifier.height(12.dp))
         OutlinedButton(
