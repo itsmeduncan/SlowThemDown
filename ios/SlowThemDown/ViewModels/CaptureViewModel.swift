@@ -22,6 +22,8 @@ final class CaptureViewModel {
     var videoSize: CGSize = .zero
     var errorMessage: String?
     var isExtractingFrames: Bool = false
+    var isSaving: Bool = false
+    var isLoadingVideo: Bool = false
 
     // Frame selection
     var frame1Time: Double = 0
@@ -60,6 +62,7 @@ final class CaptureViewModel {
     func loadVideo(url: URL) async {
         videoURL = url
         errorMessage = nil
+        isLoadingVideo = true
         let ext = VideoFrameExtractor(url: url)
         extractor = ext
         do {
@@ -74,6 +77,7 @@ final class CaptureViewModel {
             errorMessage = "Failed to load video. Try a different file."
             state = .selectSource
         }
+        isLoadingVideo = false
     }
 
     func extractFrames() async {

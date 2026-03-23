@@ -3,6 +3,7 @@ package com.slowthemdown.android.service
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.ImageFormat
+import android.graphics.Matrix
 import android.media.Image
 import android.media.ImageReader
 import android.media.MediaCodec
@@ -14,11 +15,9 @@ import android.os.Handler
 import android.os.HandlerThread
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
-import kotlin.coroutines.resume
 
 @Singleton
 class VideoFrameExtractor @Inject constructor(
@@ -37,12 +36,21 @@ class VideoFrameExtractor @Inject constructor(
             val duration = retriever.extractMetadata(
                 MediaMetadataRetriever.METADATA_KEY_DURATION
             )?.toLongOrNull() ?: 0L
-            val width = retriever.extractMetadata(
+            val rawWidth = retriever.extractMetadata(
                 MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH
             )?.toIntOrNull() ?: 0
-            val height = retriever.extractMetadata(
+            val rawHeight = retriever.extractMetadata(
                 MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT
             )?.toIntOrNull() ?: 0
+            val rotation = retriever.extractMetadata(
+                MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION
+            )?.toIntOrNull() ?: 0
+            // Swap dimensions for 90°/270° rotation so callers see the displayed size
+            val (width, height) = if (rotation == 90 || rotation == 270) {
+                rawHeight to rawWidth
+            } else {
+                rawWidth to rawHeight
+            }
             VideoInfo(duration, width, height)
         } finally {
             retriever.release()
@@ -62,27 +70,49 @@ class VideoFrameExtractor @Inject constructor(
      */
     suspend fun extractFrame(uri: Uri, timeSeconds: Double): Bitmap? = withContext(Dispatchers.IO) {
         val targetUs = (timeSeconds * 1_000_000).toLong()
+        val rotation = getVideoRotation(uri)
 
         val extractor = MediaExtractor()
         try {
             context.contentResolver.openFileDescriptor(uri, "r")?.use { pfd ->
                 extractor.setDataSource(pfd.fileDescriptor)
-            } ?: return@withContext fallbackExtract(uri, targetUs)
+            } ?: return@withContext fallbackExtract(uri, targetUs)?.applyRotation(rotation)
 
-            val trackIndex = selectVideoTrack(extractor) ?: return@withContext fallbackExtract(uri, targetUs)
+            val trackIndex = selectVideoTrack(extractor) ?: return@withContext fallbackExtract(uri, targetUs)?.applyRotation(rotation)
             extractor.selectTrack(trackIndex)
             val format = extractor.getTrackFormat(trackIndex)
-            val mime = format.getString(MediaFormat.KEY_MIME) ?: return@withContext fallbackExtract(uri, targetUs)
+            val mime = format.getString(MediaFormat.KEY_MIME) ?: return@withContext fallbackExtract(uri, targetUs)?.applyRotation(rotation)
             val width = format.getInteger(MediaFormat.KEY_WIDTH)
             val height = format.getInteger(MediaFormat.KEY_HEIGHT)
 
-            decodeFrameAt(extractor, mime, width, height, targetUs)
-                ?: fallbackExtract(uri, targetUs)
+            (decodeFrameAt(extractor, mime, width, height, targetUs)
+                ?: fallbackExtract(uri, targetUs))?.applyRotation(rotation)
         } catch (_: Exception) {
-            fallbackExtract(uri, targetUs)
+            fallbackExtract(uri, targetUs)?.applyRotation(rotation)
         } finally {
             extractor.release()
         }
+    }
+
+    private fun getVideoRotation(uri: Uri): Int {
+        val retriever = MediaMetadataRetriever()
+        return try {
+            retriever.setDataSource(context, uri)
+            retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_ROTATION)
+                ?.toIntOrNull() ?: 0
+        } catch (_: Exception) {
+            0
+        } finally {
+            retriever.release()
+        }
+    }
+
+    private fun Bitmap.applyRotation(degrees: Int): Bitmap {
+        if (degrees == 0) return this
+        val matrix = Matrix().apply { postRotate(degrees.toFloat()) }
+        val rotated = Bitmap.createBitmap(this, 0, 0, width, height, matrix, true)
+        if (rotated !== this) recycle()
+        return rotated
     }
 
     private fun selectVideoTrack(extractor: MediaExtractor): Int? {

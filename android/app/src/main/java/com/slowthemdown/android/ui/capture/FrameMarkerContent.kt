@@ -62,6 +62,7 @@ internal fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
     val selectedVehicleRef by viewModel.selectedVehicleRef.collectAsState()
     val vehicleRefMarkers by viewModel.vehicleRefMarkers.collectAsState()
     val system by viewModel.measurementSystem.collectAsState()
+    val isCalculating by viewModel.isCalculating.collectAsState()
 
     val bitmap = if (frameNumber == 1) frame1Image else frame2Image
     val marker = if (frameNumber == 1) frame1Marker else frame2Marker
@@ -134,7 +135,7 @@ internal fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
         } else {
             Button(
                 onClick = { viewModel.calculateSpeed() },
-                enabled = hasMarker,
+                enabled = hasMarker && !isCalculating,
             ) {
                 Text(stringResource(R.string.capture_calculate_speed))
             }

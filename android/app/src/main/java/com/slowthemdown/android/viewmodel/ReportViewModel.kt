@@ -211,6 +211,7 @@ class ReportViewModel @Inject constructor(
 
     fun showAgencyPicker() {
         viewModelScope.launch {
+            _isExporting.value = true
             val currentEntries = entries.value
             val located = currentEntries.filter { it.latitude != null && it.longitude != null }
 
@@ -230,6 +231,7 @@ class ReportViewModel @Inject constructor(
                     )
                     if (agencies.isNotEmpty()) {
                         _matchedAgencies.value = agencies
+                        _isExporting.value = false
                         _showAgencyPicker.value = true
                         return@launch
                     }
@@ -248,6 +250,7 @@ class ReportViewModel @Inject constructor(
                     )
                     if (agencies.isNotEmpty()) {
                         _matchedAgencies.value = agencies
+                        _isExporting.value = false
                         _showAgencyPicker.value = true
                         return@launch
                     }
@@ -256,6 +259,7 @@ class ReportViewModel @Inject constructor(
 
             // No location — show all agencies
             _matchedAgencies.value = agencyDirectory.all()
+            _isExporting.value = false
             _showAgencyPicker.value = true
         }
     }

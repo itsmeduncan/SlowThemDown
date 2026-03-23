@@ -270,9 +270,13 @@ struct ReportView: View {
         let active = vm.filteredEntries
         let located = active.filter { $0.latitude != nil && $0.longitude != nil }
 
+        isExporting = true
         Task {
             let agencies = await resolveAgencies(located: located)
-            agencyPickerItem = AgencyPickerItem(agencies: agencies)
+            await MainActor.run {
+                isExporting = false
+                agencyPickerItem = AgencyPickerItem(agencies: agencies)
+            }
         }
     }
 
