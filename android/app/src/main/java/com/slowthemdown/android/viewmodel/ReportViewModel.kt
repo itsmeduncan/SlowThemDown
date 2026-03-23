@@ -301,7 +301,6 @@ class ReportViewModel @Inject constructor(
         }
     }
 
-    // TODO: Extract email subject/body strings to strings.xml using application.getString(R.string.xxx)
     private fun agencyEmailSubject(
         entries: List<SpeedEntryEntity>,
         stats: TrafficStats,
@@ -311,9 +310,9 @@ class ReportViewModel @Inject constructor(
         val limit = entries.groupingBy { it.speedLimit }.eachCount()
             .maxByOrNull { it.value }?.key ?: RoadStandards.defaultSpeedLimit
         val unit = UnitConverter.speedUnit(system)
-        val v85Display = UnitConverter.displaySpeed(stats.v85, system)
+        val v85Display = "%.0f".format(UnitConverter.displaySpeed(stats.v85, system))
         val limitDisplay = UnitConverter.displaySpeed(limit, system).toInt()
-        return "Speeding Concern: $street — V85 ${"%.0f".format(v85Display)} $unit in a $limitDisplay $unit Zone"
+        return application.getString(R.string.agency_email_subject, street, v85Display, unit, limitDisplay, unit)
     }
 
     private fun agencyEmailBody(
@@ -327,29 +326,29 @@ class ReportViewModel @Inject constructor(
             .maxByOrNull { it.value }?.key ?: RoadStandards.defaultSpeedLimit
         val unit = UnitConverter.speedUnit(system)
         val limitDisplay = UnitConverter.displaySpeed(limit, system).toInt()
-        val v85Display = UnitConverter.displaySpeed(stats.v85, system)
-        val meanDisplay = UnitConverter.displaySpeed(stats.mean, system)
+        val v85Display = "%.1f".format(UnitConverter.displaySpeed(stats.v85, system))
+        val meanDisplay = "%.1f".format(UnitConverter.displaySpeed(stats.mean, system))
         val dateFormat = SimpleDateFormat("MMM d, yyyy", Locale.getDefault())
         val timestamps = entries.map { it.timestamp }.sorted()
         val start = if (timestamps.isNotEmpty()) dateFormat.format(Date(timestamps.first())) else "N/A"
         val end = if (timestamps.isNotEmpty()) dateFormat.format(Date(timestamps.last())) else "N/A"
 
-        return """
-            |Dear ${agency.name},
-            |
-            |I am writing to report a speeding concern on $street.
-            |
-            |Over ${stats.count} observations from $start to $end:
-            |
-            |${"  "}• V85 Speed: ${"%.1f".format(v85Display)} $unit (85th percentile)
-            |${"  "}• Average Speed: ${"%.1f".format(meanDisplay)} $unit
-            |${"  "}• Speed Limit: $limitDisplay $unit
-            |${"  "}• Vehicles Over Limit: ${stats.overLimitCount} (${"%.0f".format(stats.overLimitPercent)}%)
-            |
-            |A detailed report is attached.
-            |
-            |Data collected with SlowThemDown (https://github.com/itsmeduncan/SlowThemDown).
-        """.trimMargin()
+        return listOf(
+            application.getString(R.string.agency_email_greeting, agency.name),
+            "",
+            application.getString(R.string.agency_email_intro, street),
+            "",
+            application.getString(R.string.agency_email_observations, stats.count, start, end),
+            "",
+            application.getString(R.string.agency_email_v85, v85Display, unit),
+            application.getString(R.string.agency_email_avg, meanDisplay, unit),
+            application.getString(R.string.agency_email_limit, limitDisplay, unit),
+            application.getString(R.string.agency_email_over_limit, stats.overLimitCount, "%.0f".format(stats.overLimitPercent)),
+            "",
+            application.getString(R.string.agency_email_attachment),
+            "",
+            application.getString(R.string.agency_email_attribution),
+        ).joinToString("\n")
     }
 
     private fun mostCommonStreet(entries: List<SpeedEntryEntity>): String {

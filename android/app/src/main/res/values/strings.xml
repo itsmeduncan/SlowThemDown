@@ -147,6 +147,18 @@
     <string name="reports_generating">Generating report\u2026</string>
     <string name="reports_all_streets">All Streets</string>
 
+    <!-- Agency Email -->
+    <string name="agency_email_subject">Speeding Concern: %1$s \u2014 V85 %2$s %3$s in a %4$d %5$s Zone</string>
+    <string name="agency_email_greeting">Dear %1$s,</string>
+    <string name="agency_email_intro">I am writing to report a speeding concern on %1$s.</string>
+    <string name="agency_email_observations">Over %1$d observations from %2$s to %3$s:</string>
+    <string name="agency_email_v85">\u0020\u0020\u2022 V85 Speed: %1$s %2$s (85th percentile)</string>
+    <string name="agency_email_avg">\u0020\u0020\u2022 Average Speed: %1$s %2$s</string>
+    <string name="agency_email_limit">\u0020\u0020\u2022 Speed Limit: %1$d %2$s</string>
+    <string name="agency_email_over_limit">\u0020\u0020\u2022 Vehicles Over Limit: %1$d (%2$s%%)</string>
+    <string name="agency_email_attachment">A detailed report is attached.</string>
+    <string name="agency_email_attribution">Data collected with SlowThemDown (https://github.com/itsmeduncan/SlowThemDown).</string>
+
     <!-- Agency Picker -->
     <string name="agency_picker_title">Report to Agency</string>
     <string name="agency_no_agencies">No Agencies Found</string>

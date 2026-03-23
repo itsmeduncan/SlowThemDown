@@ -75,6 +75,16 @@ struct CaptureFlowView: View {
                     Button("Start Over") { vm.reset() }
                 }
             }
+            .alert("Error", isPresented: Binding(
+                get: { vm.errorMessage != nil },
+                set: { if !$0 { vm.errorMessage = nil } }
+            )) {
+                Button("OK") { vm.errorMessage = nil }
+            } message: {
+                if let msg = vm.errorMessage {
+                    Text(msg)
+                }
+            }
             .sheet(isPresented: $showVehicleRefPicker) {
                 NavigationStack {
                     VehicleRefPicker(selection: $vm.selectedVehicleRef)

@@ -147,6 +147,18 @@
     <string name="reports_generating">Generando reporte\u2026</string>
     <string name="reports_all_streets">Todas las Calles</string>
 
+    <!-- Agency Email -->
+    <string name="agency_email_subject">Preocupación por Exceso de Velocidad: %1$s \u2014 V85 %2$s %3$s en zona de %4$d %5$s</string>
+    <string name="agency_email_greeting">Estimado/a %1$s,</string>
+    <string name="agency_email_intro">Le escribo para reportar una preocupación por exceso de velocidad en %1$s.</string>
+    <string name="agency_email_observations">Durante %1$d observaciones del %2$s al %3$s:</string>
+    <string name="agency_email_v85">\u0020\u0020\u2022 Velocidad V85: %1$s %2$s (percentil 85)</string>
+    <string name="agency_email_avg">\u0020\u0020\u2022 Velocidad Promedio: %1$s %2$s</string>
+    <string name="agency_email_limit">\u0020\u0020\u2022 Límite de Velocidad: %1$d %2$s</string>
+    <string name="agency_email_over_limit">\u0020\u0020\u2022 Vehículos Sobre el Límite: %1$d (%2$s%%)</string>
+    <string name="agency_email_attachment">Se adjunta un reporte detallado.</string>
+    <string name="agency_email_attribution">Datos recopilados con SlowThemDown (https://github.com/itsmeduncan/SlowThemDown).</string>
+
     <!-- Agency Picker -->
     <string name="agency_picker_title">Reportar a Dependencia</string>
     <string name="agency_no_agencies">No Se Encontraron Dependencias</string>
