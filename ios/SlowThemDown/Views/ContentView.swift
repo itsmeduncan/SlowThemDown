@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum AppTab: String {
-    case capture, log, reports, settings
+    case capture, reports, settings
 }
 
 struct ContentView: View {
@@ -13,17 +13,11 @@ struct ContentView: View {
     var body: some View {
         if onboardingCompleted {
             TabView(selection: $selectedTab) {
-                CaptureView()
+                HomeView()
                     .tabItem {
                         Label("Capture", systemImage: "video.fill")
                     }
                     .tag(AppTab.capture)
-
-                LogView()
-                    .tabItem {
-                        Label("Log", systemImage: "list.bullet")
-                    }
-                    .tag(AppTab.log)
 
                 ReportView()
                     .tabItem {

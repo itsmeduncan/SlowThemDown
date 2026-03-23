@@ -8,8 +8,8 @@
     <string name="capture_not_calibrated_hint">Usa una referencia de vehículo durante la captura, o calibra en Ajustes para obtener resultados más precisos.</string>
     <string name="capture_needs_recalibration">Re-calibración Recomendada</string>
     <string name="capture_needs_recalibration_hint">Tu calibración se guardó sin datos de resolución de imagen. Re-calibra para obtener estimaciones de velocidad precisas.</string>
-    <string name="capture_import_library">Importar de la Galería</string>
-    <string name="capture_record_video">Grabar Video</string>
+    <string name="capture_import_library">Importar</string>
+    <string name="capture_record_video">Grabar</string>
 
     <!-- Capture: Frame Selector -->
     <string name="capture_select_frames">Seleccionar Cuadros</string>
@@ -66,13 +66,13 @@
     <string name="calibrate_saved">Calibración Guardada</string>
     <string name="calibrate_saved_hint">Ya estás listo para empezar a capturar velocidades.</string>
     <string name="calibrate_again">Calibrar de Nuevo</string>
-    <string name="calibrate_step1_title">Paso 1: Selecciona una imagen de referencia</string>
+    <string name="calibrate_step1_title">Selecciona una imagen de referencia</string>
     <string name="calibrate_choose_photo">Elegir Foto</string>
-    <string name="calibrate_step2_title">Paso 2: Toca dos puntos con una distancia conocida entre ellos</string>
+    <string name="calibrate_step2_title">Toca dos puntos con una distancia conocida entre ellos</string>
     <string name="calibrate_pixel_distance">Distancia en píxeles: %1$.1f px</string>
     <string name="calibrate_clear_markers">Borrar Marcadores</string>
     <string name="calibrate_change_photo">Cambiar Foto</string>
-    <string name="calibrate_step3_title">Paso 3: Ingresa la distancia real</string>
+    <string name="calibrate_step3_title">Ingresa la distancia real</string>
     <string name="calibrate_distance_in">Distancia en %1$s</string>
     <string name="calibrate_lane_width_hint">O usa un ancho de carril estándar:</string>
     <string name="calibrate_save">Guardar Calibración</string>

@@ -161,7 +161,7 @@ struct CalibrateView: View {
 
     private var pickImageSection: some View {
         VStack(spacing: 16) {
-            Text("Step 1: Select a reference image")
+            Text("Select a reference image")
                 .font(.headline)
 
             PhotosPicker(selection: $selectedItem, matching: .all(of: [.images, .not(.livePhotos)])) {
@@ -188,7 +188,7 @@ struct CalibrateView: View {
 
     private var imageSection: some View {
         VStack(spacing: 12) {
-            Text("Step 2: Tap two points with a known distance apart")
+            Text("Tap two points with a known distance apart")
                 .font(.headline)
                 .multilineTextAlignment(.center)
 
@@ -228,7 +228,7 @@ struct CalibrateView: View {
 
     private var distanceSection: some View {
         VStack(spacing: 16) {
-            Text("Step 3: Enter the real-world distance")
+            Text("Enter the real-world distance")
                 .font(.headline)
 
             HStack {

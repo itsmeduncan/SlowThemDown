@@ -8,8 +8,8 @@
     <string name="capture_not_calibrated_hint">Use a vehicle reference during capture, or calibrate in Settings for more accurate results.</string>
     <string name="capture_needs_recalibration">Re-calibration Recommended</string>
     <string name="capture_needs_recalibration_hint">Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates.</string>
-    <string name="capture_import_library">Import from Library</string>
-    <string name="capture_record_video">Record Video</string>
+    <string name="capture_import_library">Import</string>
+    <string name="capture_record_video">Record</string>
 
     <!-- Capture: Frame Selector -->
     <string name="capture_select_frames">Select Frames</string>
@@ -66,13 +66,13 @@
     <string name="calibrate_saved">Calibration Saved</string>
     <string name="calibrate_saved_hint">You\'re all set to start capturing speeds.</string>
     <string name="calibrate_again">Calibrate Again</string>
-    <string name="calibrate_step1_title">Step 1: Select a reference image</string>
+    <string name="calibrate_step1_title">Select a reference image</string>
     <string name="calibrate_choose_photo">Choose Photo</string>
-    <string name="calibrate_step2_title">Step 2: Tap two points with a known distance apart</string>
+    <string name="calibrate_step2_title">Tap two points with a known distance apart</string>
     <string name="calibrate_pixel_distance">Pixel distance: %1$.1f px</string>
     <string name="calibrate_clear_markers">Clear Markers</string>
     <string name="calibrate_change_photo">Change Photo</string>
-    <string name="calibrate_step3_title">Step 3: Enter the real-world distance</string>
+    <string name="calibrate_step3_title">Enter the real-world distance</string>
     <string name="calibrate_distance_in">Distance in %1$s</string>
     <string name="calibrate_lane_width_hint">Or use a standard lane width:</string>
     <string name="calibrate_save">Save Calibration</string>

@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CameraAlt
-import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.BarChart
@@ -40,8 +39,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.slowthemdown.android.R
 import com.slowthemdown.android.ui.calibrate.CalibrateScreen
-import com.slowthemdown.android.ui.capture.CaptureScreen
-import com.slowthemdown.android.ui.log.LogScreen
+import com.slowthemdown.android.ui.home.HomeScreen
 import com.slowthemdown.android.ui.onboarding.OnboardingScreen
 import com.slowthemdown.android.ui.onboarding.OnboardingStore
 import com.slowthemdown.android.ui.calibrate.LicensesScreen
@@ -61,7 +59,6 @@ import javax.inject.Inject
 
 enum class Screen(val route: String, val titleRes: Int, val icon: ImageVector) {
     Capture("capture", R.string.nav_capture, Icons.Default.CameraAlt),
-    Log("log", R.string.nav_log, Icons.AutoMirrored.Filled.List),
     Reports("reports", R.string.nav_reports, Icons.Default.BarChart),
     Settings("settings", R.string.nav_settings, Icons.Default.Settings),
 }
@@ -174,8 +171,7 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
                     }
                 )
             }
-            composable(Screen.Capture.route) { CaptureScreen() }
-            composable(Screen.Log.route) { LogScreen() }
+            composable(Screen.Capture.route) { HomeScreen() }
             composable(Screen.Reports.route) { ReportScreen() }
             composable(Screen.Settings.route) {
                 CalibrateScreen(
