@@ -81,6 +81,9 @@
         }
       }
     },
+    "About" : {
+
+    },
     "All" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1958,7 +1961,6 @@
       }
     },
     "Units" : {
-      "extractionState" : "stale",
       "localizations" : {
         "en" : {
           "stringUnit" : {
