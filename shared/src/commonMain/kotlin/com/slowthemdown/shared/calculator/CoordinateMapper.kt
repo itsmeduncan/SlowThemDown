@@ -56,6 +56,24 @@ object CoordinateMapper {
         return Point(viewX, viewY)
     }
 
+    /** Check whether a view-space tap point falls within the displayed image bounds */
+    fun isWithinImageBounds(viewPoint: Point, viewSize: Size, imageSize: Size): Boolean {
+        if (viewSize.width <= 0 || viewSize.height <= 0 ||
+            imageSize.width <= 0 || imageSize.height <= 0) return false
+
+        val scaleX = imageSize.width / viewSize.width
+        val scaleY = imageSize.height / viewSize.height
+        val scale = maxOf(scaleX, scaleY)
+
+        val scaledW = imageSize.width / scale
+        val scaledH = imageSize.height / scale
+        val originX = (viewSize.width - scaledW) / 2
+        val originY = (viewSize.height - scaledH) / 2
+
+        return viewPoint.x in originX..(originX + scaledW) &&
+            viewPoint.y in originY..(originY + scaledH)
+    }
+
     /** Calculate the pixel distance between two points */
     fun pixelDistance(from: Point, to: Point): Double {
         val dx = to.x - from.x

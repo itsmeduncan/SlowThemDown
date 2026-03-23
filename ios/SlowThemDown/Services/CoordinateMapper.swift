@@ -51,6 +51,28 @@ enum CoordinateMapper {
         return CGPoint(x: viewX, y: viewY)
     }
 
+    /// Check whether a view-space tap point falls within the displayed image bounds
+    static func isWithinImageBounds(
+        viewPoint: CGPoint,
+        viewSize: CGSize,
+        imageSize: CGSize
+    ) -> Bool {
+        guard viewSize.width > 0, viewSize.height > 0,
+              imageSize.width > 0, imageSize.height > 0 else { return false }
+
+        let scaleX = imageSize.width / viewSize.width
+        let scaleY = imageSize.height / viewSize.height
+        let scale = max(scaleX, scaleY)
+
+        let scaledW = imageSize.width / scale
+        let scaledH = imageSize.height / scale
+        let originX = (viewSize.width - scaledW) / 2
+        let originY = (viewSize.height - scaledH) / 2
+
+        let imageRect = CGRect(x: originX, y: originY, width: scaledW, height: scaledH)
+        return imageRect.contains(viewPoint)
+    }
+
     /// Calculate the pixel distance between two points
     static func pixelDistance(from: CGPoint, to: CGPoint) -> Double {
         let dx = to.x - from.x

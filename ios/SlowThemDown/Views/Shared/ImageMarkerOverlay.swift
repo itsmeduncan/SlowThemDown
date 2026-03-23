@@ -59,16 +59,9 @@ struct ImageMarkerOverlay: View {
             }
             .contentShape(Rectangle())
             .onTapGesture { location in
-                // Only accept taps within the displayed image bounds
-                let scaleX = imageSize.width / geo.size.width
-                let scaleY = imageSize.height / geo.size.height
-                let scale = max(scaleX, scaleY)
-                let scaledW = imageSize.width / scale
-                let scaledH = imageSize.height / scale
-                let originX = (geo.size.width - scaledW) / 2
-                let originY = (geo.size.height - scaledH) / 2
-                let imageRect = CGRect(x: originX, y: originY, width: scaledW, height: scaledH)
-                guard imageRect.contains(location) else { return }
+                guard CoordinateMapper.isWithinImageBounds(
+                    viewPoint: location, viewSize: geo.size, imageSize: imageSize
+                ) else { return }
                 onTap?(location, geo.size)
             }
         }
