@@ -37,7 +37,7 @@ jobs:
           set -o pipefail
           xcodebuild test \
             -project ios/SlowThemDown.xcodeproj \
-            -scheme SlowThemDownTests \
+            -scheme SlowThemDown \
             -destination 'platform=iOS Simulator,name=iPhone 17 Pro' \
             -skipPackagePluginValidation \
             -enableCodeCoverage YES \
@@ -47,13 +47,16 @@ jobs:
       - name: Generate coverage report
         if: success()
         run: |
+          # Generate JSON report for artifact
           xcrun xccov view --report --json \
             ${{ runner.temp }}/TestResults.xcresult > ${{ runner.temp }}/coverage.json
 
-          # Print summary to job log
+          # Print summary — filter to app target only
           echo "### iOS Coverage Summary" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
           xcrun xccov view --report ${{ runner.temp }}/TestResults.xcresult \
-            | head -20 >> "$GITHUB_STEP_SUMMARY"
+            | grep -E 'SlowThemDown\.app|\.swift' | head -30 >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
 
       - name: Upload coverage report
         if: success()

@@ -8,22 +8,6 @@ plugins {
     id("org.jetbrains.kotlinx.kover")
 }
 
-kover {
-    reports {
-        filters {
-            excludes {
-                packages(
-                    "dagger.hilt.*",
-                    "hilt_aggregated_deps",
-                    "*.di",
-                    "*.BuildConfig",
-                )
-                annotatedBy("dagger.Module", "dagger.internal.DaggerGenerated", "androidx.compose.runtime.Composable")
-            }
-        }
-    }
-}
-
 val copyAgencies by tasks.registering(Copy::class) {
     from("${rootProject.projectDir}/data/agencies.json")
     into("src/main/assets")
@@ -64,6 +48,22 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+    }
+}
+
+kover {
+    reports {
+        filters {
+            excludes {
+                packages(
+                    "dagger.hilt.*",
+                    "hilt_aggregated_deps",
+                    "*.di",
+                    "*.BuildConfig",
+                )
+                annotatedBy("dagger.Module", "dagger.internal.DaggerGenerated", "androidx.compose.runtime.Composable")
+            }
         }
     }
 }
