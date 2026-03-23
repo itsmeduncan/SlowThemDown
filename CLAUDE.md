@@ -65,7 +65,7 @@ SlowThemDown/
 
 ### Shared (KMP)
 - `SpeedCalculator` — speed formula, V85, traffic stats
-- `CoordinateMapper` — view-to-image coordinate transforms (uses `Point`/`Size` instead of CGPoint/CGSize)
+- `CoordinateMapper` — view-to-image coordinate transforms, image bounds checking (uses `Point`/`Size` instead of CGPoint/CGSize)
 - All enums: `VehicleType`, `TravelDirection`, `CalibrationMethod`, `SpeedCategory`, `VehicleCategory`
 - Data: `VehicleReferences`, `RoadStandards`, `TrafficStats`
 
@@ -119,6 +119,7 @@ SlowThemDown/
 - **Release** (`.github/workflows/release.yml`) — Triggered by `vX.Y.Z` tags (no pre-release suffix): builds both platforms in parallel, uploads to App Store Connect (iOS) and Google Play production track as draft (Android), creates GitHub Release with artifacts
 - **Changelog** (`.github/workflows/changelog.yml`) — Triggered by `vX.Y.Z` tags: regenerates `CHANGELOG.md` from git history using `git-cliff` and commits to `main`
 - **Validate Agencies** (`.github/workflows/validate-agencies.yml`) — Runs on `data/` changes: validates `agencies.json` against the JSON schema
+- **Sync Version** (`.github/workflows/sync-version.yml`) — Runs on `main` push when `VERSION` changes: auto-updates `gradle.properties`, `ios/project.yml`, and `android/app/build.gradle.kts`
 
 ### Versioning
 

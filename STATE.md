@@ -2,7 +2,7 @@
 
 Current project state for cross-session continuity. Updated each session.
 
-**Last updated:** 2026-03-22
+**Last updated:** 2026-03-22 (session 2)
 
 ## Version
 
@@ -19,6 +19,7 @@ Current project state for cross-session continuity. Updated each session.
 
 ## Recent Work
 
+- **UX polish: marker bounds, image orientation, loading states (2026-03-22)**: PR #55. Restricted marker taps to image bounds on iOS (extracted `isWithinImageBounds` into `CoordinateMapper` on both iOS and KMP shared with tests). Fixed Android image orientation — `VideoFrameExtractor` now reads video rotation metadata and applies it to extracted frames, swaps width/height for 90°/270° videos. Added loading spinners to all slow actions: Save to Log, video loading, speed calculation, frame extraction, report export, and agency resolution on both platforms. Moved export actions to top of Android report screen (matching iOS). Added "Calibration" section heading to iOS settings screen for consistency with Units/About sections. Added missing Spanish translations. 172 iOS tests pass, Android tests pass.
 - **Cross-platform parity & launch-readiness fixes (2026-03-22)**: Addressed P1/P2 findings from 12-stakeholder audit. P1-003: Extracted 3 hardcoded Android strings ("Dismiss", "Send Report", "Share Report") to strings.xml with es-MX translations. P1-002: Added open source license acknowledgment screen to both platforms (accessible from Calibrate tab). P1-001: Added Android test parity — LogViewModelTest (13 tests), CalibrationViewModelTest (16 tests), ReportViewModelTest (18 tests). P2-001: Extracted ReportScreen.kt (613→~270 lines) into V85Card.kt, ReportCharts.kt, StreetComponents.kt. P2-004/P2-005: Documented Firebase config files and data-at-rest encryption decisions in SECURITY.md.
 - **CI/CD improvements, UX fixes, coverage reporting (2026-03-22)**: Sped up Android CI/CD pipeline: added explicit Gradle build output caching (`actions/cache@v4`), `setup-java` Gradle cache, `--no-daemon` flag, removed redundant `assembleDebug` from CI and test/lint from release workflow. Moved Calibrate tab to far right in nav bar on both platforms with status indicator (green checkmark when calibrated, orange warning when not). Fixed PhotosPicker not allowing re-selection of same image. Fixed keyboard staying open on calibrate distance input. Added test coverage reporting: Kover plugin for Android (XML + HTML reports, excludes DI/Composable code), xccov for iOS (JSON report). Both CIs now print coverage summary to GitHub job summary and upload reports as artifacts.
 - **Docs sync, release workflow fix, refactoring, i18n (2026-03-21)**: Extracted hardcoded strings for i18n (iOS Localizable.xcstrings + Android strings.xml with stringResource). Refactored CaptureScreen.kt (880→38 lines, 5 extracted files) and ReportView.swift (481→~180 lines, 4 extracted views). Fixed release.yml to sign Android builds and upload to Google Play production (draft). Replaced fragile sed in sync-version.yml with yq + verification step. Added auto-generated CHANGELOG.md via git-cliff. Synced all docs to reflect metric units, @MainActor, new workflows, and refactored file structure.
@@ -39,7 +40,7 @@ Current project state for cross-session continuity. Updated each session.
 
 ## Open PRs
 
-None currently open.
+- **#55** — UX polish: marker bounds, image orientation, loading states (feature/ux-polish-markers-orientation-loading)
 
 ## Key Decisions
 
