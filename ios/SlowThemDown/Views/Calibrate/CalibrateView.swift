@@ -19,34 +19,50 @@ struct CalibrateView: View {
             ScrollViewReader { proxy in
                 ScrollView {
                     VStack(spacing: 20) {
-                        unitToggle
-                            .id("top")
-                        statusCard
-                        if showSavedConfirmation {
-                            savedBanner
+                        // MARK: - Units
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Units")
+                                .font(.headline)
+                            unitToggle
                         }
-                        if vm.selectedImage != nil {
-                            imageSection
-                            distanceSection
-                        } else if !showSavedConfirmation {
-                            pickImageSection
+                        .id("top")
+
+                        Divider()
+
+                        // MARK: - Calibration
+                        VStack(spacing: 16) {
+                            statusCard
+                            if showSavedConfirmation {
+                                savedBanner
+                            }
+                            if vm.selectedImage != nil {
+                                imageSection
+                                distanceSection
+                            } else if !showSavedConfirmation {
+                                pickImageSection
+                            }
                         }
 
                         Divider()
-                            .padding(.top, 8)
 
-                        NavigationLink {
-                            LicensesView()
-                        } label: {
-                            HStack {
-                                Image(systemName: "doc.text")
-                                Text("Open Source Licenses")
-                                Spacer()
-                                Image(systemName: "chevron.right")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                        // MARK: - About
+                        VStack(alignment: .leading, spacing: 12) {
+                            Text("About")
+                                .font(.headline)
+
+                            NavigationLink {
+                                LicensesView()
+                            } label: {
+                                HStack {
+                                    Image(systemName: "doc.text")
+                                    Text("Open Source Licenses")
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                .foregroundStyle(.primary)
                             }
-                            .foregroundStyle(.primary)
                         }
                     }
                     .padding()
@@ -61,11 +77,11 @@ struct CalibrateView: View {
                     }
                 }
             }
-            .navigationTitle("Calibrate")
+            .navigationTitle("Settings")
             .toolbar {
                 if vm.isCalibrated {
                     ToolbarItem(placement: .topBarTrailing) {
-                        Button("Reset") { vm.clearCalibration() }
+                        Button("Reset Calibration") { vm.clearCalibration() }
                     }
                 }
             }

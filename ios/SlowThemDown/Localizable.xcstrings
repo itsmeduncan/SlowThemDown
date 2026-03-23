@@ -459,6 +459,9 @@
         }
       }
     },
+    "Copyright (c) 2026 Duncan Grazier" : {
+
+    },
     "Details" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1042,6 +1045,9 @@
         }
       }
     },
+    "MIT License" : {
+
+    },
     "Nearest Intersection" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1228,6 +1234,9 @@
         }
       }
     },
+    "Open Source Licenses" : {
+
+    },
     "Or use a standard lane width:" : {
       "localizations" : {
         "en" : {
@@ -1349,6 +1358,22 @@
         }
       }
     },
+    "Re-calibration Recommended" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Re-calibration Recommended"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Re-calibración Recomendada"
+          }
+        }
+      }
+    },
     "Record & Mark" : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1379,38 +1404,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Graba un video corto del tráfico. Elige dos cuadros, luego toca el mismo punto del vehículo en cada cuadro. Slow Them Down calcula la velocidad a partir del desplazamiento."
-          }
-        }
-      }
-    },
-    "Re-calibration Recommended" : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Re-calibration Recommended"
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Re-calibración Recomendada"
-          }
-        }
-      }
-    },
-    "Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates." : {
-      "localizations" : {
-        "en" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates."
-          }
-        },
-        "es-MX" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tu calibración se guardó sin datos de resolución de imagen. Re-calibra para obtener estimaciones de velocidad precisas."
           }
         }
       }
@@ -1600,6 +1593,9 @@
         }
       }
     },
+    "Slow Them Down" : {
+
+    },
     "Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed — just point, record, and mark." : {
       "extractionState" : "stale",
       "localizations" : {
@@ -1616,6 +1612,9 @@
           }
         }
       }
+    },
+    "Slow Them Down is built with the following open source software." : {
+
     },
     "Slow Them Down Speed Report" : {
       "extractionState" : "stale",
@@ -2088,6 +2087,22 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ya estás listo para empezar a capturar velocidades."
+          }
+        }
+      }
+    },
+    "Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates." : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Your calibration was saved without image resolution data. Re-calibrate for accurate speed estimates."
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Tu calibración se guardó sin datos de resolución de imagen. Re-calibra para obtener estimaciones de velocidad precisas."
           }
         }
       }

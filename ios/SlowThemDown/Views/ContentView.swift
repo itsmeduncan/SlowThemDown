@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum AppTab: String {
-    case capture, log, reports, calibrate
+    case capture, log, reports, settings
 }
 
 struct ContentView: View {
@@ -33,15 +33,15 @@ struct ContentView: View {
 
                 CalibrateView()
                     .tabItem {
-                        Label("Calibrate", systemImage: calibrationVM.isCalibrated
-                            ? "checkmark.circle.fill" : "exclamationmark.triangle.fill")
+                        Label("Settings", systemImage: calibrationVM.isCalibrated
+                            ? "gearshape.fill" : "exclamationmark.triangle.fill")
                     }
-                    .tag(AppTab.calibrate)
+                    .tag(AppTab.settings)
                     .badge(calibrationVM.isCalibrated ? nil : "!")
             }
             .onAppear {
                 if justFinishedOnboarding {
-                    selectedTab = .calibrate
+                    selectedTab = .settings
                     justFinishedOnboarding = false
                 }
             }

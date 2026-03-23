@@ -13,24 +13,24 @@ private let pages: [OnboardingPage] = [
         description: "Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed — just point, record, and mark."
     ),
     OnboardingPage(
-        icon: "ruler",
-        title: "Calibrate First",
-        description: "Before capturing speeds, calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start on the Calibrate tab where you can also choose imperial or metric units."
+        icon: "gearshape.fill",
+        title: "Set Up in Settings",
+        description: "Choose your units (imperial or metric) and calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start in Settings after this."
     ),
     OnboardingPage(
         icon: "video.fill",
         title: "Record & Mark",
-        description: "Record a short video of passing traffic. Pick two frames, then tap the same point on the vehicle in each frame. Slow Them Down calculates the speed from the displacement."
+        description: "Record a short video or import one from your library. Pick two frames, then tap the same point on the vehicle in each frame to calculate its speed."
     ),
     OnboardingPage(
         icon: "car.fill",
         title: "Or Use Vehicle Reference",
-        description: "No calibration needed — select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and Slow Them Down uses the known vehicle length."
+        description: "Skip calibration — select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and the app uses the known vehicle length."
     ),
     OnboardingPage(
         icon: "chart.bar.fill",
         title: "Build Your Case",
-        description: "Track observations over time, calculate V85 speeds (the metric traffic engineers use), and export reports to share with local officials."
+        description: "Track observations over time, calculate V85 speeds (the metric traffic engineers use), generate PDF reports, and email them to your local transportation agency."
     ),
 ]
 

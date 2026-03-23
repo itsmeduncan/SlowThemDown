@@ -63,7 +63,7 @@ enum class Screen(val route: String, val titleRes: Int, val icon: ImageVector) {
     Capture("capture", R.string.nav_capture, Icons.Default.CameraAlt),
     Log("log", R.string.nav_log, Icons.AutoMirrored.Filled.List),
     Reports("reports", R.string.nav_reports, Icons.Default.BarChart),
-    Calibrate("calibrate", R.string.nav_calibrate, Icons.Default.Settings),
+    Settings("settings", R.string.nav_settings, Icons.Default.Settings),
 }
 
 private const val ONBOARDING_ROUTE = "onboarding"
@@ -114,7 +114,7 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
                     Screen.entries.forEach { screen ->
                         NavigationBarItem(
                             icon = {
-                                if (screen == Screen.Calibrate) {
+                                if (screen == Screen.Settings) {
                                     BadgedBox(
                                         badge = {
                                             Box(
@@ -168,7 +168,7 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
                         scope.launch {
                             viewModel.onboardingStore.markCompleted()
                         }
-                        navController.navigate(Screen.Calibrate.route) {
+                        navController.navigate(Screen.Settings.route) {
                             popUpTo(ONBOARDING_ROUTE) { inclusive = true }
                         }
                     }
@@ -177,12 +177,14 @@ fun SlowThemDownApp(viewModel: AppViewModel = hiltViewModel()) {
             composable(Screen.Capture.route) { CaptureScreen() }
             composable(Screen.Log.route) { LogScreen() }
             composable(Screen.Reports.route) { ReportScreen() }
-            composable(Screen.Calibrate.route) {
+            composable(Screen.Settings.route) {
                 CalibrateScreen(
                     onNavigateToLicenses = { navController.navigate(LICENSES_ROUTE) },
                 )
             }
-            composable(LICENSES_ROUTE) { LicensesScreen() }
+            composable(LICENSES_ROUTE) {
+                LicensesScreen(onClose = { navController.popBackStack() })
+            }
         }
     }
 }

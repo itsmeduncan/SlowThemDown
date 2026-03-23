@@ -160,20 +160,25 @@
     <string name="onboarding_get_started">Get Started</string>
     <string name="onboarding_page1_title">Measure Traffic Speeds</string>
     <string name="onboarding_page1_description">Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed \u2014 just point, record, and mark.</string>
-    <string name="onboarding_page2_title">Calibrate First</string>
-    <string name="onboarding_page2_description">Before capturing speeds, calibrate by marking a known distance in a photo \u2014 like a lane width or parking space. You\'ll start on the Calibrate tab where you can also choose imperial or metric units.</string>
+    <string name="onboarding_page2_title">Set Up in Settings</string>
+    <string name="onboarding_page2_description">Choose your units (imperial or metric) and calibrate by marking a known distance in a photo \u2014 like a lane width or parking space. You\'ll start in Settings after this.</string>
     <string name="onboarding_page3_title">Record &amp; Mark</string>
-    <string name="onboarding_page3_description">Record a short video of passing traffic. Pick two frames, then tap the same point on the vehicle in each frame. Slow Them Down calculates the speed from the displacement.</string>
+    <string name="onboarding_page3_description">Record a short video or import one from your library. Pick two frames, then tap the same point on the vehicle in each frame to calculate its speed.</string>
     <string name="onboarding_page4_title">Or Use Vehicle Reference</string>
-    <string name="onboarding_page4_description">No calibration needed \u2014 select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and Slow Them Down uses the known vehicle length.</string>
+    <string name="onboarding_page4_description">Skip calibration \u2014 select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and the app uses the known vehicle length.</string>
     <string name="onboarding_page5_title">Build Your Case</string>
-    <string name="onboarding_page5_description">Track observations over time, calculate V85 speeds (the metric traffic engineers use), and export reports to share with local officials.</string>
+    <string name="onboarding_page5_description">Track observations over time, calculate V85 speeds (the metric traffic engineers use), generate PDF reports, and email them to your local transportation agency.</string>
 
     <!-- Navigation -->
     <string name="nav_capture">Capture</string>
     <string name="nav_log">Log</string>
     <string name="nav_reports">Reports</string>
-    <string name="nav_calibrate">Calibrate</string>
+    <string name="nav_settings">Settings</string>
+
+    <!-- Settings Sections -->
+    <string name="settings_units">Units</string>
+    <string name="settings_calibration">Calibration</string>
+    <string name="settings_about">About</string>
 
     <!-- Licenses -->
     <string name="licenses_title">Open Source Licenses</string>

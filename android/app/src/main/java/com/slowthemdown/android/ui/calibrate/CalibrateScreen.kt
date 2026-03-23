@@ -129,7 +129,8 @@ fun CalibrateScreen(
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
-        // Unit toggle
+        // MARK: - Units section
+        Text(stringResource(R.string.settings_units), style = MaterialTheme.typography.titleMedium)
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
             SegmentedButton(
                 selected = system == MeasurementSystem.IMPERIAL,
@@ -146,6 +147,11 @@ fun CalibrateScreen(
                 Text(stringResource(R.string.calibrate_metric))
             }
         }
+
+        HorizontalDivider()
+
+        // MARK: - Calibration section
+        Text(stringResource(R.string.settings_calibration), style = MaterialTheme.typography.titleMedium)
 
         // Status card
         Card(
@@ -346,7 +352,10 @@ fun CalibrateScreen(
             }
         }
 
-        HorizontalDivider(modifier = Modifier.padding(vertical = 4.dp))
+        HorizontalDivider()
+
+        // MARK: - About section
+        Text(stringResource(R.string.settings_about), style = MaterialTheme.typography.titleMedium)
 
         TextButton(
             onClick = onNavigateToLicenses,

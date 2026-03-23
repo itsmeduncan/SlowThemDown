@@ -14,6 +14,7 @@
 		086E72CF0D34F8524ECF1DC8 /* VideoRecorderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58765E1A93CF0342AD4F7BEC /* VideoRecorderView.swift */; };
 		08CFA017DEDF5C2222E9256B /* DemoBanner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 009BB3FDB97376EEF18FEE26 /* DemoBanner.swift */; };
 		0CE36F0352225E986F522204 /* ReportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 075B756386BB5863DA65FBDF /* ReportView.swift */; };
+		0FF6E5E81FF8478277DCCF25 /* LicensesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0F1444464F5037ED6D78D69A /* LicensesView.swift */; };
 		1D573A9E4D24A4A54A122627 /* HourlyChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2363BEE9DF5586971BDE8207 /* HourlyChartView.swift */; };
 		1DC9D02E104D96DE0AB3B532 /* CalibrationViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFEC0D54A19B8FCD5839E19 /* CalibrationViewModelTests.swift */; };
 		1ED5411E1CA533E51A4DACE0 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = 293DAD4324BFB2C255ED5F84 /* Localizable.xcstrings */; };
@@ -87,6 +88,7 @@
 		00E79D8618F4F2D24D94D00D /* VehicleRefPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VehicleRefPicker.swift; sourceTree = "<group>"; };
 		075B756386BB5863DA65FBDF /* ReportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportView.swift; sourceTree = "<group>"; };
 		0C801C04D16388A2EC5B894F /* ScatterChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScatterChartView.swift; sourceTree = "<group>"; };
+		0F1444464F5037ED6D78D69A /* LicensesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicensesView.swift; sourceTree = "<group>"; };
 		115F702DDF9356A7793E2724 /* FrameSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FrameSelectorView.swift; sourceTree = "<group>"; };
 		12D98259EC568C5CE9165613 /* RoadStandards.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoadStandards.swift; sourceTree = "<group>"; };
 		2363BEE9DF5586971BDE8207 /* HourlyChartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HourlyChartView.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 			isa = PBXGroup;
 			children = (
 				BAF9A07F59C639EAD454901F /* CalibrateView.swift */,
+				0F1444464F5037ED6D78D69A /* LicensesView.swift */,
 			);
 			path = Calibrate;
 			sourceTree = "<group>";
@@ -418,6 +421,7 @@
 			knownRegions = (
 				Base,
 				en,
+				"es-MX",
 			);
 			mainGroup = 3625E5F3A75A9B763B8C8403;
 			minimizedProjectReferenceProxies = 1;
@@ -505,6 +509,7 @@
 				A0DA805A9649B3E6C5A98605 /* HistogramChartView.swift in Sources */,
 				1D573A9E4D24A4A54A122627 /* HourlyChartView.swift in Sources */,
 				47679D062CCAEE688214451C /* ImageMarkerOverlay.swift in Sources */,
+				0FF6E5E81FF8478277DCCF25 /* LicensesView.swift in Sources */,
 				CEE57FC771538ACA7AB491E2 /* LocationManager.swift in Sources */,
 				9BB1E4BA5AA6B52E5BA674DF /* LogDetailView.swift in Sources */,
 				380066D4220359B3E26E9135 /* LogView.swift in Sources */,

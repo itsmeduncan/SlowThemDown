@@ -160,20 +160,25 @@
     <string name="onboarding_get_started">Comenzar</string>
     <string name="onboarding_page1_title">Mide Velocidades de Tráfico</string>
     <string name="onboarding_page1_description">Slow Them Down estima la velocidad de los vehículos en tu calle usando video de tu teléfono. No necesitas pistola de radar \u2014 solo apunta, graba y marca.</string>
-    <string name="onboarding_page2_title">Calibra Primero</string>
-    <string name="onboarding_page2_description">Antes de capturar velocidades, calibra marcando una distancia conocida en una foto \u2014 como el ancho de un carril o un cajón de estacionamiento. Empezarás en la pestaña de Calibrar donde también puedes elegir unidades imperiales o métricas.</string>
+    <string name="onboarding_page2_title">Configura en Ajustes</string>
+    <string name="onboarding_page2_description">Elige tus unidades (imperial o métrico) y calibra marcando una distancia conocida en una foto \u2014 como el ancho de un carril o un cajón de estacionamiento. Empezarás en Ajustes después de esto.</string>
     <string name="onboarding_page3_title">Graba &amp; Marca</string>
-    <string name="onboarding_page3_description">Graba un video corto del tráfico que pasa. Elige dos cuadros, luego toca el mismo punto del vehículo en cada cuadro. Slow Them Down calcula la velocidad a partir del desplazamiento.</string>
+    <string name="onboarding_page3_description">Graba un video corto o importa uno de tu galería. Elige dos cuadros, luego toca el mismo punto del vehículo en cada cuadro para calcular su velocidad.</string>
     <string name="onboarding_page4_title">O Usa Referencia de Vehículo</string>
-    <string name="onboarding_page4_description">Sin necesidad de calibrar \u2014 selecciona una marca de vehículo de la tabla integrada durante la captura. Marca la defensa delantera y trasera, y Slow Them Down usa el largo conocido del vehículo.</string>
+    <string name="onboarding_page4_description">Omite la calibración \u2014 selecciona una marca de vehículo de la tabla integrada durante la captura. Marca la defensa delantera y trasera, y la app usa el largo conocido del vehículo.</string>
     <string name="onboarding_page5_title">Arma Tu Caso</string>
-    <string name="onboarding_page5_description">Lleva un registro de observaciones a lo largo del tiempo, calcula velocidades V85 (la métrica que usan los ingenieros de tránsito) y exporta reportes para compartir con las autoridades locales.</string>
+    <string name="onboarding_page5_description">Lleva un registro de observaciones a lo largo del tiempo, calcula velocidades V85 (la métrica que usan los ingenieros de tránsito), genera reportes en PDF y envíalos a tu dependencia de transporte local.</string>
 
     <!-- Navigation -->
     <string name="nav_capture">Capturar</string>
     <string name="nav_log">Registro</string>
     <string name="nav_reports">Reportes</string>
-    <string name="nav_calibrate">Calibrar</string>
+    <string name="nav_settings">Ajustes</string>
+
+    <!-- Settings Sections -->
+    <string name="settings_units">Unidades</string>
+    <string name="settings_calibration">Calibración</string>
+    <string name="settings_about">Acerca de</string>
 
     <!-- Licenses -->
     <string name="licenses_title">Licencias de Código Abierto</string>

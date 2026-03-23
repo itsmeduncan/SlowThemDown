@@ -16,6 +16,8 @@ private let licenses: [OpenSourceLicense] = [
 ]
 
 struct LicensesView: View {
+    @Environment(\.dismiss) private var dismiss
+
     var body: some View {
         List {
             Section {
@@ -51,5 +53,10 @@ struct LicensesView: View {
             }
         }
         .navigationTitle("Open Source Licenses")
+        .toolbar {
+            ToolbarItem(placement: .topBarTrailing) {
+                Button("Done") { dismiss() }
+            }
+        }
     }
 }
