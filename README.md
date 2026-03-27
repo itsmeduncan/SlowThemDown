@@ -12,9 +12,8 @@ SlowThemDown helps residents, neighborhood groups, and traffic safety advocates 
 
 ## Features
 
-- **Capture** — Record video or import from your library, select two frames, mark the same point on a vehicle in each frame, and get an instant speed estimate
+- **Capture** — Record video or import from your library, select two frames, mark the same point on a vehicle in each frame, and get an instant speed estimate. The home screen doubles as the speed log — browse all recorded entries with search, filtering by vehicle type, and over-limit highlighting
 - **Calibrate** — Establish a pixels-per-meter ratio using a known distance in your scene (e.g., lane width) or use a vehicle-as-reference method with a built-in lookup table of common vehicle lengths. Supports both imperial and metric units
-- **Log** — Browse all recorded speed entries with search, filtering by vehicle type, and over-limit highlighting
 - **Reports** — V85 speed analysis, speed distribution histogram, hourly averages, scatter plot over time, street-level filtering and breakdown, and PDF/CSV export for sharing with local officials
 - **Report to Agency** — Send speed data directly to your local traffic department. The app matches your location to a built-in directory of city, county, and state agencies, then composes an email with V85 stats and an attached PDF report
 - **Privacy** — Automatic face and license plate blurring on all captured frames using on-device detection (no data leaves the device)

@@ -44,10 +44,10 @@ This is for transparency, not blame. It helps maintainers understand the provena
 The app's speed estimation is deterministic math, not AI inference. The formula is:
 
 ```
-speed_mph = (pixel_displacement / pixels_per_foot) / time_delta * 0.681818
+speed_mps = (pixel_displacement / pixels_per_meter) / time_delta_seconds
 ```
 
-There is no machine learning in the speed calculation. The only ML components in the app are:
+All internal values use SI units (meters, m/s). Display conversion to MPH or km/h happens at the view layer. There is no machine learning in the speed calculation. The only ML components in the app are:
 
 - **Face detection** (Apple Vision / ML Kit) — used to blur faces for privacy
 - **Text recognition** (Apple Vision / ML Kit) — used to detect and blur license plates
