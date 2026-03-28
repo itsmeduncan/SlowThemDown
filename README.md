@@ -8,7 +8,7 @@ A cross-platform app for estimating vehicle speeds on residential streets using 
 
 SlowThemDown helps residents, neighborhood groups, and traffic safety advocates collect speed data on their streets. Record or import a video clip, mark a vehicle across two frames, and SlowThemDown calculates the estimated speed using pixel displacement and a calibrated reference distance.
 
-**[Download on the App Store](https://apps.apple.com/app/slow-them-down/id6760197118)** | **Android coming soon**
+**[Download on the App Store](https://apps.apple.com/app/slow-them-down/id6760197118)** | **[Join the Android Beta](https://play.google.com/store/apps/details?id=com.slowdown.android)**
 
 ## Features
 
