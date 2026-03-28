@@ -5,8 +5,8 @@ DerivedData/
 *.xcworkspace/xcuserdata/
 xcuserdata/
 
-# XcodeGen generates these — optionally track or regenerate
-# SlowThemDown.xcodeproj/
+# XcodeGen generates from ios/project.yml — regenerate with: cd ios && xcodegen generate
+ios/SlowThemDown.xcodeproj/
 
 # Swift Package Manager
 .build/
