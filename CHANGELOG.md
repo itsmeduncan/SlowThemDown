@@ -4,6 +4,90 @@ All notable changes to Slow Them Down are documented here.
 
 This changelog is automatically generated from the git history.
 
+## [1.0.1](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.1) — 2026-03-28
+
+### Changes
+
+- Bump version to 1.0.1
+- Update README with App Store URL, flag Android as coming soon
+
+### Features
+
+- Add Android closed testing link to README
+
+### Other
+
+- Gitignore generated xcodeproj — regenerate via XcodeGen
+- Sync docs with current codebase state
+## [1.0.0-beta.28](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.28) — 2026-03-23
+
+### Features
+
+- Address cross-platform review findings (P1 + P2)
+
+### Other
+
+- Consolidate Capture and Log into single Home screen
+## [1.0.0-beta.27](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.27) — 2026-03-23
+
+### Other
+
+- UX polish: marker bounds, image orientation, loading states (#55)
+## [1.0.0-beta.26](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.26) — 2026-03-23
+
+### Changes
+
+- Rename Calibrate tab to Settings with sections
+## [1.0.0-beta.25](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.25) — 2026-03-23
+
+### Bug Fixes
+
+- Fix blank CI coverage reports
+## [1.0.0-beta.24](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.24) — 2026-03-22
+
+### Features
+
+- Address cross-platform audit findings (P1 + P2)
+
+### Other
+
+- Sync docs with coverage reporting and today's changes
+## [1.0.0-beta.23](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.23) — 2026-03-22
+
+### Features
+
+- Add test coverage reporting to iOS and Android CI
+
+### Other
+
+- Dismiss keyboard on calibrate save and tap outside text field
+- Clear PhotosPicker selection after import so same photo can be re-selected
+- Move Calibrate tab to far right with status indicator
+- Speed up Android CI/CD with build caching and redundancy removal
+## [1.0.0-beta.22](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.22) — 2026-03-22
+
+### Bug Fixes
+
+- Fix speed estimation ~4x too slow (calibration resolution mismatch) (#54)
+## [1.0.0-beta.21](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.21) — 2026-03-22
+
+### Features
+
+- Add Mexican Spanish (es-MX) localization for iOS and Android (#53)
+## [1.0.0-beta.20](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.20) — 2026-03-22
+
+### Other
+
+- Speed up Android CI builds with Gradle caching and larger heap
+## [1.0.0-beta.19](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0-beta.19) — 2026-03-22
+
+### Bug Fixes
+
+- Fix agency matching, video picker, and agency email flow
+
+### Changes
+
+- Update CHANGELOG.md for v1.0.0 (#51)
 ## [1.0.0](https://github.com/itsmeduncan/SlowThemDown/releases/tag/v1.0.0) — 2026-03-22
 
 ### Bug Fixes
