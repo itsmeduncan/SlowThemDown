@@ -23,11 +23,20 @@ actor VideoFrameExtractor {
         }
     }
 
-    func extractFrame(at time: CMTime) async throws -> UIImage {
+    /// Extract a frame at `time`.
+    ///
+    /// Pass `maximumSize` to get a downscaled image — used for scrub previews, where
+    /// decoding at full resolution on every slider tick is wasteful. Seeking stays
+    /// frame-accurate either way, so a preview always shows the frame that a
+    /// full-resolution extraction at the same timestamp would produce.
+    func extractFrame(at time: CMTime, maximumSize: CGSize? = nil) async throws -> UIImage {
         let generator = AVAssetImageGenerator(asset: asset)
         generator.appliesPreferredTrackTransform = true
         generator.requestedTimeToleranceBefore = .zero
         generator.requestedTimeToleranceAfter = .zero
+        if let maximumSize {
+            generator.maximumSize = maximumSize
+        }
 
         let (cgImage, _) = try await generator.image(at: time)
         return UIImage(cgImage: cgImage)

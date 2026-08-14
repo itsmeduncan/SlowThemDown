@@ -264,6 +264,14 @@ internal fun SpeedResultContent(viewModel: CaptureViewModel) {
             }
         }
         Spacer(modifier = Modifier.height(12.dp))
+        // Back re-opens frame 2 so a mis-placed marker can be fixed without recapturing.
+        OutlinedButton(
+            onClick = { viewModel.goBack() },
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text(stringResource(R.string.capture_back))
+        }
+        Spacer(modifier = Modifier.height(12.dp))
         OutlinedButton(
             onClick = { viewModel.reset() },
             modifier = Modifier.fillMaxWidth(),

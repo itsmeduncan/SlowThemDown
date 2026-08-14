@@ -1,5 +1,6 @@
 package com.slowthemdown.android.viewmodel
 
+import android.net.Uri
 import com.slowthemdown.android.data.datastore.Calibration
 import com.slowthemdown.android.data.datastore.CalibrationStore
 import com.slowthemdown.android.data.db.SpeedEntryDao
@@ -204,7 +205,94 @@ class CaptureViewModelTest {
         assertEquals(CaptureFlowState.SELECT_SOURCE, vm.state.value)
     }
 
+    // MARK: - Back navigation
+
+    @Test
+    fun canGoBack_isFalseBeforeFlowStarts() {
+        assertEquals(false, CaptureFlowState.SELECT_SOURCE.canGoBack)
+        assertEquals(false, CaptureFlowState.RECORDING.canGoBack)
+    }
+
+    @Test
+    fun canGoBack_isTrueOnceFlowStarted() {
+        assertTrue(CaptureFlowState.SELECT_FRAMES.canGoBack)
+        assertTrue(CaptureFlowState.MARK_FRAME1.canGoBack)
+        assertTrue(CaptureFlowState.MARK_FRAME2.canGoBack)
+        assertTrue(CaptureFlowState.RESULT.canGoBack)
+    }
+
+    @Test
+    fun goBack_atSelectSource_isNoOp() {
+        vm.goBack()
+        assertEquals(CaptureFlowState.SELECT_SOURCE, vm.state.value)
+    }
+
+    @Test
+    fun goBack_fromMarkFrame2_returnsToMarkFrame1() {
+        vm.advanceToMarkFrame2()
+        vm.goBack()
+        assertEquals(CaptureFlowState.MARK_FRAME1, vm.state.value)
+    }
+
+    @Test
+    fun goBack_fromResult_returnsToMarkFrame2() {
+        vm.setUseVehicleReference(false)
+        vm.calculateSpeed()
+        assertEquals(CaptureFlowState.RESULT, vm.state.value)
+
+        vm.goBack()
+        assertEquals(CaptureFlowState.MARK_FRAME2, vm.state.value)
+    }
+
+    @Test
+    fun goBack_fromMarkFrame1_preservesLoadedVideo() {
+        val uri = loadTestVideo()
+        vm.setFrame1Time(1.0)
+        vm.setFrame2Time(2.0)
+        vm.extractFrames()
+        assertEquals(CaptureFlowState.MARK_FRAME1, vm.state.value)
+
+        vm.goBack()
+
+        // The whole point of goBack: stepping back is not a restart.
+        assertEquals(CaptureFlowState.SELECT_FRAMES, vm.state.value)
+        assertEquals(uri, vm.videoUri.value)
+        assertEquals(5.0, vm.videoDurationSeconds.value, 0.001)
+        assertEquals(1.0, vm.frame1Time.value, 0.001)
+        assertEquals(2.0, vm.frame2Time.value, 0.001)
+    }
+
+    @Test
+    fun goBack_fromSelectFrames_returnsToSourceAndClearsVideo() {
+        loadTestVideo()
+        assertEquals(CaptureFlowState.SELECT_FRAMES, vm.state.value)
+
+        vm.goBack()
+
+        assertEquals(CaptureFlowState.SELECT_SOURCE, vm.state.value)
+        assertNull(vm.videoUri.value)
+    }
+
+    private fun loadTestVideo(): Uri {
+        val uri = mockk<Uri>(relaxed = true)
+        coEvery { frameExtractor.getVideoInfo(uri) } returns
+            VideoFrameExtractor.VideoInfo(durationMs = 5000L, width = 1920, height = 1080)
+        vm.loadVideo(uri)
+        return uri
+    }
+
     // MARK: - Reset
+
+    @Test
+    fun reset_clearsPreviews() {
+        loadTestVideo()
+        vm.reset()
+
+        assertNull(vm.previewFrame1.value)
+        assertNull(vm.previewFrame2.value)
+        assertEquals(false, vm.isLoadingPreview1.value)
+        assertEquals(false, vm.isLoadingPreview2.value)
+    }
 
     @Test
     fun reset_restoresDefaults() {

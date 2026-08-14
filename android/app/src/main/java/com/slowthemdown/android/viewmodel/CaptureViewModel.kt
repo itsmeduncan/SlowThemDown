@@ -24,6 +24,9 @@ import com.slowthemdown.shared.model.TravelDirection
 import com.slowthemdown.shared.model.VehicleReference
 import com.slowthemdown.shared.model.VehicleType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CancellationException
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -41,6 +44,11 @@ enum class CaptureFlowState {
     MARK_FRAME1,
     MARK_FRAME2,
     RESULT,
+    ;
+
+    /** Whether there is a previous stage to step back to from here. */
+    val canGoBack: Boolean
+        get() = this != SELECT_SOURCE && this != RECORDING
 }
 
 @HiltViewModel
@@ -94,6 +102,23 @@ class CaptureViewModel @Inject constructor(
 
     private val _frame2Image = MutableStateFlow<Bitmap?>(null)
     val frame2Image: StateFlow<Bitmap?> = _frame2Image.asStateFlow()
+
+    // Scrub previews — low-resolution frames shown while choosing timestamps, so the
+    // selection isn't blind. Never persisted, never used for measurement.
+    private val _previewFrame1 = MutableStateFlow<Bitmap?>(null)
+    val previewFrame1: StateFlow<Bitmap?> = _previewFrame1.asStateFlow()
+
+    private val _previewFrame2 = MutableStateFlow<Bitmap?>(null)
+    val previewFrame2: StateFlow<Bitmap?> = _previewFrame2.asStateFlow()
+
+    private val _isLoadingPreview1 = MutableStateFlow(false)
+    val isLoadingPreview1: StateFlow<Boolean> = _isLoadingPreview1.asStateFlow()
+
+    private val _isLoadingPreview2 = MutableStateFlow(false)
+    val isLoadingPreview2: StateFlow<Boolean> = _isLoadingPreview2.asStateFlow()
+
+    private var preview1Job: Job? = null
+    private var preview2Job: Job? = null
 
     private val _frame1Marker = MutableStateFlow<Point?>(null)
     val frame1Marker: StateFlow<Point?> = _frame1Marker.asStateFlow()
@@ -159,6 +184,8 @@ class CaptureViewModel @Inject constructor(
                 _frame1Time.value = 0.0
                 _frame2Time.value = min(0.5, _videoDurationSeconds.value)
                 _state.value = CaptureFlowState.SELECT_FRAMES
+                schedulePreview(frame = 1)
+                schedulePreview(frame = 2)
             } catch (e: Exception) {
                 FirebaseCrashlytics.getInstance().recordException(e)
                 _state.value = CaptureFlowState.SELECT_SOURCE
@@ -168,8 +195,71 @@ class CaptureViewModel @Inject constructor(
         }
     }
 
-    fun setFrame1Time(time: Double) { _frame1Time.value = time }
-    fun setFrame2Time(time: Double) { _frame2Time.value = time }
+    fun setFrame1Time(time: Double) {
+        _frame1Time.value = time
+        schedulePreview(frame = 1)
+    }
+
+    fun setFrame2Time(time: Double) {
+        _frame2Time.value = time
+        schedulePreview(frame = 2)
+    }
+
+    /**
+     * Refresh the preview for one slider, debounced so dragging doesn't queue up a
+     * decode per tick. A newer scrub cancels the one in flight.
+     */
+    private fun schedulePreview(frame: Int) {
+        val uri = _videoUri.value ?: return
+        val time = if (frame == 1) _frame1Time.value else _frame2Time.value
+        val loading = if (frame == 1) _isLoadingPreview1 else _isLoadingPreview2
+        val target = if (frame == 1) _previewFrame1 else _previewFrame2
+
+        if (frame == 1) preview1Job?.cancel() else preview2Job?.cancel()
+
+        val job = viewModelScope.launch {
+            delay(PREVIEW_DEBOUNCE_MS)
+            loading.value = true
+            try {
+                // Never recycle the outgoing bitmap — Compose may still be drawing it.
+                val bitmap = frameExtractor.extractFrame(uri, time, PREVIEW_MAX_DIMENSION)
+                if (bitmap != null) target.value = bitmap
+            } catch (e: CancellationException) {
+                throw e
+            } catch (e: Exception) {
+                // A failed preview leaves the last good frame up rather than blanking the view.
+                FirebaseCrashlytics.getInstance().recordException(e)
+            } finally {
+                loading.value = false
+            }
+        }
+
+        if (frame == 1) preview1Job = job else preview2Job = job
+    }
+
+    private fun cancelPreviews() {
+        preview1Job?.cancel()
+        preview2Job?.cancel()
+        preview1Job = null
+        preview2Job = null
+        _isLoadingPreview1.value = false
+        _isLoadingPreview2.value = false
+    }
+
+    /**
+     * Step back one stage, preserving the loaded video and any work already done.
+     * Distinct from [reset], which discards the video and starts from scratch.
+     */
+    fun goBack() {
+        when (_state.value) {
+            CaptureFlowState.SELECT_SOURCE, CaptureFlowState.RECORDING -> Unit
+            // The only thing behind frame selection is choosing a different video.
+            CaptureFlowState.SELECT_FRAMES -> reset()
+            CaptureFlowState.MARK_FRAME1 -> _state.value = CaptureFlowState.SELECT_FRAMES
+            CaptureFlowState.MARK_FRAME2 -> _state.value = CaptureFlowState.MARK_FRAME1
+            CaptureFlowState.RESULT -> _state.value = CaptureFlowState.MARK_FRAME2
+        }
+    }
 
     fun extractFrames() {
         val uri = _videoUri.value ?: return
@@ -315,11 +405,14 @@ class CaptureViewModel @Inject constructor(
     fun clearError() { _errorMessage.value = null }
 
     fun reset() {
+        cancelPreviews()
         _state.value = CaptureFlowState.SELECT_SOURCE
         _videoUri.value = null
         _errorMessage.value = null
         _frame1Image.value = null
         _frame2Image.value = null
+        _previewFrame1.value = null
+        _previewFrame2.value = null
         _frame1Marker.value = null
         _frame2Marker.value = null
         _vehicleRefMarkers.value = emptyList()
@@ -328,5 +421,10 @@ class CaptureViewModel @Inject constructor(
         _streetName.value = ""
         _useVehicleReference.value = false
         _selectedVehicleRef.value = null
+    }
+
+    private companion object {
+        const val PREVIEW_DEBOUNCE_MS = 150L
+        const val PREVIEW_MAX_DIMENSION = 640
     }
 }

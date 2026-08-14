@@ -151,6 +151,22 @@
         }
       }
     },
+    "Back" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Back"
+          }
+        },
+        "es-MX" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Atrás"
+          }
+        }
+      }
+    },
     "Before capturing speeds, calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start on the Calibrate tab where you can also choose imperial or metric units." : {
       "extractionState" : "stale",
       "localizations" : {
