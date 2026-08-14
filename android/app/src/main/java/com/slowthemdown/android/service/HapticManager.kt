@@ -47,12 +47,7 @@ class HapticManager @Inject constructor(
 
     private fun vibrate(durationMs: Long) {
         vibrator?.let { v ->
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                v.vibrate(VibrationEffect.createOneShot(durationMs, VibrationEffect.DEFAULT_AMPLITUDE))
-            } else {
-                @Suppress("DEPRECATION")
-                v.vibrate(durationMs)
-            }
+            v.vibrate(VibrationEffect.createOneShot(durationMs, VibrationEffect.DEFAULT_AMPLITUDE))
         }
     }
 

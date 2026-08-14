@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<lint>
+    <!--
+      Lint reports the mipmap-anydpi-v26 folder as an unnecessary version
+      qualifier because minSdk is already 26. Taking that advice breaks the
+      launcher icon: renaming the folder to mipmap-anydpi drops the
+      <adaptive-icon> XML from the packaged APK entirely (verified by diffing
+      `unzip -l` on clean builds either side of the rename), leaving only the
+      legacy square PNGs. Keep the qualifier.
+    -->
+    <issue id="ObsoleteSdkInt">
+        <ignore path="src/main/res/mipmap-anydpi-v26" />
+    </issue>
+</lint>
