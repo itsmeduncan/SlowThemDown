@@ -1,5 +1,6 @@
 package com.slowthemdown.android.ui.capture
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Snackbar
@@ -22,6 +23,9 @@ import androidx.compose.ui.Alignment
 fun CaptureFlowOverlay(viewModel: CaptureViewModel) {
     val state by viewModel.state.collectAsState()
     val errorMessage by viewModel.errorMessage.collectAsState()
+
+    // System back steps back one stage rather than dropping out of the capture flow.
+    BackHandler(enabled = state.canGoBack) { viewModel.goBack() }
 
     Surface(modifier = Modifier.fillMaxSize()) {
         Box(modifier = Modifier.fillMaxSize()) {

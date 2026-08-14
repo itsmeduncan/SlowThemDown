@@ -2,6 +2,7 @@ package com.slowthemdown.android.ui.capture
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -141,8 +142,13 @@ internal fun FrameMarkerContent(viewModel: CaptureViewModel, frameNumber: Int) {
             }
         }
         Spacer(modifier = Modifier.height(8.dp))
-        TextButton(onClick = { viewModel.reset() }) {
-            Text(stringResource(R.string.capture_cancel))
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            TextButton(onClick = { viewModel.goBack() }) {
+                Text(stringResource(R.string.capture_back))
+            }
+            TextButton(onClick = { viewModel.reset() }) {
+                Text(stringResource(R.string.capture_start_over))
+            }
         }
     }
 }

@@ -1,6 +1,7 @@
 import CoreGraphics
 import Foundation
 import Testing
+import UIKit
 @testable import SlowThemDown
 
 @Suite("CaptureViewModel")
@@ -222,7 +223,92 @@ struct CaptureViewModelTests {
         #expect(entry.streetName == "User Input")
     }
 
+    // MARK: - Back Navigation
+
+    @Test func canGoBack_isFalseBeforeFlowStarts() {
+        let vm = CaptureViewModel()
+        vm.state = .selectSource
+        #expect(vm.canGoBack == false)
+
+        vm.state = .recording
+        #expect(vm.canGoBack == false)
+    }
+
+    @Test func canGoBack_isTrueOnceFlowStarted() {
+        let vm = CaptureViewModel()
+        for state: CaptureFlowState in [.selectFrames, .markFrame1, .markFrame2, .result] {
+            vm.state = state
+            #expect(vm.canGoBack)
+        }
+    }
+
+    @Test func goBack_atSelectSource_isNoOp() {
+        let vm = CaptureViewModel()
+        vm.state = .selectSource
+        vm.goBack()
+        #expect(vm.state == .selectSource)
+    }
+
+    @Test func goBack_stepsBackThroughMarkingStages() {
+        let vm = CaptureViewModel()
+        vm.state = .result
+
+        vm.goBack()
+        #expect(vm.state == .markFrame2)
+
+        vm.goBack()
+        #expect(vm.state == .markFrame1)
+
+        vm.goBack()
+        #expect(vm.state == .selectFrames)
+    }
+
+    @Test func goBack_fromMarkFrame1_preservesLoadedVideo() {
+        let vm = CaptureViewModel()
+        vm.videoURL = URL(fileURLWithPath: "/tmp/clip.mov")
+        vm.videoDuration = 12
+        vm.videoSize = CGSize(width: 1920, height: 1080)
+        vm.frame1Time = 1.0
+        vm.frame2Time = 2.0
+        vm.state = .markFrame1
+
+        vm.goBack()
+
+        // The whole point of goBack: stepping back is not a restart.
+        #expect(vm.state == .selectFrames)
+        #expect(vm.videoURL != nil)
+        #expect(vm.videoDuration == 12)
+        #expect(vm.frame1Time == 1.0)
+        #expect(vm.frame2Time == 2.0)
+    }
+
+    @Test func goBack_fromSelectFrames_returnsToSourceAndClearsVideo() {
+        let vm = CaptureViewModel()
+        vm.videoURL = URL(fileURLWithPath: "/tmp/clip.mov")
+        vm.state = .selectFrames
+
+        vm.goBack()
+
+        #expect(vm.state == .selectSource)
+        #expect(vm.videoURL == nil)
+    }
+
     // MARK: - Reset
+
+    @Test func reset_clearsPreviews() {
+        let vm = CaptureViewModel()
+        vm.previewFrame1Image = UIImage()
+        vm.previewFrame2Image = UIImage()
+        vm.isLoadingPreview1 = true
+        vm.isLoadingPreview2 = true
+
+        vm.reset()
+
+        #expect(vm.previewFrame1Image == nil)
+        #expect(vm.previewFrame2Image == nil)
+        #expect(vm.isLoadingPreview1 == false)
+        #expect(vm.isLoadingPreview2 == false)
+    }
 
     @Test func reset_restoresDefaults() {
         let vm = CaptureViewModel()

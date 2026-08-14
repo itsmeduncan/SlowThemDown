@@ -18,7 +18,8 @@
     <string name="capture_frames_min_apart">Frames must be at least 10ms apart</string>
     <string name="capture_extract_frames">Extract Frames</string>
     <string name="capture_extracting_frames">Extracting Frames\u2026</string>
-    <string name="capture_cancel">Cancel</string>
+    <string name="capture_back">Back</string>
+    <string name="capture_start_over">Start Over</string>
 
     <!-- Capture: Frame Marker -->
     <string name="capture_mark_frame">Mark Frame %1$d</string>

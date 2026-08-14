@@ -14,7 +14,10 @@ import android.net.Uri
 import android.os.Handler
 import android.os.HandlerThread
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.currentCoroutineContext
+import kotlinx.coroutines.ensureActive
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -68,7 +71,20 @@ class VideoFrameExtractor @Inject constructor(
      * target time, then decodes forward frame-by-frame until we pass the target
      * timestamp, capturing the closest frame.
      */
-    suspend fun extractFrame(uri: Uri, timeSeconds: Double): Bitmap? = withContext(Dispatchers.IO) {
+    /**
+     * Extract a frame at the given timestamp.
+     *
+     * Pass [maxDimension] to get a downscaled bitmap — used for scrub previews, where
+     * converting a full-resolution frame on every slider tick is far too slow (the
+     * YUV→ARGB pass in [imageToBitmap] is O(width × height)). Seeking accuracy is
+     * unaffected, so a preview always shows the same frame a full-resolution
+     * extraction at that timestamp would produce.
+     */
+    suspend fun extractFrame(
+        uri: Uri,
+        timeSeconds: Double,
+        maxDimension: Int? = null,
+    ): Bitmap? = withContext(Dispatchers.IO) {
         val targetUs = (timeSeconds * 1_000_000).toLong()
         val rotation = getVideoRotation(uri)
 
@@ -85,13 +101,23 @@ class VideoFrameExtractor @Inject constructor(
             val width = format.getInteger(MediaFormat.KEY_WIDTH)
             val height = format.getInteger(MediaFormat.KEY_HEIGHT)
 
-            (decodeFrameAt(extractor, mime, width, height, targetUs)
+            (decodeFrameAt(extractor, mime, width, height, targetUs, sampleStep(width, height, maxDimension))
                 ?: fallbackExtract(uri, targetUs))?.applyRotation(rotation)
+        } catch (e: CancellationException) {
+            throw e
         } catch (_: Exception) {
             fallbackExtract(uri, targetUs)?.applyRotation(rotation)
         } finally {
             extractor.release()
         }
+    }
+
+    /** Pixel stride that keeps the longest edge at or under [maxDimension]. */
+    private fun sampleStep(width: Int, height: Int, maxDimension: Int?): Int {
+        if (maxDimension == null || maxDimension <= 0) return 1
+        val longest = maxOf(width, height)
+        if (longest <= maxDimension) return 1
+        return ((longest + maxDimension - 1) / maxDimension).coerceAtLeast(1)
     }
 
     private fun getVideoRotation(uri: Uri): Int {
@@ -123,12 +149,13 @@ class VideoFrameExtractor @Inject constructor(
         return null
     }
 
-    private fun decodeFrameAt(
+    private suspend fun decodeFrameAt(
         extractor: MediaExtractor,
         mime: String,
         width: Int,
         height: Int,
         targetUs: Long,
+        sampleStep: Int,
     ): Bitmap? {
         // Seek to the sync sample at or before targetUs
         extractor.seekTo(targetUs, MediaExtractor.SEEK_TO_PREVIOUS_SYNC)
@@ -152,6 +179,9 @@ class VideoFrameExtractor @Inject constructor(
             val overshootUs = 100_000L // 100ms overshoot to ensure we capture the target frame
 
             while (!outputDone) {
+                // A superseded scrub preview must stop decoding, not run to completion
+                currentCoroutineContext().ensureActive()
+
                 // Feed input
                 if (!inputDone) {
                     val inputIndex = codec.dequeueInputBuffer(10_000)
@@ -187,7 +217,7 @@ class VideoFrameExtractor @Inject constructor(
                         val image = imageReader.acquireLatestImage()
                         if (image != null) {
                             outputBitmap?.recycle()
-                            outputBitmap = imageToBitmap(image, width, height)
+                            outputBitmap = imageToBitmap(image, width, height, sampleStep)
                             image.close()
                         }
                     } else {
@@ -216,7 +246,14 @@ class VideoFrameExtractor @Inject constructor(
         }
     }
 
-    private fun imageToBitmap(image: Image, width: Int, height: Int): Bitmap {
+    /**
+     * Convert a YUV_420_888 image to ARGB, keeping every [sampleStep]-th pixel.
+     *
+     * A step above 1 subsamples by that factor on both axes, so the cost of this
+     * loop drops quadratically — that is what makes a live scrub preview viable.
+     */
+    private fun imageToBitmap(image: Image, width: Int, height: Int, sampleStep: Int = 1): Bitmap {
+        val step = sampleStep.coerceAtLeast(1)
         val yPlane = image.planes[0]
         val uPlane = image.planes[1]
         val vPlane = image.planes[2]
@@ -229,10 +266,14 @@ class VideoFrameExtractor @Inject constructor(
         val uvRowStride = uPlane.rowStride
         val uvPixelStride = uPlane.pixelStride
 
-        val argb = IntArray(width * height)
+        val outWidth = (width + step - 1) / step
+        val outHeight = (height + step - 1) / step
+        val argb = IntArray(outWidth * outHeight)
 
-        for (y in 0 until height) {
-            for (x in 0 until width) {
+        for (outY in 0 until outHeight) {
+            val y = outY * step
+            for (outX in 0 until outWidth) {
+                val x = outX * step
                 val yIndex = y * yRowStride + x
                 val uvIndex = (y / 2) * uvRowStride + (x / 2) * uvPixelStride
 
@@ -248,11 +289,11 @@ class VideoFrameExtractor @Inject constructor(
                 g = g.coerceIn(0, 255)
                 b = b.coerceIn(0, 255)
 
-                argb[y * width + x] = (0xFF shl 24) or (r shl 16) or (g shl 8) or b
+                argb[outY * outWidth + outX] = (0xFF shl 24) or (r shl 16) or (g shl 8) or b
             }
         }
 
-        return Bitmap.createBitmap(argb, width, height, Bitmap.Config.ARGB_8888)
+        return Bitmap.createBitmap(argb, outWidth, outHeight, Bitmap.Config.ARGB_8888)
     }
 
     /** Fallback to MediaMetadataRetriever for devices where MediaCodec fails. */

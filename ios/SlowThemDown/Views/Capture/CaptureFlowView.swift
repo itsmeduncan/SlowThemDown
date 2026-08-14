@@ -22,6 +22,10 @@ struct CaptureFlowView: View {
                         frame1Time: $vm.frame1Time,
                         frame2Time: $vm.frame2Time,
                         duration: vm.videoDuration,
+                        preview1: vm.previewFrame1Image,
+                        preview2: vm.previewFrame2Image,
+                        isLoadingPreview1: vm.isLoadingPreview1,
+                        isLoadingPreview2: vm.isLoadingPreview2,
                         isExtracting: vm.isExtractingFrames
                     ) {
                         Task { await vm.extractFrames() }
@@ -72,7 +76,16 @@ struct CaptureFlowView: View {
             .navigationTitle("Capture")
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Start Over") { vm.reset() }
+                    if vm.canGoBack {
+                        Button {
+                            vm.goBack()
+                        } label: {
+                            Label("Back", systemImage: "chevron.left")
+                        }
+                    }
+                }
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Start Over", role: .destructive) { vm.reset() }
                 }
             }
             .alert("Error", isPresented: Binding(
