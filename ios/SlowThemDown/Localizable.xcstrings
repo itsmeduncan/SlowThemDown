@@ -2,10 +2,24 @@
   "sourceLanguage" : "en",
   "strings" : {
     "%.0f" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$.0f"
+          }
+        }
+      }
     },
     "%.1f" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$.1f"
+          }
+        }
+      }
     },
     "%.1f %@" : {
       "localizations" : {
@@ -14,17 +28,46 @@
             "state" : "new",
             "value" : "%1$.1f %2$@"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$.1f %2$@"
+          }
+        }
+      }
+    },
+    "%.3fs" : {
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$.3f秒"
+          }
         }
       }
     },
     "%@" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%@"
+          }
+        }
+      }
     },
     "%@ %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
+            "value" : "%1$@ %2$@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
             "value" : "%1$@ %2$@"
           }
         }
@@ -43,6 +86,12 @@
             "state" : "translated",
             "value" : "%1$@ %2$@ límite"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度 %1$@ %2$@"
+          }
         }
       }
     },
@@ -59,11 +108,24 @@
             "state" : "translated",
             "value" : "%1$@ registros · Prom %2$@ %3$@"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@件・平均 %2$@ %3$@"
+          }
         }
       }
     },
     "•" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "•"
+          }
+        }
+      }
     },
     "85% of vehicles travel at or below this speed. " : {
       "localizations" : {
@@ -78,11 +140,24 @@
             "state" : "translated",
             "value" : "El 85% de los vehículos viajan a esta velocidad o menos. "
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録した車両の85%がこの速度以下で走行しています。"
+          }
         }
       }
     },
     "About" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリについて"
+          }
+        }
+      }
     },
     "All" : {
       "extractionState" : "stale",
@@ -97,6 +172,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Todos"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべての車両"
           }
         }
       }
@@ -115,6 +196,12 @@
             "state" : "translated",
             "value" : "Todas las Calles"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "すべての道路"
+          }
         }
       }
     },
@@ -130,6 +217,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Velocidad Promedio por Hora"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間帯別の平均速度"
           }
         }
       }
@@ -148,6 +241,12 @@
             "state" : "translated",
             "value" : "Gráfica de velocidad promedio por hora del día"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間帯別の平均速度のグラフ"
+          }
         }
       }
     },
@@ -164,8 +263,15 @@
             "state" : "translated",
             "value" : "Atrás"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "戻る"
+          }
         }
-      }
+      },
+      "extractionState" : "stale"
     },
     "Before capturing speeds, calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start on the Calibrate tab where you can also choose imperial or metric units." : {
       "extractionState" : "stale",
@@ -180,6 +286,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Antes de capturar velocidades, calibra marcando una distancia conocida en una foto — como el ancho de un carril o un cajón de estacionamiento. Empezarás en la pestaña Calibrar donde también puedes elegir unidades imperiales o métricas."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "単位（ヤード・ポンド法またはメートル法）を選び、写真上で車線幅や駐車区画など、距離がわかる部分に印を付けて、基準となる距離を設定します。この案内の後に設定画面が開きます。"
           }
         }
       }
@@ -198,6 +310,12 @@
             "state" : "translated",
             "value" : "Construye tu Caso"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "地域の交通状況を伝える"
+          }
         }
       }
     },
@@ -213,6 +331,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Por Calle"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "道路別"
           }
         }
       }
@@ -231,6 +355,12 @@
             "state" : "translated",
             "value" : "Calibrar"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準設定"
+          }
         }
       }
     },
@@ -247,6 +377,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calibrar de Nuevo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準を設定し直す"
           }
         }
       }
@@ -265,6 +401,12 @@
             "state" : "translated",
             "value" : "Calibra Primero"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "はじめに設定"
+          }
         }
       }
     },
@@ -282,11 +424,24 @@
             "state" : "translated",
             "value" : "Calibrado"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準設定済み"
+          }
         }
       }
     },
     "Calibration" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準設定"
+          }
+        }
+      }
     },
     "Calibration Saved" : {
       "localizations" : {
@@ -300,6 +455,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Calibración Guardada"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準設定を保存しました"
           }
         }
       }
@@ -318,6 +479,12 @@
             "state" : "translated",
             "value" : "Cancelar"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "キャンセル"
+          }
         }
       }
     },
@@ -335,6 +502,12 @@
             "state" : "translated",
             "value" : "Capturar"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "解析"
+          }
         }
       }
     },
@@ -344,6 +517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Captura Registrada"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録を保存しました"
           }
         }
       }
@@ -361,6 +540,12 @@
             "state" : "translated",
             "value" : "Captura algunas mediciones de velocidad para ver reportes."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両の速度を推定して記録すると、レポートを表示できます。"
+          }
         }
       }
     },
@@ -376,6 +561,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Captura algunas mediciones de velocidad para verlas aquí."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両の速度を推定して記録を残しましょう。"
           }
         }
       }
@@ -394,6 +585,12 @@
             "state" : "translated",
             "value" : "Cambiar Foto"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真を変更"
+          }
         }
       }
     },
@@ -411,6 +608,12 @@
             "state" : "translated",
             "value" : "Elegir Foto"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真を選択"
+          }
         }
       }
     },
@@ -426,6 +629,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Elige los puntos de inicio y fin cuando el vehículo sea visible"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両が見える開始フレームと終了フレームを選んでください"
           }
         }
       }
@@ -444,6 +653,12 @@
             "state" : "translated",
             "value" : "Borrar"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "クリア"
+          }
         }
       }
     },
@@ -460,6 +675,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Borrar Marcadores"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "印を消す"
           }
         }
       }
@@ -478,11 +699,24 @@
             "state" : "translated",
             "value" : "Confirmar Marcador"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "印を確定"
+          }
         }
       }
     },
     "Copyright (c) 2026 Duncan Grazier" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Copyright (c) 2026 Duncan Grazier"
+          }
+        }
+      }
     },
     "Details" : {
       "extractionState" : "stale",
@@ -497,6 +731,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Detalles"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細"
           }
         }
       }
@@ -515,6 +755,12 @@
             "state" : "translated",
             "value" : "Dirección"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進行方向"
+          }
         }
       }
     },
@@ -531,6 +777,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Descartar"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "破棄"
           }
         }
       }
@@ -549,11 +801,24 @@
             "state" : "translated",
             "value" : "Listo"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "完了"
+          }
         }
       }
     },
     "Enter the real-world distance" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実際の距離を入力"
+          }
+        }
+      }
     },
     "entries" : {
       "extractionState" : "stale",
@@ -568,6 +833,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "registros"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "件"
           }
         }
       }
@@ -586,6 +857,12 @@
             "state" : "translated",
             "value" : "Detalles del Registro"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録の詳細"
+          }
         }
       }
     },
@@ -601,6 +878,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Velocidad Estimada"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推定速度"
           }
         }
       }
@@ -619,6 +902,12 @@
             "state" : "translated",
             "value" : "Opciones de exportación y compartir"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "出力・共有のオプション"
+          }
         }
       }
     },
@@ -635,6 +924,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Exportar CSV"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CSVを出力"
           }
         }
       }
@@ -653,6 +948,12 @@
             "state" : "translated",
             "value" : "Exportar PDF"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "PDFを出力"
+          }
         }
       }
     },
@@ -670,6 +971,12 @@
             "state" : "translated",
             "value" : "Extraer Cuadros"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレームを抽出"
+          }
         }
       }
     },
@@ -685,6 +992,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Extrayendo Cuadros…"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレームを抽出中…"
           }
         }
       }
@@ -703,6 +1016,12 @@
             "state" : "translated",
             "value" : "Opciones de filtro y orden"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "絞り込み・並べ替えのオプション"
+          }
         }
       }
     },
@@ -713,8 +1032,15 @@
             "state" : "translated",
             "value" : "Cuadro 1: %.3fs"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレーム1：%1$.3f秒"
+          }
         }
-      }
+      },
+      "extractionState" : "stale"
     },
     "Frame 2: %.3fs" : {
       "localizations" : {
@@ -723,8 +1049,15 @@
             "state" : "translated",
             "value" : "Cuadro 2: %.3fs"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレーム2：%1$.3f秒"
+          }
         }
-      }
+      },
+      "extractionState" : "stale"
     },
     "Frames are too close together. Select frames further apart." : {
       "localizations" : {
@@ -738,6 +1071,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Los cuadros están muy juntos. Selecciona cuadros más separados."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレームの間隔が短すぎます。間隔を広げて選び直してください。"
           }
         }
       }
@@ -754,6 +1093,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Generando reporte..."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レポートを作成中…"
           }
         }
       }
@@ -772,6 +1117,12 @@
             "state" : "translated",
             "value" : "Comenzar"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "始める"
+          }
         }
       }
     },
@@ -789,6 +1140,12 @@
             "state" : "translated",
             "value" : "Ve a la pestaña Calibrar primero, o usa un vehículo como referencia durante la captura."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定画面で基準となる距離を登録するか、車両の長さを基準にしてください。"
+          }
         }
       }
     },
@@ -805,11 +1162,24 @@
             "state" : "translated",
             "value" : "Imperial"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ヤード・ポンド法"
+          }
         }
       }
     },
     "Import" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み込む"
+          }
+        }
+      }
     },
     "Import from Library" : {
       "extractionState" : "stale",
@@ -825,6 +1195,12 @@
             "state" : "translated",
             "value" : "Importar de la Biblioteca"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "読み込む"
+          }
         }
       }
     },
@@ -834,6 +1210,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Última calibración: %@"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最終設定日時：%1$@"
           }
         }
       }
@@ -852,11 +1234,24 @@
             "state" : "translated",
             "value" : "Límite"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度"
+          }
         }
       }
     },
     "Loading video…" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "動画を読み込み中…"
+          }
+        }
+      }
     },
     "Location" : {
       "extractionState" : "stale",
@@ -871,6 +1266,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ubicación"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "位置情報"
           }
         }
       }
@@ -889,6 +1290,12 @@
             "state" : "translated",
             "value" : "Registro"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録"
+          }
         }
       }
     },
@@ -905,6 +1312,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Marcar Vehículo — Cuadro 1"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両に印を付ける — フレーム1"
           }
         }
       }
@@ -923,6 +1336,12 @@
             "state" : "translated",
             "value" : "Marcar Vehículo — Cuadro 2"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両に印を付ける — フレーム2"
+          }
         }
       }
     },
@@ -939,6 +1358,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Promedio"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均速度"
           }
         }
       }
@@ -957,6 +1382,12 @@
             "state" : "translated",
             "value" : "Velocidad Promedio:"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均速度"
+          }
         }
       }
     },
@@ -973,6 +1404,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mide Velocidades de Tráfico"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両の速度を推定"
           }
         }
       }
@@ -991,6 +1428,12 @@
             "state" : "translated",
             "value" : "Medición"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度推定の詳細"
+          }
         }
       }
     },
@@ -1006,6 +1449,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Detalles de Medición"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度推定の詳細"
           }
         }
       }
@@ -1024,6 +1473,12 @@
             "state" : "translated",
             "value" : "Mediana"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度の中央値"
+          }
         }
       }
     },
@@ -1041,6 +1496,12 @@
             "state" : "translated",
             "value" : "Velocidad Mediana:"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度の中央値"
+          }
         }
       }
     },
@@ -1056,6 +1517,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Métrico"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メートル法"
           }
         }
       }
@@ -1074,11 +1541,24 @@
             "state" : "translated",
             "value" : "Mín / Máx:"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最小 / 最大："
+          }
         }
       }
     },
     "MIT License" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MITライセンス"
+          }
+        }
+      }
     },
     "Nearest Intersection" : {
       "extractionState" : "stale",
@@ -1093,6 +1573,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Intersección más Cercana"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最寄りの交差点"
           }
         }
       }
@@ -1111,6 +1597,12 @@
             "state" : "translated",
             "value" : "Siguiente"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "次へ"
+          }
         }
       }
     },
@@ -1127,6 +1619,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "No"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "いいえ"
           }
         }
       }
@@ -1145,6 +1643,12 @@
             "state" : "translated",
             "value" : "No se Encontraron Agencias"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "関係機関が見つかりません"
+          }
         }
       }
     },
@@ -1161,6 +1665,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Aún no hay agencias para esta ubicación. Puedes contribuir una en github.com/itsmeduncan/SlowThemDown."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この場所に対応する関係機関はまだ登録されていません。github.com/itsmeduncan/SlowThemDownから登録にご協力いただけます。"
           }
         }
       }
@@ -1179,6 +1689,12 @@
             "state" : "translated",
             "value" : "No necesitas calibrar — selecciona una marca de vehículo de la tabla incluida durante la captura. Marca el defensa delantero y trasero, y Slow Them Down usa la longitud conocida del vehículo."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真で距離を設定せずに、アプリ内の一覧から車両を選ぶ方法もあります。車両の前後のバンパーに印を付けると、既知の車両の長さを基準に速度を推定します。"
+          }
         }
       }
     },
@@ -1195,6 +1711,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sin Datos"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "データがありません"
           }
         }
       }
@@ -1213,6 +1735,12 @@
             "state" : "translated",
             "value" : "Sin Registros"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録がありません"
+          }
         }
       }
     },
@@ -1230,11 +1758,24 @@
             "state" : "translated",
             "value" : "Sin Calibrar"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準未設定"
+          }
         }
       }
     },
     "Not calibrated — use vehicle reference or calibrate in Settings" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準未設定 — 車両の長さを使うか、設定画面で基準を登録してください"
+          }
+        }
+      }
     },
     "Notes" : {
       "extractionState" : "stale",
@@ -1249,6 +1790,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Notas"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メモ"
           }
         }
       }
@@ -1267,11 +1814,24 @@
             "state" : "translated",
             "value" : "Notas (opcional)"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "メモ（任意）"
+          }
         }
       }
     },
     "Open Source Licenses" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オープンソースライセンス"
+          }
+        }
+      }
     },
     "Or use a standard lane width:" : {
       "localizations" : {
@@ -1285,6 +1845,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "O usa un ancho de carril estándar:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標準的な車線幅を使うこともできます："
           }
         }
       }
@@ -1303,6 +1869,12 @@
             "state" : "translated",
             "value" : "O Usa Referencia de Vehículo"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両の長さを基準にする方法も"
+          }
         }
       }
     },
@@ -1319,6 +1891,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobre el Límite"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度超過"
           }
         }
       }
@@ -1337,6 +1915,12 @@
             "state" : "translated",
             "value" : "Solo Sobre el Límite"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度超過のみ"
+          }
         }
       }
     },
@@ -1353,6 +1937,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Sobre el Límite:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度超過"
           }
         }
       }
@@ -1371,6 +1961,12 @@
             "state" : "translated",
             "value" : "¿Excede?"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度超過"
+          }
         }
       }
     },
@@ -1380,6 +1976,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Desplazamiento en píxeles: %.1f px"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像上の移動距離：%1$.1f px"
           }
         }
       }
@@ -1391,11 +1993,24 @@
             "state" : "translated",
             "value" : "Distancia en píxeles: %.1f px"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像上の距離：%1$.1f px"
+          }
         }
       }
     },
     "Re-calibration recommended" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準の再設定を推奨"
+          }
+        }
+      }
     },
     "Re-calibration Recommended" : {
       "localizations" : {
@@ -1410,11 +2025,24 @@
             "state" : "translated",
             "value" : "Re-calibración Recomendada"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準の再設定を推奨"
+          }
         }
       }
     },
     "Record" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "録画する"
+          }
+        }
+      }
     },
     "Record & Mark" : {
       "extractionState" : "stale",
@@ -1429,6 +2057,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Graba y Marca"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "録画して印を付ける"
           }
         }
       }
@@ -1447,6 +2081,12 @@
             "state" : "translated",
             "value" : "Graba un video corto del tráfico. Elige dos cuadros, luego toca el mismo punto del vehículo en cada cuadro. Slow Them Down calcula la velocidad a partir del desplazamiento."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短い動画を録画するか、ライブラリから読み込みます。2つのフレームを選び、それぞれで車両上の同じ点をタップすると、速度を計算できます。"
+          }
         }
       }
     },
@@ -1463,6 +2103,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Grabar Video"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "録画する"
           }
         }
       }
@@ -1481,6 +2127,12 @@
             "state" : "translated",
             "value" : "Reportar a Agencia"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "関係機関に報告"
+          }
         }
       }
     },
@@ -1497,6 +2149,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reportes"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "レポート"
           }
         }
       }
@@ -1515,6 +2173,12 @@
             "state" : "translated",
             "value" : "Restablecer"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準設定をリセット"
+          }
         }
       }
     },
@@ -1531,6 +2195,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Guardar Calibración"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準設定を保存"
           }
         }
       }
@@ -1549,11 +2219,24 @@
             "state" : "translated",
             "value" : "Guardar en Registro"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録に保存"
+          }
         }
       }
     },
     "Saving…" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存中…"
+          }
+        }
+      }
     },
     "Search streets or notes" : {
       "extractionState" : "stale",
@@ -1569,11 +2252,24 @@
             "state" : "translated",
             "value" : "Buscar calles o notas"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "道路名やメモを検索"
+          }
         }
       }
     },
     "Select a reference image" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準となる画像を選択"
+          }
+        }
+      }
     },
     "Select Two Frames" : {
       "localizations" : {
@@ -1587,6 +2283,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Selecciona Dos Cuadros"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "フレームを選択"
           }
         }
       }
@@ -1605,6 +2307,12 @@
             "state" : "translated",
             "value" : "Seleccionar Vehículo"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両を選択"
+          }
         }
       }
     },
@@ -1620,6 +2328,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Mostrando datos de demostración"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "デモデータを表示中"
           }
         }
       }
@@ -1638,11 +2352,24 @@
             "state" : "translated",
             "value" : "Omitir"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "スキップ"
+          }
         }
       }
     },
     "Slow Them Down" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Them Down"
+          }
+        }
+      }
     },
     "Slow Them Down estimates vehicle speeds on your street using video from your phone. No radar gun needed — just point, record, and mark." : {
       "extractionState" : "stale",
@@ -1658,11 +2385,24 @@
             "state" : "translated",
             "value" : "Slow Them Down estima la velocidad de los vehículos en tu calle usando video de tu teléfono. No necesitas pistola de radar — solo apunta, graba y marca."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Them Downは、スマートフォンの動画から近所の道路を走る車両の速度を推定します。レーダー式の速度計は不要です。カメラを向けて録画し、印を付けるだけで使えます。"
+          }
         }
       }
     },
     "Slow Them Down is built with the following open source software." : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Them Downは、以下のオープンソースソフトウェアを使用しています。"
+          }
+        }
+      }
     },
     "Slow Them Down Speed Report" : {
       "extractionState" : "stale",
@@ -1677,6 +2417,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Reporte de Velocidad de Slow Them Down"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Slow Them Down 速度推定レポート"
           }
         }
       }
@@ -1695,6 +2441,12 @@
             "state" : "translated",
             "value" : "Velocidad"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "推定速度"
+          }
         }
       }
     },
@@ -1710,6 +2462,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Distribución de Velocidad"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度分布"
           }
         }
       }
@@ -1728,6 +2486,12 @@
             "state" : "translated",
             "value" : "Histograma de distribución de velocidad"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度分布のヒストグラム"
+          }
         }
       }
     },
@@ -1744,6 +2508,12 @@
             "state" : "translated",
             "value" : "Límite de Velocidad"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度"
+          }
         }
       }
     },
@@ -1759,6 +2529,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Velocidades a lo Largo del Tiempo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度の推移"
           }
         }
       }
@@ -1777,6 +2553,12 @@
             "state" : "translated",
             "value" : "Gráfica de dispersión de velocidades a lo largo del tiempo"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度の推移の散布図"
+          }
         }
       }
     },
@@ -1793,6 +2575,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Empezar de Nuevo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最初からやり直す"
           }
         }
       }
@@ -1811,6 +2599,12 @@
             "state" : "translated",
             "value" : "Desviación Estándar:"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "標準偏差："
+          }
         }
       }
     },
@@ -1827,6 +2621,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Paso 1: Selecciona una imagen de referencia"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準となる画像を選択"
           }
         }
       }
@@ -1845,6 +2645,12 @@
             "state" : "translated",
             "value" : "Paso 2: Toca dos puntos con una distancia conocida entre ellos"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距離がわかっている2点をタップ"
+          }
         }
       }
     },
@@ -1861,6 +2667,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Paso 3: Ingresa la distancia real"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "実際の距離を入力"
           }
         }
       }
@@ -1879,6 +2691,12 @@
             "state" : "translated",
             "value" : "Calle"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "道路名"
+          }
         }
       }
     },
@@ -1894,6 +2712,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Toma una foto de una escena con una distancia conocida, luego marca dos puntos."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真に写った距離を基準にします。実際の距離がわかる2点に印を付け、その距離を入力してください。"
           }
         }
       }
@@ -1911,6 +2735,12 @@
             "state" : "translated",
             "value" : "Toca el vehículo para colocar un marcador"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両をタップして印を付けてください"
+          }
         }
       }
     },
@@ -1927,11 +2757,24 @@
             "state" : "translated",
             "value" : "Toca el mismo punto del vehículo (ej. defensa delantera)"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両上の同じ点（前のバンパーなど）をタップしてください"
+          }
         }
       }
     },
     "Tap two points with a known distance apart" : {
-
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "距離がわかっている2点をタップ"
+          }
+        }
+      }
     },
     "Time" : {
       "extractionState" : "stale",
@@ -1947,6 +2790,12 @@
             "state" : "translated",
             "value" : "Hora"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時刻"
+          }
         }
       }
     },
@@ -1956,6 +2805,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Delta de tiempo: %.3fs"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間差：%1$.3f秒"
           }
         }
       }
@@ -1974,6 +2829,12 @@
             "state" : "translated",
             "value" : "Total"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録件数"
+          }
         }
       }
     },
@@ -1990,6 +2851,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Total de Registros:"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "記録件数"
           }
         }
       }
@@ -2008,6 +2875,12 @@
             "state" : "translated",
             "value" : "Registra observaciones a lo largo del tiempo, calcula velocidades V85 (la métrica que usan los ingenieros de tránsito) y exporta reportes para compartir con las autoridades locales."
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "観察結果を継続して記録し、交通工学で使われる指標であるV85速度を計算できます。PDFレポートを作成し、地域の交通担当機関にメールで送ることもできます。"
+          }
         }
       }
     },
@@ -2023,6 +2896,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Unidades"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "単位"
           }
         }
       }
@@ -2041,6 +2920,12 @@
             "state" : "translated",
             "value" : "Usar vehículo como referencia"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定した距離の代わりに車両の長さを基準にする"
+          }
         }
       }
     },
@@ -2056,6 +2941,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Velocidad V85"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V85速度"
           }
         }
       }
@@ -2074,6 +2965,12 @@
             "state" : "translated",
             "value" : "Velocidad V85:"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V85速度"
+          }
         }
       }
     },
@@ -2090,6 +2987,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Vehículo"
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両"
           }
         }
       }
@@ -2108,6 +3011,12 @@
             "state" : "translated",
             "value" : "Tipo de Vehículo"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両の種類"
+          }
         }
       }
     },
@@ -2125,6 +3034,12 @@
             "state" : "translated",
             "value" : "Sí"
           }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "はい"
+          }
         }
       }
     },
@@ -2140,6 +3055,12 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ya estás listo para empezar a capturar velocidades."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度の推定を始める準備ができました。"
           }
         }
       }
@@ -2157,6 +3078,727 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Tu calibración se guardó sin datos de resolución de imagen. Re-calibra para obtener estimaciones de velocidad precisas."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保存された基準設定データに画像の解像度が含まれていません。速度の推定精度を高めるため、基準を設定し直してください。"
+          }
+        }
+      }
+    },
+    "%lld %@ limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度 %1$lld %2$@"
+          }
+        }
+      }
+    },
+    "%lld entries · Avg %@ %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld件・平均 %2$@ %3$@"
+          }
+        }
+      }
+    },
+    "%lld vehicles" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$lld台"
+          }
+        }
+      }
+    },
+    "• Average Speed: %@ %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 平均速度：%1$@ %2$@"
+          }
+        }
+      }
+    },
+    "• Speed Limit: %lld %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 制限速度：%1$lld %2$@"
+          }
+        }
+      }
+    },
+    "• V85 Speed: %@ %@ (85th percentile)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• V85速度：%1$@ %2$@（85パーセンタイル）"
+          }
+        }
+      }
+    },
+    "• Vehicles Over Limit: %lld (%@%%)" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• 制限速度を超えた車両：%1$lld台（%2$@%%）"
+          }
+        }
+      }
+    },
+    "A detailed report is attached." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "詳細なレポートを添付いたします。"
+          }
+        }
+      }
+    },
+    "Avg Speed" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "平均速度"
+          }
+        }
+      }
+    },
+    "Away from Camera" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カメラから離れる"
+          }
+        }
+      }
+    },
+    "Bus" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バス"
+          }
+        }
+      }
+    },
+    "Car" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "乗用車"
+          }
+        }
+      }
+    },
+    "Choose your units (imperial or metric) and calibrate by marking a known distance in a photo — like a lane width or parking space. You'll start in Settings after this." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "単位（ヤード・ポンド法またはメートル法）を選び、写真上で車線幅や駐車区画など、距離がわかる部分に印を付けて、基準となる距離を設定します。この案内の後に設定画面が開きます。"
+          }
+        }
+      }
+    },
+    "Compact" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "コンパクトカー"
+          }
+        }
+      }
+    },
+    "Count" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "台数"
+          }
+        }
+      }
+    },
+    "Data collected with SlowThemDown (https://github.com/itsmeduncan/SlowThemDown)." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このデータはSlowThemDown（https://github.com/itsmeduncan/SlowThemDown）を使用して収集しました。"
+          }
+        }
+      }
+    },
+    "Date" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日時"
+          }
+        }
+      }
+    },
+    "Dear %@," : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@ ご担当者様"
+          }
+        }
+      }
+    },
+    "Dependencies" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用ライブラリ"
+          }
+        }
+      }
+    },
+    "Direction: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "進行方向：%@"
+          }
+        }
+      }
+    },
+    "Error" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "エラー"
+          }
+        }
+      }
+    },
+    "Generated: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作成日時：%@"
+          }
+        }
+      }
+    },
+    "Hour" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間帯"
+          }
+        }
+      }
+    },
+    "I am writing to report a speeding concern on %@." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%1$@での車両の速度超過について、ご相談いたします。"
+          }
+        }
+      }
+    },
+    "Latitude" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "緯度"
+          }
+        }
+      }
+    },
+    "Left → Right" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "左 → 右"
+          }
+        }
+      }
+    },
+    "Longitude" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "経度"
+          }
+        }
+      }
+    },
+    "Manual Distance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "既知の距離"
+          }
+        }
+      }
+    },
+    "Marginal" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "わずかに制限速度超過"
+          }
+        }
+      }
+    },
+    "Motorcycle" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "オートバイ"
+          }
+        }
+      }
+    },
+    "OK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OK"
+          }
+        }
+      }
+    },
+    "Other" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "その他"
+          }
+        }
+      }
+    },
+    "Over %lld observations from %@ to %@:" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%2$@から%3$@までの%1$lld件の観察結果は以下のとおりです："
+          }
+        }
+      }
+    },
+    "Pixel Displacement" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "画像上の移動距離"
+          }
+        }
+      }
+    },
+    "Pixels per Meter" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "1メートルあたりのピクセル数"
+          }
+        }
+      }
+    },
+    "Record a short video or import one from your library. Pick two frames, then tap the same point on the vehicle in each frame to calculate its speed." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "短い動画を録画するか、ライブラリから読み込みます。2つのフレームを選び、それぞれで車両上の同じ点をタップすると、速度を計算できます。"
+          }
+        }
+      }
+    },
+    "Reference Distance" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準距離"
+          }
+        }
+      }
+    },
+    "Reset Calibration" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "基準設定をリセット"
+          }
+        }
+      }
+    },
+    "Right → Left" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "右 → 左"
+          }
+        }
+      }
+    },
+    "Sedan" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "セダン"
+          }
+        }
+      }
+    },
+    "Set Up in Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "はじめに設定"
+          }
+        }
+      }
+    },
+    "Settings" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "設定"
+          }
+        }
+      }
+    },
+    "Skip calibration — select a vehicle make from the built-in table during capture. Mark the front and rear bumper, and the app uses the known vehicle length." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "写真で距離を設定せずに、アプリ内の一覧から車両を選ぶ方法もあります。車両の前後のバンパーに印を付けると、既知の車両の長さを基準に速度を推定します。"
+          }
+        }
+      }
+    },
+    "Sort: Newest First" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "並べ替え：新しい順"
+          }
+        }
+      }
+    },
+    "Sort: Oldest First" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "並べ替え：古い順"
+          }
+        }
+      }
+    },
+    "Speed Range" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度帯"
+          }
+        }
+      }
+    },
+    "Speeding Concern: %@" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度超過に関するご相談：%@"
+          }
+        }
+      }
+    },
+    "Speeding Concern: %@ — V85 %lld %@ in a %lld %@ Zone" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "速度超過に関するご相談：%1$@ — 制限速度%4$lld %5$@の区間でV85速度%2$lld %3$@"
+          }
+        }
+      }
+    },
+    "Status" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "判定"
+          }
+        }
+      }
+    },
+    "SUV" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "SUV"
+          }
+        }
+      }
+    },
+    "This App" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "このアプリ"
+          }
+        }
+      }
+    },
+    "This exceeds the %lld %@ speed limit." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この速度は制限速度の%1$lld %2$@を超えています。"
+          }
+        }
+      }
+    },
+    "This is within the %lld %@ speed limit." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "この速度は制限速度の%1$lld %2$@以下です。"
+          }
+        }
+      }
+    },
+    "Time Delta" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "時間差"
+          }
+        }
+      }
+    },
+    "Toward Camera" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "カメラに向かう"
+          }
+        }
+      }
+    },
+    "Track observations over time, calculate V85 speeds (the metric traffic engineers use), generate PDF reports, and email them to your local transportation agency." : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "観察結果を継続して記録し、交通工学で使われる指標であるV85速度を計算できます。PDFレポートを作成し、地域の交通担当機関にメールで送ることもできます。"
+          }
+        }
+      }
+    },
+    "Truck" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "トラック"
+          }
+        }
+      }
+    },
+    "Under Limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "制限速度以下"
+          }
+        }
+      }
+    },
+    "Unknown Street" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "道路名不明"
+          }
+        }
+      }
+    },
+    "V85 speed: %@ %@, exceeds the speed limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V85速度：%1$@ %2$@、制限速度を超えています"
+          }
+        }
+      }
+    },
+    "V85 speed: %@ %@, within the speed limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V85速度：%1$@ %2$@、制限速度以下です"
+          }
+        }
+      }
+    },
+    "V85 speed: %lld %@, exceeds the speed limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V85速度：%1$lld %2$@、制限速度を超えています"
+          }
+        }
+      }
+    },
+    "V85 speed: %lld %@, within the speed limit" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "V85速度：%1$lld %2$@、制限速度以下です"
+          }
+        }
+      }
+    },
+    "Van" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "バン"
+          }
+        }
+      }
+    },
+    "Vehicle Reference" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "車両の長さ"
           }
         }
       }

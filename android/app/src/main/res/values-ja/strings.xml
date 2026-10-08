@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Slow Them Down</string>
+
+    <!-- Capture: Select Source -->
+    <string name="capture_title">動画から速度を推定</string>
+    <string name="capture_not_calibrated">基準未設定</string>
+    <string name="capture_not_calibrated_hint">車両の長さを基準にして速度を推定できます。より正確な結果を得るには、設定画面で基準となる距離を登録してください。</string>
+    <string name="capture_needs_recalibration">基準の再設定を推奨</string>
+    <string name="capture_needs_recalibration_hint">保存された基準設定データに画像の解像度が含まれていません。速度の推定精度を高めるため、基準を設定し直してください。</string>
+    <string name="capture_import_library">読み込む</string>
+    <string name="capture_record_video">録画する</string>
+
+    <!-- Capture: Frame Selector -->
+    <string name="capture_select_frames">フレームを選択</string>
+    <string name="capture_frame_time">フレーム%1$d：%2$.2f秒</string>
+    <string name="capture_time_delta">時間差：%1$.3f秒</string>
+    <string name="capture_frames_min_apart">フレームの間隔は10ミリ秒以上にしてください</string>
+    <string name="capture_extract_frames">フレームを抽出</string>
+    <string name="capture_extracting_frames">フレームを抽出中…</string>
+    <string name="capture_back">戻る</string>
+    <string name="capture_start_over">最初からやり直す</string>
+
+    <!-- Capture: Frame Marker -->
+    <string name="capture_mark_frame">フレーム%1$dに印を付ける</string>
+    <string name="capture_tap_vehicle_position">フレーム%1$dで車両の位置をタップしてください</string>
+    <string name="capture_frame_not_available">（フレームを表示できません）</string>
+    <string name="capture_next_mark_frame2">次へ：フレーム2に印を付ける</string>
+    <string name="capture_calculate_speed">速度を計算</string>
+    <string name="capture_use_vehicle_reference">設定した距離の代わりに車両の長さを基準にする</string>
+    <string name="capture_select_vehicle">車両を選択</string>
+    <string name="capture_vehicle_ref_label">%1$s（%2$.1f %3$s）</string>
+    <string name="capture_vehicle_ref_item">\u0020\u0020%1$s（%2$.1f %3$s）</string>
+    <string name="capture_tap_front_back">上のフレームで車両の前端と後端をタップし、車両の両端に印を付けてください</string>
+    <string name="capture_mark_vehicle_ends">車両の両端に印を付ける（%1$s）</string>
+
+    <!-- Capture: Speed Result -->
+    <string name="capture_estimated_speed">推定速度</string>
+    <string name="capture_speed_limit_label">制限速度</string>
+    <string name="capture_vehicle_type_label">車両の種類</string>
+    <string name="capture_direction_label">進行方向</string>
+    <string name="capture_nearest_intersection">最寄りの交差点</string>
+    <string name="capture_notes_label">メモ（任意）</string>
+    <string name="capture_measurement_details">速度推定の詳細</string>
+    <string name="capture_pixel_displacement">画像上の移動距離：%1$.1f px</string>
+    <string name="capture_save_to_log">記録に保存</string>
+    <string name="capture_saving">保存中…</string>
+    <string name="capture_loading_video">動画を読み込み中…</string>
+    <string name="capture_discard">破棄</string>
+    <string name="capture_logged">記録を保存しました</string>
+    <string name="capture_speed_limit_value">%1$d %2$s</string>
+
+    <!-- Capture: Recording -->
+    <string name="capture_recording">録画中…</string>
+    <string name="capture_stop_recording">録画を停止</string>
+
+    <!-- Calibrate -->
+    <string name="calibrate_imperial">ヤード・ポンド法</string>
+    <string name="calibrate_metric">メートル法</string>
+    <string name="calibrate_calibrated">基準設定済み</string>
+    <string name="calibrate_not_calibrated">基準未設定</string>
+    <string name="calibrate_needs_recalibration">基準の再設定を推奨</string>
+    <string name="calibrate_pixels_per_unit">%1$.1f %2$s</string>
+    <string name="calibrate_last_calibrated">最終設定日時：%1$s</string>
+    <string name="calibrate_instructions">写真に写った距離を基準にします。実際の距離がわかる2点に印を付け、その距離を入力してください。</string>
+    <string name="calibrate_reset">基準設定をリセット</string>
+    <string name="calibrate_saved">基準設定を保存しました</string>
+    <string name="calibrate_saved_hint">速度の推定を始める準備ができました。</string>
+    <string name="calibrate_again">基準を設定し直す</string>
+    <string name="calibrate_step1_title">基準となる画像を選択</string>
+    <string name="calibrate_choose_photo">写真を選択</string>
+    <string name="calibrate_step2_title">距離がわかっている2点をタップ</string>
+    <string name="calibrate_pixel_distance">画像上の距離：%1$.1f px</string>
+    <string name="calibrate_clear_markers">印を消す</string>
+    <string name="calibrate_change_photo">写真を変更</string>
+    <string name="calibrate_step3_title">実際の距離を入力</string>
+    <string name="calibrate_distance_in">距離（%1$s）</string>
+    <string name="calibrate_lane_width_hint">標準的な車線幅を使うこともできます：</string>
+    <string name="calibrate_save">基準設定を保存</string>
+
+    <!-- Log -->
+    <string name="log_search_placeholder">道路名やメモを検索</string>
+    <string name="log_clear_search">検索をクリア</string>
+    <string name="log_filters">絞り込み</string>
+    <string name="log_newest_first">新しい順</string>
+    <string name="log_oldest_first">古い順</string>
+    <string name="log_over_limit_only">制限速度超過のみ</string>
+    <string name="log_all_vehicles">すべての車両</string>
+    <string name="log_delete">削除</string>
+    <string name="log_no_matching_entries">該当する記録がありません</string>
+    <string name="log_no_entries">記録がありません</string>
+    <string name="log_no_matching_hint">検索条件や絞り込みを変更してください。</string>
+    <string name="log_no_entries_hint">車両の速度を推定して記録を残しましょう。</string>
+    <string name="log_speed_limit">制限速度 %1$d %2$s</string>
+
+    <!-- Log Detail Sheet -->
+    <string name="log_detail_title">記録の詳細</string>
+    <string name="log_detail_section_speed">推定速度</string>
+    <string name="log_detail_speed">推定速度</string>
+    <string name="log_detail_speed_limit">制限速度</string>
+    <string name="log_detail_status">判定</string>
+    <string name="log_detail_section_details">詳細</string>
+    <string name="log_detail_street">道路名</string>
+    <string name="log_detail_vehicle">車両</string>
+    <string name="log_detail_direction">進行方向</string>
+    <string name="log_detail_date">日時</string>
+    <string name="log_detail_section_notes">メモ</string>
+    <string name="log_detail_section_measurement">速度推定の詳細</string>
+    <string name="log_detail_time_delta">時間差</string>
+    <string name="log_detail_time_delta_value">%1$.3f秒</string>
+    <string name="log_detail_pixel_displacement">画像上の移動距離</string>
+    <string name="log_detail_pixel_displacement_value">%1$.1f px</string>
+    <string name="log_detail_pixels_per_unit">%1$sあたりのピクセル数</string>
+    <string name="log_detail_reference_distance">基準距離</string>
+    <string name="log_detail_reference_distance_value">%1$.1f %2$s</string>
+    <string name="log_detail_calibration">基準の設定方法</string>
+    <string name="log_detail_section_location">位置情報</string>
+    <string name="log_detail_latitude">緯度</string>
+    <string name="log_detail_latitude_value">%1$.6f</string>
+    <string name="log_detail_longitude">経度</string>
+    <string name="log_detail_longitude_value">%1$.6f</string>
+    <string name="log_detail_speed_value">%1$.1f %2$s</string>
+    <string name="log_detail_speed_limit_value">%1$.0f %2$s</string>
+    <string name="log_detail_pixels_per_unit_value">%1$.1f</string>
+
+    <!-- Reports -->
+    <string name="reports_title">交通レポート</string>
+    <string name="reports_no_data">データがありません</string>
+    <string name="reports_no_data_hint">車両の速度を推定して記録すると、レポートを表示できます。</string>
+    <string name="reports_v85_speed">V85速度</string>
+    <string name="reports_v85_within_limit">記録した車両の85%%がこの速度以下で走行しています。この速度は制限速度の%1$d %2$s以下です。</string>
+    <string name="reports_v85_exceeds_limit">記録した車両の85%%がこの速度以下で走行しています。この速度は制限速度の%1$d %2$sを超えています。</string>
+    <string name="reports_mean_speed">平均速度</string>
+    <string name="reports_median_speed">速度の中央値</string>
+    <string name="reports_total_entries">記録件数</string>
+    <string name="reports_over_limit">制限速度超過</string>
+    <string name="reports_speed_distribution">速度分布</string>
+    <string name="reports_avg_speed_by_hour">時間帯別の平均速度</string>
+    <string name="reports_speeds_over_time">速度の推移</string>
+    <string name="reports_by_street">道路別</string>
+    <string name="reports_street_summary">%1$d件・平均 %2$.1f %3$s</string>
+    <string name="reports_over_limit_percent">%1$.0f%%</string>
+    <string name="reports_view">表示</string>
+    <string name="reports_export_actions">出力・送信</string>
+    <string name="reports_csv">CSV</string>
+    <string name="reports_pdf">PDF</string>
+    <string name="reports_report_to_agency">関係機関に報告</string>
+    <string name="reports_generating">レポートを作成中…</string>
+    <string name="reports_all_streets">すべての道路</string>
+
+    <!-- Agency Email -->
+    <string name="agency_email_subject">速度超過に関するご相談：%1$s — 制限速度%4$d %5$sの区間でV85速度%2$s %3$s</string>
+    <string name="agency_email_greeting">%1$s ご担当者様</string>
+    <string name="agency_email_intro">%1$sでの車両の速度超過について、ご相談いたします。</string>
+    <string name="agency_email_observations">%2$sから%3$sまでの%1$d件の観察結果は以下のとおりです：</string>
+    <string name="agency_email_v85">\u0020\u0020• V85速度：%1$s %2$s（85パーセンタイル）</string>
+    <string name="agency_email_avg">\u0020\u0020• 平均速度：%1$s %2$s</string>
+    <string name="agency_email_limit">\u0020\u0020• 制限速度：%1$d %2$s</string>
+    <string name="agency_email_over_limit">\u0020\u0020• 制限速度を超えた車両：%1$d台（%2$s%%）</string>
+    <string name="agency_email_attachment">詳細なレポートを添付いたします。</string>
+    <string name="agency_email_attribution">このデータはSlowThemDown（https://github.com/itsmeduncan/SlowThemDown）を使用して収集しました。</string>
+
+    <!-- Agency Picker -->
+    <string name="agency_picker_title">関係機関に報告</string>
+    <string name="agency_no_agencies">関係機関が見つかりません</string>
+    <string name="agency_no_agencies_hint">この場所に対応する関係機関はまだ登録されていません。github.com/itsmeduncan/SlowThemDownから登録にご協力いただけます。</string>
+
+    <!-- Demo Banner -->
+    <string name="demo_banner_text">デモデータを表示中</string>
+    <string name="demo_banner_clear">クリア</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_skip">スキップ</string>
+    <string name="onboarding_next">次へ</string>
+    <string name="onboarding_get_started">始める</string>
+    <string name="onboarding_page1_title">車両の速度を推定</string>
+    <string name="onboarding_page1_description">Slow Them Downは、スマートフォンの動画から近所の道路を走る車両の速度を推定します。レーダー式の速度計は不要です。カメラを向けて録画し、印を付けるだけで使えます。</string>
+    <string name="onboarding_page2_title">はじめに設定</string>
+    <string name="onboarding_page2_description">単位（ヤード・ポンド法またはメートル法）を選び、写真上で車線幅や駐車区画など、距離がわかる部分に印を付けて、基準となる距離を設定します。この案内の後に設定画面が開きます。</string>
+    <string name="onboarding_page3_title">録画して印を付ける</string>
+    <string name="onboarding_page3_description">短い動画を録画するか、ライブラリから読み込みます。2つのフレームを選び、それぞれで車両上の同じ点をタップすると、速度を計算できます。</string>
+    <string name="onboarding_page4_title">車両の長さを基準にする方法も</string>
+    <string name="onboarding_page4_description">写真で距離を設定せずに、アプリ内の一覧から車両を選ぶ方法もあります。車両の前後のバンパーに印を付けると、既知の車両の長さを基準に速度を推定します。</string>
+    <string name="onboarding_page5_title">地域の交通状況を伝える</string>
+    <string name="onboarding_page5_description">観察結果を継続して記録し、交通工学で使われる指標であるV85速度を計算できます。PDFレポートを作成し、地域の交通担当機関にメールで送ることもできます。</string>
+
+    <!-- Navigation -->
+    <string name="nav_capture">解析</string>
+    <string name="nav_log">記録</string>
+    <string name="nav_reports">レポート</string>
+    <string name="nav_settings">設定</string>
+
+    <!-- Settings Sections -->
+    <string name="settings_units">単位</string>
+    <string name="settings_calibration">基準設定</string>
+    <string name="settings_about">このアプリについて</string>
+
+    <!-- Licenses -->
+    <string name="licenses_title">オープンソースライセンス</string>
+    <string name="licenses_header">Slow Them Downは、以下のオープンソースソフトウェアを使用しています。</string>
+    <string name="licenses_dependencies">使用ライブラリ</string>
+    <string name="licenses_this_app">このアプリ</string>
+    <string name="licenses_mit">MITライセンス</string>
+    <string name="licenses_copyright">Copyright (c) 2026 Duncan Grazier</string>
+    <string name="licenses_open_source">オープンソースライセンス</string>
+
+    <!-- Common -->
+    <string name="common_dismiss">閉じる</string>
+    <string name="common_send_report">レポートを送信</string>
+    <string name="common_share_report">レポートを共有</string>
+    <string name="common_speed_format">%1$.0f</string>
+    <string name="common_speed_value_format">%1$.1f</string>
+</resources>
